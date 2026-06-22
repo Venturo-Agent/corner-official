@@ -15,7 +15,7 @@
   .hero-img{position:absolute;top:-12%;left:0;right:0;height:124%;z-index:0;will-change:transform}
   .hero-img .toned-photo,.hero-img .toned-photo img{height:100%}
   .hero-img .toned-photo{position:absolute;inset:0}
-  .hero-img .toned-photo img{animation:kenburns 40s var(--ease-expo) forwards}
+  .hero-img .hero-slide img{animation:kenburns 24s ease-out infinite alternate}
   @keyframes kenburns{
     from{transform:scale(1.04) translate(0,0)}
     to{transform:scale(1.12) translate(-1.4%,-1.8%)}
@@ -114,10 +114,10 @@
   .page-bg{position:fixed;inset:0;z-index:-2;overflow:hidden;background:linear-gradient(180deg,rgba(11,13,12,.5) 0%,rgba(11,13,12,.72) 60%,rgba(11,13,12,.82) 100%), #0d0f0e url("assets/photos/forest-bg.jpg") center/cover no-repeat}
   .page-bg .fog{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
   .page-bg .fog span{position:absolute;inset:-25% -40%;display:block;will-change:transform}
-  .page-bg .fog .l1{background:radial-gradient(42% 58% at 18% 45%, rgba(255,255,255,.34), transparent 66%),radial-gradient(38% 52% at 55% 36%, rgba(255,255,255,.26), transparent 66%),radial-gradient(46% 56% at 84% 60%, rgba(255,255,255,.3), transparent 66%);filter:blur(24px);opacity:.95;animation:fogA 44s ease-in-out infinite alternate}
-  .page-bg .fog .l2{background:radial-gradient(52% 64% at 35% 62%, rgba(255,255,255,.26), transparent 62%),radial-gradient(46% 54% at 74% 28%, rgba(255,255,255,.22), transparent 62%);filter:blur(40px);opacity:.85;animation:fogB 64s ease-in-out infinite alternate}
-  @keyframes fogA{from{transform:translate3d(-13%,2%,0)}to{transform:translate3d(13%,-6%,0)}}
-  @keyframes fogB{from{transform:translate3d(11%,5%,0)}to{transform:translate3d(-13%,-5%,0)}}
+  .page-bg .fog .l1{background:radial-gradient(42% 58% at 18% 45%, rgba(255,255,255,.34), transparent 66%),radial-gradient(38% 52% at 55% 36%, rgba(255,255,255,.26), transparent 66%),radial-gradient(46% 56% at 84% 60%, rgba(255,255,255,.3), transparent 66%);filter:blur(24px);opacity:.95;animation:fogA 22s linear infinite alternate}
+  .page-bg .fog .l2{background:radial-gradient(52% 64% at 35% 62%, rgba(255,255,255,.26), transparent 62%),radial-gradient(46% 54% at 74% 28%, rgba(255,255,255,.22), transparent 62%);filter:blur(40px);opacity:.85;animation:fogB 32s linear infinite alternate}
+  @keyframes fogA{from{transform:translate3d(-20%,3%,0)}to{transform:translate3d(20%,-8%,0)}}
+  @keyframes fogB{from{transform:translate3d(18%,6%,0)}to{transform:translate3d(-20%,-7%,0)}}
   @media(prefers-reduced-motion:reduce){.page-bg .fog span{animation:none}}
   .sec-head h2,.sec-head .h2cn{color:var(--paper)}
   .sec-head .lead{color:var(--paper-dim)}
@@ -159,6 +159,18 @@
   .vlabel{position:absolute;left:0;top:0;bottom:0;width:0;z-index:5;pointer-events:none}
   .vlabel span{position:sticky;top:128px;display:inline-block;writing-mode:vertical-rl;text-orientation:mixed;transform:translateX(14px);font-family:"Cormorant Garamond",serif;font-weight:500;text-transform:uppercase;letter-spacing:.34em;font-size:12px;color:var(--gold);white-space:nowrap}
   @media(max-width:1100px){.vlabel{display:none}}
+
+  /* Hero 自動輪播 */
+  .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.6s var(--ease-expo)}
+  .hero-slide.active{opacity:1}
+  .hero-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:4;background:none;border:0;color:rgba(255,255,255,.55);font-family:"Cormorant Garamond",serif;font-size:42px;line-height:1;cursor:pointer;padding:18px 22px;transition:color .35s var(--ease-expo)}
+  .hero-arrow:hover{color:#fff}
+  .hero-arrow.prev{left:max(8px,calc((100vw - 1280px)/2 - 6px))}
+  .hero-arrow.next{right:max(8px,calc((100vw - 1280px)/2 - 6px))}
+  .hero-dots{position:absolute;bottom:40px;right:max(var(--s5),calc((100vw - 1280px)/2 + var(--s5)));z-index:4;display:flex;gap:11px}
+  .hero-dot{width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,255,255,.6);background:transparent;cursor:pointer;padding:0;transition:background .35s,border-color .35s,transform .35s}
+  .hero-dot.on{background:var(--gold);border-color:var(--gold);transform:scale(1.25)}
+  @media(max-width:680px){.hero-arrow{display:none}.hero-dots{right:var(--s4);bottom:28px}}
 </style>
 </head>
 <body>
@@ -191,7 +203,10 @@
 <!-- ===== HERO ===== -->
 <header class="hero">
   <div class="hero-img frame" data-parallax-img>
-    <div class="toned-photo"><img src="assets/photos/hoian-night.jpg" alt="會安燈籠暮色" loading="eager"></div>
+    <div class="hero-slide toned-photo active"><img src="assets/photos/hoian-night.jpg" alt="會安燈籠暮色" loading="eager"></div>
+    <div class="hero-slide toned-photo"><img src="assets/photos/bali-terrace.jpg" alt="峇里梯田"></div>
+    <div class="hero-slide toned-photo"><img src="assets/photos/kyoto-temple.jpg" alt="京都古寺"></div>
+    <div class="hero-slide toned-photo"><img src="assets/photos/halong-bay.jpg" alt="下龍灣"></div>
   </div>
   <div class="hero-scrim"></div>
   <div class="hero-inner wrap hero-seq" data-parallax-txt>
@@ -201,6 +216,9 @@
       <span class="line-cn">每一個角落，都值得為你停留</span>
     </h1>
   </div>
+  <button class="hero-arrow prev" aria-label="上一張">‹</button>
+  <button class="hero-arrow next" aria-label="下一張">›</button>
+  <div class="hero-dots"><button class="hero-dot" aria-label="1"></button><button class="hero-dot" aria-label="2"></button><button class="hero-dot" aria-label="3"></button><button class="hero-dot" aria-label="4"></button></div>
   <div class="scroll-cue"><span class="line"></span><span class="t">Scroll</span></div>
 </header>
 

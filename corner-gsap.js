@@ -3,6 +3,29 @@
    reveal 交錯 / 圖片框內視差(遮罩固定照片位移) / hero 入場+視差 / 為什麼 staggered 捲入 / 標題進場
    GSAP 不在時自動降級：顯示所有內容。
    ============================================================ */
+// ===== Hero 封面輪播（自動 + 圓點 + 左右；不依賴 GSAP）=====
+(function(){
+  var slides = document.querySelectorAll('.hero-slide');
+  if(slides.length < 2) return;
+  var dots = document.querySelectorAll('.hero-dot');
+  var reduceM = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var i = 0, timer;
+  function go(n){
+    slides[i].classList.remove('active'); if(dots[i]) dots[i].classList.remove('on');
+    i = (n + slides.length) % slides.length;
+    slides[i].classList.add('active'); if(dots[i]) dots[i].classList.add('on');
+  }
+  function loop(){ if(!reduceM) timer = setInterval(function(){ go(i+1); }, 6000); }
+  function reset(){ clearInterval(timer); loop(); }
+  if(!slides[0].classList.contains('active')) slides[0].classList.add('active');
+  if(dots[0]) dots[0].classList.add('on');
+  dots.forEach(function(d,k){ d.addEventListener('click', function(){ go(k); reset(); }); });
+  var pv = document.querySelector('.hero-arrow.prev'), nx = document.querySelector('.hero-arrow.next');
+  if(pv) pv.addEventListener('click', function(){ go(i-1); reset(); });
+  if(nx) nx.addEventListener('click', function(){ go(i+1); reset(); });
+  loop();
+})();
+
 (function(){
   if(!window.gsap || !window.ScrollTrigger){
     document.querySelectorAll('.reveal,.why-block,.ghead').forEach(function(e){e.style.opacity='1';e.style.transform='none';});
