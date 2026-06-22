@@ -68,17 +68,6 @@
       });
     });
 
-    // 6) Showcase：釘住整屏，圖框寬高隨捲動展開到滿版，slogan 浮現（Izanami 式線框寬幅變化）
-    if(document.querySelector('.showcase')){
-      var sctl = gsap.timeline({ scrollTrigger:{
-        trigger:'.showcase', start:'top top', end:'bottom bottom', scrub:.6,
-        pin:'.sc-pin', anticipatePin:1
-      }});
-      sctl.fromTo('.sc-frame', {width:'34vw', height:'56vh'},
-                  {width:'100vw', height:'100vh', ease:'power1.inOut', duration:1})
-          .from('.sc-cap', {opacity:0, y:44, duration:.5}, 0.35);
-    }
-
     return function(){ /* cleanup handled by matchMedia revert */ };
   });
 

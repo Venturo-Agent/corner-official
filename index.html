@@ -107,21 +107,18 @@
 
   /* ===== GSAP 動態：框內視差 / 為什麼不規則高低 / 捲動提示 ===== */
   .px-img{position:absolute!important;top:-20%!important;left:0;width:100%;height:140%!important;object-fit:cover}
-  /* Showcase：釘住 + 圖框寬幅展開 */
-  .showcase{height:230vh;position:relative}
-  .sc-pin{height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--ink)}
-  .sc-frame{position:relative;width:34vw;height:56vh;overflow:hidden;box-shadow:0 30px 80px -30px rgba(0,0,0,.6);outline:1px solid rgba(201,166,120,.25)}
-  .sc-frame .sc-img{position:absolute;top:-12%;left:0;width:100%;height:124%;object-fit:cover;filter:saturate(.94) contrast(1.04) brightness(.86) sepia(.04)}
-  .sc-cap{position:absolute;z-index:3;left:0;right:0;text-align:center;color:#fff;pointer-events:none;padding:0 8%}
-  .sc-cap .kicker{justify-content:center;color:var(--gold-bright);margin-bottom:18px}
-  .sc-cap h2{font-family:"Noto Serif TC",serif;font-weight:500;font-size:clamp(30px,4.6vw,62px);line-height:1.45;letter-spacing:.1em;text-shadow:0 2px 28px rgba(0,0,0,.75)}
-  @media(max-width:680px){.sc-frame{width:78vw;height:48vh}}
 
   /* ===== 深色負片貫穿（Izanami 路線）：固定森林底圖 + 內容半透明疊上 ===== */
   html{background:#0d0f0e}
   body{background:transparent!important}
-  .page-bg{position:fixed;inset:0;z-index:-2;background:#0d0f0e url("assets/photos/forest-bg.jpg") center/cover no-repeat}
-  .page-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,13,12,.5) 0%,rgba(11,13,12,.72) 60%,rgba(11,13,12,.82) 100%)}
+  .page-bg{position:fixed;inset:0;z-index:-2;overflow:hidden;background:linear-gradient(180deg,rgba(11,13,12,.5) 0%,rgba(11,13,12,.72) 60%,rgba(11,13,12,.82) 100%), #0d0f0e url("assets/photos/forest-bg.jpg") center/cover no-repeat}
+  .page-bg .fog{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
+  .page-bg .fog span{position:absolute;inset:-25% -40%;display:block;will-change:transform}
+  .page-bg .fog .l1{background:radial-gradient(38% 55% at 18% 45%, rgba(255,255,255,.16), transparent 62%),radial-gradient(34% 48% at 55% 38%, rgba(255,255,255,.12), transparent 62%),radial-gradient(42% 52% at 84% 58%, rgba(255,255,255,.14), transparent 62%);filter:blur(30px);opacity:.6;animation:fogA 60s ease-in-out infinite alternate}
+  .page-bg .fog .l2{background:radial-gradient(46% 60% at 35% 62%, rgba(255,255,255,.12), transparent 60%),radial-gradient(40% 50% at 72% 30%, rgba(255,255,255,.1), transparent 60%);filter:blur(46px);opacity:.5;animation:fogB 88s ease-in-out infinite alternate}
+  @keyframes fogA{from{transform:translate3d(-6%,0,0)}to{transform:translate3d(8%,-4%,0)}}
+  @keyframes fogB{from{transform:translate3d(6%,3%,0)}to{transform:translate3d(-8%,-3%,0)}}
+  @media(prefers-reduced-motion:reduce){.page-bg .fog span{animation:none}}
   .sec-head h2,.sec-head .h2cn{color:var(--paper)}
   .sec-head .lead{color:var(--paper-dim)}
   .grid-foot .btn-ghost{color:var(--paper)}
@@ -156,7 +153,7 @@
 </style>
 </head>
 <body>
-<div class="page-bg"></div>
+<div class="page-bg"><div class="fog"><span class="l1"></span><span class="l2"></span></div></div>
 <svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs>
   <pattern id="shippo" width="46" height="46" patternUnits="userSpaceOnUse"><g fill="none" stroke="#AFC4E0" stroke-width="1.3"><circle cx="23" cy="23" r="23"/><circle cx="0" cy="23" r="23"/><circle cx="46" cy="23" r="23"/><circle cx="23" cy="0" r="23"/><circle cx="23" cy="46" r="23"/></g><g fill="#AFC4E0"><circle cx="23" cy="23" r="1.8"/></g></pattern>
   <pattern id="cnLat" width="52" height="52" patternUnits="userSpaceOnUse"><g fill="none" stroke="#E5B3A6" stroke-width="1.3"><rect x="10" y="10" width="32" height="32"/><path d="M26 0 L52 26 L26 52 L0 26 Z"/><path d="M0 0 L10 10 M52 0 L42 10 M0 52 L10 42 M52 52 L42 42"/></g><g fill="#E5B3A6"><circle cx="26" cy="26" r="1.8"/><circle cx="26" cy="0" r="1.4"/><circle cx="26" cy="52" r="1.4"/><circle cx="0" cy="26" r="1.4"/><circle cx="52" cy="26" r="1.4"/></g></pattern>
@@ -247,17 +244,6 @@
     </div>
     <div class="grid-foot reveal">
       <a class="btn-ghost" href="moments.html">看見所有角落 · Moments to Share →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Showcase：釘住 + 圖框寬幅隨捲動展開到滿版（Izanami 式） ===== -->
-<section class="showcase">
-  <div class="sc-pin">
-    <div class="sc-frame"><img class="sc-img" src="assets/photos/halong-bay.jpg" alt="下龍灣"></div>
-    <div class="sc-cap">
-      <div class="kicker">CORNER · 角落<span class="sep"></span><span class="cn">如果可以</span></div>
-      <h2 class="sc-line">如果可以，<br>讓我們一同探索<br>世界上每個角落。</h2>
     </div>
   </div>
 </section>
