@@ -212,6 +212,10 @@ nav.over-hero:not(.scrolled) .nav-toggle span{background:var(--paper)}
    斜切「為什麼」— 左標題 + 右斜切（保留橫條版 .slant-tile，主用直向手風琴 .slant-acc）
    ============================================================ */
 .why-split{display:grid;grid-template-columns:.82fr 1.18fr;gap:var(--s7);align-items:center}
+/* 翻面：手風琴在左、標題在右（與相鄰區塊左右穿插） */
+.why-split.flip{grid-template-columns:1.18fr .82fr}
+.why-split.flip .sec-head{order:2}
+.why-split.flip .slant-acc{order:1}
 
 /* 直向平行四邊形手風琴（hover 展開）：深色照片 + 淺字 */
 .slant-acc{display:flex;gap:12px;height:440px}
@@ -234,6 +238,7 @@ nav.over-hero:not(.scrolled) .nav-toggle span{background:var(--paper)}
 
 @media(max-width:900px){
   .why-split{grid-template-columns:1fr;gap:var(--s5)}
+  .why-split.flip .sec-head,.why-split.flip .slant-acc{order:0}  /* 手機回正常順序：先標題後內容 */
   .slant-acc{flex-direction:column;height:auto;gap:16px}
   .slant-col{height:148px;flex:none;transform:skewX(-5deg)}
   .slant-col .v-title{display:none}
