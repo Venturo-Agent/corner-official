@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>越南 Vietnam｜角落旅行社 CORNER TRAVEL．私人包團</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="corner.css">
+<style>
+  /* ===== destination-vietnam 專屬版面（共用元件走 corner.css） ===== */
+
+  /* HERO */
+  .hero{position:relative;height:88vh;min-height:680px;max-height:1000px;overflow:hidden;display:flex;align-items:flex-end}
+  .hero-img{position:absolute;top:-12%;left:0;right:0;height:124%;z-index:0;overflow:hidden;will-change:transform}
+  .hero-img img{transform:scale(1.04);animation:kenburns 40s var(--ease-expo) forwards}
+  @keyframes kenburns{to{transform:scale(1.12) translate(-2%,-2%)}}
+  /* Signature 2：暮色聚光 scrim（偏左下徑向 + nav 護欄 + 暖冷分離 + 全幅暈影） */
+  .hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:
+    radial-gradient(120% 95% at 12% 100%, rgba(16,12,8,.94) 0%, rgba(16,12,8,.55) 32%, transparent 62%),
+    linear-gradient(to bottom, rgba(16,12,8,.6) 0%, transparent 18%),
+    linear-gradient(115deg, rgba(40,26,14,.30) 0%, transparent 45%, rgba(14,20,30,.32) 100%),
+    radial-gradient(140% 130% at 50% 42%, transparent 55%, rgba(8,6,4,.55) 100%);}
+  .hero-back{position:absolute;top:calc(var(--s8) - 16px);left:var(--s5);z-index:3}
+  .hero-inner{position:relative;z-index:2;width:100%;padding-bottom:var(--s8)}
+  .hero-inner .kicker{margin-bottom:var(--s4)}
+  .hero h1{margin-bottom:var(--s3)}
+  .hero h1 .en{display:block;font-family:"Cormorant Garamond",serif;font-weight:300;
+    font-size:clamp(72px,10vw,150px);line-height:.92;letter-spacing:-.02em;color:var(--paper);
+    text-shadow:0 1px 2px rgba(0,0,0,.6),0 12px 40px rgba(0,0,0,.45)}
+  .hero h1 .cn{display:block;font-family:"Noto Serif TC",serif;font-weight:500;
+    font-size:clamp(30px,4vw,48px);letter-spacing:.14em;color:var(--gold-bright);margin-top:8px}
+  .hero-lead{max-width:26em;font-size:20px;line-height:1.9;color:var(--paper-dim);margin-bottom:var(--s5)}
+  .hero .btn-ghost{color:var(--paper)} .hero .btn-ghost:hover{color:#fff}
+
+  /* WHY VIETNAM — 斜切平行四邊形錯落，元件在 corner.css（.why-split / .slant-tile） */
+
+  /* PRODUCTS — 越南產品卡（左圖右文／bespoke 文字卡） */
+  .product-card{display:grid;grid-template-columns:1.05fr 1fr;min-height:340px;
+    background:#FBF6EE;overflow:hidden}
+  .product-card .pc-photo{position:relative;overflow:hidden}
+  .product-card .pc-photo .toned-photo,.product-card .pc-photo .toned-photo img{position:absolute;inset:0;height:100%}
+  .product-card .pc-photo img{transition:transform 1.4s var(--ease-expo)}
+  .product-card:hover .pc-photo img{transform:scale(1.06);filter:saturate(1.0) contrast(1.05) brightness(1.06)}
+  .product-card .pc-body{padding:var(--s5) var(--s5);display:flex;flex-direction:column;justify-content:center}
+  .product-card .pc-body .en{font-family:"Cormorant Garamond",serif;font-weight:500;
+    text-transform:uppercase;letter-spacing:.2em;font-size:12px;color:var(--gold);margin-bottom:var(--s2)}
+  .product-card .pc-body h3{font-family:"Noto Serif TC",serif;font-weight:500;font-size:27px;
+    letter-spacing:.05em;line-height:1.35;color:var(--ink);margin-bottom:var(--s2)}
+  .product-card .pc-body .desc{font-size:15px;color:var(--ink-dim);line-height:1.85;margin-bottom:var(--s3);max-width:26em}
+  .product-card .pc-body .price{font-size:15px;color:var(--ink);margin-bottom:var(--s4)}
+  .product-card .pc-body .price b{font-family:"Noto Serif TC",serif;font-weight:500;color:var(--gold-deep)}
+  .product-card .pc-body .price .note{font-size:13px;color:var(--ink-dim);letter-spacing:.06em}
+  /* bespoke 文字卡（無大圖、跨兩欄、暖聚光底） */
+  .product-card.bespoke{grid-template-columns:1fr;
+    background:radial-gradient(120% 130% at 80% 0%, #FBF6EE 0%, var(--bg-warm) 72%)}
+  .product-card.bespoke .pc-body{padding:var(--s6) var(--s5);align-items:flex-start}
+  .product-card.bespoke .pc-body .desc{font-size:16px;max-width:30em}
+
+  /* CTA */
+  .cta-inner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--s4)}
+  .cta-inner h2{font-family:"Cormorant Garamond",serif;font-weight:400;
+    font-size:clamp(48px,5.5vw,64px);line-height:1;letter-spacing:-.01em;color:var(--ink)}
+  .cta-inner .h2cn{display:block;font-family:"Noto Serif TC",serif;font-weight:500;
+    font-size:30px;letter-spacing:.04em;color:var(--ink);margin-top:14px}
+
+  @media(max-width:1100px){
+    .focus-grid{grid-template-columns:1fr!important}
+    .product-card{grid-template-columns:1fr}
+    .product-card .pc-photo{min-height:300px;position:relative}
+    .hero-back{left:var(--s4)}
+  }
+  @media(max-width:680px){
+    .hero{height:auto;min-height:0;padding-top:160px}
+    .product-card .pc-body{padding:var(--s4)}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav" class="over-hero">
+  <a href="index.html" class="logo"><span class="mark">角</span><span class="cn2">落</span><span class="dot">·</span><span class="en">Corner</span></a>
+  <div class="nav-links">
+    <a href="moments.html">目的地</a>
+    <a href="index.html#why">為什麼選我們</a>
+    <a href="index.html#how">怎麼進行</a>
+    <a href="index.html#trips">正在出發</a>
+    <a href="index.html#contact">聯絡</a>
+    <a href="index.html#contact" class="nav-cta">預約諮詢</a>
+  </div>
+  <button class="nav-toggle" aria-label="選單"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-menu">
+  <a href="moments.html">目的地</a><a href="index.html#why">為什麼選我們</a><a href="index.html#how">怎麼進行</a><a href="index.html#trips">正在出發</a><a href="index.html#contact">聯絡</a><a href="index.html#contact">預約諮詢</a>
+</div>
+
+<!-- HERO -->
+<header class="hero frame">
+  <div class="hero-img toned-photo" data-parallax-img>
+    <img src="assets/photos/hoian-night.jpg" alt="會安燈籠暮色" loading="eager">
+  </div>
+  <div class="hero-scrim"></div>
+  <a href="moments.html" class="hero-back btn-ghost">← 所有角落 Moments</a>
+  <div class="hero-inner wrap hero-seq" data-parallax-txt>
+    <span class="kicker">CORNER · DESTINATIONS<span class="sep"></span><span class="cn">目的地</span></span>
+    <h1><span class="en">Vietnam</span><span class="cn">越南</span></h1>
+    <p class="hero-lead">會安的燈火、峴港的海岸、河內的老城——我們為你私人包下越南的每一個角落。</p>
+    <a href="#contact" class="btn-primary">預約越南私人包團</a>
+  </div>
+</header>
+
+<!-- WHY VIETNAM（斜切平行四邊形錯落：左標題 + 右斜切圖塊、字在圖裡） -->
+<section class="sec dark-lux">
+  <div class="wrap">
+    <div class="why-split">
+      <div class="sec-head reveal" data-reveal-title>
+        <span class="kicker">WHY VIETNAM, WITH US<span class="sep"></span><span class="cn">理由</span></span>
+        <h2 class="display">Why Vietnam,<br>with us<span class="h2cn">在越南，我們帶你避開人潮</span></h2>
+        <p class="lead">同樣的越南，差別在誰帶你走。會安、下龍、河內的精華，我們用小團的彈性，慢慢走進去。</p>
+      </div>
+      <div class="slant-acc reveal">
+        <div class="slant-col" tabindex="0">
+          <div class="ph"><img src="assets/photos/vietnam-street.jpg" alt="會安巷弄"></div>
+          <div class="veil"></div><span class="corner"></span>
+          <div class="v-title">嚮導帶路</div>
+          <div class="h-body"><h3>在地嚮導帶路的巷弄</h3><p>繞開觀光大街，走進只有當地人知道的後巷與老宅。</p></div>
+        </div>
+        <div class="slant-col" tabindex="0">
+          <div class="ph"><img src="assets/photos/halong-bay.jpg" alt="下龍灣"></div>
+          <div class="veil"></div><span class="corner"></span>
+          <div class="v-title">私人包船</div>
+          <div class="h-body"><h3>私人包船的水上時光</h3><p>下龍灣與秋盆河為你私人包船，避開團客大船，看暮色與漁火。</p></div>
+        </div>
+        <div class="slant-col" tabindex="0">
+          <div class="ph"><img src="assets/photos/vietnam-morning.jpg" alt="越南晨間老街"></div>
+          <div class="veil"></div><span class="corner"></span>
+          <div class="v-title">小團節奏</div>
+          <div class="h-body"><h3>4–8 人小團的節奏</h3><p>全程都是你認識的人，行程彈性、隨心調整，想換條路都可以。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="sec" id="products">
+  <div class="wrap">
+    <div class="sec-head reveal" data-reveal-title>
+      <span class="kicker">VIETNAM JOURNEYS<span class="sep"></span><span class="cn">正在出發</span></span>
+      <h2 class="display">Vietnam Journeys<span class="h2cn">越南．正在出發的角落</span></h2>
+      <p class="lead">四條為你私人包下的越南路線——或者，從零為你量身排一條。每人金額依人數與行程調整。</p>
+    </div>
+
+    <div class="focus-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s3)">
+
+      <!-- 1 會安古城・燈火慢旅 -->
+      <article class="product-card frame card-frame reveal">
+        <div class="pc-photo toned-photo">
+          <img src="assets/photos/hoian-lantern.jpg" alt="會安燈籠">
+        </div>
+        <div class="pc-body">
+          <div class="en">5 DAYS · PRIVATE · 4–8 PAX</div>
+          <h3>會安古城・燈火慢旅</h3>
+          <p class="desc">入夜後沿秋盆河放燈，在地嚮導帶你穿過百年商屋與裁縫巷弄，住進古城邊的庭院旅宿。</p>
+          <div class="price">每人 <b>NT$36,000</b> 起<span class="note">・依人數行程調整</span></div>
+          <a href="#contact" class="btn-ghost">查看 / 預約 →</a>
+        </div>
+      </article>
+
+      <!-- 2 下龍灣・獨木舟祕境 -->
+      <article class="product-card frame card-frame reveal">
+        <div class="pc-photo toned-photo">
+          <img src="assets/photos/halong-junk.jpg" alt="下龍灣獨木舟">
+        </div>
+        <div class="pc-body">
+          <div class="en">5 DAYS · PRIVATE · 4–8 PAX</div>
+          <h3>下龍灣・獨木舟祕境</h3>
+          <p class="desc">私人包船駛進人煙稀少的水道，換上獨木舟鑽進石灰岩洞與礁湖，在無人的水面上獨享下龍灣。</p>
+          <div class="price">每人 <b>NT$41,000</b> 起<span class="note">・依人數行程調整</span></div>
+          <a href="#contact" class="btn-ghost">查看 / 預約 →</a>
+        </div>
+      </article>
+
+      <!-- 3 沙壩・梯田雲海 -->
+      <article class="product-card frame card-frame reveal">
+        <div class="pc-photo toned-photo">
+          <img src="assets/photos/sapa-terrace.jpg" alt="沙壩梯田">
+        </div>
+        <div class="pc-body">
+          <div class="en">5 DAYS · PRIVATE · 4–8 PAX</div>
+          <h3>沙壩・梯田雲海</h3>
+          <p class="desc">北越高山上的千層梯田，跟著當地少數民族走進村寨，清晨等一場漫過山谷的雲海。</p>
+          <div class="price">每人 <b>NT$38,000</b> 起<span class="note">・依人數行程調整</span></div>
+          <a href="#contact" class="btn-ghost">查看 / 預約 →</a>
+        </div>
+      </article>
+
+      <!-- 4 bespoke 客製卡（無大圖，避免重複用圖） -->
+      <article class="product-card bespoke frame card-frame reveal">
+        <div class="pc-body">
+          <div class="en">BESPOKE · MADE FOR YOU</div>
+          <h3>為你量身・越南自由提案</h3>
+          <p class="desc">沒有現成行程？告訴我們你想去的越南角落——某條老街、某座海岸、某個只在照片裡看過的轉角，我們從零為你排。</p>
+          <a href="#contact" class="btn-primary">預約諮詢</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sec dark-lux" id="contact">
+  <div class="wrap">
+    <div class="cta-inner reveal">
+      <h2 class="display">Ready for Vietnam?<span class="h2cn">準備好你的越南了嗎</span></h2>
+      <a href="mailto:cornertravelagency@gmail.com" class="btn-primary">預約諮詢</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer dark-lux">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="reveal">
+        <a href="index.html" class="logo"><span class="mark">角</span><span class="cn2">落</span><span class="dot">·</span><span class="en">Corner</span></a>
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;line-height:1.7;color:var(--gold-deep);margin-bottom:16px">如果可以，讓我們一同探索世界上每個角落。</p>
+        <p>角落旅行社 CORNER TRAVEL／專注私人客製化小包團，為你留下世界上那些拼團去不了的角落。</p>
+      </div>
+      <div class="reveal">
+        <h4>Contact</h4>
+        <p>台北市重慶北路一段67號8樓之2<br>+886 2 7751 6051<br>cornertravelagency@gmail.com</p>
+      </div>
+      <div class="reveal">
+        <h4>Follow</h4>
+        <a href="#">IG ＠cornertravel.w</a><br>
+        <a href="#">FB 角落旅行社</a><br>
+        <a href="#">LINE 線上諮詢</a>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p>© 2025 角落旅行社 CORNER TRAVEL．台北</p>
+      <p>交通部觀光署合法登記旅行社</p>
+    </div>
+  </div>
+</footer>
+
+<script src="corner.js"></script>
+</body>
+</html>

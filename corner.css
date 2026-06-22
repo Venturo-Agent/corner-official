@@ -1,0 +1,241 @@
+/* ============================================================
+   CORNER 角落旅行社 — 共用設計系統 (corner.css)  v3 暖米淺色編輯風
+   底=暖米白、字=深墨、強調=暖金赤陶；照片帶仍保留暮色深。
+   參考 gdtours / Domitur / travelnextlvl 的淺色編輯調。
+   字體：各頁 <head> link Cormorant Garamond + Noto Serif TC。
+   ============================================================ */
+
+:root{
+  /* 淺色基底 */
+  --bg:#F5EFE5;          /* 頁面主底（暖米白） */
+  --bg-warm:#EDE4D5;     /* 區塊分隔的稍深暖帶 */
+  /* 深色文字（淺底上） */
+  --ink:#2A2520;         /* 主文字 */
+  --ink-dim:#6E6458;     /* 次文字 */
+  /* 強調（暖金赤陶） */
+  --gold:#B07A4E;        /* 主強調：kicker、序號、hairline、icon */
+  --gold-deep:#8A5733;   /* 深強調：淺底上的連結 hover */
+  --gold-bright:#E6C79C; /* 亮金：深色照片上的英文標 / cite */
+  /* 淺色文字（深色照片上） */
+  --paper:#F4EEE4;
+  --paper-dim:#DBD0C0;
+  /* 深色（照片 scrim / veil / 深帶） */
+  --ink-deep:#171210;
+  --ink-deep2:#221A14;
+  /* 線 / 弱字 */
+  --line:rgba(42,37,32,.16);
+  --line-on-dark:rgba(245,238,228,.22);
+  --legal:#9A8F80;
+  /* 動態曲線 */
+  --ease-expo:cubic-bezier(.16,1,.3,1);
+  --ease-overshoot:cubic-bezier(.34,1.56,.64,1);
+  /* 8pt 間距階 */
+  --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:48px;
+  --s6:64px; --s7:96px; --s8:128px; --s9:160px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Noto Serif TC",serif;
+  font-weight:400;
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+img{display:block;width:100%;height:100%;object-fit:cover}
+a{color:inherit;text-decoration:none}
+
+/* 紙質顆粒（淺底用 multiply 做紙感，極淡） */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:999;
+  opacity:.028;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- 字體角色 ---------- */
+.display{font-family:"Cormorant Garamond",serif;font-weight:300}
+.cn{letter-spacing:.1em}
+.cn-tight{letter-spacing:.06em}
+.wrap{max-width:1280px;margin:0 auto;padding:0 var(--s5)}
+
+/* kicker */
+.kicker{
+  font-family:"Cormorant Garamond",serif;font-weight:500;
+  text-transform:uppercase;letter-spacing:.46em;font-size:11px;
+  color:var(--gold);display:inline-flex;align-items:center;gap:0;
+}
+.kicker .sep{display:inline-block;width:1px;height:.85em;background:var(--gold);opacity:.5;margin:0 16px}
+.kicker .cn{letter-spacing:.16em;font-family:"Noto Serif TC",serif;font-weight:400}
+
+/* ---------- Signature 1：L 形金角裱角 ---------- */
+.frame{position:relative}
+.frame::before,.frame::after{
+  content:"";position:absolute;width:28px;height:28px;pointer-events:none;z-index:4;
+  transition:width .5s var(--ease-expo),height .5s var(--ease-expo);
+}
+.frame::before{top:16px;left:16px;border-top:1px solid var(--gold);border-left:1px solid var(--gold)}
+.frame::after{bottom:16px;right:16px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold)}
+.frame:hover::before,.frame:hover::after{width:40px;height:40px}
+
+/* ---------- 照片統一 LUT（暖青銅基調） ---------- */
+.toned-photo{position:relative;overflow:hidden}
+.toned-photo img{filter:saturate(.9) contrast(1.04) brightness(.99) sepia(.05)}
+.toned-photo::after{content:"";position:absolute;inset:0;pointer-events:none;background:rgba(40,26,14,.08);mix-blend-mode:soft-light}
+
+/* ---------- 懸浮卡裱框三件套（淺底暖陰影） ---------- */
+.card-frame{
+  box-shadow:0 2px 8px rgba(42,37,32,.10), 0 22px 50px -20px rgba(42,37,32,.30);
+  outline:1px solid rgba(42,37,32,.10);
+  transition:box-shadow .5s var(--ease-expo),transform .5s var(--ease-expo);
+}
+.card-frame:hover{transform:translateY(-6px);box-shadow:0 6px 16px rgba(42,37,32,.14), 0 34px 70px -22px rgba(42,37,32,.40)}
+
+/* ---------- NAV（淺底 → 深字；深色 hero 上 → 加 .over-hero 轉淺字） ---------- */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:var(--s4) var(--s5);display:flex;align-items:center;justify-content:space-between;
+  transition:background .6s var(--ease-expo),padding .6s var(--ease-expo),box-shadow .6s var(--ease-expo),border-color .6s var(--ease-expo);
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  background:rgba(245,239,229,.88);backdrop-filter:blur(14px);
+  padding:18px var(--s5);box-shadow:0 1px 30px rgba(42,37,32,.10);border-bottom:1px solid var(--line);
+}
+.logo{font-family:"Cormorant Garamond",serif;font-size:21px;letter-spacing:.06em;color:var(--ink);display:inline-flex;align-items:center;gap:.5em}
+.logo .mark{position:relative;font-family:"Noto Serif TC",serif;font-weight:500;font-size:1.4em;line-height:1;color:var(--gold);padding:6px 8px}
+.logo .mark::before,.logo .mark::after{content:"";position:absolute;width:9px;height:9px}
+.logo .mark::before{top:0;left:0;border-top:1px solid var(--gold);border-left:1px solid var(--gold)}
+.logo .mark::after{bottom:0;right:0;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold)}
+.logo .cn2{font-family:"Noto Serif TC",serif;font-weight:500;font-size:.82em;letter-spacing:.06em;color:var(--ink)}
+.logo .en{letter-spacing:-.02em;font-weight:500;text-transform:uppercase}
+.logo .dot{color:var(--gold);margin:0 .15em}
+
+.nav-links{display:flex;gap:var(--s5);align-items:center}
+.nav-links a{position:relative;font-size:14px;letter-spacing:.14em;color:var(--ink-dim);transition:color .35s var(--ease-expo);padding-bottom:2px}
+.nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;bottom:-2px;height:1px;width:100%;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease-expo)}
+.nav-links a:not(.nav-cta):hover{color:var(--gold-deep)}
+.nav-links a:not(.nav-cta):hover::after{transform:scaleX(1)}
+.nav-cta{border:1px solid var(--gold);color:var(--gold-deep)!important;padding:10px 24px;letter-spacing:.16em;font-size:13px;transition:background .4s var(--ease-overshoot),color .4s var(--ease-expo)}
+.nav-cta:hover{background:var(--gold);color:#FBF6EE!important}
+
+/* 深色 hero 上的 nav（未捲動時轉淺字） */
+nav.over-hero:not(.scrolled) .logo,
+nav.over-hero:not(.scrolled) .logo .cn2{color:var(--paper)}
+nav.over-hero:not(.scrolled) .nav-links a{color:var(--paper-dim)}
+nav.over-hero:not(.scrolled) .nav-links a:not(.nav-cta):hover{color:#fff}
+nav.over-hero:not(.scrolled) .nav-cta{color:var(--paper)!important;border-color:rgba(245,238,228,.6)}
+nav.over-hero:not(.scrolled) .nav-toggle span{background:var(--paper)}
+
+/* 漢堡 / 全屏選單 */
+.nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;z-index:210}
+.nav-toggle span{display:block;width:26px;height:1px;background:var(--ink);transition:transform .4s var(--ease-expo),opacity .3s}
+.nav-menu{position:fixed;inset:0;z-index:205;background:rgba(245,239,229,.98);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--s4);opacity:0;pointer-events:none;transition:opacity .5s var(--ease-expo)}
+.nav-menu.open{opacity:1;pointer-events:auto}
+.nav-menu a{font-family:"Noto Serif TC",serif;font-size:26px;letter-spacing:.12em;color:var(--ink);opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease-expo),transform .6s var(--ease-expo)}
+.nav-menu.open a{opacity:1;transform:none}
+.nav-menu a:nth-child(1){transition-delay:.08s}.nav-menu a:nth-child(2){transition-delay:.14s}.nav-menu a:nth-child(3){transition-delay:.20s}.nav-menu a:nth-child(4){transition-delay:.26s}.nav-menu a:nth-child(5){transition-delay:.32s}.nav-menu a:nth-child(6){transition-delay:.38s}
+
+/* ---------- 按鈕 ---------- */
+.btn-primary{display:inline-block;background:var(--gold);color:#FBF6EE;padding:17px 38px;font-size:15px;letter-spacing:.1em;font-family:"Noto Serif TC",serif;font-weight:500;transition:transform .5s var(--ease-overshoot),background .4s var(--ease-expo)}
+.btn-primary:hover{background:var(--gold-deep);transform:translateY(-3px)}
+.btn-ghost{display:inline-block;color:var(--ink);font-size:15px;letter-spacing:.1em;position:relative;padding-bottom:6px}
+.btn-ghost::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--gold);transform-origin:left;transition:transform .45s var(--ease-expo)}
+.btn-ghost:hover{color:var(--gold-deep)}
+.btn-ghost:hover::after{transform:scaleX(1.0)}
+/* 深色照片上的 ghost（hero 用） */
+.on-dark .btn-ghost,.btn-ghost.on-dark{color:var(--paper)}
+.on-dark .btn-ghost:hover,.btn-ghost.on-dark:hover{color:#fff}
+
+/* ---------- SECTION 系統 ---------- */
+.sec{padding:var(--s9) 0}
+.sec-head{margin-bottom:var(--s6);max-width:46em}
+.sec-head .kicker{margin-bottom:var(--s3)}
+.sec-head h2{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(48px,5.5vw,64px);line-height:1.0;letter-spacing:-.01em;color:var(--ink)}
+.sec-head .h2cn{display:block;font-family:"Noto Serif TC",serif;font-weight:500;font-size:30px;letter-spacing:.04em;line-height:1.3;color:var(--ink);margin-top:14px}
+.sec-head .lead{margin-top:var(--s3);font-size:20px;line-height:1.9;color:var(--ink-dim);max-width:34em}
+
+/* 統一大序號 */
+.num{font-family:"Cormorant Garamond",serif;font-weight:300;line-height:1;color:var(--gold);opacity:.92}
+
+/* ---------- 攝影卡共用（dest / trip）：深色照片 + 淺字 ---------- */
+.photo-card{position:relative;overflow:hidden;display:block;cursor:pointer}
+.photo-card .veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to top, rgba(16,12,8,.82) 0%, rgba(16,12,8,.5) 18%, rgba(16,12,8,.1) 42%, transparent 70%)}
+.photo-card .cap{position:absolute;left:var(--s4);right:var(--s4);bottom:var(--s4);z-index:3}
+.photo-card .cap .en{font-family:"Cormorant Garamond",serif;font-weight:500;text-transform:uppercase;letter-spacing:.2em;font-size:12px;color:var(--gold-bright,#E6C79C);margin-bottom:8px}
+.photo-card .cap h3{font-family:"Noto Serif TC",serif;font-weight:500;font-size:27px;letter-spacing:.05em;color:var(--paper);margin-bottom:6px}
+.photo-card .cap p{font-size:14px;letter-spacing:.04em;color:var(--paper-dim)}
+.photo-card .toned-photo,.photo-card .toned-photo img{position:absolute;inset:0;height:100%}
+.photo-card .toned-photo img{transition:transform 1.4s var(--ease-expo)}
+.photo-card:hover .toned-photo img{transform:scale(1.07);filter:saturate(1.0) contrast(1.05) brightness(1.05)}
+.focus-grid:has(.photo-card:hover) .photo-card:not(:hover){filter:brightness(.86) saturate(.92) blur(1px)}
+.focus-grid .photo-card{transition:filter .5s var(--ease-expo)}
+
+/* ---------- 暖帶（取代舊 dark-lux）：淺暖色區塊分隔 ---------- */
+.dark-lux{background:var(--bg-warm);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+/* ---------- REVEAL ---------- */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s var(--ease-expo),transform .8s var(--ease-expo)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- FOOTER（淺底深字） ---------- */
+.footer{padding:var(--s8) 0 var(--s6)}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:var(--s5);padding-top:var(--s6);border-top:1px solid var(--line)}
+.footer-grid .logo{font-size:24px;margin-bottom:18px}
+.footer-grid p{font-size:14px;color:var(--ink-dim);line-height:2}
+.footer-grid h4{font-family:"Cormorant Garamond",serif;font-weight:500;text-transform:uppercase;letter-spacing:.26em;font-size:12px;color:var(--gold);margin-bottom:18px}
+.footer-grid a{position:relative;display:inline-block;font-size:14px;color:var(--ink-dim);line-height:2.1;transition:color .3s var(--ease-expo)}
+.footer-grid a:hover{color:var(--gold-deep)}
+.footer-legal{margin-top:var(--s6);padding-top:var(--s4);border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-legal p{font-size:12px;color:var(--legal);letter-spacing:.06em}
+
+/* ---------- reduce motion ---------- */
+@media(prefers-reduced-motion:reduce){*{animation:none!important}.reveal{opacity:1!important;transform:none!important}html{scroll-behavior:auto}}
+
+/* ---------- 響應式 ---------- */
+@media(max-width:1100px){
+  .wrap{padding:0 var(--s4)}
+  nav{padding:20px var(--s4)}nav.scrolled{padding:16px var(--s4)}
+  .nav-links{display:none}.nav-toggle{display:flex}
+  .sec{padding:var(--s7) 0}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:680px){
+  .sec-head h2{font-size:34px}.sec-head .h2cn{font-size:24px}
+  .footer-grid{grid-template-columns:1fr}
+}
+
+/* ============================================================
+   斜切「為什麼」— 左標題 + 右斜切（保留橫條版 .slant-tile，主用直向手風琴 .slant-acc）
+   ============================================================ */
+.why-split{display:grid;grid-template-columns:.82fr 1.18fr;gap:var(--s7);align-items:center}
+
+/* 直向平行四邊形手風琴（hover 展開）：深色照片 + 淺字 */
+.slant-acc{display:flex;gap:12px;height:440px}
+.slant-col{position:relative;flex:1 1 0;min-width:0;overflow:hidden;cursor:pointer;transform:skewX(-7deg);outline:1px solid rgba(42,37,32,.12);box-shadow:0 18px 46px -24px rgba(42,37,32,.4);transition:flex-grow .65s var(--ease-expo),box-shadow .5s var(--ease-expo)}
+.slant-col .ph{position:absolute;inset:-6px;transform:skewX(7deg) scale(1.45);transition:transform 1.2s var(--ease-expo)}
+.slant-col .ph img{width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(1.05) brightness(.82) sepia(.05)}
+.slant-col .veil{position:absolute;inset:-6px;transform:skewX(7deg) scale(1.45);pointer-events:none;background:linear-gradient(to top, rgba(16,12,8,.92) 0%, rgba(16,12,8,.45) 45%, rgba(16,12,8,.2) 100%)}
+.slant-col .v-title{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transform:skewX(7deg);writing-mode:vertical-rl;text-orientation:upright;font-family:"Noto Serif TC",serif;font-weight:500;font-size:24px;letter-spacing:.24em;color:var(--paper);text-shadow:0 2px 14px rgba(0,0,0,.55);transition:opacity .4s var(--ease-expo)}
+.slant-col .h-body{position:absolute;left:0;right:0;bottom:0;padding:34px 32px;transform:skewX(7deg);opacity:0;transition:opacity .55s var(--ease-expo) .1s}
+.slant-col .h-body h3{font-family:"Noto Serif TC",serif;font-weight:500;font-size:25px;letter-spacing:.04em;color:var(--paper);margin-bottom:10px}
+.slant-col .h-body p{font-family:"Noto Serif TC",serif;font-weight:400;font-size:15px;line-height:1.8;color:var(--paper-dim);max-width:18em}
+.slant-col .corner{position:absolute;top:16px;right:30px;width:22px;height:22px;border-top:1px solid var(--gold);border-right:1px solid var(--gold);transform:skewX(7deg);opacity:0;transition:opacity .4s var(--ease-expo);z-index:3}
+.slant-acc:hover .slant-col{flex-grow:.6}
+.slant-col:hover,.slant-col:focus-within{flex-grow:3}
+.slant-col:hover .ph,.slant-col:focus-within .ph{transform:skewX(7deg) scale(1.55)}
+.slant-col:hover .v-title,.slant-col:focus-within .v-title{opacity:0}
+.slant-col:hover .h-body,.slant-col:focus-within .h-body{opacity:1}
+.slant-col:hover .corner,.slant-col:focus-within .corner{opacity:1}
+
+@media(max-width:900px){
+  .why-split{grid-template-columns:1fr;gap:var(--s5)}
+  .slant-acc{flex-direction:column;height:auto;gap:16px}
+  .slant-col{height:148px;flex:none;transform:skewX(-5deg)}
+  .slant-col .v-title{display:none}
+  .slant-col .h-body{opacity:1}
+  .slant-col .corner{opacity:1}
+}

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>角落旅行社 CORNER TRAVEL · 私人小包團．台北</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="corner.css">
+<style>
+  /* ===== 本頁專屬版面（共用元件一律走 corner.css） ===== */
+  section[id]{scroll-margin-top:88px}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;min-height:100vh;max-height:920px;display:flex;align-items:flex-end;overflow:hidden}
+  .hero-img{position:absolute;top:-12%;left:0;right:0;height:124%;z-index:0;will-change:transform}
+  .hero-img .toned-photo,.hero-img .toned-photo img{height:100%}
+  .hero-img .toned-photo{position:absolute;inset:0}
+  .hero-img .toned-photo img{animation:kenburns 40s var(--ease-expo) forwards}
+  @keyframes kenburns{
+    from{transform:scale(1.04) translate(0,0)}
+    to{transform:scale(1.12) translate(-1.4%,-1.8%)}
+  }
+  .hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:
+    radial-gradient(120% 95% at 12% 100%, rgba(16,12,8,.94) 0%, rgba(16,12,8,.55) 32%, transparent 62%),
+    linear-gradient(to bottom, rgba(16,12,8,.6) 0%, transparent 18%),
+    linear-gradient(115deg, rgba(40,26,14,.30) 0%, transparent 45%, rgba(14,20,30,.32) 100%),
+    radial-gradient(140% 130% at 50% 42%, transparent 55%, rgba(8,6,4,.55) 100%);}
+  .hero-inner{position:relative;z-index:2;width:100%;padding-bottom:var(--s9);will-change:transform,opacity}
+  .hero-inner .kicker{margin-bottom:var(--s4)}
+  .hero h1{margin:0;text-shadow:0 1px 2px rgba(0,0,0,.6), 0 12px 40px rgba(0,0,0,.4)}
+  .hero h1 .line-en{display:block;font-size:clamp(72px,9vw,128px);letter-spacing:-.02em;line-height:.95;color:var(--paper)}
+  .hero h1 .line-cn{display:block;font-family:"Noto Serif TC",serif;font-weight:400;font-size:30px;letter-spacing:.06em;line-height:1.5;color:var(--paper-dim);margin-top:18px}
+  .hero-sub{margin-top:var(--s4);max-width:28em;font-size:18px;line-height:1.9;color:var(--paper-dim);text-shadow:0 1px 2px rgba(0,0,0,.5)}
+  .hero-cta{margin-top:var(--s5);display:flex;gap:var(--s4);align-items:center;flex-wrap:wrap}
+  .hero .btn-ghost{color:var(--paper)} .hero .btn-ghost:hover{color:#fff}
+
+  /* ---------- 共用網格 ---------- */
+  .focus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--s3)}
+  .dest-card{height:440px}
+  .dest-card.tall{height:540px}
+  .trip-card{height:500px}
+  .grid-foot{margin-top:var(--s5);text-align:center}
+
+  /* ---------- WHY ---------- */
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+  .why-item{padding:var(--s6) var(--s6);border-bottom:1px solid var(--line)}
+  .why-item:nth-child(odd){border-right:1px solid var(--line)}
+  .why-item .num{font-size:80px;margin-bottom:var(--s3)}
+  .why-item h3{font-family:"Noto Serif TC",serif;font-weight:500;font-size:24px;letter-spacing:.04em;color:var(--ink);margin-bottom:14px}
+  .why-item p{font-size:16px;line-height:1.85;color:var(--ink-dim);max-width:24em}
+
+  /* ---------- HOW ---------- */
+  .proc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5)}
+  .proc-item{padding-top:var(--s4);border-top:1px solid var(--line);transition:border-color .5s var(--ease-expo)}
+  .proc-item:hover{border-color:var(--gold)}
+  .proc-item .num{font-size:64px;margin-bottom:var(--s3)}
+  .proc-item h3{font-family:"Noto Serif TC",serif;font-weight:500;font-size:24px;letter-spacing:.04em;color:var(--ink);margin-bottom:8px}
+  .proc-item .en{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:400;font-size:20px;color:var(--gold);letter-spacing:.02em}
+
+  /* ---------- TESTIMONIAL ---------- */
+  .testi{position:relative;overflow:hidden;padding:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .testi .testi-bg{position:absolute;inset:0;z-index:0}
+  .testi .testi-bg,.testi .testi-bg .toned-photo,.testi .testi-bg img{height:100%}
+  .testi .testi-bg .toned-photo{position:absolute;inset:0}
+  .testi .testi-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:
+    linear-gradient(105deg, rgba(16,12,8,.90) 0%, rgba(16,12,8,.6) 50%, rgba(16,12,8,.4) 100%),
+    radial-gradient(120% 120% at 0% 100%, rgba(8,6,4,.4) 0%, transparent 60%);}
+  .testi .wrap{position:relative;z-index:2;min-height:62vh;display:flex;flex-direction:column;justify-content:center;padding-top:var(--s9);padding-bottom:var(--s9)}
+  .testi blockquote{position:relative;max-width:30em}
+  .testi blockquote .mark{position:absolute;top:-.5em;left:-.18em;font-family:"Cormorant Garamond",serif;font-size:160px;line-height:1;color:var(--gold);opacity:.35;pointer-events:none}
+  .testi .pull{position:relative;font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:400;font-size:clamp(44px,4.6vw,52px);line-height:1.35;letter-spacing:-.01em;color:var(--paper)}
+  .testi .pull-cn{margin-top:var(--s4);font-size:22px;line-height:1.9;color:var(--paper-dim);max-width:28em}
+  .testi cite{display:block;margin-top:var(--s4);font-family:"Cormorant Garamond",serif;font-style:normal;letter-spacing:.16em;font-size:14px;color:var(--gold-bright);text-transform:uppercase}
+
+  /* ---------- CONTACT TOP ---------- */
+  .contact-top{padding-bottom:var(--s7);border-bottom:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s5);flex-wrap:wrap}
+  .contact-top .sec-head{margin-bottom:0}
+
+  @media(max-width:1100px){
+    .hero-inner{padding-bottom:var(--s7)}
+    .why-grid{grid-template-columns:1fr}
+    .why-item{border-right:none!important;padding:var(--s5) var(--s4)}
+    .proc-grid{grid-template-columns:1fr;gap:var(--s4)}
+  }
+  @media(max-width:680px){
+    .hero h1 .line-cn{font-size:24px}
+    .testi .pull{font-size:32px}
+    .why-item .num{font-size:64px}
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav" class="over-hero">
+  <a href="index.html" class="logo"><span class="mark">角</span><span class="cn2">落</span><span class="dot">·</span><span class="en">Corner</span></a>
+  <div class="nav-links">
+    <a href="moments.html">目的地</a>
+    <a href="index.html#why">為什麼選我們</a>
+    <a href="index.html#how">怎麼進行</a>
+    <a href="index.html#trips">正在出發</a>
+    <a href="index.html#contact">聯絡</a>
+    <a href="index.html#contact" class="nav-cta">預約諮詢</a>
+  </div>
+  <button class="nav-toggle" aria-label="選單"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-menu">
+  <a href="moments.html">目的地</a><a href="index.html#why">為什麼選我們</a><a href="index.html#how">怎麼進行</a><a href="index.html#trips">正在出發</a><a href="index.html#contact">聯絡</a><a href="index.html#contact">預約諮詢</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="hero-img frame" data-parallax-img>
+    <div class="toned-photo"><img src="assets/photos/hoian-night.jpg" alt="會安燈籠暮色" loading="eager"></div>
+  </div>
+  <div class="hero-scrim"></div>
+  <div class="hero-inner wrap hero-seq" data-parallax-txt>
+    <div class="kicker">PRIVATE SMALL-GROUP JOURNEYS<span class="sep"></span><span class="cn">私人小包團．台北</span></div>
+    <h1>
+      <span class="line-en display">Every corner, kept for you.</span>
+      <span class="line-cn">每一個角落，都值得為你停留</span>
+    </h1>
+    <p class="hero-sub">私人客製小包團，帶你走進日本、韓國、泰國、越南、峇里島與中國，那些拼團去不了的角落。</p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="#contact">預約諮詢</a>
+      <a class="btn-ghost" href="moments.html">看看我們的角落</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== 目的地預覽 ===== -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head reveal" data-reveal-title>
+      <div class="kicker">DESTINATIONS<span class="sep"></span><span class="cn">目的地</span></div>
+      <h2 class="display">The corners we keep</h2>
+      <span class="h2cn">我們收藏的角落</span>
+      <p class="lead">六個國度，六種步調。我們挑的不是地標清單，而是當地人才知道的轉角。</p>
+    </div>
+    <div class="focus-grid">
+      <a href="moments.html" class="photo-card frame card-frame dest-card tall reveal">
+        <div class="toned-photo"><img src="assets/photos/kyoto-alley.jpg" alt="京都巷弄"></div>
+        <div class="veil"></div>
+        <div class="cap"><div class="en">Japan</div><h3>日本</h3><p>巷弄轉角的四季與職人</p></div>
+      </a>
+      <a href="moments.html" class="photo-card frame card-frame dest-card reveal">
+        <div class="toned-photo"><img src="assets/photos/korea-hanok.jpg" alt="北村韓屋"></div>
+        <div class="veil"></div>
+        <div class="cap"><div class="en">Korea</div><h3>韓國</h3><p>古宮與市井之間的慢時光</p></div>
+      </a>
+      <a href="moments.html" class="photo-card frame card-frame dest-card tall reveal">
+        <div class="toned-photo"><img src="assets/photos/china-lijiang.jpg" alt="麗江古鎮"></div>
+        <div class="veil"></div>
+        <div class="cap"><div class="en">China</div><h3>中國</h3><p>古鎮巷弄與山水</p></div>
+      </a>
+      <a href="moments.html" class="photo-card frame card-frame dest-card reveal">
+        <div class="toned-photo"><img src="assets/photos/thailand-temple.jpg" alt="泰國金色寺廟"></div>
+        <div class="veil"></div>
+        <div class="cap"><div class="en">Thailand</div><h3>泰國</h3><p>金色寺廟與海風</p></div>
+      </a>
+      <a href="moments.html" class="photo-card frame card-frame dest-card reveal">
+        <div class="toned-photo"><img src="assets/photos/hoian-lantern.jpg" alt="會安燈籠老街"></div>
+        <div class="veil"></div>
+        <div class="cap"><div class="en">Vietnam</div><h3>越南</h3><p>會安燈火與老街氣味</p></div>
+      </a>
+      <a href="moments.html" class="photo-card frame card-frame dest-card reveal">
+        <div class="toned-photo"><img src="assets/photos/bali-terrace.jpg" alt="烏布梯田"></div>
+        <div class="veil"></div>
+        <div class="cap"><div class="en">Bali</div><h3>峇里島</h3><p>梯田、神廟與療癒</p></div>
+      </a>
+    </div>
+    <div class="grid-foot reveal">
+      <a class="btn-ghost" href="moments.html">看見所有角落 · Moments to Share →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 為什麼 ===== -->
+<section class="sec dark-lux" id="why">
+  <div class="wrap">
+    <div class="sec-head reveal" data-reveal-title>
+      <div class="kicker">WHY TRAVEL WITH US<span class="sep"></span><span class="cn">為什麼</span></div>
+      <h2 class="display">Why travel with us</h2>
+      <span class="h2cn">為什麼選擇角落的小包團</span>
+      <p class="lead">不是把你塞進別人的行程，而是把整趟旅行，重新為你一個人安排。</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-item reveal">
+        <div class="num display">01</div>
+        <h3>不拼團、只走自己人</h3>
+        <p>4–8 人成行，全程都是你認識的人。沒有陌生人趕你上車，旅程的節奏由你們決定。</p>
+      </div>
+      <div class="why-item reveal">
+        <div class="num display">02</div>
+        <h3>行程為你量身</h3>
+        <p>不買現成套裝，一條一條陪你排。想多待半天、想換一間餐廳，都不是加價選項，而是本來就該有的彈性。</p>
+      </div>
+      <div class="why-item reveal">
+        <div class="num display">03</div>
+        <h3>在地的角落體驗</h3>
+        <p>帶你去當地人才知道的小地方。不是打卡名單，是會讓你回味很久的那些轉角。</p>
+      </div>
+      <div class="why-item reveal">
+        <div class="num display">04</div>
+        <h3>一對一旅程管家</h3>
+        <p>從規劃到回家，同一個人全程顧你。不轉接、不踢皮球，旅途中的每件小事都有人接住。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 怎麼進行 ===== -->
+<section class="sec" id="how">
+  <div class="wrap">
+    <div class="sec-head reveal" data-reveal-title>
+      <div class="kicker">HOW IT WORKS<span class="sep"></span><span class="cn">流程</span></div>
+      <h2 class="display">How it works</h2>
+      <span class="h2cn">三步，從想去到出發</span>
+    </div>
+    <div class="proc-grid">
+      <div class="proc-item reveal">
+        <div class="num display">01</div>
+        <h3>聊聊你想要的旅行</h3>
+        <div class="en">We listen</div>
+      </div>
+      <div class="proc-item reveal">
+        <div class="num display">02</div>
+        <h3>為你量身規劃</h3>
+        <div class="en">We tailor</div>
+      </div>
+      <div class="proc-item reveal">
+        <div class="num display">03</div>
+        <h3>出發，全程陪伴</h3>
+        <div class="en">We travel with you</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 正在出發 ===== -->
+<section class="sec" id="trips">
+  <div class="wrap">
+    <div class="sec-head reveal" data-reveal-title>
+      <div class="kicker">NOW DEPARTING<span class="sep"></span><span class="cn">出發中</span></div>
+      <h2 class="display">Now departing</h2>
+      <span class="h2cn">正在出發的角落</span>
+    </div>
+    <div class="focus-grid">
+      <a href="#contact" class="photo-card frame card-frame trip-card reveal">
+        <div class="toned-photo"><img src="assets/photos/kyoto-temple.jpg" alt="京都古都"></div>
+        <div class="veil"></div>
+        <div class="cap"><div class="en">6 Days · Private</div><h3>京都・奈良 古都慢旅</h3><p>每人 NT$58,000 起・依人數行程調整</p></div>
+      </a>
+      <a href="#contact" class="photo-card frame card-frame trip-card reveal">
+        <div class="toned-photo"><img src="assets/photos/bali-temple.jpg" alt="峇里神廟"></div>
+        <div class="veil"></div>
+        <div class="cap"><div class="en">5 Days · Private</div><h3>峇里島 療癒森活</h3><p>每人 NT$58,000 起・依人數行程調整</p></div>
+      </a>
+      <a href="#contact" class="photo-card frame card-frame trip-card reveal">
+        <div class="toned-photo"><img src="assets/photos/vietnam-street.jpg" alt="越南老街"></div>
+        <div class="veil"></div>
+        <div class="cap"><div class="en">5 Days · Private</div><h3>會安・峴港 燈火之旅</h3><p>每人 NT$58,000 起・依人數行程調整</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 見證 ===== -->
+<section class="sec testi">
+  <div class="testi-bg">
+    <div class="toned-photo"><img src="assets/photos/ryokan-interior.jpg" alt="暖陽榻榻米"></div>
+  </div>
+  <div class="testi-scrim"></div>
+  <div class="wrap">
+    <blockquote class="reveal">
+      <span class="mark display">“</span>
+      <p class="pull">They remade an entire afternoon — just for the four of us.</p>
+      <p class="pull-cn">第一次有旅行社願意為我們四個人，重排整整一個下午的行程。這不是旅行團，是有人幫你把旅行過好。</p>
+      <cite>— 王小姐，京都私人包團 2025</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ===== 聯絡 / 頁尾 ===== -->
+<footer class="footer dark-lux" id="contact">
+  <div class="wrap">
+    <div class="contact-top reveal">
+      <div class="sec-head" style="margin-bottom:0">
+        <div class="kicker">CONTACT<span class="sep"></span><span class="cn">聯絡</span></div>
+        <h2 class="display">Tell us your corner</h2>
+        <span class="h2cn">說說你心裡的那個角落</span>
+      </div>
+      <a class="btn-primary" href="mailto:cornertravelagency@gmail.com">預約諮詢</a>
+    </div>
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="logo"><span class="mark">角</span><span class="cn2">落</span><span class="dot">·</span><span class="en">Corner</span></a>
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;line-height:1.7;color:var(--gold-bright);margin-bottom:16px">如果可以，讓我們一同探索世界上每個角落。</p>
+        <p>角落旅行社 CORNER TRAVEL／專注私人客製化小包團，為你留下世界上那些拼團去不了的角落。</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>台北市重慶北路一段67號8樓之2</p>
+        <p><a href="tel:+886277516051">+886 2 7751 6051</a></p>
+        <p><a href="mailto:cornertravelagency@gmail.com">cornertravelagency@gmail.com</a></p>
+      </div>
+      <div>
+        <h4>Follow</h4>
+        <p><a href="https://instagram.com/cornertravel.w" target="_blank" rel="noopener">IG ＠cornertravel.w</a></p>
+        <p><a href="#">FB 角落旅行社</a></p>
+        <p><a href="#">LINE 線上諮詢</a></p>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p>© 2025 角落旅行社 CORNER TRAVEL．台北</p>
+      <p>交通部觀光署合法登記旅行社</p>
+    </div>
+  </div>
+</footer>
+
+<script src="corner.js"></script>
+</body>
+</html>
