@@ -114,15 +114,15 @@
   .page-bg{position:fixed;inset:0;z-index:-2;overflow:hidden;background:linear-gradient(180deg,rgba(11,13,12,.5) 0%,rgba(11,13,12,.72) 60%,rgba(11,13,12,.82) 100%), #0d0f0e url("assets/photos/forest-bg.jpg") center/cover no-repeat}
   .page-bg .fog{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
   .page-bg .fog span{position:absolute;inset:-25% -40%;display:block;will-change:transform}
-  .page-bg .fog .l1{background:radial-gradient(38% 55% at 18% 45%, rgba(255,255,255,.16), transparent 62%),radial-gradient(34% 48% at 55% 38%, rgba(255,255,255,.12), transparent 62%),radial-gradient(42% 52% at 84% 58%, rgba(255,255,255,.14), transparent 62%);filter:blur(30px);opacity:.6;animation:fogA 60s ease-in-out infinite alternate}
-  .page-bg .fog .l2{background:radial-gradient(46% 60% at 35% 62%, rgba(255,255,255,.12), transparent 60%),radial-gradient(40% 50% at 72% 30%, rgba(255,255,255,.1), transparent 60%);filter:blur(46px);opacity:.5;animation:fogB 88s ease-in-out infinite alternate}
-  @keyframes fogA{from{transform:translate3d(-6%,0,0)}to{transform:translate3d(8%,-4%,0)}}
-  @keyframes fogB{from{transform:translate3d(6%,3%,0)}to{transform:translate3d(-8%,-3%,0)}}
+  .page-bg .fog .l1{background:radial-gradient(42% 58% at 18% 45%, rgba(255,255,255,.34), transparent 66%),radial-gradient(38% 52% at 55% 36%, rgba(255,255,255,.26), transparent 66%),radial-gradient(46% 56% at 84% 60%, rgba(255,255,255,.3), transparent 66%);filter:blur(24px);opacity:.95;animation:fogA 44s ease-in-out infinite alternate}
+  .page-bg .fog .l2{background:radial-gradient(52% 64% at 35% 62%, rgba(255,255,255,.26), transparent 62%),radial-gradient(46% 54% at 74% 28%, rgba(255,255,255,.22), transparent 62%);filter:blur(40px);opacity:.85;animation:fogB 64s ease-in-out infinite alternate}
+  @keyframes fogA{from{transform:translate3d(-13%,2%,0)}to{transform:translate3d(13%,-6%,0)}}
+  @keyframes fogB{from{transform:translate3d(11%,5%,0)}to{transform:translate3d(-13%,-5%,0)}}
   @media(prefers-reduced-motion:reduce){.page-bg .fog span{animation:none}}
   .sec-head h2,.sec-head .h2cn{color:var(--paper)}
   .sec-head .lead{color:var(--paper-dim)}
   .grid-foot .btn-ghost{color:var(--paper)}
-  .dark-lux{background:rgba(14,16,14,.5)!important;border-top-color:rgba(245,238,228,.1)!important;border-bottom-color:rgba(245,238,228,.1)!important}
+  .dark-lux{background:transparent!important;border:none!important}
   .footer-grid p{color:var(--paper-dim)}
   .footer-grid .logo,.footer-grid .logo .cn2{color:var(--paper)}
   .footer-grid a{color:var(--paper-dim)}
@@ -150,6 +150,15 @@
   .why-block.wb4{height:300px;margin-top:24px}
   @media(max-width:900px){.why-stagger{flex-wrap:wrap}.why-block{flex:1 1 46%;margin-top:0!important;height:300px}}
   @media(max-width:560px){.why-block{flex:1 1 100%}}
+
+  /* 連續畫面（Hero 之後不切線）+ 文字在森林上可讀 */
+  .sec,.testi{position:relative;border:none!important}
+  .sec-head h2,.sec-head .h2cn{text-shadow:0 2px 22px rgba(0,0,0,.7)}
+  .sec-head .lead{text-shadow:0 1px 14px rgba(0,0,0,.65)}
+  /* Izanami 式側邊直書標籤：sticky 隨捲動，段落結束才上移 */
+  .vlabel{position:absolute;left:0;top:0;bottom:0;width:0;z-index:5;pointer-events:none}
+  .vlabel span{position:sticky;top:128px;display:inline-block;writing-mode:vertical-rl;text-orientation:mixed;transform:translateX(14px);font-family:"Cormorant Garamond",serif;font-weight:500;text-transform:uppercase;letter-spacing:.34em;font-size:12px;color:var(--gold);white-space:nowrap}
+  @media(max-width:1100px){.vlabel{display:none}}
 </style>
 </head>
 <body>
@@ -197,6 +206,7 @@
 
 <!-- ===== 目的地預覽 ===== -->
 <section class="sec">
+  <div class="vlabel"><span>Destinations</span></div>
   <div class="wrap">
     <div class="sec-head reveal" data-reveal-title>
       <div class="kicker">DESTINATIONS<span class="sep"></span><span class="cn">目的地</span></div>
@@ -250,11 +260,12 @@
 
 <!-- ===== 為什麼（斜切平行四邊形手風琴，與越南頁一致） ===== -->
 <section class="sec dark-lux" id="why">
+  <div class="vlabel"><span>Why Corner</span></div>
   <div class="wrap">
     <div class="why-split">
       <div class="sec-head reveal" data-reveal-title>
         <div class="kicker">WHY TRAVEL WITH US<span class="sep"></span><span class="cn">為什麼</span></div>
-        <h2 class="display">Why travel<br>with us</h2>
+        <h2 class="display">Why Corner</h2>
         <span class="h2cn">為什麼選擇角落的小包團</span>
         <p class="lead">不是把你塞進別人的行程，而是把整趟旅行，重新為你一個人安排。滑過每一片，看我們怎麼陪你走。</p>
       </div>
@@ -290,6 +301,7 @@
 
 <!-- ===== 怎麼進行（斜切手風琴，與「為什麼」同款） ===== -->
 <section class="sec dark-lux" id="how">
+  <div class="vlabel"><span>Process</span></div>
   <div class="wrap">
     <div class="why-split flip">
       <div class="sec-head reveal" data-reveal-title>
@@ -324,6 +336,7 @@
 
 <!-- ===== 正在出發 ===== -->
 <section class="sec" id="trips">
+  <div class="vlabel"><span>Departures</span></div>
   <div class="wrap">
     <div class="sec-head reveal" data-reveal-title>
       <div class="kicker">NOW DEPARTING<span class="sep"></span><span class="cn">出發中</span></div>
@@ -352,6 +365,7 @@
 
 <!-- ===== 見證 ===== -->
 <section class="sec testi">
+  <div class="vlabel"><span>Voices</span></div>
   <div class="testi-bg">
     <div class="toned-photo"><img class="px-img" src="assets/photos/ryokan-interior.jpg" alt="暖陽榻榻米"></div>
   </div>

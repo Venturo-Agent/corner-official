@@ -97,13 +97,13 @@ body::after{
 /* ---------- NAV（淺底 → 深字；深色 hero 上 → 加 .over-hero 轉淺字） ---------- */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:200;
-  padding:var(--s4) var(--s5);display:flex;align-items:center;justify-content:space-between;
+  padding:var(--s4) max(var(--s5), calc((100vw - 1280px) / 2 + var(--s5)));display:flex;align-items:center;justify-content:space-between;
   transition:background .6s var(--ease-expo),padding .6s var(--ease-expo),box-shadow .6s var(--ease-expo),border-color .6s var(--ease-expo);
   border-bottom:1px solid transparent;
 }
 nav.scrolled{
   background:rgba(245,239,229,.88);backdrop-filter:blur(14px);
-  padding:18px var(--s5);box-shadow:0 1px 30px rgba(42,37,32,.10);border-bottom:1px solid var(--line);
+  padding-top:18px;padding-bottom:18px;box-shadow:0 1px 30px rgba(42,37,32,.10);border-bottom:1px solid var(--line);
 }
 .logo{font-family:"Cormorant Garamond",serif;font-size:21px;letter-spacing:.06em;color:var(--ink);display:inline-flex;align-items:center;gap:.5em}
 .logo .mark{position:relative;font-family:"Noto Serif TC",serif;font-weight:500;font-size:1.4em;line-height:1;color:var(--gold);padding:6px 8px}
