@@ -86,24 +86,24 @@
   .land-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
   .land-card{position:relative;height:440px;overflow:hidden;display:block;cursor:pointer}
   .land-card>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.94) contrast(1.03) brightness(.92) sepia(.03);transform:scale(1.12);will-change:transform}
-  .land-card .paper{position:absolute;inset:0;z-index:1;opacity:0;transition:transform .9s var(--ease-expo),opacity .6s var(--ease-expo);filter:drop-shadow(0 6px 18px rgba(0,0,0,.28))}
-  .land-card .paper .shade{position:absolute;inset:0;background:rgba(18,13,8,.22)}
-  .land-card .paper .tint{position:absolute;inset:0;background:var(--accent);opacity:.26;mix-blend-mode:multiply}
-  .land-card .paper .pat{position:absolute;inset:0;width:100%;height:100%;opacity:.6}
-  .land-card .p1{clip-path:polygon(0 0,74% 0,0 74%);transform:translate(-28%,-28%)}
-  .land-card .p2{clip-path:polygon(100% 100%,26% 100%,100% 26%);transform:translate(28%,28%)}
-  .land-card.in .paper,.land-card:hover .paper{opacity:1;transform:translate(0,0)}
+  /* 右上小切角（hover 才出現，像之前紅色那塊；不蓋滿畫面） */
+  .land-card .cut{position:absolute;top:0;right:0;width:46%;height:54%;z-index:1;opacity:0;
+    clip-path:polygon(32% 0,100% 0,100% 72%);transform:translate(24%,-24%);
+    transition:transform .6s var(--ease-expo),opacity .45s var(--ease-expo);filter:drop-shadow(-6px 8px 16px rgba(0,0,0,.32))}
+  .land-card .cut .tint{position:absolute;inset:0;background:var(--accent);opacity:.6;mix-blend-mode:multiply}
+  .land-card .cut .pat{position:absolute;inset:0;width:100%;height:100%;opacity:.72}
+  .land-card:hover .cut{opacity:1;transform:translate(0,0)}
   .land-card .grad{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(0deg,rgba(16,12,8,.8) 0%,rgba(16,12,8,.3) 30%,transparent 54%)}
   .land-card .lc-info{position:absolute;left:26px;right:26px;bottom:26px;z-index:3}
   .land-card .lc-info .en{font-family:"Cormorant Garamond",serif;font-weight:500;text-transform:uppercase;letter-spacing:.24em;font-size:12px;color:var(--accent);margin-bottom:5px;display:block;text-shadow:0 1px 6px rgba(0,0,0,.6)}
   .land-card .lc-info h3{font-family:"Noto Serif TC",serif;font-weight:600;font-size:28px;color:#fff;letter-spacing:.08em;text-shadow:0 2px 14px rgba(0,0,0,.7)}
   .land-card .lc-info .rv{max-height:0;opacity:0;transform:translateY(8px);overflow:hidden;transition:max-height .6s var(--ease-expo),opacity .55s var(--ease-expo) .15s,transform .55s var(--ease-expo) .15s}
-  .land-card.in .lc-info .rv,.land-card:hover .lc-info .rv{max-height:80px;opacity:1;transform:none}
+  .land-card:hover .lc-info .rv{max-height:80px;opacity:1;transform:none}
   .land-card .lc-info .sub{display:block;margin-top:8px;font-size:13px;letter-spacing:.05em;color:rgba(255,255,255,.9);text-shadow:0 1px 8px rgba(0,0,0,.7)}
   .land-card .lc-info .enter{display:block;margin-top:7px;font-size:12.5px;letter-spacing:.08em;color:#fff}
   @media(max-width:980px){.land-grid{grid-template-columns:1fr 1fr}}
-  @media(max-width:680px){.land-grid{grid-template-columns:1fr}.land-card{height:360px}}
-  @media(prefers-reduced-motion:reduce){.land-card .paper{opacity:1;transform:none;transition:none}.land-card .lc-info .rv{max-height:80px;opacity:1;transform:none}}
+  @media(max-width:680px){.land-grid{grid-template-columns:1fr}.land-card{height:360px}.land-card .cut{opacity:1;transform:none}.land-card .lc-info .rv{max-height:80px;opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){.land-card .cut{opacity:1;transform:none;transition:none}.land-card .lc-info .rv{max-height:80px;opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -144,10 +144,8 @@
       <span class="line-en display">Every corner, kept for you.</span>
       <span class="line-cn">每一個角落，都值得為你停留</span>
     </h1>
-    <p class="hero-sub">私人客製小包團，帶你走進日本、韓國、泰國、越南、峇里島與中國，那些拼團去不了的角落。</p>
     <div class="hero-cta">
       <a class="btn-primary" href="#contact">預約諮詢</a>
-      <a class="btn-ghost" href="moments.html">看看我們的角落</a>
     </div>
   </div>
 </header>
@@ -164,43 +162,37 @@
     <div class="land-grid">
       <a href="moments.html" class="land-card reveal" style="--accent:#AFC4E0">
         <img src="assets/photos/kyoto-alley.jpg" alt="日本">
-        <div class="paper p1"><div class="shade"></div><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#shippo)"/></svg></div>
-        <div class="paper p2"><div class="shade"></div><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#shippo)"/></svg></div>
+        <div class="cut"><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#shippo)"/></svg></div>
         <div class="grad"></div>
         <div class="lc-info"><span class="en">Japan</span><h3>日本</h3><div class="rv"><span class="sub">靛藍・七寶相扣的四季</span><span class="enter">進入日本的角落 →</span></div></div>
       </a>
       <a href="moments.html" class="land-card reveal" style="--accent:#88A89A">
         <img src="assets/photos/korea-hanok.jpg" alt="韓國">
-        <div class="paper p1"><div class="shade"></div><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#pat-korea)"/></svg></div>
-        <div class="paper p2"><div class="shade"></div><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#pat-korea)"/></svg></div>
+        <div class="cut"><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#pat-korea)"/></svg></div>
         <div class="grad"></div>
         <div class="lc-info"><span class="en">Korea</span><h3>韓國</h3><div class="rv"><span class="sub">丹青・古宮與市井的慢時光</span><span class="enter">進入韓國的角落 →</span></div></div>
       </a>
       <a href="moments.html" class="land-card reveal" style="--accent:#E5B3A6">
         <img src="assets/photos/china-lijiang.jpg" alt="中國">
-        <div class="paper p1"><div class="shade"></div><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#cnLat)"/></svg></div>
-        <div class="paper p2"><div class="shade"></div><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#cnLat)"/></svg></div>
+        <div class="cut"><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#cnLat)"/></svg></div>
         <div class="grad"></div>
         <div class="lc-info"><span class="en">China</span><h3>中國</h3><div class="rv"><span class="sub">朱紅・古鎮巷弄與山水</span><span class="enter">進入中國的角落 →</span></div></div>
       </a>
       <a href="moments.html" class="land-card reveal" style="--accent:#D8BE86">
         <img src="assets/photos/thailand-temple.jpg" alt="泰國">
-        <div class="paper p1"><div class="shade"></div><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#pat-thai)"/></svg></div>
-        <div class="paper p2"><div class="shade"></div><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#pat-thai)"/></svg></div>
+        <div class="cut"><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#pat-thai)"/></svg></div>
         <div class="grad"></div>
         <div class="lc-info"><span class="en">Thailand</span><h3>泰國</h3><div class="rv"><span class="sub">鎏金・金廟與海風</span><span class="enter">進入泰國的角落 →</span></div></div>
       </a>
       <a href="moments.html" class="land-card reveal" style="--accent:#E1A99A">
         <img src="assets/photos/hoian-lantern.jpg" alt="越南">
-        <div class="paper p1"><div class="shade"></div><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#pat-viet)"/></svg></div>
-        <div class="paper p2"><div class="shade"></div><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#pat-viet)"/></svg></div>
+        <div class="cut"><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#pat-viet)"/></svg></div>
         <div class="grad"></div>
         <div class="lc-info"><span class="en">Vietnam</span><h3>越南</h3><div class="rv"><span class="sub">朱紅・會安燈火與老街</span><span class="enter">進入越南的角落 →</span></div></div>
       </a>
       <a href="moments.html" class="land-card reveal" style="--accent:#A6B888">
         <img src="assets/photos/bali-terrace.jpg" alt="峇里島">
-        <div class="paper p1"><div class="shade"></div><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#pat-bali)"/></svg></div>
-        <div class="paper p2"><div class="shade"></div><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#pat-bali)"/></svg></div>
+        <div class="cut"><div class="tint"></div><svg class="pat"><rect width="100%" height="100%" fill="url(#pat-bali)"/></svg></div>
         <div class="grad"></div>
         <div class="lc-info"><span class="en">Bali</span><h3>峇里島</h3><div class="rv"><span class="sub">翠綠・梯田神廟與療癒</span><span class="enter">進入峇里島的角落 →</span></div></div>
       </a>
