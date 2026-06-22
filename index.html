@@ -41,13 +41,7 @@
   .trip-card{height:500px}
   .grid-foot{margin-top:var(--s5);text-align:center}
 
-  /* ---------- WHY ---------- */
-  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
-  .why-item{padding:var(--s6) var(--s6);border-bottom:1px solid var(--line)}
-  .why-item:nth-child(odd){border-right:1px solid var(--line)}
-  .why-item .num{font-size:80px;margin-bottom:var(--s3)}
-  .why-item h3{font-family:"Noto Serif TC",serif;font-weight:500;font-size:24px;letter-spacing:.04em;color:var(--ink);margin-bottom:14px}
-  .why-item p{font-size:16px;line-height:1.85;color:var(--ink-dim);max-width:24em}
+  /* ---------- WHY：改用共用 .why-split + .slant-acc（見 corner.css） ---------- */
 
   /* ---------- HOW ---------- */
   .proc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5)}
@@ -174,35 +168,41 @@
   </div>
 </section>
 
-<!-- ===== 為什麼 ===== -->
+<!-- ===== 為什麼（斜切平行四邊形手風琴，與越南頁一致） ===== -->
 <section class="sec dark-lux" id="why">
   <div class="wrap">
-    <div class="sec-head reveal" data-reveal-title>
-      <div class="kicker">WHY TRAVEL WITH US<span class="sep"></span><span class="cn">為什麼</span></div>
-      <h2 class="display">Why travel with us</h2>
-      <span class="h2cn">為什麼選擇角落的小包團</span>
-      <p class="lead">不是把你塞進別人的行程，而是把整趟旅行，重新為你一個人安排。</p>
-    </div>
-    <div class="why-grid">
-      <div class="why-item reveal">
-        <div class="num display">01</div>
-        <h3>不拼團、只走自己人</h3>
-        <p>4–8 人成行，全程都是你認識的人。沒有陌生人趕你上車，旅程的節奏由你們決定。</p>
+    <div class="why-split">
+      <div class="sec-head reveal" data-reveal-title>
+        <div class="kicker">WHY TRAVEL WITH US<span class="sep"></span><span class="cn">為什麼</span></div>
+        <h2 class="display">Why travel<br>with us</h2>
+        <span class="h2cn">為什麼選擇角落的小包團</span>
+        <p class="lead">不是把你塞進別人的行程，而是把整趟旅行，重新為你一個人安排。滑過每一片，看我們怎麼陪你走。</p>
       </div>
-      <div class="why-item reveal">
-        <div class="num display">02</div>
-        <h3>行程為你量身</h3>
-        <p>不買現成套裝，一條一條陪你排。想多待半天、想換一間餐廳，都不是加價選項，而是本來就該有的彈性。</p>
-      </div>
-      <div class="why-item reveal">
-        <div class="num display">03</div>
-        <h3>在地的角落體驗</h3>
-        <p>帶你去當地人才知道的小地方。不是打卡名單，是會讓你回味很久的那些轉角。</p>
-      </div>
-      <div class="why-item reveal">
-        <div class="num display">04</div>
-        <h3>一對一旅程管家</h3>
-        <p>從規劃到回家，同一個人全程顧你。不轉接、不踢皮球，旅途中的每件小事都有人接住。</p>
+      <div class="slant-acc reveal">
+        <div class="slant-col" tabindex="0">
+          <div class="ph"><img src="assets/photos/tea-house.jpg" alt=""></div>
+          <div class="veil"></div><span class="corner"></span>
+          <div class="v-title">不拼團</div>
+          <div class="h-body"><h3>不拼團、只走自己人</h3><p>4–8 人成行，全程都是你認識的人。沒有陌生人趕你上車，節奏你們決定。</p></div>
+        </div>
+        <div class="slant-col" tabindex="0">
+          <div class="ph"><img src="assets/photos/china-scenic.jpg" alt=""></div>
+          <div class="veil"></div><span class="corner"></span>
+          <div class="v-title">為你量身</div>
+          <div class="h-body"><h3>行程為你量身</h3><p>不買現成套裝，一條一條陪你排。想多待半天、想換一間餐廳，都是本來就該有的彈性。</p></div>
+        </div>
+        <div class="slant-col" tabindex="0">
+          <div class="ph"><img src="assets/photos/korea-palace.jpg" alt=""></div>
+          <div class="veil"></div><span class="corner"></span>
+          <div class="v-title">在地角落</div>
+          <div class="h-body"><h3>在地的角落體驗</h3><p>帶你去當地人才知道的小地方。不是打卡名單，是會讓你回味很久的那些轉角。</p></div>
+        </div>
+        <div class="slant-col" tabindex="0">
+          <div class="ph"><img src="assets/photos/thailand-wat.jpg" alt=""></div>
+          <div class="veil"></div><span class="corner"></span>
+          <div class="v-title">旅程管家</div>
+          <div class="h-body"><h3>一對一旅程管家</h3><p>從規劃到回家，同一個人全程顧你。不轉接、不踢皮球，每件小事都有人接住。</p></div>
+        </div>
       </div>
     </div>
   </div>
