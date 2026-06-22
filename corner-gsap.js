@@ -39,6 +39,13 @@
       });
     });
 
+    // 3b) 手風琴（為什麼/怎麼進行）照片：在斜切框內隨捲動位移（不動 skew/hover）
+    gsap.utils.toArray('.slant-col .ph img').forEach(function(img){
+      var col = img.closest('.slant-col');
+      gsap.fromTo(img, {yPercent:-9}, {yPercent:9, ease:'none',
+        scrollTrigger:{ trigger:col, start:'top bottom', end:'bottom top', scrub:true }});
+    });
+
     // 4) HERO：入場序列 + 圖層視差 + 文字隨捲動上移淡出
     var hk = gsap.utils.toArray('.hero-seq > *');
     if(hk.length) gsap.from(hk, {opacity:0, y:32, duration:1, ease:'power3.out', stagger:.14, delay:.15});

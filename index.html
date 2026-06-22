@@ -85,7 +85,7 @@
   /* ===== 收藏的角落：六國和紙對角切入（統一左上+右下；只用在這一段） ===== */
   .land-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
   .land-card{position:relative;height:440px;overflow:hidden;display:block;cursor:pointer}
-  .land-card>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.94) contrast(1.03) brightness(.92) sepia(.03);transform:scale(1.12);will-change:transform}
+  .land-card>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.94) contrast(1.03) brightness(.92) sepia(.03);will-change:transform}
   /* 右上小切角（hover 才出現，像之前紅色那塊；不蓋滿畫面） */
   .land-card .cut{position:absolute;top:0;right:0;width:46%;height:54%;z-index:1;opacity:0;
     clip-path:polygon(32% 0,100% 0,100% 72%);transform:translate(24%,-24%);
@@ -114,7 +114,7 @@
   .sc-frame .sc-img{position:absolute;top:-12%;left:0;width:100%;height:124%;object-fit:cover;filter:saturate(.94) contrast(1.04) brightness(.86) sepia(.04)}
   .sc-cap{position:absolute;z-index:3;left:0;right:0;text-align:center;color:#fff;pointer-events:none;padding:0 8%}
   .sc-cap .kicker{justify-content:center;color:var(--gold-bright);margin-bottom:18px}
-  .sc-cap h2{font-family:"Noto Serif TC",serif;font-weight:500;font-size:clamp(24px,3.4vw,44px);line-height:1.55;letter-spacing:.08em;text-shadow:0 2px 24px rgba(0,0,0,.7)}
+  .sc-cap h2{font-family:"Noto Serif TC",serif;font-weight:500;font-size:clamp(30px,4.6vw,62px);line-height:1.45;letter-spacing:.1em;text-shadow:0 2px 28px rgba(0,0,0,.75)}
   @media(max-width:680px){.sc-frame{width:78vw;height:48vh}}
 
   /* ===== 深色負片貫穿（Izanami 路線）：固定森林底圖 + 內容半透明疊上 ===== */
@@ -314,19 +314,19 @@
       </div>
       <div class="slant-acc reveal">
         <div class="slant-col" tabindex="0">
-          <div class="ph"><img class="px-img" src="assets/photos/vietnam-morning.jpg" alt=""></div>
+          <div class="ph"><img src="assets/photos/vietnam-morning.jpg" alt=""></div>
           <div class="veil"></div><span class="corner"></span>
           <div class="v-title">先聊聊</div>
           <div class="h-body"><h3>聊聊你想要的旅行</h3><p>想去哪、想怎麼玩、跟誰一起——先聽懂你，再談行程。<br><em style="font-family:'Cormorant Garamond',serif;color:var(--gold-bright)">We listen</em></p></div>
         </div>
         <div class="slant-col" tabindex="0">
-          <div class="ph"><img class="px-img" src="assets/photos/sapa-terrace.jpg" alt=""></div>
+          <div class="ph"><img src="assets/photos/sapa-terrace.jpg" alt=""></div>
           <div class="veil"></div><span class="corner"></span>
           <div class="v-title">量身排</div>
           <div class="h-body"><h3>為你量身規劃</h3><p>一條一條陪你排，一層一層為你疊，沒有現成套裝。<br><em style="font-family:'Cormorant Garamond',serif;color:var(--gold-bright)">We tailor</em></p></div>
         </div>
         <div class="slant-col" tabindex="0">
-          <div class="ph"><img class="px-img" src="assets/photos/halong-bay.jpg" alt=""></div>
+          <div class="ph"><img src="assets/photos/halong-bay.jpg" alt=""></div>
           <div class="veil"></div><span class="corner"></span>
           <div class="v-title">陪你走</div>
           <div class="h-body"><h3>出發，全程陪伴</h3><p>同一個人從出發顧到回家，路上每件小事都有人接住。<br><em style="font-family:'Cormorant Garamond',serif;color:var(--gold-bright)">We travel with you</em></p></div>
