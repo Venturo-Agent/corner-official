@@ -123,6 +123,11 @@
   .course-b h3{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(20px,2.1vw,26px);color:var(--paper);margin:6px 0 8px;line-height:1.25}
   .course-b p{color:rgba(219,208,192,.78);font-size:14px;line-height:1.85}
   @media(max-width:760px){.courses{grid-template-columns:1fr}}
+
+  /* 行程加配圖 */
+  .itin-day{grid-template-columns:70px 230px 1fr}
+  .itin-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:3px;display:block}
+  @media(max-width:680px){.itin-day{grid-template-columns:1fr}.itin-photo img{aspect-ratio:16/9;margin-bottom:6px}}
 </style>
 </head>
 <body>
@@ -231,6 +236,7 @@
       <h2 class="display">On the green</h2>
       <span class="h2cn">糸島兩座名門球場</span>
     </div>
+    <p class="reveal" style="max-width:46em;margin:0 auto var(--s5);color:rgba(219,208,192,.82);font-size:16px;line-height:1.95;text-align:center">先生們的揮桿時光，安排在糸島兩座名門球場——伊都坐擁雷山山麓的開闊綠意，芥屋面向玄界灘的海岸線，各擅勝場。</p>
     <div class="courses">
       <article class="course reveal">
         <img src="assets/photos/fukuoka/ito-drone.jpg" alt="伊都高爾夫俱樂部空拍" loading="lazy">
@@ -270,8 +276,8 @@
         <div class="hotel-info">
           <span class="hotel-n">兩晚晚餐</span>
           <h3>幻珠 by 鮨 將司</h3>
-          <p class="hotel-loc">福岡・赤坂　主廚割烹</p>
-          <p>東京米其林星級「鮨 將司」延伸的隱密名店，依當日食材即席呈現的高級壽司與割烹料理，是這趟旅程的味覺亮點。兩晚晚餐皆於此享用。</p>
+          <p class="hotel-loc">福岡市・櫻坂　IMURI</p>
+          <p>融合傳統和食與法式精緻料理的高級餐廳，坐落於福岡中央區櫻坂一帶的住宅高地，可俯瞰福岡市區的夜景與日落。兩晚晚餐皆於此享用，是旅程的味覺亮點。</p>
         </div>
       </article>
     </div>
@@ -286,16 +292,21 @@
       <h2 class="display">Day by day</h2>
       <span class="h2cn">五天四夜・城市、綠茵與海岸</span>
     </div>
+    <div class="tour-note reveal" style="margin-bottom:var(--s5)">
+      <p><b style="color:var(--gold-bright);font-weight:500">航班</b>　去程 CI 110　台北 06:50 → 福岡 09:55<br>　　　　回程 CI 129　福岡 19:10 → 台北 20:35</p>
+    </div>
     <div class="itin">
       <div class="itin-day reveal">
         <div class="itin-d"><span class="dnum">D1</span><span class="dsub">Arrival</span></div>
+        <div class="itin-photo"><img src="assets/photos/fukuoka/day1-mojiko.jpg" alt="門司港" loading="lazy"></div>
         <div class="itin-body">
           <p class="itin-route">抵達福岡，前往門司港走走。漫步懷舊港町，欣賞大正浪漫風情的紅磚建築與海濱景致，為旅程揭開序章。</p>
-          <div class="itin-meta"><span><b>住宿</b>THE GATE HOTEL FUKUOKA by HULIC</span><span><b>航班</b>去程 CI 110　台北 06:50 → 福岡 09:55</span></div>
+          <div class="itin-meta"><span><b>住宿</b>THE GATE HOTEL FUKUOKA by HULIC</span></div>
         </div>
       </div>
       <div class="itin-day reveal">
         <div class="itin-d"><span class="dnum">D2</span><span class="dsub">Golf · Yanagawa</span></div>
+        <div class="itin-photo"><img src="assets/photos/fukuoka/day2-yanagawa.jpg" alt="柳川" loading="lazy"></div>
         <div class="itin-body">
           <p class="itin-route">先生們前往球場揮桿；太太們遊覽水鄉柳川，搭乘傳統川舟悠遊運河、品嚐名物鰻魚蒸籠飯，享受悠然的水都時光。</p>
           <div class="itin-meta"><span><b>住宿</b>THE GATE HOTEL FUKUOKA by HULIC</span></div>
@@ -303,6 +314,7 @@
       </div>
       <div class="itin-day reveal">
         <div class="itin-d"><span class="dnum">D3</span><span class="dsub">Golf · Nokonoshima</span></div>
+        <div class="itin-photo"><img src="assets/photos/fukuoka/day3-nokonoshima.jpg" alt="能古島" loading="lazy"></div>
         <div class="itin-body">
           <p class="itin-route">先生們再戰球場；太太們搭渡輪前往能古島海島公園（自福岡市約 10 分鐘船程），秋季大片波斯菊與蔚藍海景交織，是必訪的賞花勝地。傍晚移居糸島海濱別墅。</p>
           <div class="itin-meta"><span><b>住宿</b>SEVEN X SEVEN ITOSHIMA</span></div>
@@ -310,6 +322,7 @@
       </div>
       <div class="itin-day reveal">
         <div class="itin-d"><span class="dnum">D4</span><span class="dsub">Itoshima</span></div>
+        <div class="itin-photo"><img src="assets/photos/fukuoka/day4-keya.jpg" alt="芥屋大門" loading="lazy"></div>
         <div class="itin-body">
           <p class="itin-route">糸島深度遊。搭乘觀光船一覽芥屋大門——日本三大玄武岩海蝕洞之一，巨岩與碧海交織的壯麗景觀；再走訪雷山千如寺大悲王院賞楓，境內樹齡約 400 年的巨楓，古剎與紅葉相映、禪意盎然。</p>
           <div class="itin-meta"><span><b>住宿</b>SEVEN X SEVEN ITOSHIMA</span></div>
@@ -317,14 +330,12 @@
       </div>
       <div class="itin-day reveal">
         <div class="itin-d"><span class="dnum">D5</span><span class="dsub">Departure</span></div>
+        <div class="itin-photo"><img src="assets/photos/fukuoka/sevenxseven-3.jpg" alt="糸島海濱" loading="lazy"></div>
         <div class="itin-body">
           <p class="itin-route">於別墅享用早餐，白天糸島海濱自由漫遊，傍晚整裝前往機場賦歸，或為您延續下一段日本旅程。</p>
-          <div class="itin-meta"><span><b>住宿</b>溫暖的家（或延續行程）</span><span><b>航班</b>回程 CI 129　福岡 19:10 → 台北 20:35</span></div>
+          <div class="itin-meta"><span><b>住宿</b>溫暖的家（或延續行程）</span></div>
         </div>
       </div>
-    </div>
-    <div class="tour-cta reveal" style="margin-top:var(--s6)">
-      <a class="btn-primary" href="mailto:sales@cornertravel.com.tw">與顧問聯繫</a>
     </div>
   </div>
 </section>
