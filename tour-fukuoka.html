@@ -113,6 +113,16 @@
   .hotel-info .hotel-loc{color:var(--gold-bright);font-size:14px;letter-spacing:.08em;margin-bottom:12px}
   .hotel-info p{color:rgba(219,208,192,.78);font-size:14.5px;line-height:1.9}
   @media(max-width:760px){.hotel{grid-template-columns:1fr}.hotel:nth-child(even) .hotel-gal{order:0}}
+
+  /* ===== 高爾夫 球場卡 ===== */
+  .courses{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s5);max-width:1080px;margin:0 auto}
+  .course{background:rgba(18,16,14,.52);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);border:1px solid rgba(230,199,156,.16);border-radius:4px;overflow:hidden}
+  .course img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+  .course-b{padding:16px 20px 20px}
+  .course-b .c-loc{font-size:12px;letter-spacing:.16em;color:var(--gold)}
+  .course-b h3{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(20px,2.1vw,26px);color:var(--paper);margin:6px 0 8px;line-height:1.25}
+  .course-b p{color:rgba(219,208,192,.78);font-size:14px;line-height:1.85}
+  @media(max-width:760px){.courses{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -219,9 +229,40 @@
     <div class="sec-head reveal" data-reveal-title>
       <div class="kicker">GOLF<span class="sep"></span><span class="cn">高爾夫</span></div>
       <h2 class="display">On the green</h2>
-      <span class="h2cn">光明頂福岡高爾夫俱樂部</span>
+      <span class="h2cn">糸島兩座名門球場</span>
     </div>
-    <div class="tour-note reveal"><p>＊球場介紹與照片待補（請提供球場資料 / 圖片 / 安排哪一天）。</p></div>
+    <div class="courses">
+      <article class="course reveal">
+        <img src="assets/photos/fukuoka/ito-drone.jpg" alt="伊都高爾夫俱樂部空拍" loading="lazy">
+        <div class="course-b">
+          <span class="c-loc">福岡・糸島市</span>
+          <h3>伊都高爾夫俱樂部　Ito GC</h3>
+          <p>雷山山麓的丘陵名門，18 洞 6,830 碼 par 72，綠意環抱、遠眺糸島平原。鄰近福岡機場與博多、交通便利，全程附桿弟。</p>
+        </div>
+      </article>
+      <article class="course reveal">
+        <img src="assets/photos/fukuoka/golf-keya.jpg" alt="芥屋高爾夫俱樂部" loading="lazy">
+        <div class="course-b">
+          <span class="c-loc">福岡・糸島市 志摩芥屋</span>
+          <h3>芥屋高爾夫俱樂部　Keya GC</h3>
+          <p>名家赤星四郎設計的經典球場，丘陵起伏豐富、講究力量與技巧，鄰近志摩芥屋海岸，挑戰性十足。</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 餐食 ===== -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head reveal" data-reveal-title>
+      <div class="kicker">DINING<span class="sep"></span><span class="cn">餐食</span></div>
+      <h2 class="display">At the table</h2>
+      <span class="h2cn">兩晚晚餐・主廚割烹</span>
+    </div>
+    <div class="tour-note reveal">
+      <p>兩晚晚餐安排於 <b style="color:var(--gold-bright);font-weight:500">幻珠 by 鮨 將司（Imuri）</b>——主廚操刀的高級壽司割烹，依當日食材呈現。（菜單與照片待補）</p>
+    </div>
   </div>
 </section>
 
