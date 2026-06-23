@@ -8,12 +8,13 @@
   var slides = document.querySelectorAll('.hero-slide');
   if(slides.length < 2) return;
   var dots = document.querySelectorAll('.hero-dot');
+  var cmaps = document.querySelectorAll('.cmap');
   var reduceM = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   var i = 0, timer;
   function go(n){
-    slides[i].classList.remove('active'); if(dots[i]) dots[i].classList.remove('on');
+    slides[i].classList.remove('active'); if(dots[i]) dots[i].classList.remove('on'); if(cmaps[i]) cmaps[i].classList.remove('active');
     i = (n + slides.length) % slides.length;
-    slides[i].classList.add('active'); if(dots[i]) dots[i].classList.add('on');
+    slides[i].classList.add('active'); if(dots[i]) dots[i].classList.add('on'); if(cmaps[i]) cmaps[i].classList.add('active');
   }
   function loop(){ if(!reduceM) timer = setInterval(function(){ go(i+1); }, 3000); }
   function reset(){ clearInterval(timer); loop(); }
