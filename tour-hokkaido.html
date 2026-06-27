@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北海道 冰雪之旅｜角落旅行社 CORNER TRAVEL．私人包團</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="corner.css?v=2">
+<style>
+  .hero{position:relative;height:82vh;min-height:600px;max-height:920px;overflow:hidden;display:flex;align-items:flex-end}
+  .hero-img{position:absolute;top:-10%;left:0;right:0;height:120%;z-index:0;overflow:hidden}
+  .hero-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);animation:kenburns 40s var(--ease-expo) forwards}
+  @keyframes kenburns{to{transform:scale(1.12) translate(-2%,-2%)}}
+  .hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:
+    radial-gradient(120% 95% at 12% 100%, rgba(10,16,28,.94) 0%, rgba(10,16,28,.5) 32%, transparent 62%),
+    linear-gradient(to bottom, rgba(10,16,28,.6) 0%, transparent 20%),
+    radial-gradient(140% 130% at 50% 42%, transparent 55%, rgba(6,10,18,.5) 100%);}
+  .hero-inner{position:relative;z-index:2;width:100%;padding-bottom:var(--s8)}
+  .hero-inner .kicker{margin-bottom:var(--s4)}
+  .hero h1{margin-bottom:var(--s3)}
+  .hero h1 .en{display:block;font-family:"Cormorant Garamond",serif;font-weight:300;font-size:clamp(52px,7.5vw,108px);line-height:.95;letter-spacing:-.01em;color:var(--paper);text-shadow:0 1px 2px rgba(0,0,0,.6),0 12px 40px rgba(0,0,0,.45)}
+  .hero h1 .cn{display:block;font-family:"Noto Serif TC",serif;font-weight:500;font-size:clamp(24px,3.2vw,40px);letter-spacing:.14em;color:var(--gold-bright);margin-top:10px}
+  .hero-lead{max-width:30em;font-size:18px;line-height:1.9;color:var(--paper-dim);margin-bottom:var(--s5)}
+  .hero-facts{display:flex;gap:var(--s5);flex-wrap:wrap;color:var(--paper-dim);font-size:14px;letter-spacing:.06em}
+  .hero-facts b{color:var(--gold-bright);font-weight:500;margin-right:8px}
+
+  body{background:transparent!important}
+  .page-bg{position:fixed;inset:0;z-index:-2;overflow:hidden;background:#0a1018}
+  .pb-forest{position:absolute;inset:-8%;background:url("assets/photos/hokkaido/d4-aoike.jpg") center/cover no-repeat;will-change:transform;animation:forestDrift 50s ease-in-out infinite alternate;filter:brightness(.55) saturate(.6)}
+  .pb-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,12,20,.5) 0%,rgba(8,12,20,.75) 60%,rgba(8,12,20,.85) 100%)}
+  .pb-fog{position:absolute;inset:-22%;background:url("assets/photos/fog-layer.jpg") center/cover no-repeat;mix-blend-mode:screen;opacity:.25;filter:blur(11px) saturate(0);will-change:transform;animation:fogDrift 26s linear infinite alternate}
+  @keyframes forestDrift{from{transform:scale(1.05) translate(-1.4%,0.6%)}to{transform:scale(1.12) translate(1.6%,-1.4%)}}
+  @keyframes fogDrift{from{transform:translate(-9%,1%) scale(1.14)}to{transform:translate(9%,-4%) scale(1.24)}}
+  @media(prefers-reduced-motion:reduce){.pb-forest,.pb-fog{animation:none}}
+
+  /* 亮點 */
+  .hls{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s4);max-width:1000px;margin:0 auto}
+  .hl-item{background:rgba(18,24,36,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(230,199,156,.16);border-radius:4px;padding:clamp(20px,2.8vw,32px)}
+  .hl-item .hl-no{font-family:"Cormorant Garamond",serif;font-size:36px;line-height:1;color:rgba(201,166,120,.5);margin-bottom:10px}
+  .hl-item h3{font-family:"Noto Serif TC",serif;font-size:clamp(16px,1.6vw,19px);color:var(--paper);font-weight:500;letter-spacing:.06em;margin-bottom:8px}
+  .hl-item p{color:rgba(219,208,192,.7);font-size:14px;line-height:1.85}
+  @media(max-width:600px){.hls{grid-template-columns:1fr}}
+
+  /* 行程 */
+  .flights{max-width:600px;margin:0 auto var(--s6);display:flex;flex-direction:column;gap:9px}
+  .flight-row{display:grid;grid-template-columns:46px 72px 1fr;align-items:center;gap:14px;padding:12px 20px;background:rgba(18,24,36,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(230,199,156,.16);border-radius:3px}
+  .flight-row .fl-tag{color:var(--gold-bright);letter-spacing:.12em;font-size:14px}
+  .flight-row .fl-no{color:var(--paper);font-family:"Cormorant Garamond",serif;font-size:18px;letter-spacing:.03em}
+  .flight-row .fl-rt{color:rgba(219,208,192,.82);font-size:14px;letter-spacing:.02em}
+
+  .itin{max-width:1000px;margin:0 auto}
+  .itin-day{display:grid;grid-template-columns:1fr 1fr;gap:var(--s5);align-items:center;padding:var(--s6) 0;border-top:1px solid rgba(230,199,156,.16)}
+  .itin-day:last-child{border-bottom:1px solid rgba(230,199,156,.16)}
+  .itin-day:nth-child(even) .itin-photo{order:2}
+  .itin-photo img{width:100%;object-fit:cover;border-radius:3px;display:block}
+  .itin-photo .main-img{aspect-ratio:16/10}
+  .itin-photo .two-img{display:grid;gap:7px}
+  .itin-photo .two-img img{aspect-ratio:16/9}
+  .itin-head{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+  .itin-head .dnum{font-family:"Cormorant Garamond",serif;font-size:46px;line-height:1;color:var(--gold)}
+  .itin-head .dsub{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(219,208,192,.55)}
+  .itin-body .itin-route{color:rgba(244,238,228,.92);font-family:"Noto Serif TC",serif;font-size:15.5px;line-height:1.95;margin-bottom:14px}
+  .itin-body .itin-desc{color:rgba(219,208,192,.78);font-size:14px;line-height:1.9;margin-bottom:14px}
+  .itin-body .itin-spots{list-style:none;margin:0 0 14px}
+  .itin-body .itin-spots li{font-size:14px;color:rgba(219,208,192,.78);padding-left:16px;position:relative;margin-top:6px;line-height:1.8}
+  .itin-body .itin-spots li::before{content:"";position:absolute;left:2px;top:10px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+  .itin-meta{border-top:1px dashed rgba(255,255,255,.14);padding-top:12px;color:rgba(219,208,192,.72);font-size:14px;display:flex;flex-direction:column;gap:5px}
+  .itin-meta b{color:var(--gold-bright);font-weight:500;margin-right:8px;letter-spacing:.05em}
+  .season-tag{display:inline-block;background:rgba(201,166,120,.15);border:1px solid rgba(201,166,120,.3);color:var(--gold-bright);font-size:12px;letter-spacing:.08em;padding:3px 10px;border-radius:2px;margin-top:8px}
+  .tour-note{max-width:1000px;margin:var(--s5) auto 0;padding:var(--s4);background:rgba(18,24,36,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-left:2px solid var(--gold)}
+  .tour-note p{font-size:14px;line-height:1.9;color:rgba(219,208,192,.75);margin:0}
+  @media(max-width:760px){.itin-day{grid-template-columns:1fr}.itin-day:nth-child(even) .itin-photo{order:0}}
+
+  /* 地圖 */
+  .loc-band{position:relative;background:rgba(8,12,20,.6);backdrop-filter:blur(4px);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)}
+  .loc-band .wrap{display:grid;grid-template-columns:1fr 1fr;gap:var(--s7);align-items:center;padding:var(--s8) 0}
+  .loc-text h2{color:var(--paper)}
+  .loc-text .h2cn{color:var(--gold-bright)}
+  .loc-text p{max-width:30em;font-size:16px;line-height:2;color:var(--paper-dim);margin-top:var(--s4)}
+  .loc-map svg{width:100%;height:auto;max-height:50vh;display:block;filter:drop-shadow(0 14px 34px rgba(0,0,0,.55))}
+  .loc-map svg path{fill:rgba(201,166,120,.07);stroke:rgba(230,199,156,.7);stroke-width:1;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+  .loc-map .cm-pin .dot{fill:var(--gold-bright)}
+  .loc-map .cm-pin .ring{fill:none;stroke:var(--gold-bright);stroke-width:.6;vector-effect:non-scaling-stroke;transform-box:fill-box;transform-origin:center;animation:pinPulse 2.6s ease-out infinite}
+  .loc-map .cm-pin .lbl{fill:#fff;font-family:"Noto Serif TC",serif;font-weight:500;font-size:5.4px;letter-spacing:.1em;dominant-baseline:middle;paint-order:stroke;stroke:rgba(0,0,0,.55);stroke-width:.5;vector-effect:non-scaling-stroke}
+  @keyframes pinPulse{0%{stroke-opacity:.9;transform:scale(1)}70%{stroke-opacity:0;transform:scale(2.8)}100%{stroke-opacity:0;transform:scale(2.8)}}
+  @media(max-width:760px){.loc-band .wrap{grid-template-columns:1fr;gap:var(--s5)}.loc-map{order:-1}}
+
+  .sec .sec-head h2,.sec .sec-head .h2cn{color:var(--paper)}
+  .sec .sec-head .kicker .cn{color:var(--paper-dim)}
+
+  .dark-lux{background:transparent!important;border:none!important}
+  .footer-grid p{color:var(--paper-dim)}
+  .footer-grid .logo,.footer-grid .logo .cn2{color:var(--paper)}
+  .footer-grid a{color:var(--paper-dim)}
+  .footer-legal p{color:#9a9184}
+</style>
+</head>
+<body>
+<div class="page-bg"><div class="pb-forest"></div><div class="pb-veil"></div><div class="pb-fog"></div></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="index.html" class="logo"><img src="assets/corner-logo.png" alt="corner"><span class="cn2">角落旅行社</span></a>
+  <div class="nav-links">
+    <a href="moments.html">探索世界</a>
+    <a href="index.html#why">關於角落</a>
+    <a href="index.html#how">訂製行程</a>
+    <a href="index.html#trips">正在出發</a>
+    <a href="index.html#contact">聯絡</a>
+    <a href="index.html#contact" class="nav-cta">預約諮詢</a>
+  </div>
+  <button class="nav-burger" aria-label="選單"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-img"><img src="assets/photos/hokkaido/d3-icebreaker.jpg" alt="北海道破冰船" loading="eager"></div>
+  <div class="hero-scrim"></div>
+  <div class="hero-inner wrap">
+    <div class="kicker">PRIVATE JOURNEY<span class="sep"></span><span class="cn">日本・北海道</span></div>
+    <h1><span class="en">Hokkaido</span><span class="cn">北海道 冰雪之旅</span></h1>
+    <p class="hero-lead">破冰船劈開鄂霍次克流冰，星野 TOMAMU 的愛絲冰城在夜裡發光，三大冬祭典與螃蟹御膳——北海道的冬天，值得一次全家出動。</p>
+    <div class="hero-facts">
+      <span><b>天數</b>八天七夜</span>
+      <span><b>季節</b>冬季專屬</span>
+      <span><b>主題</b>流冰・冰城・溫泉・冬祭</span>
+      <span><b>形式</b>私人包團</span>
+    </div>
+  </div>
+</header>
+
+<!-- HIGHLIGHTS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head reveal" data-reveal-title>
+      <div class="kicker">HIGHLIGHTS<span class="sep"></span><span class="cn">本團亮點</span></div>
+      <h2 class="display">What awaits</h2>
+      <span class="h2cn">四個北海道冬天才有的體驗</span>
+    </div>
+    <div class="hls">
+      <div class="hl-item reveal">
+        <div class="hl-no">I</div>
+        <h3>網走破冰船・流冰天使</h3>
+        <p>季節限定的鄂霍次克流冰奇觀，破冰前行的隆隆聲響只屬於冬天。近距離在流冰館見到透明的流冰天使 Clione。</p>
+      </div>
+      <div class="hl-item reveal">
+        <div class="hl-no">II</div>
+        <h3>保證入住 星野TOMAMU TOWER</h3>
+        <p>愛絲冰城、安藤忠雄水之教堂、木葉之湯露天溫泉——北海道最具代表性的頂級渡假村，一次走進。</p>
+      </div>
+      <div class="hl-item reveal">
+        <div class="hl-no">III</div>
+        <h3>阿寒湖冰上活動全體驗</h3>
+        <p>冰上釣公魚現炸天婦羅、香蕉船、雪上摩托車——結冰湖面上的一整天，是孩子與大人都難忘的冬日記憶。</p>
+      </div>
+      <div class="hl-item reveal">
+        <div class="hl-no">IV</div>
+        <h3>三大冬祭典・季節螃蟹御膳</h3>
+        <p>層雲峽冰瀑祭、支笏湖冰濤祭、阿寒湖冬華美，加上夜間螃蟹御膳——用最道地的方式過一個北海道的冬天。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="loc-band">
+  <div class="wrap">
+    <div class="loc-text reveal" data-reveal-title>
+      <div class="kicker">LOCATION<span class="sep"></span><span class="cn">北海道在這裡</span></div>
+      <h2 class="display">On the map</h2>
+      <span class="h2cn">道東・道央・小樽・札幌</span>
+      <p>從十勝川溫泉出發，橫越道東流冰海岸，深入道央的星野渡假村，再沿著支笏湖、小樽運河一路回到札幌——八天走過北海道最精華的冬日版圖。</p>
+    </div>
+    <div class="loc-map reveal">
+      <svg viewBox="814 311.9 78.2 89.2" aria-hidden="true">
+        <path d="m 878.53675,325.4254 0.352,0.02 0.157,-0.018 0.269,0.059 1.067,0.591 0.322,0.075 0.333,0.009 0.234,-0.048 0.206,-0.162 0.644,-0.717 0.678,-0.655 0.075,0.025 0,0.181 -0.05,0.201 -0.3,0.599 -0.333,0.804 -0.071,0.406 0.108,0.395 0.209,0.326 0.165,0.445 0.19,0.617 0.268,0.078 0.146,0.009 0.268,-0.185 0.253,-0.235 0.218,-0.029 0.229,0.04 -0.301,0.164 -0.284,0.2 -0.244,0.378 -0.091,0.071 -0.281,-0.023 -0.161,0.014 -0.329,0.158 -0.289,0.179 -0.276,0.219 -0.301,0.117 -0.321,0.028 -0.495,0.179 -0.321,0.013 -0.603,-0.156 -0.293,0.042 -0.639,0.352 -0.582,0.508 -0.509,0.569 -0.425,0.682 -0.171,0.354 -0.103,0.396 -0.014,0.262 -0.038,0.251 -0.098,0.175 -0.118,0.142 -0.351,-0.083 -0.576,-0.362 -1.117,-0.527 -1.18,-0.809 -0.664,-0.407 -1.248,0.122 -1.181,0.776 -0.105,-0.066 -0.451,-0.532 -0.219,-0.211 -0.261,-0.06 -0.194,0.007 -0.188,0.039 -0.267,0.274 -0.098,0.197 -0.076,0.224 -0.023,0.158 0.032,0.155 0.253,0.35 0.312,0.26 0.141,0.049 0.299,-0.018 0.139,0.027 0.501,0.521 0.549,0.488 0.121,0.161 -0.203,0.169 -0.222,0.084 -0.259,-0.021 -0.256,-0.064 -0.438,-0.207 -0.188,0.176 -0.292,0.361 -0.161,0.392 -0.131,0.179 -0.322,0.236 -0.341,0.122 -0.179,-0.04 -0.136,-0.148 -0.077,-0.177 -0.039,-0.206 0.072,-0.446 0.177,-0.403 0.068,-0.412 -0.145,-0.581 -0.092,-0.122 -0.362,-0.341 -0.168,-0.333 -0.04,-0.415 0.021,-0.229 0.088,-0.507 0.088,-0.256 0.166,-0.084 0.182,-0.051 0.279,-0.184 0.307,-0.238 0.294,-0.272 0.291,-0.333 0.151,-0.366 -0.249,-0.45 -0.052,-0.268 0.037,-0.253 0.266,-0.135 0.273,0.102 0.551,0.372 0.107,0.037 0.378,0.017 0.518,0.081 0.3,-0.02 0.145,-0.056 0.218,-0.307 0.107,-0.392 -0.039,-0.505 -0.002,-0.502 0.138,-0.41 0.432,-0.661 0.124,-0.39 0.045,-0.952 0.156,-0.42 0.125,-0.437 0.06,-0.918 -0.177,-0.886 -0.178,-0.436 -0.204,-0.415 0.03,-0.397 0.165,-0.369 0.004,-0.111 0.039,-0.099 0.309,-0.07 0.145,-0.079 0.139,-0.178 0.165,-0.104 0.121,0.104 0.1,0.182 0.436,0.447 0.687,0.796 0.809,1.209 0.507,0.587 0.534,0.531 0.599,0.542 0.627,0.465 0.4,0.22 0.293,0.35 0.181,0.057 z"/>
+        <g class="cm-pin" transform="translate(851,322)"><circle class="ring" r="2.66"/><circle class="dot" r="1.4"/><text class="lbl" x="3.5" y="0.3">北海道</text></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ITINERARY -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head reveal" data-reveal-title>
+      <div class="kicker">ITINERARY<span class="sep"></span><span class="cn">每日行程</span></div>
+      <h2 class="display">Day by day</h2>
+      <span class="h2cn">八天七夜・道東流冰到道央溫泉</span>
+    </div>
+
+    <div class="flights reveal">
+      <div class="flight-row"><span class="fl-tag">去程</span><span class="fl-no">CI 130</span><span class="fl-rt">台北 08:35 → 新千歲 13:15</span></div>
+      <div class="flight-row"><span class="fl-tag">回程</span><span class="fl-no">CI 131</span><span class="fl-rt">新千歲 14:40 → 台北 18:15</span></div>
+    </div>
+
+    <div class="itin">
+
+      <div class="itin-day reveal">
+        <div class="itin-photo"><img class="main-img" src="assets/photos/hokkaido/d1-tokachigawa.jpg" alt="十勝川溫泉" loading="lazy"></div>
+        <div class="itin-body">
+          <div class="itin-head"><span class="dnum">D1</span><span class="dsub">Arrival · Tokachi</span></div>
+          <p class="itin-route">啟程・直奔美人湯</p>
+          <p class="itin-desc">桃園機場直飛新千歲，抵達後直驅十勝川溫泉。放眼全球，只有德國 BADEN 和日本十勝川擁有「植物性 MOOR 溫泉」，浸泡後肌膚光滑細緻——第一晚就把旅途的疲憊泡掉。</p>
+          <div class="itin-meta"><span><b>住宿</b>全室源泉かけ流し露天風呂付きの宿 清寂房</span></div>
+        </div>
+      </div>
+
+      <div class="itin-day reveal">
+        <div class="itin-photo">
+          <div class="two-img">
+            <img src="assets/photos/hokkaido/d2-sl-train.jpg" alt="SL冬季濕原號" loading="lazy">
+            <img src="assets/photos/hokkaido/d2-ice-activity.jpg" alt="阿寒湖冰上活動" loading="lazy">
+          </div>
+        </div>
+        <div class="itin-body">
+          <div class="itin-head"><span class="dnum">D2</span><span class="dsub">Kushiro · Akan</span></div>
+          <p class="itin-route">蒸汽火車・冰湖上的一天</p>
+          <p class="itin-desc">搭乘充滿懷舊風情的釧路 SL 冬季濕原號，在雪白原野上緩行；抵達阿寒湖後，漫步幸運之森商店街，午後投入冰上活動的歡樂——冰上釣公魚現炸天婦羅、香蕉船、雪上摩托車，一個都不想錯過。</p>
+          <span class="season-tag">阿寒湖冬華美 期間限定</span>
+          <div class="itin-meta"><span><b>住宿</b>阿寒湖鶴雅遊久之里</span></div>
+        </div>
+      </div>
+
+      <div class="itin-day reveal">
+        <div class="itin-photo">
+          <div class="two-img">
+            <img src="assets/photos/hokkaido/d3-icebreaker.jpg" alt="網走破冰船" loading="lazy">
+            <img src="assets/photos/hokkaido/d3-hyobaku.jpg" alt="層雲峽冰瀑祭" loading="lazy">
+          </div>
+        </div>
+        <div class="itin-body">
+          <div class="itin-head"><span class="dnum">D3</span><span class="dsub">Abashiri · Sounkyo</span></div>
+          <p class="itin-route">破冰船・流冰天使・冰瀑之夜</p>
+          <p class="itin-desc">搭乘網走破冰船穿越鄂霍次克海的流冰帶——陣陣隆隆聲響，彷彿置身極地。上岸後前往天都山鄂霍次克流冰館，零下15度的展示室讓你最近距離接觸流冰。傍晚驅車前往層雲峽，入夜體驗冰瀑祭的燈光夢境。</p>
+          <ul class="itin-spots">
+            <li>網走破冰船・鄂霍次克流冰館</li>
+            <li>銀河・流星瀑布（日本瀑布百選）</li>
+            <li>層雲峽冰瀑祭（期間限定夜間點燈）</li>
+          </ul>
+          <span class="season-tag">層雲峽冰瀑祭 期間限定</span>
+          <div class="itin-meta"><span><b>住宿</b>層雲峽層雲閣飯店 或 層雲峽大雪飯店</span></div>
+        </div>
+      </div>
+
+      <div class="itin-day reveal">
+        <div class="itin-photo">
+          <div class="two-img">
+            <img src="assets/photos/hokkaido/d4-aoike.jpg" alt="白金青池" loading="lazy">
+            <img src="assets/photos/hokkaido/d4-icevillage.jpg" alt="星野TOMAMU愛絲冰城" loading="lazy">
+          </div>
+        </div>
+        <div class="itin-body">
+          <div class="itin-head"><span class="dnum">D4</span><span class="dsub">Aoike · Tomamu</span></div>
+          <p class="itin-route">青池絕景・夜宿星野</p>
+          <p class="itin-desc">旭岳纜車俯瞰冰封樹海，下山走訪結冰的白金青池——那一片白色仙境，是一生必看的絕景。入夜住進星野 TOMAMU 渡假村，愛絲冰城、安藤忠雄水之教堂、木葉之湯露天溫泉，是北海道最完整的冬季奇幻體驗。</p>
+          <div class="itin-meta"><span><b>住宿</b>保證入住 星野TOMAMU TOWER</span></div>
+        </div>
+      </div>
+
+      <div class="itin-day reveal">
+        <div class="itin-photo">
+          <div class="two-img">
+            <img src="assets/photos/hokkaido/d5-muhyo.jpg" alt="霧冰平台" loading="lazy">
+            <img src="assets/photos/hokkaido/d5-winery.jpg" alt="千歲酒莊" loading="lazy">
+          </div>
+        </div>
+        <div class="itin-body">
+          <div class="itin-head"><span class="dnum">D5</span><span class="dsub">Tomamu · Shikotsu</span></div>
+          <p class="itin-route">霧冰平台・葡萄酒香</p>
+          <p class="itin-desc">搭乘雲海纜車直達霧冰平台，眺望結著冰、閃著純白光輝的樹木與壯麗的日高山脈。午後造訪千歲酒莊，在冰天雪地的北海道，品一杯涼爽北國氣候孕育的美味。傍晚移居支笏湖溫泉。</p>
+          <span class="season-tag">霧冰平台 冬季限定開放</span>
+          <div class="itin-meta"><span><b>住宿</b>支笏湖鶴雅渡假村</span></div>
+        </div>
+      </div>
+
+      <div class="itin-day reveal">
+        <div class="itin-photo">
+          <div class="two-img">
+            <img src="assets/photos/hokkaido/d6-hyoto.jpg" alt="支笏湖冰濤祭" loading="lazy">
+            <img src="assets/photos/hokkaido/d6-sankaku.jpg" alt="小樽三角市場" loading="lazy">
+          </div>
+        </div>
+        <div class="itin-body">
+          <div class="itin-head"><span class="dnum">D6</span><span class="dsub">Shikotsu · Otaru</span></div>
+          <p class="itin-route">冰濤祭・浪漫小樽</p>
+          <p class="itin-desc">支笏湖冰濤祭以湖水凍成的冰像林立，白天透著神秘的支笏湖藍、入夜點燈如夢似幻。午後前往小樽——運河沿岸紅磚倉庫、北一硝子館、蒸氣鐘、音樂盒堂，與三角市場的現流海鮮丼，用慢時光收尾。</p>
+          <span class="season-tag">支笏湖冰濤祭 期間限定</span>
+          <div class="itin-meta"><span><b>住宿</b>SAPPORO STREAM HOTEL（線流飯店）</span></div>
+        </div>
+      </div>
+
+      <div class="itin-day reveal">
+        <div class="itin-photo">
+          <div class="two-img">
+            <img src="assets/photos/hokkaido/d7-docho.jpg" alt="北海道舊道廳" loading="lazy">
+            <img src="assets/photos/hokkaido/d7-odori.jpg" alt="大通公園" loading="lazy">
+          </div>
+        </div>
+        <div class="itin-body">
+          <div class="itin-head"><span class="dnum">D7</span><span class="dsub">Sapporo Free Day</span></div>
+          <p class="itin-route">札幌慢時光・螃蟹之夜</p>
+          <p class="itin-desc">全日自由活動——悠閒漫步札幌街頭，往百貨商圈與藥妝店尋寶，或靜靜欣賞雪花飄落的大通公園。推薦走訪二條市場與北海道舊道廳。晚上回到團隊，享用季節螃蟹御膳——這一餐，留給北國的蟹。</p>
+          <div class="itin-meta"><span><b>住宿</b>SAPPORO STREAM HOTEL（線流飯店）</span></div>
+        </div>
+      </div>
+
+      <div class="itin-day reveal">
+        <div class="itin-photo"><img class="main-img" src="assets/photos/hokkaido/d8-outlet.jpg" alt="三井OUTLET PARK 札幌北廣島" loading="lazy"></div>
+        <div class="itin-body">
+          <div class="itin-head"><span class="dnum">D8</span><span class="dsub">Departure</span></div>
+          <p class="itin-route">最後採買・帶著雪的記憶回家</p>
+          <p class="itin-desc">回程前造訪三井 OUTLET PARK 札幌北廣島，做最後採買。抵達新千歲空港辦理退稅與登機手續，享用機場美食或選購伴手禮，搭乘直飛班機返回台北。</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tour-note reveal">
+      <p>※ 流冰平均每年約一月中至三月下旬抵達網走，受天氣、洋流影響可能調整；破冰船行程以當年度官方公告為準。三大祭典期間均為每年冬季限定，實際日期依年份調整，行前將提供最新確認資訊。</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer dark-lux" id="contact">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="logo"><img src="assets/corner-logo.png" alt="角落旅行社 corner"></a>
+        <p style="font-family:'Cormorant Garamond',serif;font-style:normal;font-size:17px;line-height:1.7;color:var(--gold-bright);margin-bottom:16px">如果可以，讓我們一同探索世界上每個角落。</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>10350 台北市大同區重慶北路一段67號8樓之2</p>
+        <p><a href="tel:+886277516051,9">02-7751-6051 #9</a></p>
+        <p>傳真 02-2552-1332</p>
+        <p><a href="mailto:sales@cornertravel.com.tw">sales@cornertravel.com.tw</a></p>
+      </div>
+      <div>
+        <h4>Follow</h4>
+        <p><a href="https://www.instagram.com/cornertravel.w/" target="_blank" rel="noopener">IG ＠cornertravel.w</a></p>
+        <p><a href="https://www.facebook.com/corner.travel.w" target="_blank" rel="noopener">FB 角落旅行社</a></p>
+        <p><a href="https://lin.ee/Vwe6iYU" target="_blank" rel="noopener">LINE 線上諮詢</a></p>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p>© 2025 角落旅行社 CORNER TRAVEL．台北</p>
+      <p>角落旅行社股份有限公司　統一編號 83212711</p>
+      <p>交觀甲06015　品保協會 北2551</p>
+    </div>
+  </div>
+</footer>
+
+<script src="corner.js"></script>
+<script src="chat-widget.js" data-site-key="wsc_dce1a4c06f9c3dbf463454258e368ea0" data-endpoint="https://erp.venturo.tw/api/website/chat" defer></script>
+</body>
+</html>
