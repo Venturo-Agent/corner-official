@@ -3,9 +3,9 @@
 純靜態網站（HTML / CSS / JS，無框架）。這是真實客戶 **角落旅行社 CORNER TRAVEL** 的對外行銷官網，與「一棧 ERP（yizhan-erp）」專案**完全分開、互不相干**。
 
 ## 部署（唯一方式）
-- 這個資料夾本身就是 git repo，連到 **github.com/Venturo-Agent/corner-travel-preview**（PUBLIC、main 分支）。
+- 這個資料夾本身就是 git repo，連到 **github.com/Venturo-Agent/corner-official**（PUBLIC、main 分支）。
 - 改完即部署：`git add -A && git commit -m "..." && git push origin main` → GitHub Pages 自動建置（約 10–30 秒）。
-- 線上網址：**https://venturo-agent.github.io/corner-travel-preview/**
+- 線上網址：**https://venturo-agent.github.io/corner-official/**
 - ⚠️ **絕不要**把這個站推進 yizhan-erp repo（那個 repo 一 push 就會觸發 ERP 正式環境部署，客戶在用）。
 
 ## 檔案結構

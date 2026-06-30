@@ -2,7 +2,7 @@
 
 角落旅行社的對外行銷官網（純靜態，HTML/CSS/JS）。
 
-🌐 **線上：** https://venturo-agent.github.io/corner-travel-preview/
+🌐 **線上：** https://venturo-agent.github.io/corner-official/
 
 ## 開發 / 部署
 這個資料夾就是 GitHub repo，改完直接推就上線：
