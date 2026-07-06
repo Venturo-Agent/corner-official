@@ -1,277 +1,368 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>檳城・吉隆坡 典藏五日｜角落旅行社 CORNER TRAVEL．精選行程</title>
-<meta name="description" content="檳城・吉隆坡典藏五日：世界文化遺產喬治市、百年東方大酒店、紅樹林老鷹餵食秀。角落旅行社精選行程，2026/11/11 出發。">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="corner.css?v=2">
-<style>
-  /* ===== tour-penang 專屬（共用元件走 corner.css，架構同 tour-fuji） ===== */
-  .hero{position:relative;height:82vh;min-height:600px;max-height:920px;overflow:hidden;display:flex;align-items:flex-end}
-  .hero-img{position:absolute;top:-10%;left:0;right:0;height:120%;z-index:0;overflow:hidden}
-  .hero-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);animation:kenburns 40s var(--ease-expo) forwards}
-  @keyframes kenburns{to{transform:scale(1.12) translate(-2%,-2%)}}
-  .hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:
-    radial-gradient(120% 95% at 12% 100%, rgba(16,12,8,.92) 0%, rgba(16,12,8,.5) 32%, transparent 62%),
-    linear-gradient(to bottom, rgba(16,12,8,.55) 0%, transparent 20%),
-    radial-gradient(140% 130% at 50% 42%, transparent 55%, rgba(8,6,4,.5) 100%);}
-  .hero-back{position:absolute;top:calc(var(--s8) - 12px);left:max(var(--s5),calc((100vw - 1280px)/2 + var(--s5)));z-index:3}
-  .hero-back a{color:var(--paper-dim);font-size:14px;letter-spacing:.1em} .hero-back a:hover{color:#fff}
-  .hero-inner{position:relative;z-index:2;width:100%;padding-bottom:var(--s8)}
-  .hero-inner .kicker{margin-bottom:var(--s4)}
-  .hero h1{margin-bottom:var(--s3)}
-  .hero h1 .en{display:block;font-family:"Cormorant Garamond",serif;font-weight:300;font-size:clamp(48px,7vw,100px);line-height:.98;letter-spacing:-.01em;color:var(--paper);text-shadow:0 1px 2px rgba(0,0,0,.6),0 12px 40px rgba(0,0,0,.45)}
-  .hero h1 .cn{display:block;font-family:"Noto Serif TC",serif;font-weight:500;font-size:clamp(26px,3.4vw,42px);letter-spacing:.14em;color:var(--gold-bright);margin-top:10px}
-  .hero-lead{max-width:34em;font-size:18px;line-height:1.9;color:var(--paper-dim);margin-bottom:var(--s5)}
-  .hero-facts{display:flex;gap:var(--s5);flex-wrap:wrap;color:var(--paper-dim);font-size:14px;letter-spacing:.06em}
-  .hero-facts b{color:var(--gold-bright);font-weight:500;margin-right:8px}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>檳城・吉隆坡 典藏五日 — corner travel</title>
+  <meta name="description" content="檳城・吉隆坡典藏五日：世界文化遺產喬治市、百年東方大酒店、紅樹林老鷹餵食秀。角落旅行社精選行程。" />
 
-  /* 行程總覽（深色 band，對齊 fuji-loc 位置區塊） */
-  .pen-overview{position:relative;background:var(--ink-deep,#171210);color:var(--paper);overflow:hidden}
-  .pen-overview::before{content:"";position:absolute;inset:0;background:
-    radial-gradient(120% 90% at 78% 50%, rgba(201,166,120,.10) 0%, transparent 60%),
-    radial-gradient(140% 120% at 50% 120%, transparent 50%, rgba(0,0,0,.5) 100%);pointer-events:none}
-  .pen-overview .wrap{position:relative;z-index:1;padding:var(--s8) 0}
-  .pen-overview .kicker .cn{color:var(--paper-dim)}
-  .pen-overview h2{color:var(--paper)}
-  .pen-overview .h2cn{color:var(--gold-bright)}
-  .pen-overview p{max-width:56em;font-size:16px;line-height:2;color:var(--paper-dim);margin-top:var(--s4)}
-  .pen-facts{display:flex;gap:var(--s6);flex-wrap:wrap;margin-top:var(--s6)}
-  .pen-facts .f k{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(219,208,192,.55)}
-  .pen-facts .f b{display:block;font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:500;color:var(--gold-bright);margin-top:6px}
-
-  /* 行程表（同 fuji：itin-day 逐日；每日多加一張主圖） */
-  .itin{max-width:940px;margin:0 auto}
-  .itin-day{display:grid;grid-template-columns:96px 1fr;gap:var(--s5);padding:var(--s5) 0;border-top:1px solid var(--line)}
-  .itin-day:last-child{border-bottom:1px solid var(--line)}
-  .itin-d .dnum{font-family:"Cormorant Garamond",serif;font-size:46px;line-height:1;color:var(--gold)}
-  .itin-d .dsub{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(42,37,32,.5);margin-top:6px}
-  .itin-photo{width:100%;aspect-ratio:16/9;object-fit:cover;margin-bottom:16px;border-radius:2px}
-  .itin-route{font-family:"Noto Serif TC",serif;font-size:17px;line-height:2;color:var(--ink);margin-bottom:16px}
-  .itin-meta{display:flex;flex-wrap:wrap;gap:10px 32px;font-size:14px;color:rgba(42,37,32,.66);border-top:1px dashed var(--line);padding-top:14px}
-  .itin-meta b{color:var(--gold-deep);font-weight:500;margin-right:8px;letter-spacing:.05em}
-  .tour-note{max-width:940px;margin:var(--s6) auto 0;padding:var(--s5);background:var(--bg-warm,#EDE4D5);border-left:2px solid var(--gold)}
-  .tour-note p{font-size:14.5px;line-height:1.9;color:rgba(42,37,32,.75);margin:0}
-  .tour-price{max-width:940px;margin:var(--s6) auto 0;padding:var(--s5);border:1px solid var(--line)}
-  .tour-price .row{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px dashed var(--line)}
-  .tour-price .row:last-child{border-bottom:none}
-  .tour-price .cls{font-size:15px;color:var(--ink)}
-  .tour-price .amt{font-family:"Cormorant Garamond",serif;font-size:28px;color:var(--gold-deep)}
-  .tour-price .amt small{font-family:"Noto Serif TC",serif;font-size:13px;color:rgba(42,37,32,.6);margin-left:4px}
-  .tour-cta{text-align:center;margin-top:var(--s7)}
-  @media(max-width:680px){.itin-day{grid-template-columns:1fr;gap:10px}.itin-d{display:flex;align-items:baseline;gap:14px}.itin-d .dsub{margin-top:0}}
-
-  /* ===== 固定森林深底（對齊首頁沉浸感） ===== */
-  body{background:transparent!important}
-  .page-bg{position:fixed;inset:0;z-index:-2;overflow:hidden;background:#0d0f0e}
-  .pb-forest{position:absolute;inset:-8%;background:url("assets/photos/forest-bg.jpg") center/cover no-repeat;will-change:transform;animation:forestDrift 46s ease-in-out infinite alternate}
-  .pb-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,13,12,.5) 0%,rgba(11,13,12,.72) 60%,rgba(11,13,12,.82) 100%)}
-  .pb-fog{position:absolute;inset:-22%;background:url("assets/photos/fog-layer.jpg") center/cover no-repeat;mix-blend-mode:screen;opacity:.34;filter:blur(11px) saturate(0);will-change:transform;animation:fogDrift 26s linear infinite alternate}
-  @keyframes forestDrift{from{transform:scale(1.05) translate(-1.4%,0.6%)}to{transform:scale(1.12) translate(1.6%,-1.4%)}}
-  @keyframes fogDrift{from{transform:translate(-9%,1%) scale(1.14)}to{transform:translate(9%,-4%) scale(1.24)}}
-  @media(prefers-reduced-motion:reduce){.pb-forest,.pb-fog{animation:none}}
-
-  /* ===== 行程區：深色透明卡、文字轉淺 ===== */
-  .sec .sec-head h2,.sec .sec-head .h2cn{color:var(--paper)}
-  .sec .sec-head .kicker .cn{color:var(--paper-dim)}
-  .itin{background:rgba(18,16,14,.52);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);border:1px solid rgba(230,199,156,.16);border-radius:4px;padding:clamp(18px,3.4vw,44px)}
-  .itin-day{border-top-color:rgba(230,199,156,.16)}
-  .itin-day:last-child{border-bottom-color:rgba(230,199,156,.16)}
-  .itin-d .dsub{color:rgba(219,208,192,.55)}
-  .itin-route{color:rgba(244,238,228,.92)}
-  .itin-meta{color:rgba(219,208,192,.72);border-top-color:rgba(255,255,255,.14)}
-  .itin-meta b{color:var(--gold-bright)}
-  .tour-note{background:rgba(18,16,14,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-left:2px solid var(--gold)}
-  .tour-note p{color:rgba(219,208,192,.8)}
-  .tour-price{background:rgba(18,16,14,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-color:rgba(230,199,156,.16)}
-  .tour-price .cls{color:rgba(244,238,228,.9)}
-  .tour-price .row{border-bottom-color:rgba(255,255,255,.14)}
-  .tour-price .amt small{color:rgba(219,208,192,.6)}
-
-  /* ===== footer 對齊首頁：透明透出森林 + 淺字 ===== */
-  .dark-lux{background:transparent!important;border:none!important}
-  .footer-grid p{color:var(--paper-dim)}
-  .footer-grid .logo,.footer-grid .logo .cn2{color:var(--paper)}
-  .footer-grid a{color:var(--paper-dim)}
-  .footer-legal p{color:#9a9184}
-  /* ===== 探索世界 下拉選國家（照搬首頁）===== */
-  .nav-dd{position:relative}
-  .nav-dd::after{content:"";position:absolute;top:100%;left:-10px;right:-10px;height:20px}
-  .nav-dd-menu{position:absolute;top:calc(100% + 18px);left:50%;transform:translateX(-50%) translateY(8px);min-width:212px;background:rgba(20,17,14,.97);backdrop-filter:blur(12px);border:1px solid rgba(201,166,120,.25);padding:10px 0;opacity:0;visibility:hidden;transition:opacity .32s var(--ease-expo),transform .32s var(--ease-expo);z-index:300;box-shadow:0 24px 60px -24px rgba(0,0,0,.7)}
-  .nav-dd:hover .nav-dd-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
-  .nav-dd-menu a{display:block;padding:10px 24px;font-size:14px;letter-spacing:.12em;color:var(--paper-dim)!important;transition:background .25s,color .25s}
-  .nav-dd-menu a::after{display:none!important}
-  .nav-dd-menu a:hover{background:rgba(201,166,120,.14);color:var(--gold-bright)!important}
-</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/cis.css" />
 </head>
-<body>
-<div class="page-bg"><div class="pb-forest"></div><div class="pb-veil"></div><div class="pb-fog"></div></div>
+<body class="font-body" data-page="tour">
 
-<nav id="nav" class="over-hero">
-  <a href="index.html" class="logo"><img src="assets/corner-logo.png" alt="角落旅行社 corner"></a>
-  <div class="nav-links">
-    <div class="nav-dd">
-      <a class="nav-dd-t" href="index.html#trips">探索世界</a>
-      <div class="nav-dd-menu">
-        <a href="destination-vietnam.html">越南 · Vietnam</a>
-        <a href="moments.html">峇里 · Bali</a>
-        <a href="tour-fuji.html">日本 · Japan</a>
-        <a href="tour-penang.html">馬來西亞 · Malaysia</a>
-        <a href="moments.html">泰國 · Thailand</a>
-        <a href="moments.html">韓國 · Korea</a>
-        <a href="moments.html">中國 · China</a>
-        <a href="moments.html">埃及 · Egypt</a>
+  <div data-mount="nav"></div>
+
+  <!-- ===== PAGE HERO（由 ITINERARY 資料填入）===== -->
+  <section class="page-hero" style="border-bottom:none;padding-bottom:var(--s8)">
+    <div class="wrap" style="max-width:1240px">
+      <nav class="crumb" aria-label="breadcrumb">
+        <a href="index.html" data-i18n="nav.home">首頁</a><span class="sep">/</span>
+        <a href="tours.html" data-i18n="nav.tours">行程</a><span class="sep">/</span>
+        <span class="here" id="crumb-here">檳城・吉隆坡 典藏五日</span>
+      </nav>
+      <div class="eyebrow mt-6" id="hero-eyebrow"></div>
+      <h1 class="h-sec mt-4" id="hero-title" style="line-height:1.04"></h1>
+      <p class="lead mt-4 maxw-720" id="hero-sub"></p>
+    </div>
+  </section>
+
+  <!-- 封面大圖 -->
+  <div class="wrap" style="max-width:1240px">
+    <div class="day-img" id="hero-cover" style="aspect-ratio:21/9" data-reveal></div>
+  </div>
+
+  <!-- ===== 總覽 + 事實 ===== -->
+  <section>
+    <div class="wrap" style="max-width:1240px">
+      <div class="itin-overview">
+        <div data-reveal>
+          <div class="eyebrow" data-i18n="tour.overview.eyebrow">Overview</div>
+          <p class="mt-6" id="overview-intro" style="font-size:var(--t-1);line-height:var(--lh-body)"></p>
+        </div>
+        <div class="itin-facts" id="overview-facts" data-reveal data-delay="1"></div>
       </div>
     </div>
-    <a href="index.html#why">關於角落</a>
-    <a href="index.html#how">訂製行程</a>
-    <a href="index.html#trips">正在出發</a>
-    <a href="index.html#contact">聯絡</a>
-    <a href="index.html#contact" class="nav-cta">預約諮詢</a>
-  </div>
-  <button class="nav-toggle" aria-label="選單"><span></span><span></span><span></span></button>
-</nav>
-<div class="nav-menu">
-  <a href="moments.html">探索世界</a><a href="index.html#why">關於角落</a><a href="index.html#how">訂製行程</a><a href="index.html#trips">正在出發</a><a href="index.html#contact">聯絡</a><a href="index.html#contact">預約諮詢</a>
-</div>
+  </section>
 
-<!-- ===== HERO ===== -->
-<header class="hero">
-  <div class="hero-img"><img src="assets/photos/penang/hero-georgetown.jpg" alt="檳城 喬治市" loading="eager"></div>
-  <div class="hero-scrim"></div>
-  <div class="hero-back"><a href="index.html#trips">← 返回 正在出發</a></div>
-  <div class="hero-inner wrap">
-    <div class="kicker">NOW DEPARTING<span class="sep"></span><span class="cn">馬來西亞・典藏</span></div>
-    <h1><span class="en">Penang &amp; KL</span><span class="cn">檳城・吉隆坡 典藏五日</span></h1>
-    <p class="hero-lead">世界文化遺產喬治市、百年東方大酒店、紅樹林老鷹餵食秀——把南洋最醇的五天，一次收進行囊。</p>
-    <div class="hero-facts">
-      <span><b>出發</b>2026.11.11</span>
-      <span><b>天數</b>5 天</span>
-      <span><b>航班</b>星宇直飛</span>
-      <span><b>住宿</b>全程五星</span>
-    </div>
-  </div>
-</header>
-
-<!-- ===== 行程總覽 ===== -->
-<section class="pen-overview">
-  <div class="wrap">
-    <div class="reveal" data-reveal-title>
-      <div class="kicker">OVERVIEW<span class="sep"></span><span class="cn">行程總覽</span></div>
-      <h2 class="display">Five days, well kept</h2>
-      <span class="h2cn">從喬治市老街到布城粉紅清真寺</span>
-      <p>這趟旅程從檳城出發：喬治市的老街上，觀音亭、興都廟、清真寺與教堂同在一條和諧街；雨城太平的湖畔百年雨樹垂向水面；紅樹林裡老鷹俯衝掠食。第三晚入住 1885 年開業的 Eastern &amp; Oriental 東方大酒店海景套房，毛姆住過的傳奇門面，今晚是你的。最後兩天南下怡保與吉隆坡，從二奶巷的故事走到雙子星塔的燈火，再以布城粉紅清真寺收尾。</p>
-      <div class="pen-facts">
-        <div class="f"><k>出發</k><b>2026.11.11</b></div>
-        <div class="f"><k>天數</k><b>5 天</b></div>
-        <div class="f"><k>航班</k><b>星宇直飛</b></div>
-        <div class="f"><k>住宿</k><b>全程五星</b></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 行程 ===== -->
-<section class="sec">
-  <div class="wrap">
-    <div class="sec-head reveal" data-reveal-title>
-      <div class="kicker">ITINERARY<span class="sep"></span><span class="cn">每日行程</span></div>
-      <h2 class="display">Day by day</h2>
-      <span class="h2cn">五天，從喬治市走到布城</span>
-    </div>
-
-    <div class="itin">
-      <div class="itin-day reveal">
-        <div class="itin-d"><span class="dnum">D1</span><span class="dsub">George Town</span></div>
-        <div class="itin-body">
-          <img class="itin-photo" src="assets/photos/penang/penang-intro.jpg" alt="初抵檳城・喬治市" loading="lazy">
-          <p class="itin-route">星宇午前班機出發，經吉隆坡轉機，傍晚抵達素有「亞洲熱帶花園」美稱的檳城，夜宿喬治市。首府喬治市是一座 19 世紀中古城市——古老廟宇、會館、老商店錯落街頭，濃厚的南洋風情，從晚餐的第一口開始。</p>
-          <div class="itin-meta"><span><b>餐食</b>早 — ／午 機上簡餐 ／晚 唐小龍餐廳</span><span><b>住宿</b>檳城五星 Fifth Avenue Hotel 或同級</span></div>
+  <!-- ===== 逐日行程（renderer 吃 ITINERARY.daily_itinerary 生出）===== -->
+  <section style="padding-top:0">
+    <div class="wrap" style="max-width:1240px">
+      <div class="section-head" style="margin-bottom:var(--s8)">
+        <div data-reveal>
+          <div class="eyebrow" data-i18n="tour.days.eyebrow">Day by Day</div>
+          <h2 class="h-sec mt-6" data-i18n="tour.days.title">五天怎麼走</h2>
         </div>
       </div>
-      <div class="itin-day reveal">
-        <div class="itin-d"><span class="dnum">D2</span><span class="dsub">Taiping · Mangrove</span></div>
-        <div class="itin-body">
-          <img class="itin-photo" src="assets/photos/penang/eagle-eco.jpg" alt="綠灣生態探索・老鷹餵食秀" loading="lazy">
-          <p class="itin-route">從太平湖的百年雨樹，到紅樹林上空俯衝的老鷹，再走進一條街四種信仰的和諧街——這是行程裡最豐盛的一天。乘船深入全馬最大的紅樹林生態保護區，老鷹倏地俯衝、利爪掠食再直上青天，宛如親臨 Discovery 現場；魚排養殖場還能體驗餵食石斑、看手臂長的彈塗魚。途中造訪十八丁紅木黑金炭窯、全馬第一條鐵路遺跡與十八丁漁村，傍晚走進和諧街・小印度區，甲必丹吉寧回教堂與觀音廟相映成趣。</p>
-          <div class="itin-meta"><span><b>餐食</b>早 飯店 ／午 中式海鮮風味餐 ／晚 米其林推薦 Ivy 娘惹餐</span><span><b>住宿</b>檳城五星 Fifth Avenue Hotel 或同級（續住）</span></div>
+      <div id="days"></div>
+    </div>
+  </section>
+
+  <!-- ===== 價格 ===== -->
+  <section class="price-block" id="price-block" style="padding-bottom:var(--s16)">
+    <div class="wrap" style="max-width:1240px">
+      <div class="eyebrow" data-i18n="tour.price.eyebrow">Pricing</div>
+      <h2 class="h-sec mt-6" data-i18n="tour.price.title">團費與包含</h2>
+      <div class="grid grid-2 mt-8" style="gap:var(--s12);align-items:start">
+        <div>
+          <div class="price-rows" id="price-rows"></div>
+          <p class="mt-6" id="price-note" style="color:rgba(255,255,255,.6);font-size:13px;line-height:1.9"></p>
         </div>
+        <div id="price-detail"></div>
       </div>
-      <div class="itin-day reveal">
-        <div class="itin-d"><span class="dnum">D3</span><span class="dsub">Penang Hill · E&amp;O</span></div>
-        <div class="itin-body">
-          <img class="itin-photo" src="assets/photos/penang/penang-hill.jpg" alt="升旗山纜車" loading="lazy">
-          <p class="itin-route">上午纜車直上檳城之巔，下午出席國際獅子會開幕式，晚上入住 1885 年的東方大酒店海景套房——一天裡三個高點。海拔 830 公尺的檳城最高峰，1922 年啟用的纜車載您直上山頂，晴日可遠眺檳威海峽與跨海大橋；接著於 Setia SPICE Convention Centre 出席獅子會開幕式；夜晚入住 Eastern &amp; Oriental Hotel——毛姆、赫曼赫塞都曾是座上賓的殖民傳奇，今晚是你的 Victory Annexe 海景套房。</p>
-          <div class="itin-meta"><span><b>餐食</b>早 飯店 ／午 吳潮記肉骨茶 ／晚 E&amp;O 酒店自助餐</span><span><b>住宿</b>檳城五星 E&amp;O 東方大酒店（Victory Annexe 海景套房）</span></div>
-        </div>
-      </div>
-      <div class="itin-day reveal">
-        <div class="itin-d"><span class="dnum">D4</span><span class="dsub">Ipoh · Kuala Lumpur</span></div>
-        <div class="itin-body">
-          <img class="itin-photo" src="assets/photos/penang/concubine-lane.jpg" alt="怡保老街・二奶巷" loading="lazy">
-          <p class="itin-route">南下《Lonely Planet》亞洲十大美食之都怡保，走過 19 世紀富商為二房興建宅邸的二奶巷，正經歷一場文藝復興；傍晚抵達吉隆坡——1957 年國旗首次升起的獨立廣場、88 層晶瑩剔透的雙子星塔花園廣場、頂樓十英畝空中花園的 The Exchange TRX，一路走到南洋土特產店，伴手禮一次備齊。</p>
-          <div class="itin-meta"><span><b>餐食</b>早 飯店 ／午 芽菜雞風味餐 ／晚 Rama V 泰式庭園餐廳</span><span><b>住宿</b>吉隆坡五星 Kimpton Naluria KL（洲際集團）或同級</span></div>
-        </div>
-      </div>
-      <div class="itin-day reveal">
-        <div class="itin-d"><span class="dnum">D5</span><span class="dsub">Putrajaya · Home</span></div>
-        <div class="itin-body">
-          <img class="itin-photo" src="assets/photos/penang/pink-mosque.jpg" alt="布城・粉紅清真寺" loading="lazy">
-          <p class="itin-route">最後半天留給行政首都布城：四分之三建於湖面上、可容納一萬兩千人的粉紅色普特拉清真寺，是大馬最上相的打卡地標；接著是 650 公頃的布城湖與綠穹頂的首相署 Perdana Putra，然後星宇直飛，晚間回到桃園，結束五日典藏之旅。</p>
-          <div class="itin-meta"><span><b>餐食</b>早 飯店 ／午 隆盛東坡肉料理 ／晚 機上簡餐</span><span><b>住宿</b>—</span></div>
-        </div>
+      <div class="mt-8" style="display:flex;gap:var(--s3);flex-wrap:wrap">
+        <a href="contact.html" class="btn btn-primary"><span data-i18n="cta.book">預約諮詢</span></a>
+        <a href="tours.html" class="btn" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4)"><span data-i18n="tour.back">回行程列表</span></a>
       </div>
     </div>
+  </section>
 
-    <div class="tour-price reveal">
-      <div class="row"><span class="cls">現金優惠價</span><span class="amt">NT$ 43,000<small>／人</small></span></div>
-    </div>
+  <div data-mount="footer"></div>
 
-    <div class="tour-note reveal">
-      <p>＊報名訂金 NT$ 20,000／人，收取訂金後依國外旅遊定型化契約辦理。刷卡與單人房差請洽角落旅行社服務人員，實際以訂到機位為準。全程購物 2 站（土產店、巧克力專賣店），絕不強迫。費用包含來回機票與燃料稅、行程內餐食景點住宿、500 萬責任險＋20 萬意外醫療險、領隊導遊小費；不含台灣境內機場往返接送、新辦護照／台胞證或簽證費用、個人消費衍生之費用。</p>
-    </div>
+  <!-- ===== i18n 字典（本頁靜態 chrome）===== -->
+  <script src="assets/i18n.js"></script>
+  <script>
+    Corner.addDict({
+      "tour.overview.eyebrow": { zh:"行程總覽", en:"Overview" },
+      "tour.days.eyebrow":     { zh:"逐日行程", en:"Day by Day" },
+      "tour.days.title":       { zh:"五天怎麼走", en:"Five Days, Step by Step" },
+      "tour.price.eyebrow":    { zh:"團費", en:"Pricing" },
+      "tour.price.title":      { zh:"團費與包含", en:"Price & What's Included" },
+      "tour.back":             { zh:"回行程列表", en:"Back to Tours" },
+      "tour.kind.sight":   { zh:"景點", en:"Sight" },
+      "tour.kind.meal":    { zh:"餐食", en:"Meal" },
+      "tour.kind.exp":     { zh:"體驗", en:"Experience" },
+      "tour.kind.view":    { zh:"風景", en:"View" },
+      "tour.kind.transit": { zh:"交通", en:"Transit" },
+      "tour.kind.free":    { zh:"自由", en:"Free Time" },
+      "tour.meals":        { zh:"餐食安排", en:"Meals" },
+      "tour.b":            { zh:"早", en:"B" }, "tour.l":{ zh:"午", en:"L" }, "tour.d":{ zh:"晚", en:"D" },
+      "tour.stay":         { zh:"住宿", en:"Stay" },
+      "tour.incl":         { zh:"費用包含", en:"Included" },
+      "tour.excl":         { zh:"費用不含", en:"Not Included" }
+    });
 
-    <div class="tour-cta reveal">
-      <a class="btn-primary" href="index.html#contact">預約這趟旅程</a>
-    </div>
-  </div>
-</section>
+    /* ============================================================
+       行程資料（欄位對齊 ERP Itinerary / DailyItineraryDay / activities[]）
+       檳城・吉隆坡 典藏五日（2026/11/11 出發）
+       ============================================================ */
+    const ITINERARY = {
+      tour_code: "CNR-PEN-5D",
+      country: { zh:"馬來西亞", en:"Malaysia" },
+      days_count: 5,
+      title:    { zh:"檳城・吉隆坡 典藏五日", en:"Penang & Kuala Lumpur · 5 Days" },
+      subtitle: { zh:"2026/11/11（三）－11/15（日）。世界文化遺產喬治市、百年東方大酒店、紅樹林老鷹餵食秀——把南洋最醇的五天，一次收進行囊。",
+                  en:"Nov 11–15, 2026. George Town's World Heritage lanes, the legendary E&O Hotel, eagles over the mangroves — five days of the richest Nanyang, packed into one trip." },
+      cover_image: "images/penang/hero-georgetown.jpg",
+      intro: { zh:"這趟旅程從檳城出發：喬治市的老街上，觀音亭、興都廟、清真寺與教堂同在一條和諧街；雨城太平的湖畔百年雨樹垂向水面；紅樹林裡老鷹俯衝掠食。第三晚入住 1885 年開業的 Eastern & Oriental 東方大酒店海景套房，毛姆住過的傳奇門面，今晚是你的。最後兩天南下怡保與吉隆坡，從二奶巷的故事走到雙子星塔的燈火，再以布城粉紅清真寺收尾。",
+               en:"It begins in Penang — on Harmony Street, a temple, a mosque and a church share one block; rain trees lean over Taiping Lake; eagles dive over the mangroves. On night three, check into the Eastern & Oriental, the 1885 colonial legend where Maugham once stayed — tonight it's yours. Then south through Ipoh's storied lanes to the lights of KLCC, closing at Putrajaya's Pink Mosque." },
+      facts: [
+        { k:{zh:"出發",en:"Departure"}, v:{zh:"2026.11.11",en:"Nov 11, 2026"} },
+        { k:{zh:"天數",en:"Duration"},  v:{zh:"5 天",en:"5 Days"} },
+        { k:{zh:"航班",en:"Flights"},   v:{zh:"星宇直飛",en:"STARLUX"} },
+        { k:{zh:"住宿",en:"Stay"},      v:{zh:"全程五星",en:"All 5-star"} }
+      ],
+      daily_itinerary: [
+        {
+          dayLabel:"Day 1", date:{zh:"11.11 (三)",en:"Nov 11 Wed"},
+          title:{ zh:"啟程・飛向亞洲熱帶花園", en:"Departure · To the Tropical Garden of Asia" },
+          highlight:{ zh:"星宇午前班機出發，經吉隆坡轉機，傍晚抵達素有「亞洲熱帶花園」美稱的檳城，夜宿喬治市。",
+                      en:"A late-morning STARLUX flight via Kuala Lumpur lands you in Penang by evening — the 'Tropical Garden of Asia', home for the next three nights." },
+          activities:[
+            { kind:"transit", title:{zh:"桃園 11:00 — 吉隆坡 16:00（星宇 JX725）",en:"Taoyuan 11:00 — Kuala Lumpur 16:00 (JX725)"},
+              description:{zh:"星宇航空直飛吉隆坡，續轉馬航 MH1162（18:50—19:50）抵達檳城。",en:"STARLUX direct to KL, connecting on MH1162 (18:50–19:50) into Penang."} },
+            { kind:"sight", lead:true, image:"images/penang/penang-intro.jpg",
+              title:{zh:"初抵檳城・喬治市",en:"First Evening in George Town"},
+              description:{zh:"首府喬治市是一座 19 世紀中古城市——古老廟宇、會館、老商店錯落街頭，濃厚的南洋風情，從晚餐的第一口開始。",en:"George Town is a living 19th-century city — temples, clan halls and shophouses down every street. The Nanyang mood starts with tonight's first bite."} }
+          ],
+          meals:{ breakfast:{zh:"—",en:"—"}, lunch:{zh:"機上簡餐",en:"In-flight"}, dinner:{zh:"唐小龍餐廳",en:"Tang Xiao Long"} },
+          accommodation:{zh:"檳城五星 Fifth Avenue Hotel 或同級",en:"Fifth Avenue Hotel, Penang (5★) or similar"}, accommodationRating:5
+        },
+        {
+          dayLabel:"Day 2", date:{zh:"11.12 (四)",en:"Nov 12 Thu"},
+          title:{ zh:"雨城太平・紅樹林生態・世遺和諧街", en:"Taiping · Mangrove Eco · Harmony Street" },
+          highlight:{ zh:"從太平湖的百年雨樹，到紅樹林上空俯衝的老鷹，再走進一條街四種信仰的和諧街——這是行程裡最豐盛的一天。",
+                      en:"From century-old rain trees over Taiping Lake to eagles diving above the mangroves, ending on a street where four faiths share one block — the fullest day of the trip." },
+          activities:[
+            { kind:"sight", image:"images/penang/taiping-lake.jpg", title:{zh:"太平湖公園・綠臂擒波",en:"Taiping Lake Gardens"},
+              description:{zh:"「雨城」太平擁有全馬 31 個第一。錫礦湖改建的太平湖畔，百年雨樹枝幹婀娜伸向湖面，是歷史古城最詩意的一景。",en:"Taiping, the 'rain town', holds 31 Malaysian firsts. By the old tin-mine lake, century rain trees arch over the water — the most poetic corner of the old city."} },
+            { kind:"exp", image:"images/penang/charcoal-kiln.jpg", title:{zh:"十八丁紅木黑金炭窯",en:"Kuala Sepetang Charcoal Kilns"},
+              description:{zh:"紅磚砌成、形如冰屋的百年炭窯，把紅木燒成當地人口中的「黑金」。現場每人一顆窯烤黃金薯，香氣十足。",en:"Igloo-like brick kilns turn mangrove wood into 'black gold'. A kiln-baked sweet potato for everyone, straight from the heat."} },
+            { kind:"sight", image:"images/penang/port-weld.jpg", title:{zh:"全馬第一條鐵路遺跡",en:"Malaysia's First Railway"},
+              description:{zh:"1885 年英殖民政府為運錫礦建成大馬史上第一條鐵路。老街上仍保存著以四種文字書寫的「砵威 Port Weld」終點老石碑。",en:"Built in 1885 to haul tin, Malaysia's first railway ended here — the Port Weld marker still reads in four scripts."} },
+            { kind:"sight", image:"images/penang/kuala-sepetang.jpg", title:{zh:"十八丁漁村",en:"Kuala Sepetang Fishing Village"},
+              description:{zh:"霹靂州靠海的傳統漁村，漁船倚著水道緩緩進出，至今仍保留質樸的漁家風貌。",en:"A working Perak fishing village, boats sliding in and out of the channel as they always have."} },
+            { kind:"exp", lead:true, image:"images/penang/eagle-eco.jpg",
+              title:{zh:"綠灣生態探索・老鷹餵食秀",en:"Mangrove Eco Cruise · Eagle Feeding"},
+              description:{zh:"乘船深入全馬最大的紅樹林生態保護區——雞皮灑向海面，老鷹倏地俯衝、利爪掠食再直上青天，宛如親臨 Discovery 現場；魚排養殖場還能體驗餵食石斑、看手臂長的彈塗魚和愛生氣的河豚。",en:"Cruise deep into Malaysia's largest mangrove reserve — bait hits the water and eagles drop from the sky, talons first, then climb away. At the fish farms, feed groupers and meet arm-long mudskippers."} },
+            { kind:"sight", image:"images/penang/mangrove-walk.jpg", title:{zh:"紅樹林保留地步道",en:"Mangrove Boardwalk"},
+              description:{zh:"西馬最大的紅樹林保留地，木棧道蜿蜒林間，是認識紅樹林生態最舒服的方式。",en:"The largest mangrove reserve in West Malaysia — a boardwalk winds through the forest at walking pace."} },
+            { kind:"sight", image:"images/penang/little-india.jpg", title:{zh:"和諧街・小印度區",en:"Harmony Street · Little India"},
+              description:{zh:"一條街匯聚觀音亭、興都廟、清真寺與教堂四種信仰，4,500 多家老店舖交織出喬治市的多元面貌。走進小印度，拉茶與咖哩香應有盡有。",en:"One street, four faiths — temple, mosque, church and shrine among 4,500 old shophouses. In Little India, pulled tea and curry on the air."} },
+            { kind:"sight", image:"images/penang/kapitan-keling.jpg", title:{zh:"甲必丹吉寧回教堂",en:"Kapitan Keling Mosque"},
+              description:{zh:"檳城最古老、最著名的清真寺，1910 年擴建出優雅的莫卧兒風格圓頂，是和諧街上最醒目的地標。",en:"Penang's oldest great mosque, its Mughal domes added in 1910 — the landmark of Harmony Street."} },
+            { kind:"sight", image:"images/penang/kuan-yin-temple.jpg", title:{zh:"觀音廟",en:"Kuan Yin Temple"},
+              description:{zh:"建於 1800 年左右、逾 200 年歷史的檳城最古老廟宇，香火鼎盛。",en:"Penang's oldest temple, built around 1800 and busy with incense ever since."} }
+          ],
+          meals:{ breakfast:{zh:"飯店",en:"Hotel"}, lunch:{zh:"中式海鮮風味餐",en:"Chinese seafood"}, dinner:{zh:"米其林推薦 Ivy 娘惹餐",en:"Ivy's Nyonya (Michelin-listed)"} },
+          accommodation:{zh:"檳城五星 Fifth Avenue Hotel 或同級",en:"Fifth Avenue Hotel, Penang (5★) or similar"}, accommodationRating:5, isSameAccommodation:true
+        },
+        {
+          dayLabel:"Day 3", date:{zh:"11.13 (五)",en:"Nov 13 Fri"},
+          title:{ zh:"升旗山攬勝・大會開幕式・夜宿東方傳奇", en:"Penang Hill · Convention Opening · A Night at the E&O" },
+          highlight:{ zh:"上午纜車直上檳城之巔，下午出席國際獅子會開幕式，晚上入住 1885 年的東方大酒店海景套房——一天裡三個高點。",
+                      en:"Up Penang Hill by funicular in the morning, the Lions convention opening at 13:30, and a night in the 1885 E&O's sea-view suites — three peaks in one day." },
+          activities:[
+            { kind:"sight", lead:true, image:"images/penang/penang-hill.jpg",
+              title:{zh:"升旗山纜車・快速通關",en:"Penang Hill Funicular · Fast Track"},
+              description:{zh:"海拔 830 公尺的檳城最高峰，1922 年啟用的纜車載您直上山頂。晴日可遠眺檳威海峽、光大大樓與跨海大橋；山上保留殖民時期度假別墅與高地花園。並特別招待酪梨果汁一杯。（若遇纜車維修，改以極樂寺纜車替代）",en:"At 830 m, Penang's highest point — the 1922 funicular runs straight to the summit, with the strait and bridges below on a clear day. Avocado juice on us. (If under maintenance, the Kek Lok Si lift stands in.)"} },
+            { kind:"exp", title:{zh:"13:30 國際獅子會 開幕式",en:"13:30 Lions Clubs Opening Ceremony"},
+              description:{zh:"本團重點行程——於檳城國際會展中心 Setia SPICE Convention Centre 隆重舉行，與各地獅友共襄盛舉。",en:"The heart of this tour — held at the Setia SPICE Convention Centre, together with Lions from around the world."} },
+            { kind:"sight", title:{zh:"夜宿傳奇・E&O 東方大酒店",en:"The Legend · Eastern & Oriental Hotel"},
+              description:{zh:"1885 年開業的 Eastern & Oriental Hotel 是檳城殖民時代的傳奇門面，毛姆、赫曼赫塞都曾是座上賓。今晚入住 Victory Annexe 海景套房，並於酒店內享用自助晚宴。",en:"Open since 1885, the E&O is the colonial legend of Penang — Maugham and Hesse both stayed. Tonight: a Victory Annexe sea-view suite and the hotel's buffet dinner."} }
+          ],
+          meals:{ breakfast:{zh:"飯店",en:"Hotel"}, lunch:{zh:"吳潮記肉骨茶",en:"Bak kut teh at Goh Teo Kee"}, dinner:{zh:"E&O 酒店自助餐",en:"E&O hotel buffet"} },
+          accommodation:{zh:"檳城五星 E&O 東方大酒店（Victory Annexe 海景套房）",en:"Eastern & Oriental Hotel (Victory Annexe Studio Suite)"}, accommodationRating:5
+        },
+        {
+          dayLabel:"Day 4", date:{zh:"11.14 (六)",en:"Nov 14 Sat"},
+          title:{ zh:"怡保老街・首都吉隆坡", en:"Ipoh Old Town · Kuala Lumpur" },
+          highlight:{ zh:"南下《Lonely Planet》亞洲十大的怡保，走過二奶巷的故事，傍晚抵達吉隆坡——獨立廣場、雙子星塔到 TRX 空中花園。",
+                      en:"South to Ipoh, Lonely Planet's Asian top-ten food town, then into KL by evening — Merdeka Square, the Twin Towers, and the TRX sky park." },
+          activities:[
+            { kind:"sight", lead:true, image:"images/penang/concubine-lane.jpg",
+              title:{zh:"怡保老街・二奶巷",en:"Ipoh · Concubine Lane"},
+              description:{zh:"《Lonely Planet》評選亞洲十大最佳景點的美食之都怡保，正經歷一場文藝復興。19 世紀富商為二房興建宅邸的二奶巷，與妻子巷、三奶巷交織成最有故事的老城街區。",en:"Ipoh — Lonely Planet's pick among Asia's best — is mid-renaissance. Concubine Lane, built by a tin tycoon for his second wife, anchors the old town's most storied blocks."} },
+            { kind:"sight", image:"images/penang/merdeka-square.jpg", title:{zh:"吉隆坡・獨立廣場",en:"Merdeka Square"},
+              description:{zh:"1957 年馬來西亞國旗首次在此升起，廣場上豎立著全球最高旗桿之一，摩爾風建築與哥德式教堂環繞。",en:"Where the Malaysian flag first rose in 1957 — one of the world's tallest flagpoles, ringed by Moorish and Gothic landmarks."} },
+            { kind:"sight", image:"images/penang/klcc-twin-towers.jpg", title:{zh:"雙子星塔花園廣場",en:"Petronas Twin Towers"},
+              description:{zh:"88 層、世界最高雙棟大樓，入夜後晶瑩剔透。（雙子星塔為國油辦公大樓，於廣場及商場欣賞外觀）",en:"The 88-storey twin icons, crystalline after dark. (Office towers — viewed from the park and mall below.)"} },
+            { kind:"sight", image:"images/penang/trx.jpg", title:{zh:"The Exchange TRX 新地標",en:"The Exchange TRX"},
+              description:{zh:"全馬最華麗的購物廣場——超過 500 間商店，頂樓 10 英畝空中花園是吉隆坡近 20 年來首座新建公共公園，自由漫逛最是愜意。",en:"Malaysia's most polished mall — 500+ shops under a ten-acre rooftop park, KL's first new public park in two decades."} },
+            { kind:"free", title:{zh:"南洋土特產巡禮",en:"Nanyang Specialties"},
+              description:{zh:"途經土產店與巧克力專賣店：豆蔻膏、白咖啡、肉骨茶包、東革阿里與多種口味巧克力，伴手禮一次備齊。",en:"A stop for nutmeg balm, white coffee, bak kut teh packs and chocolates — gifts settled in one go."} }
+          ],
+          meals:{ breakfast:{zh:"飯店",en:"Hotel"}, lunch:{zh:"芽菜雞風味餐",en:"Ipoh bean-sprout chicken"}, dinner:{zh:"Rama V 泰式庭園餐廳",en:"Rama V Thai garden dining"} },
+          accommodation:{zh:"吉隆坡五星 Kimpton Naluria KL（洲際集團）或同級",en:"Kimpton Naluria Kuala Lumpur (IHG, 5★) or similar"}, accommodationRating:5
+        },
+        {
+          dayLabel:"Day 5", date:{zh:"11.15 (日)",en:"Nov 15 Sun"},
+          title:{ zh:"布城巡禮・滿載而歸", en:"Putrajaya · Homeward" },
+          highlight:{ zh:"最後半天留給行政首都布城：湖面上的粉紅清真寺、綠穹頂的首相署，然後星宇直飛、晚間回到桃園。",
+                      en:"A final morning in Putrajaya — the Pink Mosque on the lake, the green-domed PM's office — then STARLUX direct home by night." },
+          activities:[
+            { kind:"sight", lead:true, image:"images/penang/pink-mosque.jpg",
+              title:{zh:"布城・粉紅清真寺",en:"Putra Mosque, Putrajaya"},
+              description:{zh:"四分之三建於湖面上、可容納一萬兩千人的普特拉清真寺，一身罕見的玫瑰粉紅倒映湖光，是大馬最上相的打卡地標。（遇朝拜時段恕不開放入內；女性入內需於入口借取罩袍）",en:"Three-quarters afloat on the lake and seating twelve thousand, the rose-pink Putra Mosque is Malaysia's most photographed landmark. (Closed during prayers; robes provided at the entrance.)"} },
+            { kind:"sight", image:"images/penang/putrajaya-lake.jpg", title:{zh:"布城湖",en:"Putrajaya Lake"},
+              description:{zh:"650 公頃的人工湖座落行政首都心臟地帶，各部會建築環湖而立，調節著整座城市的氣溫與風景。",en:"A 650-hectare lake at the capital's heart, ministries arrayed along its shore."} },
+            { kind:"sight", image:"images/penang/pm-office.jpg", title:{zh:"首相署・首相府廣場",en:"Perdana Putra"},
+              description:{zh:"綠穹頂的陶土色大樓雄踞山頂、俯瞰布城湖，融合馬來、伊斯蘭與歐洲建築藝術；廣場前 4.2 公里的林蔭大道是布城最氣派的一段路。",en:"The green-domed Perdana Putra crowns the hill over the lake — Malay, Islamic and European lines in one building, a 4.2 km boulevard at its feet."} },
+            { kind:"transit", title:{zh:"吉隆坡 17:10 — 桃園 22:00（星宇 JX726）",en:"Kuala Lumpur 17:10 — Taoyuan 22:00 (JX726)"},
+              description:{zh:"星宇航空直飛返台，晚間 22:00 抵達桃園，結束五日典藏之旅。",en:"STARLUX direct home, touching down at 22:00 — five days, well kept."} }
+          ],
+          meals:{ breakfast:{zh:"飯店",en:"Hotel"}, lunch:{zh:"隆盛東坡肉料理",en:"Loong Seng braised pork"}, dinner:{zh:"機上簡餐",en:"In-flight"} },
+          accommodation:{zh:"—",en:"—"}
+        }
+      ],
+      price_tiers:[
+        { label:{zh:"現金優惠價",en:"Cash price"}, price:"43,000", note:{zh:"／人",en:"/person"} }
+      ],
+      price_note:{ zh:"報名訂金 NT$ 20,000／人，收取訂金後依國外旅遊定型化契約辦理。刷卡與單人房差請洽角落旅行社服務人員，實際以訂到機位為準。全程購物 2 站（土產店、巧克力專賣店），絕不強迫。",
+                   en:"Deposit NT$20,000 per person; the standard outbound travel contract applies upon deposit. For card payment and single supplements, contact Corner Travel. Two shopping stops (specialties & chocolate), never compulsory." },
+      pricing:{
+        included:[ {zh:"來回機票與燃料稅",en:"Round-trip flights & fuel tax"}, {zh:"行程內餐食、景點、住宿",en:"Meals, entries & hotels as listed"},
+                   {zh:"500 萬責任險＋20 萬意外醫療險",en:"Liability & medical insurance"}, {zh:"領隊、導遊小費",en:"Tour leader & guide tips"} ],
+        excluded:[ {zh:"台灣境內機場往返接送",en:"Domestic airport transfers in Taiwan"}, {zh:"新辦護照／台胞證或簽證費用",en:"Passport / visa fees"},
+                   {zh:"個人消費衍生之費用",en:"Personal expenses"} ]
+      }
+    };
 
-<!-- ===== FOOTER ===== -->
-<footer class="footer dark-lux" id="contact">
-  <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <a href="index.html" class="logo"><img src="assets/corner-logo.png" alt="角落旅行社 corner"></a>
-        <p style="font-family:'Cormorant Garamond',serif;font-style:normal;font-size:17px;line-height:1.7;color:var(--gold-bright);margin-bottom:16px">如果可以，讓我們一同探索世界上每個角落。</p>
-      </div>
-      <div>
-        <h4>Contact</h4>
-        <p>10350 台北市大同區重慶北路一段67號8樓之2</p>
-        <p><a href="tel:+886277516051,9">02-7751-6051 #9</a></p>
-        <p>傳真 02-2552-1332</p>
-        <p><a href="mailto:sales@cornertravel.com.tw">sales@cornertravel.com.tw</a></p>
-      </div>
-      <div>
-        <h4>Follow</h4>
-        <p><a href="https://www.instagram.com/cornertravel.w/" target="_blank" rel="noopener">IG ＠cornertravel.w</a></p>
-        <p><a href="https://www.facebook.com/corner.travel.w" target="_blank" rel="noopener">FB 角落旅行社</a></p>
-        <p><a href="https://lin.ee/Vwe6iYU" target="_blank" rel="noopener">LINE 線上諮詢</a></p>
-      </div>
-    </div>
-    <div class="footer-legal">
-      <p>© 2025 角落旅行社 CORNER TRAVEL．台北</p>
-      <p>角落旅行社股份有限公司　統一編號 83212711</p>
-      <p>交觀甲06015　品保協會 北2551</p>
-    </div>
-  </div>
-</footer>
+    /* ---------- 圖示（emoji→單一線寬 SVG，禁 emoji 鐵律 #2）---------- */
+    const KIND_ICON = {
+      sight:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>',
+      meal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3v6a3 3 0 0 0 3 3m0 0a3 3 0 0 0 3-3V3M6 12v9M21 3l-2 6.5A2.5 2.5 0 0 0 21 12v9"/></svg>',
+      exp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.5a.56.56 0 0 1 1.04 0l2.12 4.92 5.34.46c.5.04.7.66.32.99l-4.05 3.5 1.21 5.22c.11.49-.42.87-.85.61L12 17.02l-4.61 2.68c-.43.26-.96-.12-.85-.61l1.21-5.22-4.05-3.5a.56.56 0 0 1 .32-.99l5.34-.46L11.48 3.5Z"/></svg>',
+      view:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15l5.16-5.16a2.25 2.25 0 0 1 3.18 0l5.16 5.16m-1.5-1.5 1.16-1.16a2.25 2.25 0 0 1 3.18 0l2.16 2.16M3.75 4.5h16.5a1.5 1.5 0 0 1 1.5 1.5v12a1.5 1.5 0 0 1-1.5 1.5H3.75a1.5 1.5 0 0 1-1.5-1.5V6a1.5 1.5 0 0 1 1.5-1.5Z"/></svg>',
+      transit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M9 4.5h6M5.25 9h13.5M7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3ZM6 18h12a1.5 1.5 0 0 0 1.5-1.5V6A1.5 1.5 0 0 0 18 4.5H6A1.5 1.5 0 0 0 4.5 6v10.5A1.5 1.5 0 0 0 6 18Zm0 0v1.5m12-1.5v1.5"/></svg>',
+      free:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>'
+    };
+    const KIND_KEY = { sight:'tour.kind.sight', meal:'tour.kind.meal', exp:'tour.kind.exp',
+                       view:'tour.kind.view', transit:'tour.kind.transit', free:'tour.kind.free' };
+    const STAY_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5M3.75 21V6.75A1.5 1.5 0 0 1 5.25 5.25h13.5a1.5 1.5 0 0 1 1.5 1.5V21M7.5 9h.75m-.75 3h.75m3-3h.75m-.75 3h.75m3-3h.75m-.75 3h.75M9.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21"/></svg>';
+    const MEAL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3v6a3 3 0 0 0 3 3m0 0a3 3 0 0 0 3-3V3M6 12v9M21 3l-2 6.5A2.5 2.5 0 0 0 21 12v9"/></svg>';
 
-<script src="corner.js"></script>
-  <script src="chat-widget.js" data-site-key="wsc_dce1a4c06f9c3dbf463454258e368ea0" data-endpoint="https://erp.venturo.tw/api/website/chat" data-title="角落・線上諮詢" data-avatar="assets/chat-icon.svg" data-color="#2A2018" defer></script>
+    /* ---------- Renderer：吃 ITINERARY 生頁面（語言切換時重跑）---------- */
+    function render() {
+      const lang = Corner.getLang();
+      const L = (o) => (o == null ? "" : (typeof o === "string" ? o : (o[lang] || o.zh || "")));
+      const t = (k) => Corner.t(k);
+      const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;" }[c]));
+      const D = ITINERARY;
+
+      // hero
+      document.getElementById("crumb-here").textContent = L(D.title);
+      document.title = L(D.title) + " · corner travel";
+      document.getElementById("hero-eyebrow").textContent =
+        L(D.country) + " · " + D.days_count + " " + t("common.days");
+      document.getElementById("hero-title").textContent = L(D.title);
+      document.getElementById("hero-sub").textContent = L(D.subtitle);
+      document.getElementById("hero-cover").innerHTML =
+        '<img src="' + D.cover_image + '" alt="' + esc(L(D.title)) + '" loading="lazy" />';
+
+      // overview
+      document.getElementById("overview-intro").textContent = L(D.intro);
+      document.getElementById("overview-facts").innerHTML = D.facts.map((f) =>
+        '<div class="itin-fact"><div class="k">' + esc(L(f.k)) + '</div><div class="v">' + esc(L(f.v)) + "</div></div>"
+      ).join("");
+
+      // days（章節式：超大編號＋錯位標題、主角大圖左右交錯、次要點雙欄細列）
+      const kindHTML = (a) => '<span class="stop-kind">' +
+        (KIND_ICON[a.kind] || KIND_ICON.sight) + t(KIND_KEY[a.kind] || "tour.kind.sight") + "</span>";
+
+      document.getElementById("days").innerHTML = D.daily_itinerary.map((day, i) => {
+        const acts = day.activities || [];
+        let li = acts.findIndex((a) => a.lead && a.image);
+        if (li < 0) li = acts.findIndex((a) => a.image);
+        const lead = li >= 0 ? acts[li] : null;
+        const others = acts.filter((_, idx) => idx !== li);
+
+        const feature = lead
+          ? '<div class="feature' + (i % 2 ? " rev" : "") + '" data-reveal>' +
+              '<div class="feature-media"><img src="' + lead.image + '" alt="' + esc(L(lead.title)) + '" loading="lazy" /></div>' +
+              '<div class="feature-body">' + kindHTML(lead) +
+                "<h4>" + esc(L(lead.title)) + "</h4>" +
+                (lead.description ? '<p class="stop-desc">' + esc(L(lead.description)) + "</p>" : "") +
+              "</div>" +
+            "</div>"
+          : "";
+
+        const substops = others.length
+          ? '<div class="substops" data-reveal>' + others.map((a) =>
+              '<div class="substop' + (a.image ? "" : " no-img") + '">' +
+                (a.image ? '<div class="substop-media"><img src="' + a.image + '" alt="' + esc(L(a.title)) + '" loading="lazy" /></div>' : "") +
+                kindHTML(a) +
+                "<h5>" + esc(L(a.title)) + "</h5>" +
+                (a.description ? '<p class="stop-desc">' + esc(L(a.description)) + "</p>" : "") +
+              "</div>"
+            ).join("") + "</div>"
+          : "";
+
+        const m = day.meals || {};
+        const mealParts = [["breakfast","tour.b"],["lunch","tour.l"],["dinner","tour.d"]]
+          .filter(([k]) => m[k] && L(m[k]) && L(m[k]) !== "—")
+          .map(([k, lk]) => '<span class="it"><b>' + t(lk) + "</b> " + esc(L(m[k])) + "</span>").join("");
+        const mealStrip = mealParts
+          ? '<div class="day-eat"><span class="lbl">' + MEAL_ICON + t("tour.meals") + "</span>" + mealParts + "</div>"
+          : "";
+
+        const stayName = L(day.accommodation);
+        const stayStrip = (stayName && stayName !== "—")
+          ? '<div class="day-stay"><span class="lbl">' + STAY_ICON + t("tour.stay") + '</span><span class="nm">' +
+              esc(stayName) + "</span>" +
+              (day.accommodationRating ? '<span class="rate">' + "★".repeat(day.accommodationRating) + "</span>" : "") +
+              (day.isSameAccommodation ? '<span class="it text-muted">· ' + (lang==="en"?"same as prev night":"續住") + "</span>" : "") +
+            "</div>"
+          : "";
+
+        return (
+          '<div class="day-chapter">' +
+            '<div class="day-head2" data-reveal>' +
+              '<div class="day-num-xl">' + String(i + 1).padStart(2, "0") +
+                '<span class="dd">' + esc(L(day.date)) + "</span></div>" +
+              '<div class="dh-title">' +
+                "<h3>" + esc(L(day.title)) + "</h3>" +
+                (day.highlight ? '<p class="hl">' + esc(L(day.highlight)) + "</p>" : "") +
+              "</div>" +
+            "</div>" +
+            feature + substops + mealStrip + stayStrip +
+          "</div>"
+        );
+      }).join("");
+
+      // price
+      document.getElementById("price-rows").innerHTML = D.price_tiers.map((p) =>
+        '<div class="price-row"><span class="cls">' + esc(L(p.label)) +
+        '</span><span class="amt">NT$ ' + p.price + "<small>" + esc(L(p.note)) + "</small></span></div>"
+      ).join("");
+      document.getElementById("price-note").textContent = L(D.price_note);
+      document.getElementById("price-detail").innerHTML =
+        '<div class="eyebrow" style="color:rgba(255,255,255,.7)">' + t("tour.incl") + "</div>" +
+        '<ul style="margin-top:16px;color:rgba(255,255,255,.85);line-height:2;font-size:14px">' +
+          D.pricing.included.map((x) => "<li>· " + esc(L(x)) + "</li>").join("") + "</ul>" +
+        '<div class="eyebrow mt-6" style="color:rgba(255,255,255,.7)">' + t("tour.excl") + "</div>" +
+        '<ul style="margin-top:16px;color:rgba(255,255,255,.6);line-height:2;font-size:14px">' +
+          D.pricing.excluded.map((x) => "<li>· " + esc(L(x)) + "</li>").join("") + "</ul>";
+
+      // 語言切換後新生成的 [data-reveal] 重新接上觀察
+      if (window.Corner && Corner._observeReveals) Corner._observeReveals();
+    }
+
+    Corner.onChange(render);   // 語言切換時重畫
+    render();                  // 首次（site.js 隨後會掃 data-reveal）
+  </script>
+  <script src="assets/site.js"></script>
 </body>
 </html>
