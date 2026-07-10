@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>鼎碩投資顧問 · 加拿大東岸 × 美國東岸 16 日｜角落旅行 Corner Travel</title>
+<meta name="description" content="JFK260714A · 鼎碩投資顧問 2026.07.14–07.30 · 加拿大東岸與美國東岸經典 16 日精品包團" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   VENTURO 家規・JFK260714A 鼎碩投資顧問 行程簡報
+   單檔 HTML deck｜可編輯（換圖 / 換色 / 換字 / 打字）｜可存 PDF
+   token 沿用家規：明體標題 + 黑體內文 + 等寬數字、一主色一強調、8pt 網格、兩條動畫曲線
+   ============================================================ */
+:root{
+  /* —— 字型棧（字體預設會覆寫這三個變數）—— */
+  --display:"Cormorant Garamond","Noto Serif TC",serif;   /* 拉丁大標 */
+  --serif:"Noto Serif TC","Songti TC",serif;              /* 中文標題明體 */
+  --sans:"Inter","Noto Sans TC","PingFang TC",sans-serif; /* 內文 */
+  --mono:"IBM Plex Mono",ui-monospace,monospace;          /* 數字等寬 */
+
+  /* —— 配色（預設＝Diapositive 暗夜；設計面板可一鍵切換象牙/暖棕/冷灰）—— */
+  --bg:#0B0A0C; --surface:#141215; --ink:#F3EEE6; --ink-soft:#9A938A;
+  --line:#2A2722; --accent:#E2512A;
+
+  /* —— Type scale 1.25 模距 —— */
+  --t-0:1.0625rem; --t-1:1.33rem; --t-2:1.66rem; --t-3:2.07rem; --t-4:2.59rem;
+  --t-5:clamp(2.6rem,6vw,4.4rem); --t-6:clamp(3.4rem,9vw,7.2rem);
+  --lh-body:1.8; --lh-head:1.16;
+
+  /* —— 8pt 網格 —— */
+  --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s6:48px; --s8:64px; --s12:96px; --s16:128px;
+  --pad:clamp(34px,6vw,112px);
+
+  /* —— 圓角 / 陰影 / 動畫 —— */
+  --r-sm:6px; --r-md:12px; --r-full:999px;
+  --sh-lg:0 28px 60px -34px rgba(20,15,10,.55);
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+  --ease-img:cubic-bezier(.6,0,.3,1);   /* 影像/位移：電影感 ease-in-out */
+  --ease-text:cubic-bezier(.4,0,0,1);   /* 文字揭示：強減速 */
+  --d-enter:900ms;
+
+  /* —— 圖片佔位雙色漸層（固定深暖色，遠端圖失效時的高級備援）—— */
+  --duotone:linear-gradient(142deg,
+              color-mix(in srgb, var(--accent) 40%, #241c17) 0%,
+              #100c0a 100%);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:100%;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--sans); background:var(--bg); color:var(--ink);
+  overflow:hidden; line-height:var(--lh-body);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  transition:background .5s var(--ease-out), color .5s var(--ease-out);
+}
+::selection{background:color-mix(in srgb,var(--accent) 28%,transparent)}
+
+/* ---------- DECK / SLIDE ---------- */
+.deck{position:fixed;inset:0}
+.slide{
+  position:absolute;inset:0;opacity:0;visibility:hidden;
+  transform:scale(1.025);
+  transition:opacity var(--d-enter) var(--ease-out), transform var(--d-enter) var(--ease-out);
+  overflow:hidden;
+}
+.slide.is-active{opacity:1;visibility:visible;transform:none;z-index:2}
+/* 大標遮罩上升揭示（電影感、不觸動文字內容、可編輯）*/
+.mask{overflow:hidden;display:block;padding-bottom:.04em}
+.mask .reveal{display:block;transform:translateY(112%);transition:transform 1.05s var(--ease-text);transition-delay:.18s}
+.slide.is-active .mask .reveal{transform:none}
+
+/* 進場上升（服務理解、非逐字飛入）：同一種口音 */
+.rise{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease-out), transform .7s var(--ease-out);transition-delay:.12s}
+.slide.is-active .rise{opacity:1;transform:none}
+.slide.is-active .rise.d2{transition-delay:.22s}
+.slide.is-active .rise.d3{transition-delay:.32s}
+.slide.is-active .rise.d4{transition-delay:.42s}
+.slide.is-active .rise.d5{transition-delay:.52s}
+
+/* ---------- 影像層 ---------- */
+.media{position:absolute;inset:0;background-size:cover;background-position:var(--imgpos,50% 50%);background-repeat:no-repeat;background-image:var(--duotone)}
+.media.zoom{transform:scale(1.08);transition:transform 9s linear}
+.slide.is-active .media.zoom{transform:scale(1)}
+.grain{position:absolute;inset:0;opacity:.06;pointer-events:none;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.scrim{position:absolute;inset:0;pointer-events:none}
+.scrim.bottom{background:linear-gradient(to top,rgba(12,9,7,.82) 0%,rgba(12,9,7,.34) 38%,rgba(12,9,7,0) 68%)}
+.scrim.left{background:linear-gradient(105deg,rgba(12,9,7,.78) 0%,rgba(12,9,7,.30) 46%,rgba(12,9,7,0) 78%)}
+.scrim.veil{background:rgba(14,11,8,.30)}
+
+/* ---------- 共用小元件 ---------- */
+.kicker{font-family:var(--sans);font-weight:500;font-size:.74rem;letter-spacing:.34em;text-transform:uppercase}
+.rule{height:1px;background:var(--line);border:0}
+.dot{display:inline-block;width:5px;height:5px;border-radius:var(--r-full);background:var(--accent);vertical-align:middle}
+[data-num],.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+/* ---------- 封面 ---------- */
+.cover{}
+.cover .content{position:absolute;inset:0;padding:var(--pad);display:flex;flex-direction:column;justify-content:flex-end;color:#F6F1E9}
+.cover .topline{position:absolute;top:var(--pad);left:var(--pad);right:var(--pad);display:flex;justify-content:space-between;align-items:flex-start;color:#F6F1E9}
+.cover .wordmark{font-family:var(--display);font-size:1.5rem;letter-spacing:.46em;font-weight:500;text-transform:uppercase;padding-left:.46em}
+.cover .wordmark small{display:block;font-family:var(--sans);font-size:.62rem;letter-spacing:.5em;opacity:.8;margin-top:.5em;padding-left:.5em}
+.cover .code{font-family:var(--mono);font-size:.78rem;letter-spacing:.16em;opacity:.85;text-align:right}
+.cover .kicker{color:color-mix(in srgb,var(--accent) 40%,#F6F1E9);margin-bottom:var(--s3)}
+.cover h1{font-family:var(--display);font-weight:500;font-size:var(--t-6);line-height:.98;letter-spacing:.005em}
+.cover h1 em{font-style:italic;font-weight:500}
+.cover .zh{font-family:var(--serif);font-weight:600;font-size:clamp(1.5rem,3.4vw,2.5rem);letter-spacing:.06em;margin-top:var(--s3);line-height:1.4}
+.cover .meta{display:flex;gap:var(--s6);flex-wrap:wrap;align-items:center;margin-top:var(--s6);font-family:var(--mono);font-size:.92rem;letter-spacing:.1em}
+.cover .meta .lbl{display:block;font-family:var(--sans);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;opacity:.72;margin-bottom:.5em}
+.cover .meta .v{font-size:1.05rem}
+
+/* ---------- 章名（滿版破格）---------- */
+.chapter .content{position:absolute;inset:0;padding:var(--pad);display:flex;flex-direction:column;justify-content:flex-end;color:#F6F1E9}
+.chapter .idx{font-family:var(--mono);font-size:.82rem;letter-spacing:.3em;opacity:.85}
+.chapter .kicker{color:color-mix(in srgb,var(--accent) 46%,#F6F1E9);margin:var(--s2) 0 var(--s3)}
+.chapter h2{font-family:var(--display);font-weight:500;font-size:var(--t-6);line-height:.96}
+.chapter .zh{font-family:var(--serif);font-weight:600;font-size:clamp(1.6rem,3.6vw,2.7rem);letter-spacing:.08em;margin-top:var(--s2)}
+.chapter .days{margin-top:var(--s4);font-family:var(--mono);font-size:.88rem;letter-spacing:.14em;opacity:.9;display:flex;gap:var(--s3);align-items:center}
+
+/* ---------- 每日行程 ---------- */
+.day{display:grid;grid-template-columns:43% 1fr;background:var(--bg);height:100%}
+.day .pane{position:relative;overflow:hidden}
+.day .pane .scrim.veil{background:linear-gradient(120deg,rgba(14,11,8,.12),rgba(14,11,8,0))}
+.day .pane .daytag{position:absolute;left:var(--s6);bottom:var(--s6);color:#F6F1E9;z-index:2}
+.day .pane .daytag .n{font-family:var(--mono);font-size:clamp(3rem,7vw,5.4rem);line-height:.9;font-weight:500}
+.day .pane .daytag .dlabel{font-family:var(--sans);font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;opacity:.9;margin-bottom:.6em}
+.day .body{padding:var(--s6) clamp(34px,5vw,84px);display:flex;flex-direction:column;justify-content:safe center;min-width:0;overflow-y:auto;scrollbar-width:none}
+.day .body::-webkit-scrollbar{display:none}
+.day .date{font-family:var(--mono);font-size:.82rem;letter-spacing:.16em;color:var(--ink-soft)}
+.day .kicker{color:var(--accent);margin:var(--s3) 0 var(--s2)}
+.day h3{font-family:var(--serif);font-weight:600;font-size:clamp(1.5rem,2.5vw,2.15rem);line-height:1.3;letter-spacing:.02em}
+.day .acts{list-style:none;margin:var(--s4) 0 0;border-top:1px solid var(--line)}
+.day .acts li{display:flex;gap:var(--s3);align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--line);font-size:1.02rem}
+.day .acts li .i{font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.08em;min-width:2.1em;padding-top:.18em}
+.day .meals{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3);margin-top:var(--s4)}
+.day .meals .m .lbl{font-family:var(--sans);font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:.55em}
+.day .meals .m .v{font-family:var(--serif);font-size:.98rem;line-height:1.45}
+.day .acts .atext{min-width:0}
+.day .acts .an{display:block;font-family:var(--serif);letter-spacing:.01em}
+.day .acts .ad{display:block;font-size:.82rem;font-weight:400;color:var(--ink-soft);line-height:1.55;margin-top:.25em;max-width:42em}
+.day .meals .m .mi{font-size:.75rem;font-weight:400;color:var(--ink-soft);line-height:1.5;margin-top:.34em}
+.gcard .cap .cintro{font-family:var(--serif);font-size:.82rem;font-weight:300;color:rgba(246,241,233,.88);line-height:1.5;margin:.4em 0 .1em;max-width:26em}
+.day .meals .m.star .v::after{content:"★";color:var(--accent);font-size:.78em;margin-left:.35em;vertical-align:.08em}
+.day .stay{margin-top:var(--s4);display:flex;gap:var(--s2);align-items:baseline}
+.day .stay .lbl{font-family:var(--sans);font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap;padding-top:.2em}
+.day .stay .v{font-family:var(--serif);font-size:1.02rem;font-weight:500}
+.day .stay .v .badge{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 40%,var(--line));border-radius:var(--r-full);padding:.12em .7em;margin-left:.6em;vertical-align:.12em}
+.flightchip{display:inline-flex;gap:.7em;align-items:center;font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;color:var(--ink-soft);border:1px solid var(--line);border-radius:var(--r-full);padding:.4em 1em;margin-top:var(--s4);width:max-content}
+.flightchip b{color:var(--ink);font-weight:500}
+
+/* ---------- 內容頁（總覽 / 航班 / 飯店 / 餐飲 / 結尾）---------- */
+.pageframe{position:absolute;inset:0;padding:var(--pad);display:flex;flex-direction:column}
+.pageframe .head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s3);border-bottom:1px solid var(--line);padding-bottom:var(--s3)}
+.pageframe .head .kicker{color:var(--accent)}
+.pageframe .head h2{font-family:var(--display);font-weight:500;font-size:var(--t-4)}
+.pageframe .head h2 .zh{font-family:var(--serif);font-weight:600;font-size:.62em;margin-left:.5em;letter-spacing:.06em}
+.pageframe .pgnum{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;color:var(--ink-soft)}
+
+/* 總覽：大數字 + 路線 */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s6);margin-top:var(--s12)}
+.stats .stat .n{font-family:var(--display);font-size:clamp(3.4rem,7vw,5.6rem);line-height:.9;font-weight:500;color:var(--ink)}
+.stats .stat .n sup{font-size:.34em;color:var(--accent);font-family:var(--mono);vertical-align:.9em;margin-left:.1em}
+.stats .stat .lbl{font-family:var(--serif);font-size:1.05rem;margin-top:var(--s2);letter-spacing:.04em}
+.stats .stat .sub{font-size:.82rem;color:var(--ink-soft);margin-top:.3em}
+.routeline{margin-top:auto;padding-top:var(--s8)}
+.routeline .flow{display:flex;flex-wrap:wrap;align-items:center;gap:.5em 0;font-family:var(--serif);font-size:clamp(1.05rem,1.9vw,1.6rem);letter-spacing:.04em}
+.routeline .flow .node{padding:0 .55em}
+.routeline .flow .node:first-child{padding-left:0}
+.routeline .flow .sep{color:var(--accent);font-family:var(--mono);font-size:.6em;opacity:.8}
+
+/* 航班 */
+.flights{display:grid;grid-template-columns:1fr 1fr;gap:var(--s8);margin-top:var(--s12);align-items:start}
+.fcard{border:1px solid var(--line);border-radius:var(--r-md);padding:var(--s6);background:var(--surface)}
+.fcard .tag{font-family:var(--sans);font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent)}
+.fcard .airline{font-family:var(--mono);font-size:.92rem;letter-spacing:.12em;margin-top:var(--s3);color:var(--ink-soft)}
+.fcard .leg{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s3);margin-top:var(--s3)}
+.fcard .leg .ap{text-align:center}
+.fcard .leg .ap .code{font-family:var(--display);font-size:clamp(2rem,4vw,3rem);font-weight:500;line-height:1}
+.fcard .leg .ap .city{font-family:var(--serif);font-size:.92rem;color:var(--ink-soft);margin-top:.4em}
+.fcard .leg .ap .time{font-family:var(--mono);font-size:.9rem;margin-top:.2em}
+.fcard .leg .arrow{flex:1;text-align:center;color:var(--ink-soft);position:relative;padding-bottom:1.4em}
+.fcard .leg .arrow .dur{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em}
+.fcard .leg .arrow .ln{display:block;height:1px;background:var(--line);position:relative;margin-top:.5em}
+.fcard .leg .arrow .ln::after{content:"";position:absolute;right:0;top:-2px;width:5px;height:5px;border-right:1px solid var(--ink-soft);border-top:1px solid var(--ink-soft);transform:rotate(45deg)}
+.fcard .when{font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;color:var(--ink-soft);margin-top:var(--s4)}
+.fnote{grid-column:1/-1;font-family:var(--serif);font-size:.95rem;color:var(--ink-soft);text-align:center;margin-top:var(--s2)}
+
+/* 飯店 / 餐飲 圖卡 */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:var(--s4);margin-top:var(--s8);flex:1;min-height:0}
+.gcard{position:relative;border-radius:var(--r-md);overflow:hidden;min-height:200px}
+.gcard .media{transition:transform .8s var(--ease-out)}
+.gcard:hover .media{transform:scale(1.04)}
+.gcard .cap{position:absolute;inset:0;padding:var(--s4);display:flex;flex-direction:column;justify-content:flex-end;color:#F6F1E9;z-index:2}
+.gcard .cap .tag{font-family:var(--sans);font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:color-mix(in srgb,var(--accent) 50%,#F6F1E9)}
+.gcard .cap .nm{font-family:var(--serif);font-weight:600;font-size:1.16rem;margin-top:.4em;line-height:1.3}
+.gcard .cap .loc{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;opacity:.85;margin-top:.35em}
+.gcard.big{grid-column:span 2;grid-row:span 2}
+
+/* 結尾 */
+.closing{}
+.closing .content{position:absolute;inset:0;padding:var(--pad);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:#F6F1E9}
+.closing .kicker{color:color-mix(in srgb,var(--accent) 46%,#F6F1E9);margin-bottom:var(--s4)}
+.closing h2{font-family:var(--display);font-weight:500;font-size:var(--t-5);line-height:1.05}
+.closing .zh{font-family:var(--serif);font-weight:600;font-size:clamp(1.3rem,2.6vw,1.9rem);margin-top:var(--s3);letter-spacing:.1em}
+.closing .sign{margin-top:var(--s12);font-family:var(--display);font-size:1.6rem;letter-spacing:.42em;text-transform:uppercase;padding-left:.42em}
+.closing .contact{font-family:var(--mono);font-size:.82rem;letter-spacing:.14em;color:rgba(246,241,233,.8);margin-top:var(--s3)}
+
+/* ---------- 詳細介紹（景點 / 住宿 / 餐飲特寫）---------- */
+.features{display:flex;flex-direction:column;justify-content:center;gap:var(--s4);margin-top:var(--s6);flex:1;min-height:0}
+.frow{display:grid;grid-template-columns:clamp(200px,24vw,310px) 1fr;gap:var(--s6);align-items:stretch;padding-bottom:var(--s4);border-bottom:1px solid var(--line)}
+.frow:last-child{border-bottom:0;padding-bottom:0}
+.fthumb{position:relative;border-radius:var(--r-md);overflow:hidden;min-height:150px}
+.frow .ftext{min-width:0;align-self:center}
+.frow .ftag{font-family:var(--sans);font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--accent)}
+.frow .fname{font-family:var(--serif);font-weight:600;font-size:clamp(1.2rem,1.7vw,1.5rem);margin:.34em 0 .12em;letter-spacing:.02em}
+.frow .floc{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;color:var(--ink-soft);margin-bottom:.55em}
+.frow .fintro{font-family:var(--sans);font-weight:400;font-size:clamp(.92rem,1.05vw,1.04rem);line-height:1.85;color:var(--ink-soft);max-width:54em}
+.frow .fthumb{min-height:clamp(150px,21vh,230px)}
+
+/* ---------- 飯店：每間獨立一頁（特寫）---------- */
+.spread{position:absolute;inset:0;display:grid;grid-template-columns:48% 1fr}
+.spread-media{position:relative;overflow:hidden}
+.spread-body{padding:var(--pad) clamp(40px,5vw,100px);display:flex;flex-direction:column;justify-content:center;overflow-y:auto;scrollbar-width:none}
+.spread-body::-webkit-scrollbar{display:none}
+.spread-body .kicker{color:var(--accent)}
+.spread-body .sp-loc{font-family:var(--mono);font-size:.74rem;letter-spacing:.18em;color:var(--ink-soft);margin-top:var(--s4)}
+.spread-body .sp-name{font-family:var(--display);font-weight:500;font-size:clamp(1.9rem,3.4vw,3rem);line-height:1.05;margin-top:.16em}
+.spread-body .sp-tag{font-family:var(--serif);font-weight:600;font-size:1.08rem;color:var(--ink);margin-top:var(--s2);letter-spacing:.04em}
+.spread-body .sp-intro{font-family:var(--sans);font-weight:400;font-size:clamp(1rem,1.15vw,1.12rem);line-height:1.9;color:var(--ink-soft);margin-top:var(--s4);max-width:34em}
+
+/* ---------- 當天景點介紹（照片卡網格）---------- */
+.dayintro .agrid{display:grid;gap:var(--s4) var(--s4);margin-top:var(--s6);flex:1;min-height:0;align-content:center;justify-content:center}
+.agrid.cols-1{grid-template-columns:minmax(0,640px)}
+.agrid.cols-2{grid-template-columns:repeat(2,minmax(0,540px))}
+.agrid.cols-3{grid-template-columns:repeat(3,minmax(0,452px))}
+.acard{display:flex;flex-direction:column;min-width:0}
+.acard-media{position:relative;border-radius:var(--r-md);overflow:hidden;aspect-ratio:3/2;max-height:46vh}
+.acard-media .grain,.spread-media .grain{display:none}
+.acard-media .media{transition:transform .8s var(--ease-out)}
+.acard:hover .acard-media .media{transform:scale(1.04)}
+.acard-name{font-family:var(--serif);font-weight:600;font-size:clamp(1.02rem,1.25vw,1.22rem);margin-top:.7em;letter-spacing:.02em}
+.acard-intro{font-family:var(--sans);font-weight:400;font-size:clamp(.8rem,.95vw,.92rem);line-height:1.7;color:var(--ink-soft);margin-top:.32em}
+
+/* ---------- 旅遊路線 地圖 ---------- */
+.mapslide{position:absolute;inset:0;background:radial-gradient(132% 102% at 52% 42%, color-mix(in srgb,var(--accent) 8%, var(--bg)) 0%, var(--bg) 66%)}
+.mapsvg{position:absolute;inset:0;width:100%;height:100%}
+.mapsvg .land path{fill:color-mix(in srgb,var(--ink) 8%,transparent);stroke:color-mix(in srgb,var(--ink) 26%,transparent);stroke-width:.9;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.mapsvg .rt-g1,.mapsvg .rt-g2,.mapsvg .rt-air,.mapsvg .rt-gate{fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
+.mapsvg .rt-g1,.mapsvg .rt-g2{stroke:var(--accent);stroke-width:2.6;filter:drop-shadow(0 0 7px color-mix(in srgb,var(--accent) 55%,transparent))}
+.mapsvg .rt-air{stroke:var(--accent);stroke-width:1.8;stroke-dasharray:2 7;opacity:0;transition:opacity .45s var(--ease-out)}
+.mapsvg .rt-gate{stroke:color-mix(in srgb,var(--accent) 70%,transparent);stroke-width:1.4;stroke-dasharray:1.5 6;opacity:0;transition:opacity .8s var(--ease-out)}
+.mapsvg .plane{fill:var(--accent);stroke:var(--bg);stroke-width:1.1;opacity:0;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--accent) 70%,transparent))}
+.mapsvg .dots circle{fill:var(--accent);stroke:var(--bg);stroke-width:2}
+.mapsvg .dots .hot circle{stroke-width:2.6}
+.mapsvg .dots text{fill:var(--ink);font-family:var(--serif);font-weight:600;font-size:19px;paint-order:stroke;stroke:var(--bg);stroke-width:3.5px;stroke-linejoin:round}
+.mapsvg .gate text{fill:var(--ink-soft);font-family:var(--mono);font-size:13px;letter-spacing:.08em;paint-order:stroke;stroke:var(--bg);stroke-width:3px}
+.mapframe{position:absolute;inset:0;padding:var(--pad);pointer-events:none;display:flex;flex-direction:column;justify-content:space-between}
+.mapframe .mhead .kicker{color:var(--accent)}
+.mapframe .mhead .mttl{font-family:var(--display);font-weight:500;font-size:var(--t-4);margin-top:.3em}
+.mapframe .mhead .msub{font-family:var(--serif);color:var(--ink-soft);font-size:.95rem;margin-top:.5em;letter-spacing:.04em}
+.mapframe .mlegend{display:flex;gap:var(--s6);flex-wrap:wrap;align-items:center;font-family:var(--sans);font-size:.76rem;letter-spacing:.04em;color:var(--ink-soft)}
+.mapframe .mlegend span{display:flex;align-items:center;gap:.6em}
+.mapframe .mlegend .lg{width:24px;border-top:2px solid var(--accent);display:inline-block}
+.mapframe .mlegend .lg-a{border-top-style:dashed}
+.mapframe .mlegend .lg-int{color:var(--accent)}
+
+/* ============================================================
+   介面層（簡報時可隱藏；列印時全隱）
+   ============================================================ */
+.toolbar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;justify-content:space-between;align-items:center;
+  padding:18px clamp(20px,3vw,40px);pointer-events:none;
+  transition:opacity .4s var(--ease-out);mix-blend-mode:difference}
+.toolbar.fade{opacity:0}
+.toolbar .brand{font-family:var(--display);font-size:1rem;letter-spacing:.4em;color:#fff;text-transform:uppercase;padding-left:.4em;pointer-events:auto}
+.toolbar .tools{display:flex;gap:8px;pointer-events:auto}
+.tbtn{font-family:var(--sans);font-size:.72rem;letter-spacing:.1em;color:#fff;background:transparent;border:1px solid rgba(255,255,255,.5);
+  border-radius:var(--r-full);padding:.5em 1.1em;cursor:pointer;transition:.2s;white-space:nowrap}
+.tbtn:hover{background:rgba(255,255,255,.16)}
+.tbtn.on{background:#fff;color:#000;border-color:#fff}
+.tbtn.play{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:500}
+.tbtn.play:hover{filter:brightness(1.1);background:var(--accent)}
+
+/* 簡報（播放）模式：藏掉後台工具，給客人看的乾淨版 */
+body.presenting .toolbar,body.presenting .hint,body.presenting .savetag{opacity:0;pointer-events:none}
+.exitpresent{position:fixed;top:14px;right:16px;z-index:80;display:none;align-items:center;gap:.4em;
+  font-family:var(--sans);font-size:.7rem;letter-spacing:.08em;color:#fff;background:rgba(20,15,10,.55);
+  border:1px solid rgba(255,255,255,.4);border-radius:var(--r-full);padding:.5em 1em;cursor:pointer;
+  backdrop-filter:blur(6px);opacity:.25;transition:opacity .3s;mix-blend-mode:normal}
+.exitpresent:hover{opacity:1;background:rgba(20,15,10,.8)}
+body.presenting .exitpresent{display:inline-flex}
+
+/* 翻頁 / 進度 */
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:40;display:flex;align-items:center;gap:18px;
+  padding:16px clamp(20px,3vw,40px);transition:opacity .4s var(--ease-out)}
+.nav.fade{opacity:0}
+.nav .arrow{font-family:var(--mono);font-size:.9rem;color:var(--ink);background:none;border:0;cursor:pointer;opacity:.55;transition:.2s;mix-blend-mode:difference;color:#fff}
+.nav .arrow:hover{opacity:1}
+.nav .progress{flex:1;height:1px;background:rgba(150,140,128,.35);position:relative;overflow:hidden}
+.nav .progress .bar{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent);transition:width .5s var(--ease-out)}
+.nav .count{font-family:var(--mono);font-size:.76rem;letter-spacing:.12em;color:#fff;mix-blend-mode:difference;min-width:5.5em;text-align:right}
+
+/* 目錄 */
+.toc{position:fixed;inset:0;z-index:60;background:color-mix(in srgb,var(--bg) 96%,#000);
+  padding:var(--pad);overflow:auto;opacity:0;visibility:hidden;transition:opacity .4s var(--ease-out)}
+.toc.open{opacity:1;visibility:visible}
+.toc h4{font-family:var(--sans);font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:var(--s6)}
+.toc ol{list-style:none;columns:2;column-gap:var(--s12)}
+.toc li{break-inside:avoid;display:flex;gap:var(--s2);align-items:baseline;padding:.6em 0;border-bottom:1px solid var(--line);cursor:pointer;transition:.2s}
+.toc li:hover{color:var(--accent);padding-left:.5em}
+.toc li .n{font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);min-width:2.4em}
+.toc li .t{font-family:var(--serif);font-size:1.05rem}
+.toc .close{position:absolute;top:var(--pad);right:var(--pad)}
+
+/* 設計抽屜 */
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(340px,86vw);z-index:70;background:var(--surface);
+  box-shadow:var(--sh-lg);transform:translateX(100%);transition:transform .42s var(--ease-out);
+  padding:var(--s8) var(--s6) var(--s6);overflow:auto;border-left:1px solid var(--line)}
+.drawer.open{transform:none}
+.drawer h3{font-family:var(--display);font-size:1.5rem;font-weight:500;letter-spacing:.02em}
+.drawer .sub{font-family:var(--sans);font-size:.72rem;color:var(--ink-soft);margin-top:.3em;letter-spacing:.04em}
+.drawer section{margin-top:var(--s6)}
+.drawer .sectit{font-family:var(--sans);font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:var(--s3)}
+.swatches{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sw{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:var(--r-sm);padding:10px;cursor:pointer;background:var(--bg);transition:.2s;font-family:var(--sans);font-size:.82rem}
+.sw:hover{border-color:var(--accent)}
+.sw.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.sw .chip{width:30px;height:30px;border-radius:var(--r-sm);flex:none;border:1px solid rgba(0,0,0,.08)}
+.fontbtns,.colrow{display:flex;flex-direction:column;gap:8px}
+.fbtn{text-align:left;border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 14px;cursor:pointer;background:var(--bg);transition:.2s}
+.fbtn:hover{border-color:var(--accent)}
+.fbtn.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.fbtn .big{font-size:1.15rem}
+.fbtn .lbl{font-family:var(--sans);font-size:.7rem;color:var(--ink-soft);letter-spacing:.08em;margin-top:.2em}
+.colrow{flex-direction:row;gap:14px}
+.colpick{flex:1;text-align:center}
+.colpick label{display:block;font-family:var(--sans);font-size:.62rem;letter-spacing:.16em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:6px}
+.colpick input[type=color]{width:100%;height:40px;border:1px solid var(--line);border-radius:var(--r-sm);background:none;cursor:pointer;padding:2px}
+.rangerow{display:flex;align-items:center;gap:12px}
+.rangerow input[type=range]{flex:1;accent-color:var(--accent)}
+.rangerow .val{font-family:var(--mono);font-size:.78rem;min-width:3.4em;text-align:right;color:var(--ink-soft)}
+.dbtn{display:block;width:100%;font-family:var(--sans);font-size:.82rem;letter-spacing:.06em;text-align:center;
+  border:1px solid var(--ink);color:var(--ink);background:none;border-radius:var(--r-full);padding:.8em;cursor:pointer;transition:.2s;margin-top:10px}
+.dbtn:hover{background:var(--ink);color:var(--bg)}
+.dbtn.ghost{border-color:var(--line);color:var(--ink-soft)}
+.dbtn.ghost:hover{background:var(--danger,#C0402E);border-color:transparent;color:#fff}
+.drawer .close{position:absolute;top:16px;right:16px}
+
+/* 編輯模式：影像可換 */
+.media-edit{position:absolute;inset:0;z-index:5;display:none;align-items:center;justify-content:center;gap:10px;
+  background:rgba(14,11,8,.34);opacity:0;transition:.2s}
+body.editing .media-tools:hover .media-edit,
+body.editing .mediawrap:hover .media-edit{display:flex;opacity:1}
+.media-edit button{font-family:var(--sans);font-size:.74rem;letter-spacing:.06em;color:#fff;background:rgba(0,0,0,.5);
+  border:1px solid rgba(255,255,255,.6);border-radius:var(--r-full);padding:.5em 1em;cursor:pointer;backdrop-filter:blur(4px)}
+.media-edit button:hover{background:#fff;color:#000}
+body.editing [data-edit]{outline:1px dashed transparent;border-radius:3px;transition:.15s}
+body.editing [data-edit]:hover{outline-color:color-mix(in srgb,var(--accent) 60%,transparent);cursor:text}
+body.editing [data-edit]:focus{outline:1px solid var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.mediawrap{position:absolute;inset:0}
+body.editing .day .pane,body.editing .gcard,body.editing .cover,body.editing .chapter,body.editing .closing{cursor:default}
+/* 可移動文字組（編輯模式拖曳把手）*/
+.movable{position:relative;display:flex;flex-direction:column;align-items:inherit;text-align:inherit}
+body.editing .movable{outline:1px dashed color-mix(in srgb,var(--accent) 55%,transparent);outline-offset:6px;border-radius:2px}
+.movehandle{position:absolute;top:8px;left:8px;z-index:12;display:none;align-items:center;justify-content:center;width:26px;height:26px;font-size:.82rem;color:#fff;background:var(--accent);border-radius:var(--r-full);cursor:grab;user-select:none;box-shadow:var(--sh-lg);opacity:.86}
+.movehandle:hover{opacity:1}
+body.editing .mediawrap{cursor:grab}
+body.editing .mediawrap.panning,.movehandle:active{cursor:grabbing}
+body.editing .movable>.movehandle{display:inline-flex}
+.movehandle:active{cursor:grabbing}
+
+/* 提示 toast */
+.hint{position:fixed;left:50%;bottom:64px;transform:translateX(-50%);z-index:50;
+  font-family:var(--sans);font-size:.78rem;letter-spacing:.08em;color:#fff;background:rgba(20,15,10,.82);
+  padding:.7em 1.4em;border-radius:var(--r-full);backdrop-filter:blur(6px);transition:opacity .5s;pointer-events:none}
+.hint.gone{opacity:0}
+.savetag{position:fixed;bottom:60px;right:24px;z-index:50;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;
+  color:var(--ink-soft);opacity:0;transition:opacity .3s}
+.savetag.show{opacity:1}
+
+/* RWD */
+@media (max-width:860px){
+  .day{grid-template-columns:1fr;grid-template-rows:38% 1fr}
+  .stats{grid-template-columns:1fr 1fr;gap:var(--s6)}
+  .flights{grid-template-columns:1fr}
+  .gallery{grid-template-columns:1fr 1fr}
+  .gcard.big{grid-column:span 2;grid-row:span 1}
+  .toc ol{columns:1}
+}
+@media (prefers-reduced-motion:reduce){
+  .slide,.rise,.media,.media.zoom{transition:none!important;transform:none!important}
+}
+
+/* 列印 / 存 PDF：每頁一張、橫式 */
+@media print{
+  @page{size:landscape;margin:0}
+  body{overflow:visible;background:#fff}
+  .toolbar,.nav,.toc,.drawer,.hint,.savetag,.media-edit{display:none!important}
+  .deck{position:static}
+  .slide{position:relative!important;opacity:1!important;visibility:visible!important;transform:none!important;
+    width:100%;height:100vh;page-break-after:always;break-after:page;box-shadow:none}
+  .slide:last-child{page-break-after:auto}
+  .rise{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck"></div>
+
+<!-- 介面 -->
+<div class="toolbar" id="toolbar">
+  <div class="brand">CORNER</div>
+  <div class="tools">
+    <button class="tbtn play" data-act="present">▶ 播放</button>
+    <button class="tbtn" data-act="toc">目錄</button>
+    <button class="tbtn" data-act="edit" id="editBtn">編輯</button>
+    <button class="tbtn" data-act="design" id="designBtn" style="display:none">設計</button>
+    <button class="tbtn" data-act="print">列印 / PDF</button>
+  </div>
+</div>
+<button class="exitpresent" data-act="exitpresent" title="退出播放（Esc）">✕ 退出播放</button>
+
+<div class="nav" id="navbar">
+  <button class="arrow" data-act="prev">←</button>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+  <button class="arrow" data-act="next">→</button>
+  <div class="count" id="count">01 / 01</div>
+</div>
+
+<!-- 目錄 -->
+<div class="toc" id="toc">
+  <button class="tbtn close" data-act="toc">關閉 ✕</button>
+  <h4>目錄 · Contents</h4>
+  <ol id="tocList"></ol>
+</div>
+
+<!-- 設計抽屜 -->
+<div class="drawer" id="drawer">
+  <button class="tbtn close" data-act="design">完成 ✕</button>
+  <h3>設計面板</h3>
+  <div class="sub">換色 · 換字 · 字級｜變更即時套用並自動保存</div>
+
+  <section>
+    <div class="sectit">配色主題</div>
+    <div class="swatches" id="themeSwatches"></div>
+  </section>
+
+  <section>
+    <div class="sectit">自訂色彩</div>
+    <div class="colrow">
+      <div class="colpick"><label>底色</label><input type="color" id="colBg"></div>
+      <div class="colpick"><label>文字</label><input type="color" id="colInk"></div>
+      <div class="colpick"><label>強調</label><input type="color" id="colAccent"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sectit">字體</div>
+    <div class="fontbtns" id="fontBtns"></div>
+  </section>
+
+  <section>
+    <div class="sectit">整體字級</div>
+    <div class="rangerow">
+      <input type="range" id="scaleRange" min="88" max="116" value="100" step="2">
+      <div class="val" id="scaleVal">100%</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sectit">匯出與重設</div>
+    <button class="dbtn" data-act="print">列印 / 另存 PDF</button>
+    <button class="dbtn" data-act="download">下載 HTML 副本</button>
+    <button class="dbtn ghost" data-act="reset">清除所有編輯</button>
+  </section>
+</div>
+
+<div class="hint" id="hint">▶ 播放＝給客人看的乾淨全螢幕　·　← → 翻頁　·　E 編輯　·　G 目錄　·　Esc 退出</div>
+<div class="savetag" id="savetag">已保存</div>
+<input type="file" id="fileInput" accept="image/*" style="display:none">
+
+<script>
+/* ============================================================
+   1) 行程資料（取自 ERP itineraries.daily_itinerary · JFK260714A）
+   ============================================================ */
+const TRIP = {
+  code:"JFK260714A", client:"鼎碩投資顧問",
+  titleLatin:"Eastern Canada<br>& the <em>East&nbsp;Coast</em>",
+  titleZh:"加拿大東岸 × 美國東岸 經典 16 日",
+  kicker:"Private Journey · 鼎碩投資顧問 量身打造",
+  dateRange:"2026.07.14 — 07.30",
+};
+
+const STATS = [
+  {n:"2", sup:"國", lbl:"加拿大 · 美國", sub:"東岸跨境一線串聯"},
+  {n:"8", sup:"城", lbl:"經典名城", sub:"多倫多至華盛頓"},
+  {n:"16", sup:"天", lbl:"深度行程", sub:"長榮航空直飛往返"},
+  {n:"5", sup:"★", lbl:"全程精選", sub:"含城堡飯店與米其林"},
+];
+const ROUTE = ["多倫多","尼加拉瀑布","渥太華","千島群島","魁北克","蒙特婁","紐約","費城","華盛頓"];
+
+const FLIGHTS = {
+  out:{tag:"去程 Outbound", airline:"長榮航空 BR 036 · 2026.07.14",
+    from:{code:"TPE",city:"台北 桃園",time:"19:20"}, to:{code:"YYZ",city:"多倫多",time:"21:35"}, dur:"15h 15m", when:"2026.07.14 (二) 直飛"},
+  ret:{tag:"回程 Return", airline:"長榮航空 BR 003 · 2026.07.30",
+    from:{code:"IAD",city:"華盛頓",time:"01:50"}, to:{code:"TPE",city:"台北 桃園",time:"05:45"}, dur:"14h 55m", when:"2026.07.30 (四) +1 抵達"},
+  note:"行程中段 7/22 內陸段：美國航空 AA 4550　蒙特婁 YUL 10:31 → 紐約 LGA 12:06",
+};
+
+/* 章節（滿版破格）+ 每日 */
+const CHAPTERS = [
+  {slug:"toronto",  idx:"I",   latin:"Toronto & Niagara", zh:"多倫多 · 尼加拉", days:"Day 01 – 04", img:"niagara"},
+  {slug:"ottawa",   idx:"II",  latin:"Ottawa", zh:"渥太華 · 千島群島", days:"Day 05", img:"ottawa"},
+  {slug:"quebec",   idx:"III", latin:"Québec & Montréal", zh:"魁北克 · 蒙特婁", days:"Day 06 – 08", img:"quebec"},
+  {slug:"newyork",  idx:"IV",  latin:"New York", zh:"紐約", days:"Day 09 – 12", img:"newyork"},
+  {slug:"philly",   idx:"V",   latin:"Philadelphia", zh:"費城", days:"Day 13 – 14", img:"philadelphia_skyline"},
+  {slug:"dc",       idx:"VI",  latin:"Washington D.C.", zh:"華盛頓", days:"Day 15 – 17", img:"washington"},
+];
+
+const DAYS = [
+  {n:1, ch:"toronto", date:"07.14 (二)", img:"toronto", kicker:"啟程",
+    title:"台北 / 多倫多", acts:[], flight:"長榮 BR036　TPE 19:20 → YYZ 21:35",
+    meals:{b:"—",l:"—",d:"機上"}, hotel:"Embassy Suites by Hilton Toronto Airport"},
+  {n:2, ch:"toronto", date:"07.15 (三)", img:"niagara_town", kicker:"尼加拉瀑布",
+    title:"多倫多 — 尼加拉瀑布", acts:["尼加拉湖邊小鎮","尼加拉瀑布遊船（入內）","Peller Estates 酒莊午宴"],
+    meals:{b:"飯店早餐",l:"Peller Estates 酒莊午宴",d:"飯店晚宴"}, hotel:"Hilton Niagara Falls / Fallsview", badge:"瀑布景觀房"},
+  {n:3, ch:"toronto", date:"07.16 (四)", img:"niagara", kicker:"瀑布全覽",
+    title:"尼加拉瀑布全日", acts:["瀑布背後之旅（入內）","Outlet Collection at Niagara","史凱隆塔 Skylon Tower"],
+    meals:{b:"飯店早餐",l:"Table Rock 景觀餐廳",d:"Skylon Tower 旋轉景觀自助餐"}, hotel:"Hilton Niagara Falls / Fallsview", badge:"瀑布景觀房"},
+  {n:4, ch:"toronto", date:"07.17 (五)", img:"toronto", kicker:"多倫多市區",
+    title:"多倫多 經典市容", acts:["皇家安大略博物館 ROM","新舊市政廳","伊頓中心","多倫多港灣遊船","聖羅倫斯市場","CN 塔 加拿大國家電視塔"],
+    meals:{b:"飯店早餐",l:"中式桌菜",d:"CN 塔 360 旋轉景觀餐廳"}, hotel:"Canopy by Hilton Toronto Yorkville"},
+  {n:5, ch:"ottawa", date:"07.18 (六)", img:"thousand_islands", kicker:"千島 · 國都",
+    title:"多倫多 — 千島群島 — 渥太華", acts:["千島湖遊船","拜沃德市場 ByWard Market"],
+    meals:{b:"飯店早餐",l:"中式桌菜",d:"The Grand Pizzeria and Bar"}, hotel:"Ottawa Marriott Hotel"},
+  {n:6, ch:"quebec", date:"07.19 (日)", img:"ottawa", kicker:"國會 · 古都",
+    title:"渥太華 — 魁北克", acts:["國會大廈","麗都運河"],
+    meals:{b:"飯店早餐",l:"Red Lobster 紅龍蝦",d:"Bistro L'Orygine 法式"}, hotel:"Fairmont Le Château Frontenac", badge:"城堡飯店"},
+  {n:7, ch:"quebec", date:"07.20 (一)", img:"quebec", kicker:"法蘭西風情",
+    title:"魁北克 古城全日", acts:["聖安妮峽谷","奧爾良島","皇家廣場","小香普蘭街（古城區纜車）"],
+    meals:{b:"飯店早餐",l:"楓糖風味餐",d:"古城法式三道式"}, hotel:"Fairmont Le Château Frontenac", badge:"城堡飯店"},
+  {n:8, ch:"quebec", date:"07.21 (二)", img:"montreal", kicker:"瀑布 · 聖殿",
+    title:"魁北克 — 蒙特婁", acts:["蒙特倫西瀑布（纜車）","聖母聖殿（入內）","蒙特婁舊港區"],
+    meals:{b:"飯店早餐",l:"瀑布景觀三道式",d:"中式桌菜"}, hotel:"Sheraton Montréal Aéroport"},
+  {n:9, ch:"newyork", date:"07.22 (三)", img:"times_square", kicker:"進駐曼哈頓",
+    title:"蒙特婁 / 紐約", acts:["高架公園 High Line","Vessel（外觀拍照）","Summit One Vanderbilt（入內）","時代廣場"],
+    flight:"AA4550　YUL 10:31 → LGA 12:06",
+    meals:{b:"飯店早餐",l:"Katz's Delicatessen 紐約名店",d:"Grand Central Oyster Bar"}, hotel:"Thompson Central Park New York", badge:"中央公園畔"},
+  {n:10, ch:"newyork", date:"07.23 (四)", img:"statue_liberty", kicker:"地標巡禮",
+    title:"紐約 經典地標", acts:["天際線遊船（90 分鐘 · 遠眺自由女神）","雀兒喜市場 Chelsea Market","總督島","金牛銅雕 Charging Bull","華爾街","布魯克林大橋"],
+    meals:{b:"敬請自理",l:"Chelsea Market（龍蝦）",d:"Peter Luger 傳奇牛排", dstar:true}, hotel:"Thompson Central Park New York", badge:"中央公園畔"},
+  {n:11, ch:"newyork", date:"07.24 (五)", img:"met_museum", kicker:"藝術 · 賽事",
+    title:"大都會 · 中央公園 · MLB", acts:["大都會藝術博物館 MET","中央公園","MLB 大聯盟球賽體驗"],
+    meals:{b:"敬請自理",l:"西式三道式",d:"球場代金"}, hotel:"Thompson Central Park New York", badge:"中央公園畔"},
+  {n:12, ch:"newyork", date:"07.25 (六)", img:"moma_fifth", kicker:"米其林二星",
+    title:"現代藝術 · 第五大道", acts:["羅斯福島空中纜車","現代藝術博物館 MoMA","第五大道","中央公園"],
+    meals:{b:"敬請自理",l:"The Modern（MoMA 內 · 米其林二星）", lstar:true, d:"estiatorio Milos · Hudson Yards"}, hotel:"Thompson Central Park New York", badge:"中央公園畔"},
+  {n:13, ch:"philly", date:"07.26 (日)", img:"premium_outlet", kicker:"精品暢貨",
+    title:"紐約 — 費城", acts:["Woodbury Common Premium Outlets","Jackson Premium Outlets"],
+    meals:{b:"敬請自理",l:"Outlet 代金",d:"日式自助餐"}, hotel:"Sofitel Philadelphia at Rittenhouse Square"},
+  {n:14, ch:"philly", date:"07.27 (一)", img:"philadelphia", kicker:"美國誕生地",
+    title:"費城 歷史巡禮", acts:["獨立宮 Independence Hall","自由鐘","木匠廳","費城大學城"],
+    meals:{b:"飯店早餐",l:"費城牛肉堡",d:"Hard Rock 牛排"}, hotel:"Sofitel Philadelphia at Rittenhouse Square"},
+  {n:15, ch:"dc", date:"07.28 (二)", img:"white_house", kicker:"權力心臟",
+    title:"費城 — 華盛頓", acts:["白宮 The White House","國會山莊","自然歷史博物館","波多馬克河遊船"],
+    meals:{b:"飯店早餐",l:"港式飲茶",d:"波多馬克河遊船自助餐"}, hotel:"Willard InterContinental Washington", badge:"百年名邸"},
+  {n:16, ch:"dc", date:"07.29 (三)", img:"lincoln_memorial", kicker:"紀念碑與藝廊",
+    title:"華盛頓 經典全覽", acts:["林肯紀念堂","傑佛遜紀念堂","華盛頓紀念碑","國家藝廊","國立航空太空博物館"],
+    meals:{b:"飯店早餐",l:"海鮮西式蟹餅三道式",d:"巴西窯烤自助餐"}, hotel:"夜航返台 · 紅眼航班"},
+  {n:17, ch:"dc", date:"07.30 (四)", img:"washington", kicker:"歸程",
+    title:"華盛頓 / 台北", acts:[], flight:"長榮 BR003　IAD 01:50 → TPE 05:45 (+1)",
+    meals:{b:"機上",l:"—",d:"—"}, hotel:"溫暖的家"},
+];
+
+const HOTELS = [
+  {nm:"Fairmont Le Château Frontenac", tag:"魁北克 · 傳奇城堡", loc:"QUÉBEC CITY", img:"quebec", big:true},
+  {nm:"Willard InterContinental", tag:"華盛頓 · 百年名邸", loc:"WASHINGTON D.C.", img:"washington"},
+  {nm:"Thompson Central Park", tag:"紐約 · 中央公園畔", loc:"NEW YORK", img:"newyork"},
+  {nm:"Sofitel at Rittenhouse Sq.", tag:"費城 · 法式精品", loc:"PHILADELPHIA", img:"philadelphia"},
+  {nm:"Hilton Niagara Fallsview", tag:"尼加拉 · 瀑布景觀房", loc:"NIAGARA FALLS", img:"niagara"},
+];
+
+const DINING = [
+  {nm:"The Modern", tag:"米其林二星 · MoMA 內", loc:"NEW YORK", img:"newyork", big:true},
+  {nm:"Peter Luger Steak House", tag:"百年傳奇乾式熟成牛排", loc:"BROOKLYN", img:"newyork_landmarks"},
+  {nm:"estiatorio Milos", tag:"頂級地中海海鮮", loc:"HUDSON YARDS", img:"newyork"},
+  {nm:"Skylon Tower", tag:"尼加拉瀑布旋轉景觀餐廳", loc:"NIAGARA", img:"niagara"},
+  {nm:"Peller Estates 酒莊午宴", tag:"尼加拉湖區 莊園佐餐", loc:"NIAGARA-ON-THE-LAKE", img:"winery"},
+];
+
+/* ============================================================
+   2) 圖片種子（待 workflow 驗證後填入；空字串＝雙色漸層佔位，沒圖也高級）
+      編輯模式可逐張替換，存於本機。
+   ============================================================ */
+const WM_MAP = {"%C3%8Ele%20d%27Orl%C3%A9ans%20010.jpg": "img/le-d-orl-ans-010.jpg", "1_times_square_night_2013.jpg": "img/1-times-square-night-2013.jpg", "2015%20Independence%20Hall%20-%20Philadelphia%2001.JPG": "img/2015-independence-hall-philadelphia-01.jpg", "5_Av_-_57_St_Feb_2017.jpg": "img/5-av-57-st-feb-2017.jpg", "A%20view%20of%20CN%20Tower%20from%20the%20University%20of%20Toronto.jpg": "img/a-view-of-cn-tower-from-the-university-of-toront.jpg", "Aerial%20view%20of%20the%20Canadian%20Falls%20(Horseshoe%20Falls)%20and%20the%20Hornblower%20Niagara%20Cruises%20boat;%20Niagara%20Falls.JPG": "img/aerial-view-of-the-canadian-falls-horseshoe-fall.jpg", "Alexandria_bay_saint_lawrence_castle_05.07.2012.jpg": "img/alexandria-bay-saint-lawrence-castle-05-07-2012.jpg", "Altar%20-%20Notre-Dame%20de%20Montr%C3%A9al%20Basilica%20-%20Montreal%2C%20Canada%20-%20DSC08538.jpg": "img/altar-notre-dame-de-montr-al-basilica-montreal-c.jpg", "Ame02128%2025.jpg": "img/ame02128-25.jpg", "Bow_Bridge_over_the_Lake,_Central_Park,_Manhattan,_New_York.jpg": "img/bow-bridge-over-the-lake-central-park-manhattan-.jpg", "Brooklyn%20Bridge%2020080501.JPG": "img/brooklyn-bridge-20080501.jpg", "Brooklyn%20Bridge%20at%20Night%20with%20Manhattan%20Skyline.jpg": "img/brooklyn-bridge-at-night-with-manhattan-skyline.jpg", "Brooklyn_Bridge_Manhattan.jpg": "img/brooklyn-bridge-manhattan.jpg", "Byward_Market_by_day_%288390897529%29.jpg": "img/byward-market-by-day-8390897529.jpg", "Capitol%20Building%20Full%20View.jpg": "img/capitol-building-full-view.jpg", "Carpenter%20Hall%20Philly.JPG": "img/carpenter-hall-philly.jpg", "Central%20Park%20-%20NYC.jpg": "img/central-park-nyc.jpg", "Central%20Park%20New%20York%20City%20New%20York%2023%20cropped.jpg": "img/central-park-new-york-city-new-york-23-cropped.jpg", "Centre%20Block%20-%20Parliament%20Hill.jpg": "img/centre-block-parliament-hill.jpg", "Ch%C3%A2teau%20Frontenac,%20Quebec%20city,%20Canada.jpg": "img/ch-teau-frontenac-quebec-city-canada.jpg", "College%20Hall,%20University%20of%20Pennsylvania.jpg": "img/college-hall-university-of-pennsylvania.jpg", "Exterior%20of%20the%20Independence%20Hall,%20Aug%202019.jpg": "img/exterior-of-the-independence-hall-aug-2019.jpg", "Exterior_of_the_Lincoln_Memorial_%28north_side%29_20240601.jpg": "img/exterior-of-the-lincoln-memorial-north-side-2024.jpg", "Facing%20the%20vineyards,%20a%20lovely%20afternoon%20at%20Peller%20Estates,%20Vineyards%20Tour%20(6184370206).jpg": "img/facing-the-vineyards-a-lovely-afternoon-at-pelle.jpg", "Gfp-canada-niagara-falls-sky-needle.jpg": "img/gfp-canada-niagara-falls-sky-needle.jpg", "Harbourfront,%20Toronto,%20Ontario%20from%20CN%20Tower%20(21652107550).jpg": "img/harbourfront-toronto-ontario-from-cn-tower-21652.jpg", "Horseshoe%20Falls%20-%20Niagara%20Falls%20Canada.JPG": "img/horseshoe-falls-niagara-falls-canada.jpg", "Inside%20Chelsea%20Market%20(2665986353).jpg": "img/inside-chelsea-market-2665986353.jpg", "Jefferson_Memorial_and_cherry_blossoms_-_2026_-_2.jpg": "img/jefferson-memorial-and-cherry-blossoms-2026-2.jpg", "Liberty%20Bell%20%2855259379451%29.jpg": "img/liberty-bell-55259379451.jpg", "Lincoln_Memorial_(Lincoln_contrasty).jpg": "img/lincoln-memorial-lincoln-contrasty.jpg", "Lower%20Manhattan%20from%20Governors%20Island%20(71943).jpg": "img/lower-manhattan-from-governors-island-71943.jpg", "Lower%20Manhattan%20skyline%20-%20June%202017.jpg": "img/lower-manhattan-skyline-june-2017.jpg", "Manhattan%20Skyline,%20New%20York%20(3453206184).jpg": "img/manhattan-skyline-new-york-3453206184.jpg", "Metropolitan%20Museum%20of%20Art%20entrance%20NYC.JPG": "img/metropolitan-museum-of-art-entrance-nyc.jpg", "Metropolitan_Museum_of_Art_(The_Met)_-_Central_Park,_NYC.jpg": "img/metropolitan-museum-of-art-the-met-central-park-.jpg", "Montmorency%20Falls%2001.jpg": "img/montmorency-falls-01.jpg", "National_Air_and_Space_Museum.jpg": "img/national-air-and-space-museum.jpg", "National_Gallery_of_Art_-_West_Building_facade.JPG": "img/national-gallery-of-art-west-building-facade.jpg", "New%20York%20City%20High%20Line%20-%20Urban%20Forestry%20-%2020150915-OSEC-LSC-0294%20%2821571387346%29.jpg": "img/new-york-city-high-line-urban-forestry-20150915-.jpg", "New%20York%20Stock%20Exchange,%20Manhattan,%20New%20York%20(7236984682).jpg": "img/new-york-stock-exchange-manhattan-new-york-72369.jpg", "Observation_deck_of_Journey_Behind_the_Falls.jpg": "img/observation-deck-of-journey-behind-the-falls.jpg", "Old%20Port%20of%20Montreal%2C%20Canada.jpg": "img/old-port-of-montreal-canada.jpg", "Old%20port%20of%20Montreal%20by%20night.jpg": "img/old-port-of-montreal-by-night.jpg", "Orlando%20Premium%20Outlets%2003.JPG": "img/orlando-premium-outlets-03.jpg", "Ottawa%20Rideau%20Canal%20Skating%20Chateau%20Laurier%20Parliament.jpg": "img/ottawa-rideau-canal-skating-chateau-laurier-parl.jpg", "Parliament-Ottawa.jpg": "img/parliament-ottawa.jpg", "Pedestrian_bridge_at_Ste-Anne_Grand_Canyon_-_panoramio.jpg": "img/pedestrian-bridge-at-ste-anne-grand-canyon-panor.jpg", "Peller%20Estates%20Winery%20-%20Niagara%20on%20the%20Lake%20(25250901277).jpg": "img/peller-estates-winery-niagara-on-the-lake-252509.jpg", "Philadelphia%20skyline-daytime.JPG": "img/philadelphia-skyline-daytime.jpg", "Place_Royale%2C_Quebec_City.jpg": "img/place-royale-quebec-city.jpg", "Queen%20St%20and%20Clock%20Tower,%20Niagara-on-the-Lake%2020170418%201.jpg": "img/queen-st-and-clock-tower-niagara-on-the-lake-201.jpg", "Roosevelt_Island_Tram_Car.jpg": "img/roosevelt-island-tram-car.jpg", "Royal%20Ontario%20Museum%20in%20Fall%202021.jpg": "img/royal-ontario-museum-in-fall-2021.jpg", "Rue%20du%20Petit-Champlain%2003.jpg": "img/rue-du-petit-champlain-03.jpg", "Smithsonian%20National%20Museum%20of%20Natural%20History%20-%20facade%20view.jpg": "img/smithsonian-national-museum-of-natural-history-f.jpg", "Smithsonian-nasm-panorama-20160716.jpg": "img/smithsonian-nasm-panorama-20160716.jpg", "St.%20Lawrence%20Market%20Inside%202017%20(1).jpg": "img/st-lawrence-market-inside-2017-1.jpg", "Statue%20of%20Liberty,%20NY.jpg": "img/statue-of-liberty-ny.jpg", "Statue_of_Liberty,_NY.jpg": "img/statue-of-liberty-ny-2.jpg", "Summit%20One%20Vanderbilt%200.jpg": "img/summit-one-vanderbilt-0.jpg", "The%20Vessel%20July%202024%20005.jpg": "img/the-vessel-july-2024-005.jpg", "Thousand%20Islands.-%20Zavikon%20Island%20in%20Ontario.jpg": "img/thousand-islands-zavikon-island-in-ontario.jpg", "Times%20Square%2C%20New%20York%20City%2C%2020231006%201916%202338.jpg": "img/times-square-new-york-city-20231006-1916-2338.jpg", "Toronto%20-%20ON%20-%20Toronto%20Skyline2.jpg": "img/toronto-on-toronto-skyline2.jpg", "Toronto%20Nathan%20Phillips%20Square%20and%20Toronto%20City%20Hall%20(29944923803).jpg": "img/toronto-nathan-phillips-square-and-toronto-city-.jpg", "Tourists%20by%20the%20Charging%20Bull,%20Bowling%20Green,%20Manhattan,%20New%20York.jpg": "img/tourists-by-the-charging-bull-bowling-green-manh.jpg", "USA-Georgetown%20Waterfront%20Harbor.jpg": "img/usa-georgetown-waterfront-harbor.jpg", "WLA_filmlinc_MOMA_3.jpg": "img/wla-filmlinc-moma-3.jpg", "Washington_Monument_and_the_National_Mall.jpg": "img/washington-monument-and-the-national-mall.jpg", "Weingut%20Peller%20Estates%20Niagara.JPG": "img/weingut-peller-estates-niagara.jpg", "White%20House%20Washington%20South.JPG": "img/white-house-washington-south.jpg", "WhiteHouseSouthFacade.JPG": "img/whitehousesouthfacade.jpg", "Yankee%20Stadium%202009.jpg": "img/yankee-stadium-2009.jpg"};
+const WM = f => WM_MAP[f] || ('img/'+String(f).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''));
+const SEED_IMAGES = {
+  cover:            WM("Lower%20Manhattan%20skyline%20-%20June%202017.jpg"),
+  toronto:          WM("Toronto%20-%20ON%20-%20Toronto%20Skyline2.jpg"),
+  niagara:          WM("Horseshoe%20Falls%20-%20Niagara%20Falls%20Canada.JPG"),
+  winery:           WM("Peller%20Estates%20Winery%20-%20Niagara%20on%20the%20Lake%20(25250901277).jpg"),
+  ottawa:           WM("Parliament-Ottawa.jpg"),
+  thousand_islands: WM("Thousand%20Islands.-%20Zavikon%20Island%20in%20Ontario.jpg"),
+  quebec:           WM("Ch%C3%A2teau%20Frontenac,%20Quebec%20city,%20Canada.jpg"),
+  montreal:         WM("Old%20port%20of%20Montreal%20by%20night.jpg"),
+  newyork:          WM("Manhattan%20Skyline,%20New%20York%20(3453206184).jpg"),
+  newyork_landmarks:WM("Brooklyn%20Bridge%20at%20Night%20with%20Manhattan%20Skyline.jpg"),
+  central_park:     WM("Central%20Park%20New%20York%20City%20New%20York%2023%20cropped.jpg"),
+  philadelphia:     WM("2015%20Independence%20Hall%20-%20Philadelphia%2001.JPG"),
+  washington:       WM("Capitol%20Building%20Full%20View.jpg"),
+  times_square:     WM("1_times_square_night_2013.jpg"),
+  statue_liberty:   WM("Statue_of_Liberty,_NY.jpg"),
+  met_museum:       WM("Metropolitan_Museum_of_Art_(The_Met)_-_Central_Park,_NYC.jpg"),
+  moma_fifth:       WM("Ame02128%2025.jpg"),
+  white_house:      WM("WhiteHouseSouthFacade.JPG"),
+  lincoln_memorial: WM("Lincoln_Memorial_(Lincoln_contrasty).jpg"),
+  smithsonian_air:  WM("National_Air_and_Space_Museum.jpg"),
+  brooklyn_day:     WM("Brooklyn_Bridge_Manhattan.jpg"),
+  philadelphia_skyline: WM("Philadelphia%20skyline-daytime.JPG"),
+  premium_outlet:   WM("Orlando%20Premium%20Outlets%2003.JPG"),
+  niagara_town:     WM("Facing%20the%20vineyards,%20a%20lovely%20afternoon%20at%20Peller%20Estates,%20Vineyards%20Tour%20(6184370206).jpg"),
+};
+
+/* ============================================================
+   2.5) 介紹文（景點/餐點/飯店/餐廳）＋ 地圖資料（真實地理輪廓投影）
+   ============================================================ */
+const DAY_INTROS={"2":{"a":["尼加拉湖濱小鎮位於尼加拉河匯入安大略湖之處，主街兩旁是維多利亞式店屋與花圃，一派十九世紀英式小鎮風情。","遊船駛近馬蹄瀑布腳下，水霧在轟鳴中撲面而來，發給每人的雨衣不消幾秒就全身溼透，從水面仰望瀑布最為震撼。","Peller Estates 是尼加拉葡萄酒產區的代表酒莊，以加拿大特產的冰酒聞名，可在園景餐廳佐酒享用午宴。"],"m":{"l":"Peller Estates 是尼加拉產區名酒莊，以加拿大冰酒著稱，午宴可一邊俯瞰葡萄園一邊佐酒用餐。"}},"3":{"a":["搭電梯深入瀑布岩壁內，穿過隧道走到觀景平台，站在馬蹄瀑布傾瀉的水簾正後方，看數萬噸河水從頭頂奔落。","","史凱隆塔以外掛式黃色玻璃電梯登上塔頂觀景台，可一覽美加兩側的尼加拉瀑布全景與下方蜿蜒的尼加拉河。"],"m":{"l":"Table Rock 餐廳就在馬蹄瀑布邊緣，落地窗正對奔騰的瀑布，用餐時水霧與翻湧的水勢近在咫尺。","d":"Skylon Tower 塔頂的旋轉餐廳每小時繞行一圈，自助餐之間瀑布與河谷景色緩緩在窗外推移。"}},"4":{"a":["皇家安大略博物館是加拿大規模最大的博物館之一，恐龍化石與自然標本豐富，入口那座菱角分明的水晶體增建尤為醒目。","舊市政廳是紅砂岩的羅馬式古典建築配高聳鐘樓，正對面的新市政廳則由兩棟弧形高樓環抱圓盤議事廳，新舊風格隔街相望。","","遊船從港灣出發駛入安大略湖，從水上回望多倫多天際線，CN 塔與成排摩天樓在湖面前一字排開。","聖羅倫斯市場是多倫多歷史悠久的室內市場，紅磚拱頂下聚集肉舖、起司與熟食攤，當地名物 peameal 培根三明治是必嚐。","CN 塔是多倫多的地標高塔，登上觀景層可俯瞰全城與安大略湖，地面那段嵌入塔身的玻璃地板讓人直接看穿腳下高空。"],"m":{"d":"CN 塔上的 360 餐廳隨塔身緩緩旋轉，一頓飯的時間正好繞城一圈，多倫多市景與湖光在窗外輪番登場。"}},"5":{"a":["聖羅倫斯河上散落上千座島嶼，遊船穿行其間，能看到一座座私人小島上各自佇立的別墅與燈塔。","渥太華最熱鬧的露天市集街區，攤販賣著鮮花蔬果與當地小吃，可以買一份外裹肉桂糖的油炸甜點 BeaverTails。"],"m":{"d":"The Grand Pizzeria and Bar 開在拜沃德市場一帶，供應柴燒石窯披薩與義式料理，店內有寬敞的酒吧座位。"}},"6":{"a":["加拿大聯邦國會所在，哥德復興式建築群立於渥太華河畔山丘，中央是高聳的和平塔鐘樓。","連接渥太華與安大略湖的水道，冬季結冰後化為一條長距離的露天溜冰場，是當地人通勤與玩樂的去處。"],"m":{"l":"Red Lobster 是北美連鎖海鮮餐廳，以龍蝦、生蠔與招牌奶油蒜香比司吉麵包聞名。","d":"Bistro L'Orygine 走法式小館路線，菜色講究在地食材與當季變化，份量精緻。"}},"7":{"a":["聖安妮河切穿岩壁形成的深谷，多座吊橋橫跨其上，可俯瞰瀑布層層落下的水勢。","聖羅倫斯河中的一座農業小島，散布著草莓園、楓糖屋與老法式農舍，保留早期魁北克鄉村風貌。","魁北克下城的石砌小廣場，是北美最早的法國商貿據點之一，四周圍著十七世紀的灰石老屋。","北美最古老的商業街之一，鋪石窄巷兩側盡是小店與餐館，搭纜車可在上城與下城之間往返。"],"m":{"l":"楓糖風味餐源自魁北克的糖屋傳統，以楓糖入菜搭配火腿、豆料理，餐後常有澆在雪上的楓糖糖果。"}},"8":{"a":["落差比尼加拉瓜瀑布更高的單股瀑布，頂端有吊橋橫越，可搭纜車登上崖頂近看奔騰水流。","蒙特婁舊城的哥德復興式天主教堂，內部以深藍穹頂、滿綴金星與繁複木雕祭壇著稱。","聖羅倫斯河畔的歷史港埠，鵝卵石街道連著昔日倉庫改成的店家，是城市最早的水岸地帶。"]},"9":{"a":["由廢棄高架鐵路改建的線形空中花園，沿著哈德遜河岸延伸，野草、月台與街景在腳下並行。","哈德遜廣場上蜂巢狀的銅色階梯雕塑，一百多段樓梯層層交錯向上盤旋，在這裡拍下它的幾何輪廓。","中央車站旁摩天樓頂的鏡面觀景空間，四面落地玻璃與鏡牆把曼哈頓天際線反射成無數倒影。","百老匯與第七大道交會的霓虹路口，巨型廣告螢幕日夜閃爍，是紐約最喧鬧的心臟地帶。"],"m":{"l":"曼哈頓下東城的猶太熟食老店，現切現堆的煙燻牛肉三明治份量驚人，牆上掛滿名人合照。","d":"藏身中央車站地下層的生蠔吧，拱形磁磚穹頂下擺滿來自各海域的生蠔，是百年歷史的海鮮老店。"}},"10":{"a":["從哈德遜河上航行繞行港灣，遠眺手持火炬的自由女神像，曼哈頓摩天樓群在水面一字排開。","由舊餅乾工廠改建的室內美食市集，裸露磚牆與管線間聚集海鮮、烘焙與各國小吃攤位。","搭渡輪可達的港灣小島，曾是軍事要塞，如今綠地草坡開闊，回望曼哈頓與自由女神的視野遼闊。","金融區裡低頭蓄勢的銅牛，象徵華爾街的牛市氣勢，遊客總圍著牠拍照觸摸。","曼哈頓下城的金融命脈，紐約證券交易所與聯邦廳坐落於此，狹窄街道兩側盡是古典石造大樓。","橫跨東河連接曼哈頓與布魯克林的石造拱橋，木板步道高懸於車道之上，鋼索與哥德式橋塔交織成景。"],"m":{"l":"在雀兒喜市場品嘗龍蝦，從舊工廠改造的市集攤位取餐，現煮龍蝦肉鮮甜飽滿。","d":"布魯克林的傳奇牛排館，以乾式熟成的丁骨牛排聞名，只收現金、桌邊滋滋作響的厚切牛排是招牌。"}},"11":{"a":["中央公園東緣的巨型藝術殿堂，從埃及神廟、歐洲名畫到盔甲兵器橫跨數千年文明，藏品浩瀚難以一日看盡。","曼哈頓中央的長方形綠肺，草坪、湖泊與林蔭步道被摩天樓環抱，是紐約人散步慢跑的後花園。","走進大聯盟球場親臨美國職棒現場，看台間熱狗啤酒與全場歡呼，感受美式棒球的熱烈氣氛。"]},"12":{"a":["橫越東河往返羅斯福島的通勤纜車，車廂緩緩升空，曼哈頓東岸天際線與河上橋樑盡入眼底。","第五大道旁的現代藝術重鎮，梵谷的星夜、莫內睡蓮與普普藝術齊聚，匯集二十世紀以來的經典之作。","曼哈頓最著名的購物大街，精品旗艦店與歷史建築並列，沿街櫥窗展示著紐約的時尚門面。","曼哈頓中央的廣闊綠地，湖畔、橋拱與林間小徑層次分明，從喧囂街區步入便是一片寧靜。"],"m":{"l":"坐落於 MoMA 館內的米其林二星餐廳，落地窗外正對博物館雕塑庭園，以精緻美式料理佐藝術用餐。","d":"哈德遜廣場的希臘海鮮餐廳，冰床上陳列當日地中海漁獲，由客人挑選後炭烤上桌。"}},"14":{"a":["美國《獨立宣言》與憲法都在這棟紅磚建築裡簽署，二樓會議廳的長桌與綠呢椅，是當年代表們激辯立國的現場。","鐘身那道由上而下的裂痕是它最著名的標記，鐘銘刻著「向全地居民宣告自由」，後來成了廢奴與民權運動的象徵。","這棟由木匠公會所建的紅磚屋，是第一屆大陸會議召開的地點，殖民地代表在此首度聚首商議對抗英國。","賓州大學與德雷塞爾大學聚集於此，常春藤校園的紅磚樓與綠地，街區滿是書店、咖啡館與年輕的學生身影。"],"m":{"l":"費城的招牌街頭味，烤得焦香的薄切牛肉鋪上融化起司，塞進長條麵包，是當地人從早餐到宵夜都吃的滋味。","d":"Hard Rock Cafe 以滿牆搖滾樂手吉他與紀念物聞名，在熱鬧的音樂氛圍裡享用美式炭烤牛排。"}},"15":{"a":["美國總統的官邸與辦公地，南面草坪與圓弧門廊是新聞畫面裡最常出現的一角，隔著鐵欄與賓州大道相望。","參眾兩院的所在地，純白圓頂頂著自由女神銅像，沿著國家廣場東端的長階一路向上延伸。","史密森尼旗下的展館，圓形大廳中央立著一頭巨大的非洲象標本，館內收藏知名的希望鑽石。","從河上回望華盛頓紀念碑與兩岸紀念建築，水面平緩，是換個角度看這座城市天際線的航程。"],"m":{"d":"在波多馬克河的遊船上邊用自助餐邊賞景，餐桌隨船緩行，把河岸風光當配菜。"}},"16":{"a":["仿希臘神殿的白色列柱裡，坐著一尊巨大的林肯雕像，正對倒影池與華盛頓紀念碑遙遙相望。","圓頂環柱的白色殿堂立在潮汐湖畔，堂內矗立傑佛遜立像，四周春日櫻花繞湖盛開。","國家廣場中央的白色方尖碑，是城裡最高的地標，碑身下深上淺，留著當年分兩階段建造的石色分界。","免費開放的國家級美術館，收藏達文西在美洲唯一一幅油畫，西館圓廳中央立著一座墨丘利噴泉。","史密森尼的招牌展館，懸掛萊特兄弟的飛行者一號與林白的聖路易精神號，還能觸摸一塊真正的月岩。"],"m":{"l":"蟹餅是切薩皮克灣一帶的招牌，以蟹肉為主、麵衣極少，外煎金黃內裡飽滿，分前菜主菜甜點三道上桌。","d":"巴西窯烤吃法，烤肉串現切到桌邊，各部位輪番上陣，配自助沙拉吧無限取用。"}}};
+const HOTEL_INTROS={"Fairmont Le Château Frontenac":"聖羅倫斯河畔的城堡式飯店，俯瞰魁北克舊城","Willard InterContinental":"白宮旁的百年名邸，歷任總統與名流下榻處","Thompson Central Park":"緊鄰中央公園，現代設計的曼哈頓中城據點","Sofitel Philadelphia at Rittenhouse Square":"里滕豪斯廣場旁，法式風格的費城精品飯店","Hilton Niagara Fallsview":"客房正對尼加拉瀑布，落地窗收進瀑布全景"};
+const DINING_INTROS={"The Modern":"紐約現代美術館內，米其林二星的精緻料理","Peter Luger Steak House":"布魯克林百年老店，乾式熟成牛排的標竿","estiatorio Milos":"哈德遜城市廣場，以鮮魚現選著稱的希臘海鮮","Skylon Tower":"塔頂旋轉餐廳，邊用餐邊環視尼加拉瀑布","Peller Estates":"尼加拉湖區酒莊，佐自釀美酒的莊園午宴"};
+const MAP={"W":1000,"H":1025,"land":["M652.9 617.0 L731.3 618.4 L731.3 670.8 L727.5 678.8 L722.1 677.4 L694.7 684.0 L662.1 682.1 L648.1 693.9 L633.1 697.7 L615.3 707.6 L610.8 697.7 L626.2 688.3 L621.8 681.2 L625.9 616.1 L652.9 617.0 Z","M505.4 809.5 L499.6 819.9 L493.0 825.6 L494.4 839.3 L503.7 852.0 L506.1 873.3 L519.4 895.4 L525.6 896.4 L528.3 926.1 L487.9 925.2 L482.1 816.6 L492.7 807.2 L505.4 809.5 Z","M404.0 879.4 L411.9 887.9 L403.7 896.8 L398.9 884.6 L404.0 879.4 Z","M-155.6 641.1 L-81.7 641.1 L-81.7 646.7 L-81.3 749.6 L-82.4 869.9 L-87.2 873.7 L-82.0 897.3 L-93.0 897.8 L-104.6 905.8 L-120.7 902.0 L-120.0 919.0 L-130.6 926.1 L-134.7 937.0 L-145.7 941.2 L-151.5 962.9 L-158.7 968.6 L-172.7 960.6 L-175.1 950.6 L-188.8 961.5 L-187.8 970.9 L-201.8 974.2 L-205.9 965.7 L-221.7 974.2 L-226.8 983.2 L-242.6 970.5 L-250.8 973.3 L-256.3 967.2 L-261.4 973.3 L-277.1 974.2 L-283.0 982.3 L-285.0 976.6 L-281.3 956.3 L-276.5 952.1 L-278.2 941.2 L-271.0 939.8 L-259.7 921.4 L-257.6 910.1 L-249.8 897.8 L-250.8 882.7 L-258.7 864.3 L-251.8 848.7 L-251.5 645.3 L-245.3 651.0 L-226.1 651.0 L-207.7 641.1 L-155.6 641.1 Z","M-25.2 898.7 L-11.2 910.5 L-1.2 904.4 L22.4 911.0 L29.2 902.5 L38.1 899.7 L40.9 914.3 L48.0 916.7 L56.6 928.5 L54.9 954.4 L62.4 970.9 L72.3 983.7 L75.4 993.6 L87.4 1003.5 L95.6 1004.9 L71.7 1028.0 L48.7 1040.8 L48.7 1047.4 L39.5 1053.0 L38.8 1060.6 L26.8 1063.9 L22.7 1073.3 L-10.8 1085.6 L-65.3 1086.1 L-111.8 1083.2 L-124.1 1084.2 L-193.3 1080.9 L-272.0 1082.8 L-285.7 1079.0 L-284.7 1094.6 L-362.4 1093.6 L-369.9 1094.6 L-366.5 1083.7 L-357.2 1087.5 L-352.1 1052.6 L-355.2 1047.9 L-345.6 1032.8 L-338.4 1031.8 L-315.5 1045.0 L-307.6 1037.9 L-313.4 1026.6 L-311.0 1017.7 L-285.4 1009.6 L-291.2 994.5 L-283.0 982.3 L-277.1 974.2 L-261.4 973.3 L-256.3 967.2 L-250.8 973.3 L-242.6 970.5 L-226.8 983.2 L-221.7 974.2 L-205.9 965.7 L-201.8 974.2 L-187.8 970.9 L-188.8 961.5 L-175.1 950.6 L-172.7 960.6 L-158.7 968.6 L-151.5 962.9 L-145.7 941.2 L-134.7 937.0 L-130.6 926.1 L-120.0 919.0 L-120.7 902.0 L-104.6 905.8 L-93.0 897.8 L-82.0 897.3 L-87.2 873.7 L-82.4 869.9 L-58.4 869.9 L-45.7 887.9 L-44.7 895.4 L-25.2 898.7 Z","M799.8 529.2 L792.2 523.1 L793.3 514.6 L783.3 504.7 L779.2 391.4 L776.1 335.7 L803.2 324.0 L798.7 317.8 L809.0 304.6 L819.6 298.5 L817.6 293.3 L827.5 285.3 L824.4 270.2 L830.6 247.5 L840.1 240.0 L843.9 215.9 L892.2 149.8 L903.5 152.6 L904.2 168.7 L912.4 174.4 L932.6 164.9 L945.2 164.9 L954.1 158.8 L971.6 172.5 L981.9 183.8 L982.5 280.5 L981.2 303.7 L1002.7 309.8 L999.7 319.7 L1005.1 329.1 L1000.7 337.6 L1009.6 350.8 L1021.2 348.0 L1032.5 378.7 L1019.5 392.4 L1012.0 387.2 L1005.8 396.6 L996.9 394.3 L995.9 402.3 L984.3 401.3 L965.8 419.7 L961.3 407.0 L954.8 406.1 L957.9 419.7 L943.5 426.4 L940.1 415.5 L933.3 421.2 L917.2 421.2 L916.8 408.4 L907.2 411.3 L909.0 420.2 L900.1 439.1 L901.8 444.3 L890.1 454.7 L878.5 450.9 L871.6 461.7 L862.1 463.2 L854.2 472.1 L844.6 470.2 L841.9 460.8 L827.8 475.9 L831.6 485.3 L821.3 488.6 L820.6 496.7 L809.0 506.6 L799.8 529.2 Z","M251.4 816.6 L482.1 816.6 L487.9 925.2 L528.3 926.1 L516.0 962.4 L506.4 963.9 L489.3 969.0 L475.9 972.8 L476.3 958.7 L471.1 953.0 L478.3 946.9 L468.7 932.7 L465.7 938.8 L452.7 937.4 L448.2 921.9 L452.3 921.9 L452.7 901.6 L456.8 893.5 L451.3 866.2 L458.1 850.1 L468.7 847.3 L470.5 830.8 L462.6 832.7 L462.2 841.2 L445.8 852.0 L441.0 861.9 L440.0 886.9 L433.8 898.7 L436.6 918.6 L444.8 932.2 L443.8 942.6 L448.9 953.0 L446.2 960.1 L431.8 946.4 L411.2 939.8 L405.1 926.6 L393.4 934.1 L389.0 923.7 L398.2 910.5 L403.7 896.8 L411.9 887.9 L404.0 879.4 L398.9 884.6 L390.7 876.6 L377.7 872.3 L377.7 859.6 L370.8 852.5 L361.3 851.1 L354.1 827.0 L343.5 827.0 L332.8 819.0 L327.0 825.6 L316.8 825.1 L314.4 834.6 L295.9 828.4 L283.6 841.2 L275.3 838.3 L263.0 853.0 L250.7 861.0 L251.4 816.6 Z","M786.4 543.9 L792.6 545.3 L795.0 560.4 L792.2 572.6 L782.3 584.0 L782.0 597.2 L795.6 599.1 L803.9 612.8 L802.5 623.6 L809.3 626.4 L810.0 636.4 L827.5 644.8 L847.7 636.8 L843.2 648.6 L813.4 659.0 L802.5 659.5 L796.0 651.5 L785.7 653.8 L785.4 659.9 L773.7 663.7 L768.9 648.2 L767.2 645.3 L760.7 639.2 L757.3 618.9 L748.1 618.9 L731.3 619.8 L652.9 617.0 L625.9 616.1 L624.5 612.8 L639.6 556.1 L690.2 557.5 L762.8 560.4 L769.6 552.4 L786.4 543.9 Z","M2.9 643.4 L-81.7 646.7 L-81.7 641.1 L-155.6 641.1 L-207.7 641.1 L-195.0 629.7 L-186.4 610.4 L-178.6 598.6 L-172.7 582.1 L-169.3 558.5 L-170.7 533.0 L-189.2 483.0 L-183.4 464.1 L-187.5 441.5 L-173.1 418.3 L-170.0 399.0 L-172.1 388.6 L-161.8 384.4 L-160.4 370.2 L-144.3 366.4 L-132.0 350.8 L-133.0 382.0 L-126.5 383.4 L-118.3 367.8 L-118.0 341.4 L-112.8 334.8 L-95.7 330.6 L-101.2 312.2 L-89.9 296.6 L-75.9 295.6 L-60.1 305.5 L-44.7 307.0 L-37.2 319.2 L-25.6 320.2 L-6.0 331.5 L0.8 331.0 L11.4 349.4 L2.9 359.3 L11.1 372.1 L14.2 386.7 L10.4 418.8 L-2.3 426.8 L-5.4 443.3 L-20.4 449.0 L-28.6 468.8 L-25.6 476.4 L-10.5 483.5 L1.1 472.6 L14.8 450.4 L36.4 441.9 L47.0 448.5 L53.5 460.8 L60.0 496.7 L61.1 514.6 L67.9 536.3 L61.4 567.5 L51.1 572.2 L50.8 560.8 L43.9 564.2 L36.1 590.1 L23.4 600.0 L19.6 619.8 L3.9 636.4 L2.9 643.4 Z","M-125.5 298.9 L-124.5 309.3 L-132.7 311.2 L-129.3 296.6 L-125.5 298.9 Z","M-255.6 353.7 L-265.2 344.7 L-259.3 332.4 L-274.1 330.6 L-268.2 318.8 L-267.6 303.7 L-280.6 293.3 L-287.8 282.4 L-314.5 273.9 L-322.7 276.8 L-349.4 264.0 L-413.7 246.6 L-420.6 231.9 L-432.2 226.7 L-407.9 217.8 L-397.0 207.4 L-369.6 203.1 L-351.8 190.4 L-343.6 189.9 L-336.7 181.0 L-317.2 168.2 L-307.3 157.4 L-292.6 150.3 L-278.5 156.4 L-303.2 182.9 L-309.0 191.8 L-308.6 207.9 L-296.7 195.6 L-275.1 197.5 L-258.3 206.0 L-243.3 229.6 L-235.0 233.8 L-219.3 230.0 L-215.5 235.2 L-199.8 238.1 L-166.2 218.2 L-148.8 216.4 L-125.5 217.3 L-109.8 210.7 L-97.8 210.2 L-95.4 234.3 L-83.1 237.6 L-70.7 233.8 L-65.6 239.5 L-57.4 232.4 L-39.2 230.0 L-38.9 260.2 L-30.7 273.0 L-18.4 276.3 L-17.0 267.8 L-5.0 267.8 L1.5 276.8 L-4.0 283.4 L-38.2 277.7 L-54.6 281.5 L-72.4 271.1 L-77.6 280.5 L-75.2 288.6 L-83.1 286.7 L-94.7 274.9 L-114.9 267.8 L-125.2 267.3 L-135.1 278.6 L-151.5 281.5 L-169.3 279.1 L-176.5 283.8 L-178.2 293.3 L-197.7 301.3 L-196.7 290.0 L-205.3 287.6 L-208.7 299.4 L-223.1 299.9 L-229.6 305.1 L-239.2 325.4 L-257.0 351.3 L-255.6 353.7 Z","M776.1 335.7 L779.2 391.4 L783.3 504.7 L793.3 514.6 L792.2 523.1 L799.8 529.2 L792.6 545.3 L786.4 543.9 L769.6 552.4 L762.8 560.4 L690.2 557.5 L684.7 550.9 L685.4 538.2 L690.9 533.5 L690.2 521.2 L695.0 484.9 L706.0 467.9 L711.4 448.5 L716.9 441.5 L716.6 420.2 L737.5 412.2 L747.7 397.6 L741.9 383.4 L750.5 369.3 L749.8 360.8 L758.7 338.6 L773.1 340.9 L776.1 335.7 Z","M579.0 694.4 L599.8 706.7 L592.3 731.7 L582.0 737.3 L576.6 750.6 L593.7 757.2 L595.1 767.1 L587.5 813.3 L568.0 847.8 L555.3 857.7 L544.1 879.4 L538.2 865.2 L520.1 858.1 L497.8 839.3 L496.5 826.5 L499.6 819.9 L505.4 809.5 L522.1 802.5 L523.2 795.9 L542.3 781.7 L545.4 774.1 L527.6 756.7 L526.9 745.8 L519.1 743.0 L518.4 733.1 L528.0 718.0 L522.8 709.0 L538.6 691.1 L542.0 681.7 L550.2 675.5 L579.0 694.4 Z","M634.8 360.8 L635.4 378.7 L632.0 394.7 L637.8 410.3 L636.1 426.8 L628.9 444.3 L634.4 467.9 L631.0 475.0 L640.9 489.1 L638.9 548.6 L639.6 556.1 L624.5 612.8 L625.9 616.1 L621.8 681.2 L626.2 688.3 L610.8 697.7 L615.3 707.6 L642.0 714.7 L647.4 709.5 L670.4 709.5 L682.0 706.7 L701.2 693.0 L702.5 702.9 L712.5 707.1 L689.5 719.9 L641.3 738.8 L621.1 742.5 L607.7 741.6 L597.8 745.8 L592.3 731.7 L599.8 706.7 L579.0 694.4 L550.2 675.5 L547.5 669.4 L537.9 668.9 L526.6 654.3 L528.0 641.5 L520.4 631.6 L515.6 632.1 L508.8 620.3 L233.6 620.3 L233.6 598.6 L271.9 572.6 L278.1 560.8 L290.4 552.8 L285.6 538.2 L280.5 535.4 L276.7 511.8 L313.3 501.9 L345.9 502.3 L358.9 504.7 L372.9 514.1 L381.8 510.4 L408.8 510.8 L425.3 504.7 L442.7 489.1 L454.0 488.6 L454.4 465.1 L460.2 451.4 L446.2 441.9 L449.2 431.1 L474.2 416.4 L483.5 403.7 L513.6 374.9 L542.0 360.3 L584.4 362.6 L634.8 360.8 Z","M157.6 1088.9 L200.4 1090.3 L249.3 1090.8 L477.0 1089.9 L484.1 1124.3 L466.7 1121.0 L464.3 1125.2 L443.1 1130.4 L440.0 1135.2 L426.0 1136.6 L426.6 1142.7 L443.8 1138.5 L446.2 1142.2 L465.0 1138.0 L471.1 1146.0 L482.4 1142.7 L486.5 1163.5 L482.8 1173.4 L475.2 1174.3 L459.5 1195.6 L438.6 1196.5 L435.2 1211.1 L444.1 1225.8 L451.3 1228.6 L437.9 1252.7 L426.6 1249.8 L406.8 1252.2 L393.1 1257.4 L371.5 1273.9 L354.4 1295.6 L345.5 1323.0 L332.5 1316.8 L309.9 1322.5 L239.1 1240.4 L168.9 1239.0 L169.9 1229.1 L160.3 1214.4 L153.8 1219.6 L153.5 1210.7 L76.5 1206.4 L59.3 1209.7 L46.0 1217.7 L24.4 1223.4 L-7.4 1224.8 L-51.2 1224.3 L-49.5 1204.1 L-37.2 1202.2 L-32.4 1188.0 L-17.0 1175.3 L0.1 1174.8 L15.5 1161.6 L31.6 1156.9 L45.3 1137.5 L53.9 1131.9 L55.6 1140.3 L80.2 1123.8 L91.5 1127.1 L99.4 1111.1 L111.0 1106.8 L113.8 1086.6 L157.6 1088.9 Z","M186.3 622.2 L186.3 737.8 L177.1 742.5 L181.5 752.0 L181.2 765.2 L172.6 785.9 L166.8 817.6 L142.5 845.4 L134.6 849.2 L127.8 843.5 L120.6 855.8 L113.4 855.3 L105.6 871.8 L107.3 881.7 L100.8 889.8 L91.5 876.6 L79.9 897.3 L83.0 910.5 L75.4 915.2 L73.0 926.6 L56.6 928.5 L48.0 916.7 L40.9 914.3 L38.1 899.7 L29.2 902.5 L22.4 911.0 L-1.2 904.4 L-11.2 910.5 L-25.2 898.7 L-44.7 895.4 L-45.7 887.9 L-58.4 869.9 L-82.4 869.9 L-81.3 749.6 L-81.7 646.7 L2.9 643.4 L27.2 655.2 L35.4 662.3 L41.5 655.7 L55.2 669.4 L63.8 673.6 L92.9 662.3 L110.0 664.7 L128.5 648.6 L155.5 633.0 L186.3 622.2 Z","M233.6 598.6 L233.6 620.3 L508.8 620.3 L515.6 632.1 L520.4 631.6 L528.0 641.5 L526.6 654.3 L537.9 668.9 L547.5 669.4 L550.2 675.5 L542.0 681.7 L538.6 691.1 L522.8 709.0 L528.0 718.0 L518.4 733.1 L519.1 743.0 L526.9 745.8 L527.6 756.7 L545.4 774.1 L542.3 781.7 L523.2 795.9 L522.1 802.5 L505.4 809.5 L492.7 807.2 L482.1 816.6 L251.4 816.6 L186.3 816.6 L186.3 737.8 L186.3 622.2 L198.0 617.5 L233.6 597.2 L233.6 598.6 Z","M768.9 648.2 L773.7 663.7 L761.4 665.6 L768.9 648.2 Z","M748.1 618.9 L757.3 618.9 L760.7 639.2 L767.2 645.3 L759.7 643.9 L753.2 656.6 L751.1 674.6 L727.5 678.8 L731.3 670.8 L731.3 619.8 L748.1 618.9 Z","M749.8 360.8 L750.5 369.3 L741.9 383.4 L747.7 397.6 L737.5 412.2 L716.6 420.2 L716.9 441.5 L711.4 448.5 L706.0 467.9 L695.0 484.9 L690.2 521.2 L690.9 533.5 L685.4 538.2 L684.7 550.9 L690.2 557.5 L639.6 556.1 L638.9 548.6 L640.9 489.1 L631.0 475.0 L634.4 467.9 L628.9 444.3 L636.1 426.8 L637.8 410.3 L632.0 394.7 L635.4 378.7 L634.8 360.8 L699.5 361.7 L749.8 360.8 Z","M506.4 963.9 L516.0 962.4 L507.8 977.1 L499.2 982.3 L494.1 1002.1 L481.1 1034.2 L470.5 1040.8 L467.0 1029.0 L472.5 1002.6 L489.3 969.0 L506.4 963.9 Z","M321.9 838.8 L354.4 867.6 L361.3 851.1 L370.8 852.5 L377.7 859.6 L377.7 872.3 L390.7 876.6 L398.9 884.6 L403.7 896.8 L398.2 910.5 L390.7 914.3 L385.9 926.6 L388.6 935.5 L405.4 932.7 L408.5 946.4 L430.4 952.1 L436.6 962.9 L454.0 974.7 L446.2 998.8 L453.3 1017.7 L444.8 1026.6 L443.8 1037.5 L451.6 1044.1 L443.1 1054.5 L430.1 1040.8 L427.0 1045.5 L438.3 1055.4 L469.1 1057.8 L477.0 1089.9 L249.3 1090.8 L200.4 1090.3 L157.6 1088.9 L113.8 1086.6 L-10.8 1085.6 L22.7 1073.3 L26.8 1063.9 L38.8 1060.6 L39.5 1053.0 L48.7 1047.4 L48.7 1040.8 L71.7 1028.0 L95.6 1004.9 L94.6 1012.0 L103.2 1026.6 L113.8 1033.7 L121.6 1033.2 L133.6 1021.9 L142.2 1030.9 L158.3 1026.1 L186.7 1009.6 L189.1 1014.8 L200.0 1007.3 L200.4 991.7 L207.2 978.0 L218.9 965.3 L223.6 949.7 L236.0 933.7 L240.8 913.8 L251.4 925.6 L261.6 929.4 L268.1 922.3 L281.5 891.7 L289.4 899.2 L318.5 864.3 L321.9 838.8 Z","M186.3 737.8 L186.3 816.6 L251.4 816.6 L250.7 861.0 L263.0 853.0 L275.3 838.3 L283.6 841.2 L295.9 828.4 L314.4 834.6 L316.8 825.1 L327.0 825.6 L332.8 819.0 L343.5 827.0 L354.1 827.0 L361.3 851.1 L354.4 867.6 L321.9 838.8 L318.5 864.3 L289.4 899.2 L281.5 891.7 L268.1 922.3 L261.6 929.4 L251.4 925.6 L240.8 913.8 L236.0 933.7 L223.6 949.7 L218.9 965.3 L207.2 978.0 L200.4 991.7 L200.0 1007.3 L189.1 1014.8 L186.7 1009.6 L158.3 1026.1 L142.2 1030.9 L133.6 1021.9 L121.6 1033.2 L113.8 1033.7 L103.2 1026.6 L94.6 1012.0 L95.6 1004.9 L87.4 1003.5 L75.4 993.6 L72.3 983.7 L62.4 970.9 L54.9 954.4 L56.6 928.5 L73.0 926.6 L75.4 915.2 L83.0 910.5 L79.9 897.3 L91.5 876.6 L100.8 889.8 L107.3 881.7 L105.6 871.8 L113.4 855.3 L120.6 855.8 L127.8 843.5 L134.6 849.2 L142.5 845.4 L166.8 817.6 L172.6 785.9 L181.2 765.2 L181.5 752.0 L177.1 742.5 L186.3 737.8 Z","M1250.5 -55.2 L1284.7 -45.9 L1311.9 -33.7 L1319.1 -25.2 L1328.1 -22.1 L1330.9 -18.2 L1351.5 -12.5 L1364.9 4.8 L1362.5 9.5 L1355.4 11.5 L1328.6 11.9 L1315.2 6.4 L1275.6 -2.4 L1263.5 -10.1 L1244.8 -16.1 L1242.5 -25.2 L1228.6 -37.8 L1203.8 -47.5 L1196.1 -53.8 L1194.4 -50.8 L1186.6 -57.2 L1190.1 -60.4 L1206.0 -64.6 L1223.1 -59.0 L1250.5 -55.2 Z","M792.8 189.7 L787.2 197.0 L773.1 202.0 L787.7 188.4 L791.5 187.2 L792.8 189.7 Z","M1649.7 -190.6 L1643.2 -190.9 L1640.8 -198.5 L1618.6 -192.0 L1619.9 -195.2 L1614.0 -192.1 L1613.5 -196.2 L1609.5 -195.8 L1608.5 -189.7 L1606.2 -192.4 L1592.4 -181.7 L1579.5 -178.5 L1577.4 -179.9 L1578.2 -183.8 L1575.2 -178.2 L1566.9 -181.8 L1557.5 -176.1 L1554.5 -178.8 L1555.0 -175.1 L1552.0 -177.2 L1556.7 -171.0 L1555.1 -168.3 L1541.4 -162.2 L1541.9 -158.6 L1538.1 -154.4 L1537.6 -159.7 L1531.0 -156.4 L1534.2 -154.4 L1533.8 -148.4 L1535.0 -145.0 L1532.8 -142.8 L1534.5 -140.3 L1529.4 -135.8 L1530.3 -133.4 L1525.8 -135.7 L1525.4 -139.7 L1527.8 -144.0 L1525.1 -144.7 L1523.8 -138.2 L1519.1 -131.8 L1515.2 -134.4 L1514.5 -130.3 L1509.4 -126.0 L1504.8 -125.9 L1505.9 -123.6 L1502.8 -122.5 L1494.7 -110.1 L1480.2 -106.3 L1476.1 -101.0 L1477.9 -97.0 L1480.3 -99.0 L1479.1 -96.4 L1472.0 -90.9 L1461.6 -89.0 L1460.4 -86.5 L1460.5 -88.7 L1458.0 -88.9 L1459.4 -93.8 L1453.5 -88.9 L1453.9 -92.0 L1451.6 -93.8 L1450.5 -90.1 L1446.2 -90.5 L1446.5 -88.2 L1440.7 -91.3 L1432.3 -86.9 L1430.0 -90.2 L1427.1 -87.9 L1422.0 -89.1 L1419.5 -86.3 L1416.2 -87.8 L1419.2 -91.5 L1410.3 -85.6 L1404.6 -88.4 L1399.2 -85.1 L1396.5 -86.4 L1387.7 -86.1 L1361.2 -76.9 L1357.3 -78.1 L1369.2 -82.3 L1370.2 -85.0 L1356.9 -80.4 L1353.1 -87.2 L1330.6 -89.1 L1318.9 -94.3 L1315.9 -91.1 L1297.7 -93.2 L1299.2 -96.1 L1293.4 -93.8 L1283.6 -93.5 L1281.6 -95.8 L1271.0 -94.0 L1271.3 -90.9 L1258.8 -89.8 L1256.6 -87.3 L1250.7 -91.5 L1243.9 -90.5 L1230.5 -95.9 L1208.6 -91.5 L1190.3 -96.5 L1164.2 -92.0 L1161.6 -94.1 L1144.4 -93.6 L1140.1 -96.4 L1111.6 -91.1 L1096.7 -93.8 L1090.2 -87.5 L1087.9 -90.0 L1088.1 -85.4 L1079.0 -87.8 L1070.7 -85.6 L1066.1 -92.1 L1059.8 -86.9 L1060.8 -83.6 L1067.0 -83.1 L1065.0 -80.4 L1053.9 -84.6 L1055.0 -81.8 L1047.4 -72.6 L1033.8 -66.8 L1033.5 -61.6 L1028.9 -53.5 L1026.6 -55.8 L1021.8 -52.3 L1020.0 -47.0 L1021.1 -41.3 L1018.8 -38.9 L1016.3 -33.7 L1016.6 -23.3 L1007.1 -10.5 L995.6 -11.2 L980.6 -6.3 L971.4 -8.2 L961.3 -6.2 L959.0 -0.1 L950.0 0.4 L956.7 3.0 L956.9 7.6 L948.4 8.6 L943.2 12.4 L941.0 12.1 L945.8 5.8 L941.0 0.7 L943.5 6.7 L930.8 13.6 L928.5 21.0 L925.2 22.4 L928.6 24.4 L919.5 25.2 L909.0 33.1 L908.3 35.9 L902.4 37.3 L897.3 52.1 L891.8 52.9 L888.0 64.0 L879.2 76.9 L870.2 82.7 L863.5 91.5 L855.6 90.0 L846.3 80.2 L834.3 79.7 L820.4 71.2 L801.0 70.6 L796.2 66.2 L782.5 63.6 L776.8 65.5 L783.1 64.9 L794.7 69.3 L788.3 72.5 L789.7 76.1 L795.7 73.2 L814.7 73.3 L826.7 77.7 L832.5 82.6 L847.7 84.3 L852.5 91.0 L860.6 94.0 L848.4 122.9 L835.1 132.8 L830.9 139.9 L829.7 146.8 L812.5 152.1 L807.9 165.9 L798.6 180.8 L782.9 189.3 L768.9 202.3 L762.6 211.8 L772.3 202.9 L780.9 202.7 L809.9 189.3 L822.6 176.4 L831.2 162.6 L841.0 155.9 L842.6 147.6 L850.2 142.9 L872.1 117.8 L871.5 114.9 L878.1 105.2 L884.9 102.2 L917.3 72.0 L923.3 71.3 L934.9 64.5 L940.4 57.5 L965.1 43.8 L970.4 43.5 L996.7 29.8 L1027.0 20.1 L1053.8 6.8 L1079.7 -0.1 L1111.1 -2.3 L1119.5 -5.2 L1159.8 -1.2 L1182.0 7.6 L1204.0 25.0 L1208.9 38.2 L1200.1 32.4 L1183.9 27.5 L1189.2 31.7 L1185.0 32.6 L1193.7 33.0 L1195.4 35.5 L1192.0 36.7 L1197.7 38.3 L1208.7 49.7 L1201.9 51.3 L1201.3 55.6 L1206.9 58.5 L1199.4 63.5 L1199.0 67.3 L1173.8 74.2 L1175.4 76.6 L1170.5 86.5 L1158.4 87.5 L1159.6 91.1 L1139.4 102.3 L1127.8 103.4 L1124.7 99.2 L1105.6 93.3 L1100.5 88.7 L1100.4 84.5 L1088.7 95.1 L1075.4 93.7 L1075.4 97.9 L1064.3 93.1 L1060.1 98.6 L1041.0 103.7 L1034.8 106.6 L1034.6 112.1 L1028.3 109.4 L1019.5 113.4 L1011.1 112.3 L1008.5 117.1 L993.5 108.9 L993.0 103.6 L961.5 103.2 L961.2 109.7 L945.5 109.9 L945.1 133.2 L945.0 141.4 L932.7 153.0 L903.8 164.0 L903.3 153.2 L891.8 150.5 L844.7 216.2 L842.8 226.6 L840.8 239.0 L831.8 246.9 L826.0 259.3 L829.4 263.9 L824.7 270.0 L824.3 278.4 L828.3 280.5 L827.8 284.4 L817.7 293.8 L818.9 299.7 L809.2 305.0 L798.7 317.7 L804.0 328.1 L793.9 325.3 L791.9 328.2 L792.9 331.3 L791.0 337.9 L788.9 342.5 L783.8 332.7 L775.8 335.9 L771.7 341.4 L762.6 336.6 L757.1 341.6 L753.3 341.5 L756.1 344.4 L754.3 351.8 L749.8 356.7 L749.6 360.7 L724.9 361.3 L684.5 361.4 L644.4 361.2 L634.7 361.4 L592.4 362.7 L547.7 362.5 L562.1 355.7 L566.6 349.0 L573.5 344.6 L563.8 334.6 L569.0 313.3 L553.4 307.1 L539.0 306.6 L502.9 316.8 L478.3 329.8 L464.0 317.6 L457.2 317.0 L447.6 322.6 L430.8 314.3 L427.1 311.0 L424.3 300.5 L419.8 296.2 L418.5 287.4 L411.8 285.2 L411.2 292.4 L406.1 293.8 L393.4 286.3 L388.8 281.1 L386.1 273.4 L371.6 262.6 L363.7 259.9 L299.8 246.7 L296.5 241.2 L284.3 231.6 L271.5 205.7 L262.2 194.7 L253.5 180.0 L253.8 166.7 L245.2 151.5 L249.3 140.8 L248.8 51.2 L248.7 37.5 L247.6 -151.5 L259.0 -135.9 L259.5 -132.0 L260.6 -134.3 L257.3 -141.0 L254.9 -144.8 L247.6 -153.6 L247.5 -171.6 L247.1 -194.7 L249.5 -195.5 L246.8 -202.7 L259.1 -211.6 L266.3 -209.8 L263.4 -203.6 L264.1 -200.8 L273.3 -201.5 L279.7 -196.1 L285.1 -179.7 L284.3 -173.7 L291.0 -169.2 L286.2 -175.0 L287.2 -181.4 L292.3 -185.2 L288.2 -189.3 L296.0 -197.0 L300.7 -196.8 L292.5 -199.3 L293.5 -207.7 L284.8 -211.9 L285.1 -214.9 L279.2 -222.0 L291.4 -227.6 L287.9 -235.9 L297.0 -239.0 L300.3 -241.9 L299.7 -245.9 L303.9 -246.2 L303.2 -248.6 L307.5 -250.9 L310.2 -256.8 L309.0 -261.6 L318.4 -261.7 L315.5 -264.6 L309.0 -264.7 L312.7 -272.2 L309.7 -278.8 L312.1 -280.9 L308.4 -283.1 L309.7 -285.6 L296.0 -289.9 L300.5 -292.6 L298.1 -294.2 L298.4 -297.1 L295.1 -297.6 L296.6 -301.2 L292.4 -301.9 L295.5 -302.4 L294.8 -304.6 L290.6 -307.1 L298.5 -308.9 L298.2 -312.2 L294.9 -311.7 L300.8 -317.1 L290.2 -316.9 L287.5 -320.8 L289.7 -324.3 L294.6 -324.8 L292.1 -325.5 L290.9 -328.4 L282.3 -329.5 L286.4 -332.0 L282.8 -333.4 L286.5 -341.7 L284.7 -343.1 L287.2 -344.0 L285.8 -346.3 L288.2 -346.8 L286.2 -348.8 L284.0 -351.9 L284.9 -360.1 L282.0 -365.6 L277.3 -365.3 L274.4 -370.7 L280.5 -373.2 L278.7 -371.0 L281.2 -369.7 L283.8 -371.7 L279.3 -375.7 L286.5 -375.7 L282.2 -380.4 L277.3 -378.9 L281.0 -382.7 L278.5 -384.9 L280.6 -386.3 L271.8 -388.2 L279.0 -390.3 L277.0 -393.3 L278.6 -395.0 L280.0 -398.2 L287.4 -397.7 L277.3 -401.2 L277.5 -404.1 L274.9 -405.8 L281.7 -406.0 L272.7 -409.8 L279.2 -409.0 L275.4 -410.4 L278.5 -411.4 L275.1 -411.8 L281.2 -413.6 L283.4 -413.3 L276.4 -416.8 L273.3 -420.6 L263.3 -420.7 L270.3 -421.0 L270.8 -423.7 L274.0 -422.5 L275.1 -424.7 L272.6 -426.0 L278.2 -429.4 L268.4 -426.9 L257.5 -430.3 L263.5 -435.0 L256.1 -436.3 L253.8 -437.4 L255.1 -439.5 L252.4 -439.8 L251.7 -445.0 L249.6 -445.5 L253.3 -449.5 L249.9 -449.9 L250.7 -453.1 L247.0 -457.1 L243.6 -461.4 L248.7 -464.2 L245.2 -466.1 L241.8 -462.8 L244.0 -468.7 L239.0 -467.5 L239.8 -471.1 L233.7 -470.3 L241.5 -473.8 L241.9 -477.4 L242.6 -474.9 L266.2 -483.6 L282.7 -486.2 L289.8 -491.9 L322.8 -503.1 L358.7 -524.5 L365.1 -531.6 L392.8 -551.0 L400.9 -560.5 L394.8 -559.2 L416.2 -579.8 L418.9 -585.1 L427.6 -591.1 L430.0 -601.9 L435.1 -611.6 L436.3 -620.9 L437.2 -655.1 L434.0 -675.1 L435.6 -681.2 L427.9 -706.7 L418.0 -725.9 L418.4 -729.7 L397.0 -760.2 L375.8 -772.5 L378.5 -774.4 L368.2 -781.5 L343.0 -790.9 L342.9 -793.8 L339.1 -797.4 L336.2 -796.7 L327.0 -803.0 L318.9 -811.7 L317.1 -810.5 L323.3 -804.5 L319.8 -804.9 L314.3 -810.9 L308.2 -811.2 L309.4 -815.1 L314.5 -818.7 L309.4 -824.4 L312.8 -825.2 L313.2 -829.0 L309.4 -836.7 L310.6 -839.1 L308.1 -841.1 L315.6 -836.6 L316.4 -840.3 L321.1 -840.8 L321.0 -836.9 L328.4 -843.7 L323.9 -843.1 L326.9 -845.9 L326.0 -848.7 L330.9 -848.7 L330.2 -853.6 L332.6 -851.7 L335.8 -853.7 L334.2 -857.5 L338.3 -857.9 L338.0 -862.9 L354.4 -868.6 L350.6 -871.2 L357.6 -872.3 L358.5 -874.7 L356.2 -876.2 L363.4 -878.3 L357.6 -881.1 L349.2 -880.2 L353.2 -882.8 L352.0 -887.5 L361.2 -890.9 L361.7 -897.9 L356.2 -902.6 L359.9 -903.9 L357.9 -905.5 L364.4 -902.5 L370.6 -904.3 L376.7 -899.1 L377.9 -894.3 L386.6 -893.1 L378.7 -896.1 L378.0 -901.5 L372.4 -903.7 L375.5 -905.8 L372.9 -909.4 L376.7 -908.4 L379.2 -912.0 L387.9 -912.8 L383.5 -921.1 L379.5 -923.2 L387.5 -927.5 L386.1 -929.6 L391.5 -930.1 L386.6 -931.6 L393.3 -934.2 L394.4 -938.0 L402.5 -936.0 L408.9 -939.4 L415.1 -939.3 L419.5 -936.4 L416.6 -940.5 L421.3 -944.3 L411.0 -940.2 L393.8 -943.5 L399.7 -939.9 L390.1 -940.7 L391.7 -935.2 L386.5 -933.2 L383.9 -935.8 L379.2 -933.7 L366.8 -936.2 L371.4 -941.5 L380.9 -941.8 L371.8 -947.3 L376.9 -948.9 L370.4 -952.9 L372.3 -955.2 L367.3 -953.7 L368.6 -959.0 L359.8 -964.4 L359.9 -967.1 L370.3 -973.8 L371.6 -977.3 L380.4 -977.4 L371.9 -979.8 L364.4 -977.9 L354.1 -985.6 L368.3 -995.9 L359.7 -996.4 L374.3 -1002.6 L350.6 -995.2 L352.6 -998.8 L345.9 -998.7 L350.2 -1001.9 L331.8 -998.5 L333.8 -1005.3 L347.1 -1017.1 L355.6 -1021.2 L356.9 -1029.8 L362.8 -1034.2 L359.2 -1036.5 L361.3 -1039.6 L356.7 -1055.8 L362.5 -1053.4 L363.8 -1056.4 L371.2 -1057.0 L364.4 -1061.4 L367.4 -1065.1 L376.6 -1063.4 L366.8 -1066.6 L369.4 -1068.8 L361.8 -1068.9 L357.1 -1077.0 L350.1 -1075.9 L343.4 -1079.9 L343.6 -1083.9 L338.7 -1091.3 L338.7 -1098.7 L335.1 -1103.7 L333.6 -1117.5 L334.0 -1126.9 L342.3 -1136.8 L362.4 -1143.4 L375.8 -1153.7 L380.1 -1153.7 L382.9 -1150.4 L403.2 -1147.6 L409.4 -1149.0 L459.8 -1135.5 L462.6 -1132.2 L471.9 -1133.1 L490.9 -1128.0 L494.2 -1125.7 L478.9 -1119.1 L475.3 -1116.5 L479.6 -1116.6 L500.8 -1128.4 L511.1 -1129.7 L521.7 -1127.4 L521.7 -1122.5 L527.1 -1126.0 L535.7 -1124.3 L545.9 -1115.3 L559.0 -1111.9 L546.8 -1119.3 L548.4 -1124.0 L568.1 -1124.5 L576.2 -1130.6 L593.8 -1133.7 L602.0 -1142.4 L613.8 -1144.2 L621.1 -1135.4 L632.0 -1134.7 L643.0 -1129.8 L643.5 -1125.4 L652.3 -1118.6 L662.3 -1115.2 L659.8 -1113.1 L669.7 -1112.1 L667.8 -1114.7 L672.7 -1115.2 L679.6 -1112.8 L677.4 -1107.8 L681.5 -1107.1 L681.0 -1100.4 L676.3 -1098.5 L676.2 -1094.3 L669.1 -1088.6 L677.0 -1092.5 L676.9 -1089.8 L681.5 -1086.1 L679.0 -1094.5 L681.5 -1097.9 L705.9 -1091.1 L710.6 -1085.6 L706.2 -1084.7 L704.7 -1081.5 L709.6 -1081.7 L714.9 -1080.1 L719.4 -1075.0 L713.3 -1068.3 L704.0 -1070.1 L699.8 -1065.6 L705.6 -1068.3 L713.5 -1066.9 L720.0 -1068.4 L722.9 -1073.9 L721.4 -1077.6 L739.0 -1073.5 L745.5 -1068.9 L746.9 -1064.9 L727.8 -1062.4 L731.9 -1061.7 L731.5 -1059.2 L734.6 -1056.9 L725.8 -1053.8 L744.7 -1051.8 L738.2 -1048.5 L729.8 -1048.8 L731.7 -1047.5 L739.7 -1045.0 L735.9 -1041.3 L743.8 -1038.6 L741.9 -1034.4 L745.7 -1035.2 L745.1 -1030.1 L749.2 -1030.6 L748.1 -1035.1 L751.7 -1035.9 L758.1 -1026.9 L758.7 -1029.4 L767.8 -1031.2 L769.2 -1026.7 L770.3 -1028.8 L780.5 -1027.2 L785.7 -1025.5 L785.2 -1023.0 L792.6 -1022.3 L795.8 -1020.9 L795.0 -1023.5 L802.7 -1021.1 L801.4 -1018.6 L809.5 -1017.4 L808.4 -1020.2 L810.8 -1022.0 L817.1 -1018.7 L815.9 -1021.4 L817.9 -1024.2 L821.8 -1022.0 L823.3 -1024.8 L828.3 -1022.5 L834.6 -1024.0 L837.0 -1021.9 L833.8 -1018.0 L837.7 -1017.6 L836.6 -1015.4 L838.4 -1012.8 L838.2 -1007.9 L834.5 -1006.4 L839.5 -1006.0 L839.9 -1003.3 L848.3 -1000.2 L853.1 -1003.5 L847.9 -1003.8 L858.9 -1009.7 L860.0 -1006.5 L865.1 -1006.1 L866.0 -1008.4 L863.1 -1013.4 L865.2 -1021.3 L868.8 -1023.8 L874.1 -1022.7 L879.6 -1010.1 L883.4 -1008.7 L881.8 -1005.7 L883.2 -1000.4 L861.5 -989.4 L863.4 -986.1 L862.7 -982.1 L865.2 -980.1 L854.6 -975.8 L859.4 -970.3 L857.7 -966.4 L860.6 -965.4 L861.1 -961.9 L858.2 -957.5 L868.4 -950.6 L865.6 -946.4 L869.1 -946.1 L867.2 -936.4 L861.5 -934.1 L853.6 -936.0 L853.7 -932.5 L858.1 -930.7 L823.0 -933.0 L824.1 -931.0 L808.9 -929.9 L779.3 -935.9 L808.3 -927.8 L829.5 -929.4 L839.9 -925.8 L860.8 -927.4 L861.4 -924.0 L858.8 -922.2 L871.1 -919.2 L868.0 -912.0 L872.1 -910.2 L865.4 -904.5 L873.8 -900.7 L870.5 -895.3 L863.8 -893.0 L859.5 -888.3 L858.8 -885.8 L862.7 -885.8 L865.9 -880.5 L864.5 -877.7 L866.8 -876.7 L858.9 -872.0 L866.8 -870.1 L880.5 -875.0 L883.6 -873.7 L883.3 -870.9 L890.6 -872.3 L889.6 -868.8 L891.6 -865.0 L888.0 -862.3 L883.0 -865.1 L882.9 -860.7 L880.1 -861.0 L879.9 -863.6 L876.9 -862.8 L872.5 -858.7 L872.9 -853.9 L877.3 -855.5 L884.7 -852.2 L878.8 -846.4 L874.6 -850.4 L877.9 -835.1 L873.9 -834.5 L872.0 -827.9 L864.3 -826.5 L861.5 -832.7 L864.2 -835.0 L864.3 -838.4 L861.8 -837.4 L861.9 -842.0 L859.0 -843.5 L857.0 -841.5 L851.9 -849.0 L852.4 -843.1 L850.3 -840.8 L855.8 -838.5 L856.4 -829.6 L850.1 -833.5 L850.0 -829.6 L828.1 -824.5 L841.5 -821.4 L848.8 -824.9 L848.4 -817.9 L856.4 -818.9 L851.5 -813.7 L855.4 -809.0 L862.5 -818.3 L866.1 -818.2 L868.2 -823.3 L874.5 -825.0 L884.4 -833.3 L898.1 -835.9 L913.2 -833.8 L921.1 -837.6 L944.3 -828.2 L946.5 -825.0 L945.0 -818.4 L948.3 -815.5 L947.0 -810.0 L951.6 -809.1 L950.7 -803.4 L956.6 -804.8 L954.8 -792.5 L948.9 -779.1 L947.2 -769.2 L939.6 -762.2 L908.5 -754.7 L893.6 -746.9 L883.2 -738.0 L909.3 -752.9 L943.5 -761.7 L949.1 -767.1 L949.8 -775.1 L954.3 -780.2 L958.2 -794.0 L958.0 -800.4 L960.9 -803.6 L967.1 -802.4 L968.5 -807.9 L971.3 -806.3 L971.4 -802.3 L975.2 -801.4 L973.5 -793.0 L977.8 -785.4 L975.2 -780.1 L962.8 -770.2 L960.7 -764.6 L968.3 -769.6 L971.6 -776.5 L977.4 -778.2 L981.2 -783.8 L979.3 -786.8 L982.0 -798.2 L985.5 -798.0 L989.5 -795.1 L987.0 -791.2 L987.9 -788.8 L985.2 -786.4 L985.6 -782.7 L991.1 -779.6 L987.3 -772.2 L989.3 -764.3 L985.3 -755.3 L986.9 -751.6 L987.0 -756.7 L991.5 -761.9 L990.4 -768.8 L1001.2 -781.8 L1007.6 -782.1 L1020.7 -790.8 L1025.6 -788.4 L1027.7 -791.7 L1026.4 -794.2 L1030.5 -794.8 L1034.7 -801.5 L1038.9 -799.5 L1037.6 -796.6 L1040.8 -795.0 L1043.5 -800.8 L1055.1 -800.3 L1051.9 -804.1 L1054.9 -805.4 L1054.9 -810.3 L1057.3 -812.7 L1056.3 -816.2 L1058.5 -816.2 L1059.3 -819.5 L1065.1 -820.4 L1063.1 -823.2 L1064.7 -828.9 L1071.9 -830.9 L1086.8 -820.3 L1089.2 -814.3 L1093.8 -814.6 L1094.6 -811.8 L1097.8 -810.3 L1092.4 -800.9 L1094.3 -793.3 L1088.2 -789.7 L1089.7 -785.8 L1091.1 -789.9 L1095.9 -792.0 L1098.7 -796.6 L1095.0 -799.8 L1099.7 -803.9 L1101.0 -808.3 L1104.5 -807.6 L1097.8 -813.6 L1097.0 -817.0 L1091.8 -817.6 L1090.9 -823.4 L1087.3 -824.9 L1092.3 -832.5 L1095.6 -829.4 L1106.4 -831.3 L1094.3 -835.8 L1103.1 -839.8 L1101.2 -845.3 L1113.9 -838.1 L1113.9 -841.3 L1106.7 -844.9 L1110.0 -845.9 L1107.7 -847.0 L1115.0 -848.2 L1125.0 -843.0 L1119.9 -848.7 L1136.4 -848.0 L1122.3 -853.1 L1116.4 -850.4 L1111.6 -857.2 L1113.5 -861.0 L1110.1 -862.5 L1109.8 -867.3 L1114.0 -866.9 L1119.3 -860.6 L1118.1 -866.2 L1125.5 -866.4 L1120.9 -870.4 L1120.6 -877.0 L1133.9 -868.3 L1128.4 -874.7 L1129.3 -879.2 L1132.3 -879.0 L1125.3 -881.8 L1122.4 -886.6 L1144.5 -884.0 L1148.3 -879.5 L1157.3 -876.8 L1142.4 -886.5 L1130.5 -888.3 L1122.3 -907.8 L1127.0 -909.9 L1125.3 -912.5 L1133.0 -913.0 L1132.4 -915.4 L1135.4 -917.4 L1146.7 -911.6 L1157.3 -910.1 L1143.1 -916.2 L1141.8 -920.7 L1147.9 -919.2 L1143.4 -923.7 L1146.9 -923.9 L1147.6 -926.5 L1152.1 -924.9 L1148.5 -928.1 L1152.3 -928.6 L1148.4 -931.5 L1148.5 -934.2 L1151.8 -933.6 L1154.6 -936.4 L1152.3 -938.9 L1156.9 -940.6 L1156.7 -943.4 L1159.8 -947.0 L1164.1 -948.3 L1159.0 -952.6 L1164.9 -956.1 L1166.5 -961.9 L1178.6 -960.3 L1185.3 -956.6 L1165.4 -953.1 L1165.5 -949.8 L1170.8 -945.6 L1178.9 -945.9 L1181.3 -940.1 L1172.9 -939.5 L1174.8 -936.2 L1168.9 -934.0 L1162.1 -934.7 L1165.8 -927.5 L1177.9 -924.5 L1177.4 -920.5 L1170.8 -920.2 L1172.2 -917.2 L1167.9 -914.9 L1170.4 -904.6 L1167.1 -890.2 L1174.9 -882.8 L1191.7 -890.0 L1197.5 -887.2 L1187.5 -881.7 L1188.4 -878.5 L1185.1 -876.6 L1187.6 -873.7 L1185.1 -869.0 L1187.0 -865.9 L1185.3 -861.4 L1187.9 -858.1 L1187.9 -853.4 L1195.9 -850.7 L1200.5 -845.8 L1192.8 -842.8 L1177.7 -846.9 L1173.7 -850.4 L1166.9 -847.2 L1164.7 -843.6 L1166.3 -840.8 L1163.8 -838.1 L1168.2 -836.7 L1173.8 -839.7 L1183.2 -834.7 L1200.0 -834.3 L1202.6 -831.5 L1202.7 -825.4 L1209.0 -822.4 L1218.8 -828.8 L1228.6 -829.7 L1233.3 -833.5 L1244.5 -831.2 L1251.2 -822.7 L1245.4 -819.9 L1215.6 -816.5 L1212.7 -810.5 L1213.5 -806.1 L1217.3 -803.1 L1225.8 -806.7 L1230.0 -798.8 L1209.0 -788.2 L1205.5 -778.5 L1193.9 -773.9 L1191.8 -765.6 L1205.7 -761.1 L1205.3 -756.3 L1215.2 -738.4 L1218.3 -742.1 L1223.3 -740.8 L1225.5 -735.0 L1229.7 -731.5 L1233.4 -735.2 L1237.5 -729.2 L1240.4 -735.1 L1244.0 -735.3 L1243.3 -729.2 L1236.2 -724.0 L1233.4 -721.5 L1233.5 -713.6 L1236.9 -704.2 L1228.9 -700.1 L1226.5 -693.0 L1227.8 -688.8 L1230.3 -696.2 L1234.9 -692.1 L1231.7 -686.3 L1232.0 -681.7 L1226.6 -677.8 L1227.3 -671.4 L1223.9 -666.1 L1226.8 -661.6 L1218.4 -659.2 L1219.2 -653.6 L1213.5 -651.9 L1210.7 -647.1 L1222.2 -633.3 L1222.4 -627.2 L1226.8 -623.8 L1220.3 -621.5 L1208.1 -622.8 L1211.6 -619.5 L1212.1 -614.5 L1210.2 -612.1 L1213.3 -608.2 L1220.3 -608.2 L1226.4 -604.6 L1218.1 -599.7 L1217.5 -592.5 L1228.3 -596.3 L1226.2 -592.5 L1231.8 -589.3 L1253.4 -587.9 L1237.9 -580.9 L1236.5 -573.8 L1250.7 -559.8 L1253.2 -551.4 L1262.6 -544.8 L1272.2 -545.1 L1270.2 -535.9 L1275.3 -529.9 L1270.2 -525.3 L1248.8 -515.6 L1245.9 -504.9 L1254.0 -497.5 L1239.4 -466.3 L1220.2 -467.6 L1198.4 -478.4 L1193.5 -478.4 L1184.2 -475.7 L1168.0 -478.1 L1148.6 -473.4 L1128.5 -477.8 L1113.1 -475.0 L1104.0 -485.2 L1102.6 -491.8 L1096.4 -493.7 L1091.6 -492.0 L1078.8 -499.0 L1057.7 -521.3 L1051.1 -521.6 L1050.7 -525.7 L1045.1 -528.9 L1041.0 -527.8 L1050.7 -517.3 L1047.4 -515.0 L1045.9 -508.8 L1052.5 -497.8 L1048.0 -495.3 L1051.4 -490.6 L1055.9 -481.7 L1049.2 -481.0 L1050.1 -477.5 L1047.6 -476.7 L1034.6 -482.7 L1029.5 -490.9 L1012.6 -500.4 L1014.1 -505.5 L1004.5 -505.9 L1002.9 -501.4 L1008.6 -489.0 L1014.8 -484.7 L1012.0 -481.1 L1019.7 -475.6 L1017.9 -471.2 L1029.0 -467.1 L1017.5 -465.9 L1012.2 -457.0 L1000.5 -463.7 L993.7 -462.4 L991.7 -454.9 L994.6 -449.6 L994.0 -445.1 L1000.3 -440.7 L998.0 -435.0 L1000.9 -433.8 L991.4 -428.7 L982.4 -419.1 L985.1 -413.6 L993.2 -407.4 L994.5 -401.3 L1004.3 -394.5 L1000.5 -379.4 L1022.4 -374.1 L1023.2 -367.4 L1027.0 -364.3 L1027.0 -360.5 L1032.0 -362.2 L1036.9 -356.7 L1031.8 -344.2 L1034.5 -336.9 L1032.5 -329.8 L1026.4 -322.9 L1027.6 -310.6 L1025.5 -304.1 L1027.0 -301.5 L1038.0 -299.3 L1039.1 -305.7 L1042.9 -298.5 L1052.0 -303.8 L1053.2 -322.7 L1060.9 -322.5 L1063.9 -330.4 L1072.2 -325.2 L1076.9 -316.9 L1070.1 -313.3 L1073.2 -304.8 L1066.6 -302.1 L1066.7 -293.9 L1070.4 -288.0 L1065.8 -287.0 L1071.4 -276.3 L1065.1 -272.8 L1063.3 -268.2 L1066.3 -258.6 L1072.8 -253.0 L1074.8 -260.4 L1073.8 -266.2 L1076.5 -268.1 L1082.9 -260.3 L1089.5 -259.9 L1089.8 -251.4 L1098.9 -245.6 L1106.1 -244.9 L1106.3 -249.5 L1108.8 -250.9 L1120.8 -245.3 L1122.6 -251.9 L1127.9 -259.2 L1149.5 -256.0 L1165.4 -243.1 L1165.9 -235.3 L1182.0 -226.5 L1181.6 -223.7 L1173.9 -219.5 L1174.8 -214.8 L1181.0 -210.5 L1182.4 -203.2 L1191.1 -212.6 L1202.2 -218.8 L1196.4 -228.4 L1198.9 -232.9 L1198.1 -238.3 L1201.6 -241.5 L1200.4 -245.3 L1202.6 -252.3 L1211.5 -254.3 L1210.5 -265.5 L1213.6 -273.3 L1205.7 -288.5 L1207.8 -293.8 L1206.1 -299.2 L1209.0 -304.9 L1206.2 -309.4 L1208.0 -314.6 L1213.7 -317.2 L1221.3 -316.0 L1219.8 -321.7 L1223.8 -325.4 L1223.5 -334.1 L1237.9 -337.2 L1241.6 -335.5 L1242.1 -331.1 L1247.4 -324.9 L1244.0 -307.7 L1254.8 -302.2 L1257.6 -297.3 L1228.8 -294.5 L1220.5 -290.4 L1213.6 -281.8 L1217.0 -278.6 L1220.2 -280.8 L1223.1 -277.3 L1223.5 -274.3 L1217.9 -274.6 L1219.5 -272.5 L1222.4 -264.0 L1240.3 -252.0 L1241.4 -244.7 L1229.7 -247.3 L1234.3 -241.2 L1633.3 -241.2 L1649.9 -241.3 L1649.7 -190.6 Z","M1188.6 110.5 L1186.6 117.8 L1180.9 125.1 L1178.3 126.8 L1175.6 124.7 L1178.4 121.6 L1174.8 118.6 L1177.0 114.9 L1180.7 113.1 L1185.4 115.1 L1188.6 110.5 Z","M903.8 164.0 L932.7 153.0 L945.0 141.4 L945.1 133.2 L945.5 109.9 L961.2 109.7 L961.5 103.2 L993.0 103.6 L993.5 108.9 L1008.5 117.1 L1011.1 112.3 L1019.5 113.4 L1028.3 109.4 L1034.6 112.1 L1034.8 106.6 L1041.0 103.7 L1046.9 105.1 L1071.5 97.1 L1072.6 102.2 L1106.6 112.8 L1117.0 131.9 L1114.3 133.4 L1116.6 136.1 L1118.3 132.7 L1126.5 130.9 L1141.2 120.1 L1153.5 116.8 L1157.7 117.3 L1151.8 122.6 L1167.3 119.6 L1169.6 123.0 L1165.8 125.4 L1169.3 125.6 L1170.6 128.7 L1172.9 123.9 L1176.5 126.2 L1168.0 131.4 L1167.6 137.2 L1162.9 141.6 L1162.4 145.3 L1160.7 150.7 L1164.6 147.8 L1163.7 152.3 L1161.9 159.1 L1162.2 155.7 L1159.9 157.3 L1158.4 164.6 L1133.1 182.1 L1143.5 182.0 L1143.0 185.7 L1154.7 181.6 L1157.5 184.8 L1160.5 182.3 L1168.8 182.7 L1167.1 185.2 L1168.5 190.6 L1163.7 195.5 L1162.2 202.4 L1164.2 208.3 L1169.5 213.3 L1165.4 215.0 L1165.3 217.8 L1167.7 215.7 L1171.7 218.5 L1172.0 215.2 L1174.3 217.1 L1173.5 225.7 L1176.7 232.6 L1174.3 234.4 L1180.5 240.4 L1179.3 246.6 L1174.9 247.6 L1182.6 247.5 L1184.3 244.4 L1186.4 248.1 L1183.2 250.9 L1183.8 256.8 L1186.4 254.8 L1202.9 255.5 L1209.1 259.1 L1209.6 262.2 L1211.4 260.0 L1213.6 262.7 L1215.2 260.2 L1220.6 260.2 L1232.7 265.3 L1223.8 271.1 L1214.5 270.6 L1212.9 273.9 L1216.1 276.4 L1209.1 278.4 L1201.7 289.9 L1196.2 286.1 L1188.6 299.6 L1185.1 299.6 L1188.2 292.9 L1185.4 284.5 L1184.4 287.1 L1182.7 285.6 L1176.2 276.2 L1175.6 271.3 L1171.6 268.0 L1175.0 272.7 L1174.6 276.2 L1182.9 287.5 L1176.7 297.2 L1178.6 300.1 L1175.4 300.2 L1170.1 309.6 L1162.2 307.8 L1155.3 314.6 L1135.8 322.5 L1110.0 340.7 L1106.3 339.8 L1098.8 344.1 L1093.8 342.2 L1091.3 337.0 L1085.9 335.7 L1092.8 329.3 L1093.6 322.1 L1088.2 331.3 L1081.7 333.1 L1084.7 337.8 L1090.1 339.7 L1080.2 348.2 L1078.4 343.9 L1073.6 344.8 L1077.9 345.4 L1078.1 348.0 L1072.1 349.4 L1066.2 355.6 L1062.7 349.0 L1053.2 354.7 L1048.6 354.2 L1046.6 357.1 L1043.9 356.8 L1044.3 353.0 L1038.8 357.0 L1037.0 352.3 L1040.9 350.5 L1034.4 345.7 L1032.0 348.6 L1029.5 347.4 L1029.2 354.2 L1023.6 348.2 L1023.3 342.9 L1019.8 340.8 L1021.8 351.4 L1020.8 348.4 L1014.1 346.1 L1009.6 351.4 L1003.8 345.6 L1001.3 337.7 L1005.1 329.5 L999.7 320.0 L1005.2 318.5 L1003.8 310.8 L992.8 309.7 L986.3 303.2 L984.2 305.1 L981.0 303.5 L981.0 293.4 L983.8 290.6 L981.6 286.2 L984.0 282.9 L982.4 280.3 L981.8 184.3 L954.3 159.2 L947.8 158.8 L944.3 165.0 L936.6 164.0 L912.8 173.9 L903.9 167.4 L903.8 164.0 Z","M1046.0 379.0 L1047.8 385.2 L1046.2 389.8 L1037.5 395.2 L1040.1 384.0 L1046.0 379.0 Z","M1216.1 276.4 L1224.2 277.4 L1231.0 285.6 L1235.9 286.9 L1234.4 289.9 L1238.6 288.8 L1239.7 291.6 L1239.9 286.9 L1251.1 286.3 L1256.0 288.3 L1251.1 288.0 L1254.5 290.9 L1249.0 292.3 L1266.6 292.2 L1257.5 295.9 L1262.8 299.7 L1269.6 295.3 L1269.4 298.6 L1277.2 296.8 L1274.5 292.2 L1301.7 295.7 L1296.6 296.6 L1304.0 300.3 L1295.3 304.1 L1294.3 306.9 L1297.3 305.4 L1297.3 309.2 L1299.8 305.7 L1303.1 307.8 L1301.5 304.0 L1305.7 302.9 L1314.1 305.4 L1311.9 308.8 L1321.4 304.0 L1317.2 303.9 L1328.1 300.9 L1348.9 285.6 L1351.2 302.7 L1360.9 308.4 L1366.7 306.9 L1367.6 309.3 L1370.9 303.8 L1376.8 303.1 L1385.5 315.3 L1391.9 318.6 L1390.6 323.3 L1376.1 330.2 L1377.7 332.3 L1390.1 333.1 L1408.1 334.2 L1408.1 338.6 L1404.0 336.6 L1404.8 339.8 L1401.4 343.0 L1397.5 343.7 L1398.6 338.5 L1395.5 339.9 L1395.8 344.3 L1393.5 340.7 L1389.5 339.9 L1383.7 343.8 L1384.4 346.9 L1377.6 349.4 L1369.0 349.6 L1362.7 346.6 L1366.4 351.5 L1364.2 352.0 L1366.1 354.6 L1355.0 352.9 L1355.4 355.5 L1352.5 355.4 L1354.1 357.5 L1351.1 359.8 L1348.0 357.9 L1340.6 361.3 L1344.9 363.3 L1328.7 365.5 L1322.7 368.7 L1322.6 371.5 L1319.9 369.3 L1315.2 376.6 L1314.0 370.9 L1311.6 374.6 L1309.3 373.8 L1310.3 379.2 L1305.5 375.7 L1302.9 379.9 L1293.7 381.0 L1292.2 383.9 L1294.0 385.7 L1291.2 386.8 L1285.7 384.8 L1281.4 387.4 L1281.1 382.1 L1277.8 381.5 L1280.5 387.0 L1277.8 390.0 L1273.8 380.3 L1272.3 388.7 L1271.0 385.5 L1268.0 390.0 L1265.9 384.9 L1266.2 389.7 L1263.6 394.0 L1256.0 392.8 L1255.9 389.2 L1253.0 390.1 L1255.5 393.6 L1253.8 397.1 L1240.1 386.4 L1241.2 390.1 L1246.1 393.6 L1248.7 404.3 L1245.6 408.2 L1243.8 406.4 L1241.8 410.5 L1241.6 407.2 L1236.7 408.9 L1233.5 405.2 L1231.4 407.6 L1232.3 402.6 L1227.0 405.9 L1223.0 403.8 L1222.6 394.5 L1225.8 388.5 L1215.0 393.0 L1214.8 397.2 L1218.2 403.8 L1215.8 403.3 L1213.6 407.8 L1211.1 406.2 L1211.1 401.2 L1208.1 397.5 L1204.7 402.0 L1199.9 399.7 L1198.5 407.3 L1196.5 409.9 L1198.1 412.8 L1202.7 412.9 L1199.7 415.6 L1205.5 416.9 L1197.1 417.3 L1197.8 419.9 L1202.5 420.1 L1200.6 422.0 L1203.8 422.7 L1202.6 424.8 L1198.8 425.2 L1191.8 418.9 L1196.3 423.2 L1196.0 425.9 L1192.0 428.4 L1187.9 436.0 L1181.0 434.5 L1184.8 438.0 L1184.0 441.4 L1174.0 443.5 L1177.3 446.0 L1177.1 448.9 L1165.9 454.8 L1169.7 459.4 L1167.4 459.7 L1166.6 463.1 L1162.0 458.5 L1163.7 462.4 L1162.1 465.2 L1158.4 459.0 L1160.7 465.1 L1158.4 469.4 L1153.7 463.0 L1155.7 469.8 L1154.7 473.2 L1151.6 474.0 L1151.0 469.4 L1148.6 474.5 L1147.6 470.1 L1145.0 473.3 L1141.4 465.4 L1140.2 467.8 L1142.3 473.2 L1138.4 476.5 L1135.8 474.1 L1135.5 468.0 L1135.1 470.8 L1135.9 476.0 L1133.7 482.1 L1135.1 486.9 L1128.1 482.5 L1131.0 490.9 L1128.2 486.0 L1125.8 489.5 L1126.2 494.2 L1120.7 485.1 L1115.2 492.0 L1110.9 490.9 L1110.1 484.8 L1109.0 486.9 L1107.3 485.0 L1107.8 474.9 L1106.7 481.5 L1105.1 479.9 L1102.4 464.9 L1101.6 468.4 L1098.0 462.9 L1096.1 467.5 L1094.9 461.5 L1095.9 471.2 L1092.5 474.7 L1091.6 470.4 L1089.8 472.5 L1088.7 468.0 L1086.1 470.4 L1085.2 465.3 L1087.0 461.7 L1084.5 463.2 L1083.2 459.8 L1084.4 447.1 L1080.5 439.8 L1085.3 428.3 L1086.3 418.9 L1103.7 398.6 L1097.3 398.3 L1081.8 415.0 L1081.8 411.6 L1087.3 405.0 L1107.2 388.5 L1109.2 395.8 L1113.4 394.9 L1129.5 381.1 L1111.1 390.5 L1109.1 389.7 L1109.9 387.1 L1164.9 349.8 L1191.6 339.7 L1194.2 335.7 L1188.2 333.0 L1198.3 335.7 L1195.7 344.9 L1196.6 347.6 L1194.6 349.3 L1196.3 353.5 L1198.5 349.9 L1203.5 351.2 L1208.9 357.0 L1209.0 363.8 L1212.3 362.6 L1212.6 356.9 L1206.3 351.8 L1209.2 345.3 L1227.8 338.7 L1231.9 335.0 L1247.6 333.2 L1251.8 336.8 L1252.1 333.8 L1258.7 330.8 L1234.0 327.6 L1226.0 331.7 L1223.5 328.4 L1214.4 326.5 L1194.7 330.3 L1183.5 326.4 L1174.9 330.1 L1175.1 333.8 L1171.2 336.9 L1171.1 333.8 L1167.8 331.8 L1160.2 333.7 L1161.9 325.9 L1190.1 303.8 L1191.5 298.1 L1195.3 293.6 L1200.2 291.3 L1197.8 298.1 L1202.1 296.3 L1199.8 295.3 L1201.7 289.9 L1209.1 278.4 L1216.1 276.4 Z","M247.1 -194.7 L247.5 -171.6 L247.6 -153.6 L242.2 -158.2 L238.9 -159.8 L234.2 -171.0 L238.7 -180.8 L237.6 -189.7 L247.1 -194.7 Z","M247.6 -151.5 L248.7 37.5 L248.8 51.2 L249.3 140.8 L245.2 151.5 L253.8 166.7 L253.5 180.0 L262.2 194.7 L271.5 205.7 L284.3 231.6 L296.5 241.2 L299.8 246.7 L363.7 259.9 L371.6 262.6 L386.1 273.4 L388.8 281.1 L393.4 286.3 L406.1 293.8 L411.2 292.4 L411.8 285.2 L418.5 287.4 L419.8 296.2 L424.3 300.5 L427.1 311.0 L430.8 314.3 L447.6 322.6 L457.2 317.0 L464.0 317.6 L478.3 329.8 L502.9 316.8 L539.0 306.6 L553.4 307.1 L569.0 313.3 L563.8 334.6 L573.5 344.6 L566.6 349.0 L562.1 355.7 L547.7 362.5 L533.2 366.3 L510.7 378.2 L483.8 403.5 L470.2 415.0 L437.3 428.4 L425.7 429.4 L407.2 441.9 L401.9 440.1 L413.3 432.8 L403.3 436.9 L405.5 429.9 L371.4 437.6 L370.3 441.2 L386.6 434.9 L386.4 440.3 L401.5 432.6 L398.3 445.1 L405.3 444.0 L409.9 441.9 L415.8 437.8 L403.6 452.5 L415.7 452.9 L397.8 460.5 L391.7 458.4 L395.6 452.0 L389.0 455.8 L385.8 452.0 L390.3 450.7 L375.9 453.0 L369.9 447.8 L372.6 446.4 L362.3 444.5 L360.2 446.0 L363.9 448.0 L356.0 446.6 L275.5 463.0 L258.6 478.8 L252.0 478.5 L244.5 485.6 L232.8 506.6 L237.3 513.1 L259.7 518.0 L276.6 511.2 L277.1 525.5 L279.3 529.3 L278.7 533.5 L285.9 542.0 L275.1 548.0 L252.8 544.8 L206.0 552.3 L190.6 567.6 L211.6 573.7 L186.1 571.0 L160.9 563.0 L135.4 564.2 L107.2 586.1 L102.7 598.3 L100.4 598.2 L102.7 592.7 L98.7 597.9 L89.3 598.6 L69.5 609.7 L63.8 617.6 L62.1 627.8 L54.5 617.3 L38.1 621.9 L23.5 614.4 L29.3 593.4 L62.9 593.4 L67.0 589.9 L67.6 577.4 L56.5 576.4 L53.8 573.2 L57.1 572.2 L61.3 565.8 L64.2 554.6 L64.2 542.9 L67.5 536.6 L82.8 528.0 L109.7 504.4 L112.6 492.2 L109.7 440.8 L117.8 429.2 L120.0 418.2 L130.9 410.3 L139.5 394.9 L134.4 364.2 L129.1 363.4 L119.3 348.8 L120.2 345.3 L111.2 343.3 L112.8 339.1 L138.5 340.4 L135.9 348.3 L139.7 352.9 L140.4 361.7 L149.4 365.3 L146.9 369.5 L159.5 365.0 L148.0 382.7 L156.4 378.3 L163.0 379.9 L159.9 396.8 L168.4 387.5 L178.1 385.5 L182.2 395.3 L213.1 407.7 L218.9 400.1 L219.5 389.2 L211.7 383.2 L212.3 377.4 L222.1 373.5 L226.4 381.8 L240.0 383.3 L236.1 380.2 L238.6 372.3 L235.2 373.5 L235.1 378.8 L232.3 377.6 L229.5 367.4 L224.1 366.6 L222.8 360.7 L212.5 351.3 L219.5 349.1 L210.7 341.4 L216.4 334.8 L215.0 328.9 L210.8 326.4 L206.7 329.5 L208.5 332.6 L204.2 332.5 L197.8 324.4 L196.9 328.9 L193.7 309.6 L187.4 312.8 L172.0 282.5 L153.5 279.5 L146.5 282.1 L145.7 274.2 L140.6 279.4 L125.2 277.9 L125.1 274.0 L114.4 280.3 L120.2 276.0 L116.0 274.4 L124.8 272.1 L112.3 274.1 L122.3 270.6 L117.4 265.1 L109.8 269.9 L108.7 274.6 L107.7 270.3 L111.6 266.7 L85.3 265.6 L70.7 261.4 L73.6 259.3 L51.6 261.6 L54.4 257.0 L32.1 260.9 L-22.8 250.2 L-24.0 246.9 L-34.4 247.6 L-38.7 243.4 L-35.9 232.3 L-39.2 230.1 L-42.1 228.1 L-57.0 232.3 L-63.6 234.2 L-68.1 227.0 L-57.6 215.7 L-60.4 210.4 L-65.5 215.5 L-65.3 204.6 L-55.8 204.0 L-53.2 199.7 L-59.2 194.8 L-67.3 194.4 L-69.0 198.0 L-79.9 191.1 L-72.1 170.1 L-67.4 164.7 L-70.3 158.4 L-95.5 136.9 L-91.7 130.9 L-93.2 127.8 L-87.0 121.5 L-89.5 115.9 L-84.0 107.8 L-128.6 109.8 L-147.5 104.7 L-164.5 82.6 L-172.7 53.0 L-183.4 36.4 L-190.8 40.3 L-200.2 33.6 L-209.7 38.7 L-216.9 33.6 L-218.9 36.6 L-236.9 37.3 L-246.5 30.7 L-253.0 31.6 L-254.7 27.1 L-259.4 29.0 L-278.5 21.5 L-283.5 15.3 L-292.7 20.2 L-297.6 17.8 L-297.1 28.2 L-287.8 35.5 L-287.7 42.1 L-294.0 51.1 L-297.0 52.1 L-295.6 48.5 L-299.0 51.4 L-302.0 46.8 L-300.8 53.3 L-305.7 56.8 L-308.1 54.0 L-311.4 62.9 L-316.2 66.3 L-318.2 61.2 L-316.0 56.3 L-303.1 45.0 L-300.9 37.9 L-303.8 31.3 L-311.3 29.8 L-315.5 37.5 L-313.1 41.7 L-315.7 43.2 L-315.0 47.8 L-320.3 49.6 L-320.8 58.4 L-324.6 59.6 L-327.5 71.5 L-339.9 76.3 L-328.7 53.4 L-352.4 61.7 L-358.9 69.9 L-356.2 75.4 L-364.9 93.4 L-376.9 103.2 L-390.6 101.1 L-400.0 104.0 L-405.4 101.4 L-407.9 96.0 L-415.3 93.7 L-441.0 95.4 L-441.7 92.9 L-452.7 95.8 L-460.3 81.5 L-470.4 86.6 L-483.7 96.4 L-504.5 99.6 L-504.3 94.4 L-512.7 93.5 L-513.2 86.4 L-518.0 85.6 L-530.0 81.8 L-533.4 72.8 L-539.1 71.8 L-548.5 73.0 L-550.0 77.7 L-548.5 82.3 L-554.4 84.4 L-560.8 72.6 L-559.8 68.7 L-562.3 65.5 L-575.4 63.7 L-574.9 60.8 L-570.4 60.1 L-571.4 56.8 L-576.8 56.8 L-590.4 49.2 L-599.5 49.4 L-612.8 48.5 L-622.4 52.3 L-622.8 56.0 L-625.9 57.4 L-642.6 59.3 L-644.5 58.1 L-646.5 49.6 L-670.7 47.2 L-674.5 42.4 L-683.2 42.1 L-691.9 41.9 L-699.6 36.4 L-698.8 27.8 L-708.2 -11.3 L-728.2 -14.8 L-728.4 -21.7 L-728.4 -32.5 L-728.1 -312.5 L-634.5 -389.6 L-610.8 -413.5 L-574.9 -449.0 L-568.9 -454.8 L-561.0 -462.4 L-555.5 -467.7 L-459.0 -557.3 L-362.8 -639.9 L-355.0 -660.8 L-346.1 -657.9 L-336.2 -659.8 L-322.2 -645.9 L-311.9 -641.2 L-303.4 -633.6 L-279.7 -623.6 L-277.7 -618.4 L-264.0 -603.5 L-263.0 -599.4 L-255.2 -592.5 L-257.2 -586.1 L-253.0 -590.2 L-240.7 -585.3 L-241.4 -581.3 L-217.5 -580.0 L-216.2 -577.8 L-186.1 -569.4 L-173.6 -562.5 L-152.8 -559.9 L-129.9 -548.2 L-118.3 -535.0 L-101.8 -529.6 L-101.4 -525.9 L-107.1 -523.3 L-118.6 -508.4 L-117.7 -505.2 L-120.2 -498.9 L-105.9 -520.8 L-93.9 -525.3 L-68.7 -520.6 L-51.4 -524.7 L-37.0 -523.1 L-26.3 -527.2 L-14.4 -522.1 L-14.8 -518.3 L-11.7 -520.8 L-6.3 -519.1 L-3.9 -511.0 L-5.2 -519.5 L-12.4 -524.1 L20.0 -516.7 L33.5 -519.9 L37.8 -514.5 L34.6 -508.9 L38.5 -513.0 L53.1 -514.4 L59.0 -511.8 L60.2 -513.9 L73.8 -505.3 L72.6 -508.3 L74.5 -510.2 L72.5 -513.9 L78.4 -508.6 L75.8 -502.9 L77.8 -497.6 L76.8 -493.8 L81.5 -486.4 L71.3 -456.7 L66.2 -444.7 L66.6 -431.6 L71.1 -426.0 L69.9 -423.8 L73.6 -424.3 L78.5 -419.4 L85.6 -396.3 L80.2 -379.4 L86.6 -351.0 L78.1 -345.7 L74.9 -324.1 L87.4 -317.1 L95.4 -308.5 L98.7 -300.0 L121.4 -280.6 L121.7 -271.6 L126.4 -267.3 L121.2 -268.5 L109.5 -262.9 L104.8 -263.2 L101.0 -257.4 L108.9 -261.9 L124.9 -261.4 L134.2 -250.0 L157.0 -241.9 L162.5 -232.2 L167.8 -230.9 L181.3 -216.6 L186.6 -200.3 L191.5 -195.1 L192.2 -186.4 L188.3 -184.1 L178.0 -179.1 L171.9 -170.4 L166.0 -168.0 L155.3 -157.5 L160.5 -159.4 L159.8 -155.7 L164.9 -165.1 L175.3 -168.5 L185.6 -179.5 L194.2 -184.3 L219.0 -177.0 L234.9 -165.7 L238.4 -159.0 L247.6 -151.5 Z","M38.8 278.4 L43.1 276.4 L41.1 282.6 L46.4 289.1 L56.7 288.6 L60.1 294.2 L61.9 288.8 L57.1 284.1 L75.0 276.4 L83.3 289.7 L90.7 278.8 L98.3 277.6 L100.7 280.1 L99.5 285.0 L105.0 286.0 L103.3 294.2 L106.3 298.8 L113.5 283.9 L115.3 287.7 L112.0 293.1 L119.5 293.0 L111.3 309.7 L102.3 317.0 L94.1 313.7 L100.1 312.1 L108.7 301.5 L89.6 313.7 L50.7 293.6 L17.9 286.6 L19.6 278.8 L25.5 282.7 L27.8 279.1 L32.3 281.7 L38.8 278.4 Z"],"city":{"toronto":[257.3,477.9],"niagara":[277.0,527.1],"ottawa":[487.7,325.6],"thousand":[466.9,419.6],"quebec":[768.2,205.7],"montreal":[620.8,318.7],"newyork":[593.4,731.3],"philadelphia":[520.9,796.7],"washington":[403.9,886.9]}};
+DAYS.forEach(d=>{const x=DAY_INTROS[String(d.n)]; if(x){ d.aint=x.a||[]; d.mint=x.m||{}; }});
+/* 每日景點照片（workflow 驗證後填入；key = attr.<day>.<index>）*/
+const ATTR_PHOTOS = {"2":{"0":"img/queen-st-and-clock-tower-niagara-on-the-lake-201.jpg","1":"img/aerial-view-of-the-canadian-falls-horseshoe-fall.jpg","2":"img/weingut-peller-estates-niagara.jpg"},"3":{"0":"img/observation-deck-of-journey-behind-the-falls.jpg","2":"img/gfp-canada-niagara-falls-sky-needle.jpg"},"4":{"0":"img/royal-ontario-museum-in-fall-2021.jpg","1":"img/toronto-nathan-phillips-square-and-toronto-city-.jpg","3":"img/harbourfront-toronto-ontario-from-cn-tower-21652.jpg","4":"img/st-lawrence-market-inside-2017-1.jpg","5":"img/a-view-of-cn-tower-from-the-university-of-toront.jpg"},"5":{"0":"img/alexandria-bay-saint-lawrence-castle-05-07-2012.jpg","1":"img/byward-market-by-day-8390897529.jpg"},"6":{"0":"img/centre-block-parliament-hill.jpg","1":"img/ottawa-rideau-canal-skating-chateau-laurier-parl.jpg"},"7":{"0":"img/pedestrian-bridge-at-ste-anne-grand-canyon-panor.jpg","1":"img/le-d-orl-ans-010.jpg","2":"img/place-royale-quebec-city.jpg","3":"img/rue-du-petit-champlain-03.jpg"},"8":{"0":"img/montmorency-falls-01.jpg","1":"img/altar-notre-dame-de-montr-al-basilica-montreal-c.jpg","2":"img/old-port-of-montreal-canada.jpg"},"9":{"0":"img/new-york-city-high-line-urban-forestry-20150915-.jpg","1":"img/the-vessel-july-2024-005.jpg","2":"img/summit-one-vanderbilt-0.jpg","3":"img/times-square-new-york-city-20231006-1916-2338.jpg"},"10":{"0":"img/statue-of-liberty-ny.jpg","1":"img/inside-chelsea-market-2665986353.jpg","2":"img/lower-manhattan-from-governors-island-71943.jpg","3":"img/tourists-by-the-charging-bull-bowling-green-manh.jpg","4":"img/new-york-stock-exchange-manhattan-new-york-72369.jpg","5":"img/brooklyn-bridge-20080501.jpg"},"11":{"0":"img/metropolitan-museum-of-art-entrance-nyc.jpg","1":"img/central-park-nyc.jpg","2":"img/yankee-stadium-2009.jpg"},"12":{"0":"img/roosevelt-island-tram-car.jpg","1":"img/wla-filmlinc-moma-3.jpg","2":"img/5-av-57-st-feb-2017.jpg","3":"img/bow-bridge-over-the-lake-central-park-manhattan-.jpg"},"14":{"0":"img/exterior-of-the-independence-hall-aug-2019.jpg","1":"img/liberty-bell-55259379451.jpg","2":"img/carpenter-hall-philly.jpg","3":"img/college-hall-university-of-pennsylvania.jpg"},"15":{"0":"img/white-house-washington-south.jpg","1":"img/capitol-building-full-view.jpg","2":"img/smithsonian-national-museum-of-natural-history-f.jpg","3":"img/usa-georgetown-waterfront-harbor.jpg"},"16":{"0":"img/exterior-of-the-lincoln-memorial-north-side-2024.jpg","1":"img/jefferson-memorial-and-cherry-blossoms-2026-2.jpg","2":"img/washington-monument-and-the-national-mall.jpg","3":"img/national-gallery-of-art-west-building-facade.jpg","4":"img/smithsonian-nasm-panorama-20160716.jpg"}};
+Object.entries(ATTR_PHOTOS).forEach(([n,m])=>Object.entries(m).forEach(([i,url])=>{ if(url) SEED_IMAGES['attr.'+n+'.'+i]=url; }));
+HOTEL_INTROS["Sofitel at Rittenhouse Sq."]=HOTEL_INTROS["Sofitel Philadelphia at Rittenhouse Square"];
+DINING_INTROS["Peller Estates 酒莊午宴"]=DINING_INTROS["Peller Estates"];
+
+/* 詳細介紹資料 */
+const FEAT_SIGHTS=[{"img":"niagara","tag":"自然奇景","name":"尼加拉瀑布 · 遊船與瀑布背後之旅","loc":"NIAGARA FALLS","intro":"尼加拉瀑布橫跨美加邊境，馬蹄瀑布的弧形水牆每秒傾瀉巨量河水，水霧終日升騰。遊船會駛入瀑布正下方的浪濤與轟鳴之中，再循「瀑布背後之旅」的隧道走到岩壁開口，從水簾內側回望落水。從正面遠觀到貼身穿越，兩種視角讓人真正感受這道水勢的尺度。"},{"img":"toronto","tag":"城市地標","name":"CN 塔 加拿大國家電視塔","loc":"TORONTO","intro":"CN 塔是多倫多天際線的座標，登上高空觀景層可俯瞰安大略湖與市區棋盤狀的街廓。塔內設有一段玻璃地板，腳下直接通透到地面，膽量足夠的客人可低頭看見正下方的街道。這裡也是少數能在同一個視野裡同時收進湖岸與整座城市的高點。"},{"img":"thousand_islands","tag":"河上風光","name":"千島群島遊船","loc":"ST. LAWRENCE","intro":"千島群島散落在聖羅倫斯河美加交界的水域，大小島嶼上點綴著私人別墅與石砌古堡。遊船在島與島之間的窄水道穿行，岸邊有的島只容得下一棟夏屋與一棵樹。船上能近距離端詳這些水上人家的生活樣貌，是這段河道最具個性的風景。"},{"img":"ottawa","tag":"加拿大首都","name":"國會山莊與麗都運河","loc":"OTTAWA","intro":"國會山莊是加拿大聯邦議會所在，哥德復興式的建築群居高臨下俯瞰渥太華河。山下的麗都運河貫穿市區，是聯合國教科文組織登錄的世界遺產，夏季可乘船、冬季則結凍成一條露天溜冰道。政權中樞與市民日常的水道在此相鄰，氣質一莊一閒。"},{"img":"quebec","tag":"世界遺產古城","name":"魁北克舊城","loc":"QUÉBEC CITY","intro":"魁北克舊城是北美少數仍保有完整城牆的歷史城區，石板小巷與法式立面把人帶回新法蘭西時代。小香普蘭街是城中最古老的商業街之一，皇家廣場則是當年法國移民最初落腳之地。坐鎮高處的芳堤娜城堡飯店臨聖羅倫斯河而立，銅綠尖頂幾乎已是這座城市的代名詞。"},{"img":"montreal","tag":"哥德復興教堂","name":"蒙特婁 聖母聖殿","loc":"MONTRÉAL","intro":"蒙特婁聖母聖殿以哥德復興式立面與深藍鎏金的內殿聞名，主祭壇背後一片星空般的湛藍，是它最教人屏息的細節。木雕、彩繪玻璃與層層金飾在燈光下交織，描繪的多是這座城市自身的宗教歷史。走進殿內，喧囂的舊港瞬間被擋在門外。"},{"img":"newyork","tag":"沉浸式觀景","name":"Summit One Vanderbilt","loc":"NEW YORK","intro":"Summit One Vanderbilt 位於中央車站旁的摩天樓高層，以整面鏡牆與玻璃打造出虛實交錯的觀景空間，人影與曼哈頓街景在四壁反覆映照。其中設有懸出樓體外、四面透明的玻璃艙，腳下即是數百公尺的街道。這是一處把觀景本身做成沉浸裝置的體驗，與傳統觀景台截然不同。"},{"img":"statue_liberty","tag":"紐約灣","name":"自由女神與天際線遊船","loc":"NEW YORK","intro":"遊船自曼哈頓出發，駛向上紐約灣中的自由島，讓人從水上正面端詳自由女神高舉火炬的身姿。回程時，下曼哈頓的摩天樓群在海面盡頭連成一道天際線，光線好時整片玻璃帷幕泛著金光。從河面看城市，是理解紐約規模最直接的角度。"},{"img":"met_museum","tag":"藝術殿堂","name":"大都會藝術博物館 The Met","loc":"NEW YORK","intro":"大都會藝術博物館坐落於中央公園東緣，館藏橫跨埃及神廟、歐洲繪畫到亞洲與美洲藝術，是西半球規模最大的藝術殿堂之一。整座從沙漠遷建入館的丹鐸神廟立於玻璃廳內，光線灑落石壁，是常被駐足的一景。從古文明到近代名作，可在同一屋簷下一路看下來。"},{"img":"moma_fifth","tag":"現代藝術","name":"現代藝術博物館 MoMA","loc":"NEW YORK","intro":"現代藝術博物館是二十世紀以降現代與當代藝術的重鎮，梵谷《星夜》、莫內的睡蓮巨幅與眾多現代主義代表作都在常設展中。明亮的展廳與雕塑庭園讓作品有呼吸的空間，動線從容不擁擠。對偏好現當代脈絡的客人，這裡的收藏深度少有對手。"},{"img":"philadelphia","tag":"美國誕生地","name":"獨立宮與自由鐘","loc":"PHILADELPHIA","intro":"獨立宮是《獨立宣言》與美國憲法簽署之地，磚造會議廳裡仍保留當年議事的陳設，導覽帶人走進建國的那一刻。對街的自由鐘以鐘身那道著名裂痕為人熟知，是美國爭取自由的象徵。兩處相距僅數步，把這段歷史完整串在一起。"},{"img":"washington","tag":"紀念建築群","name":"華盛頓 國家廣場","loc":"WASHINGTON D.C.","intro":"國家廣場是華盛頓特區的禮儀軸線，林肯紀念堂、華盛頓紀念碑與遠端的國會山莊沿同一直線一字排開。林肯坐像前的長條倒映池，把方尖碑的身影映入水中，是這條軸線最具代表性的畫面。從步道一端走到另一端，等於把美國的政治與紀念地標走過一遍。"}];
+const FEAT_HOTELS=[{"img":"quebec","tag":"魁北克 · 傳奇城堡","name":"Fairmont Le Château Frontenac","loc":"QUÉBEC CITY","intro":"飯店坐落於魁北克舊城高處，以城堡式塔樓俯瞰聖羅倫斯河與下城石板街區。銅綠尖頂與磚紅外牆是魁北克城天際線最易辨認的輪廓，入住等於把這座北美少見的法語古城收進窗框。傍晚沿著露台散步到鄰近的舊城牆與小香普蘭街，旅程的歷史感從房門外就已展開。"},{"img":"washington","tag":"華盛頓 · 百年名邸","name":"Willard InterContinental","loc":"WASHINGTON D.C.","intro":"飯店位於賓夕法尼亞大道上，距白宮僅一個街區，是華府政商往來的歷史名邸。挑高大廳與廊柱沿襲十九世紀的氣派，多位美國總統與政要曾在此落腳，連「lobbyist」一詞也與這座旅館的傳說相連。從這裡步行即可走訪白宮、國家廣場與多座史密森尼博物館，是貼合首都行程的據點。"},{"img":"newyork","tag":"紐約 · 中央公園畔","name":"Thompson Central Park","loc":"NEW YORK","intro":"飯店坐落於曼哈頓中城，緊鄰中央公園南緣，步行幾分鐘便能踏進這座城市綠肺。客房線條俐落、用色節制，是當代設計旅館的氣質，從高樓層可望向公園與中城樓群交錯的景致。卡內基音樂廳、第五大道與百老匯都在徒步範圍內，適合把白天的城市探索與夜晚的演出串成一線。"},{"img":"philadelphia","tag":"費城 · 法式精品","name":"Sofitel at Rittenhouse Square","loc":"PHILADELPHIA","intro":"飯店位於費城里滕豪斯廣場一帶，這片綠意廣場是城中最雅致的住宅與藝文街區。Sofitel 一貫的法式精緻融入美國老城肌理，房內素雅、服務從容，樓下街角就是費城最好的餐廳與咖啡聚落。從這裡步行可抵獨立廳與自由鐘——那道著名的裂痕，正是美國建國敘事的起點。"},{"img":"niagara","tag":"尼加拉 · 瀑布景觀房","name":"Hilton Niagara Fallsview","loc":"NIAGARA FALLS","intro":"飯店高踞加拿大側的觀瀑高地，瀑布景觀房正對馬蹄瀑布奔騰而下的水幕。入夜後燈光為瀑布染上色彩，旺季的煙火就在窗前綻放，無須出門便能看完整段水勢的氣魄。清晨的薄霧與午後的水煙各有面貌，讓這趟行程的自然壓軸在房間裡延續一整天。"}];
+const FEAT_DINING=[{"img":"newyork","tag":"米其林星級 · MoMA 內","name":"The Modern","loc":"NEW YORK","intro":"餐廳坐落於紐約現代美術館（MoMA）之內，落地窗正對館內的雕塑庭園，餐桌與藝術藏品僅一窗之隔。主廚以當代法式手法詮釋當令食材，盤中構圖如同牆上的畫作般講究。看完一輪展覽後在此入座，是少數能把觀展與用餐連成同一段體驗的選擇。"},{"img":"newyork_landmarks","tag":"百年乾式熟成牛排","name":"Peter Luger Steak House","loc":"BROOKLYN","intro":"布魯克林這家牛排館以乾式熟成的丁骨牛排聞名，肉質在熟成過程中濃縮出深厚的風味。牛排上桌時仍在滾燙的盤上滋滋作響，由侍者分切、淋上自家醬汁，連帶培根與煎馬鈴薯都是常客必點。木質老牆與啤酒館式的座位，保留了一種不刻意討好的硬派氣派。"},{"img":"newyork","tag":"頂級地中海海鮮","name":"estiatorio Milos","loc":"HUDSON YARDS","intro":"位於 Hudson Yards 的這家希臘海鮮餐廳，最大的特色是冰床上陳列當日鮮魚，由客人親自挑選後再以炭火整尾燒烤。調味克制，僅以橄欖油、海鹽與檸檬帶出魚肉的鮮甜，呼應愛琴海岸的吃法。開闊明亮的空間配上現選現做的儀式感，把地中海的純粹搬到了曼哈頓。"},{"img":"niagara","tag":"尼加拉瀑布旋轉景觀餐廳","name":"Skylon Tower","loc":"NIAGARA FALLS","intro":"餐廳位於尼加拉瀑布旁高塔的頂層，整層緩緩旋轉，用餐途中便能將美國瀑布與馬蹄瀑布逐一收入眼底。白天看水勢奔騰、入夜後瀑布點上彩燈，景致隨時間流轉而變。在高處從容用餐，是欣賞瀑布最不費力的角度。"},{"img":"winery","tag":"尼加拉湖區 莊園佐餐","name":"Peller Estates 酒莊午宴","loc":"NIAGARA-ON-THE-LAKE","intro":"午宴設於尼加拉湖區的酒莊莊園，餐點以安大略當地食材為主，並搭配酒莊著名的冰酒佐餐。這片產區因冬季嚴寒，能讓葡萄結凍後榨出濃縮的甜美汁液，造就冰酒的特殊風味。在葡萄園環繞的莊園裡佐酒慢食，把產地、酒款與一餐串成完整的一段。"}];
+
+/* ============================================================
+   3) 主題與字體預設
+   ============================================================ */
+const THEMES = {
+  diapo:  {name:"Diapositive 暗夜", bg:"#0B0A0C", surface:"#141215", ink:"#F3EEE6", inkSoft:"#9A938A", line:"#2A2722", accent:"#E2512A"},
+  ivory:  {name:"象牙美術館", bg:"#F4F0EA", surface:"#FBF8F3", ink:"#211B16", inkSoft:"#6E635B", line:"#E3D9CC", accent:"#94703F"},
+  warm:   {name:"暖棕經典",   bg:"#F4F0EA", surface:"#FBF8F3", ink:"#2A211C", inkSoft:"#6E635B", line:"#E4DACE", accent:"#C7522A"},
+  stone:  {name:"雪松冷灰",   bg:"#ECEBE7", surface:"#F6F5F2", ink:"#1C1D1E", inkSoft:"#5F6266", line:"#DCDBD6", accent:"#3C5A66"},
+};
+const FONTS = {
+  editorial:{name:"編輯經典", sample:"Aa 旅", display:'"Cormorant Garamond","Noto Serif TC",serif', serif:'"Noto Serif TC","Songti TC",serif', sans:'"Inter","Noto Sans TC","PingFang TC",sans-serif'},
+  magazine: {name:"雜誌時尚", sample:"Aa 旅", display:'"Playfair Display","Noto Serif TC",serif', serif:'"Noto Serif TC","Songti TC",serif', sans:'"Inter","Noto Sans TC","PingFang TC",sans-serif'},
+  gallery:  {name:"美術館極簡", sample:"Aa 旅", display:'"Inter","Noto Sans TC",sans-serif', serif:'"Noto Sans TC","PingFang TC",sans-serif', sans:'"Inter","Noto Sans TC","PingFang TC",sans-serif'},
+};
+
+/* ============================================================
+   4) 渲染 deck
+   ============================================================ */
+const deck = document.getElementById('deck');
+const esc = s => (s==null?"":String(s));
+function mediaEl(imgKey, zoom){
+  return `<div class="mediawrap" data-img="${imgKey}">
+    <div class="media${zoom?' zoom':''}"></div>
+    <div class="grain"></div>__SCRIM__
+    <div class="media-edit"><button data-mact="up">上傳圖片</button><button data-mact="url">貼上網址</button><button data-mact="rm">移除</button></div>
+  </div>`;
+}
+function media(imgKey,{zoom=false,scrim=""}={}){
+  return mediaEl(imgKey,zoom).replace('__SCRIM__', scrim?`<div class="scrim ${scrim}"></div>`:'');
+}
+
+const slides = [];
+function add(html, tocTitle, type){ slides.push({html, toc:tocTitle, type}); }
+function addFeature(kicker, latin, zh, items, perSlide, ns){
+  for(let s=0;s<items.length;s+=perSlide){
+    const rows=items.slice(s,s+perSlide).map((it,j)=>{const i=s+j;
+      return `<div class="frow rise${j>0?' d2':''}">
+        <div class="fthumb">${media(it.img,{scrim:'veil'})}</div>
+        <div class="ftext movable" data-move="mv.${ns}.${i}">
+          <div class="ftag" data-edit="${ns}.${i}.tag">${it.tag}</div>
+          <div class="fname" data-edit="${ns}.${i}.name">${it.name}</div>
+          <div class="floc" data-edit="${ns}.${i}.loc">${it.loc}</div>
+          <div class="fintro" data-edit="${ns}.${i}.intro">${it.intro}</div>
+        </div>
+      </div>`;}).join('');
+    const tot=Math.ceil(items.length/perSlide), pg=Math.floor(s/perSlide)+1;
+    add(`<div class="pageframe">
+      <div class="head"><div><div class="kicker">${kicker}</div><h2 style="margin-top:.3em">${latin}<span class="zh">${zh}</span></h2></div><div class="pgnum">${tot>1?pg+' / '+tot:'\u203b'}</div></div>
+      <div class="features">${rows}</div>
+    </div>`, tot>1?`${zh} ${pg}`:zh, "feature");
+  }
+}
+/* 每個項目獨立一頁的特寫（飯店用）*/
+function addSpread(kicker, zh, items, ns){
+  items.forEach((it,i)=>{
+    add(`<div class="spread">
+      <div class="spread-media">${media(it.img)}</div>
+      <div class="spread-body movable" data-move="mv.${ns}.${i}">
+        <div class="kicker">${kicker}</div>
+        <div class="sp-loc" data-edit="${ns}.${i}.loc">${it.loc}</div>
+        <h2 class="sp-name" data-edit="${ns}.${i}.name">${it.name}</h2>
+        <div class="sp-tag" data-edit="${ns}.${i}.tag">${it.tag}</div>
+        <div class="sp-intro" data-edit="${ns}.${i}.intro">${it.intro}</div>
+      </div>
+    </div>`, `${zh} · ${it.name}`, "spread");
+  });
+}
+/* 每天行程頁之後：當天景點介紹（每個景點一張照片＋說明）*/
+function addDayIntros(d){
+  const aint=d.aint||[];
+  const cards=[];
+  (d.acts||[]).forEach((name,i)=>{ if(aint[i]) cards.push({i,name,intro:aint[i]}); });
+  if(!cards.length) return;
+  /* 單列排版：每頁最多 3 張、比例正常；避免最後一頁只剩 1 張 */
+  const rows=[]; for(let s=0;s<cards.length;s+=3) rows.push(cards.slice(s,s+3));
+  if(rows.length>1 && rows[rows.length-1].length===1){ rows[rows.length-1].unshift(rows[rows.length-2].pop()); }
+  rows.forEach((chunk,ri)=>{
+    const cols=chunk.length;
+    const grid=chunk.map(c=>{
+      const key=`attr.${d.n}.${c.i}`;
+      return `<div class="acard">
+        <div class="acard-media">${media(key)}</div>
+        <div class="acard-name" data-edit="ai.${d.n}.${c.i}.name">${c.name}</div>
+        <div class="acard-intro" data-edit="ai.${d.n}.${c.i}.intro">${c.intro}</div>
+      </div>`;
+    }).join('');
+    add(`<div class="pageframe dayintro">
+      <div class="head"><div><div class="kicker">Day ${String(d.n).padStart(2,'0')} · 景點介紹</div><h2 style="margin-top:.3em">${d.title}</h2></div><div class="pgnum">${rows.length>1?(ri+1)+' / '+rows.length:'※'}</div></div>
+      <div class="agrid cols-${cols}">${grid}</div>
+    </div>`, rows.length>1?`Day ${String(d.n).padStart(2,'0')} 景點 ${ri+1}`:`Day ${String(d.n).padStart(2,'0')} 景點`, "dayintro");
+  });
+}
+
+/* 封面 */
+add(`<div class="cover">
+  ${media('cover',{zoom:true,scrim:'bottom'})}
+  <div class="topline">
+    <div class="wordmark">CORNER<small data-edit="brand.sub">角落旅行 · Corner Travel</small></div>
+    <div class="code" data-edit="cover.code">${TRIP.code}</div>
+  </div>
+  <div class="content">
+    <div class="movable" data-move="mv.cover">
+    <div class="kicker rise" data-edit="cover.kicker">${TRIP.kicker}</div>
+    <div class="mask"><h1 class="reveal" data-edit="cover.title">${TRIP.titleLatin}</h1></div>
+    <div class="zh rise d3" data-edit="cover.zh">${TRIP.titleZh}</div>
+    <div class="meta rise d4">
+      <div><span class="lbl">Traveller</span><span class="v" data-edit="cover.client">${TRIP.client}</span></div>
+      <div><span class="lbl">Date</span><span class="v" data-edit="cover.date">${TRIP.dateRange}</span></div>
+      <div><span class="lbl">Duration</span><span class="v" data-edit="cover.dur">16 Days · 直飛往返</span></div>
+    </div>
+    </div>
+  </div>
+</div>`, "封面 Cover", "cover");
+
+/* 總覽 */
+add(`<div class="pageframe">
+  <div class="head">
+    <div><div class="kicker">Overview</div><h2 style="margin-top:.3em">The Journey<span class="zh" data-edit="ov.zh">行程總覽</span></h2></div>
+    <div class="pgnum">02</div>
+  </div>
+  <div class="stats">
+    ${STATS.map((s,i)=>`<div class="stat rise${i>1?' d2':''}">
+      <div class="n"><span data-edit="ov.stat.${i}.n">${s.n}</span><sup data-edit="ov.stat.${i}.sup">${s.sup}</sup></div>
+      <div class="lbl" data-edit="ov.stat.${i}.lbl">${s.lbl}</div>
+      <div class="sub" data-edit="ov.stat.${i}.sub">${s.sub}</div>
+    </div>`).join('')}
+  </div>
+  <div class="routeline rise d3">
+    <div class="kicker" style="color:var(--accent);margin-bottom:var(--s3)">Route · 行程路線</div>
+    <div class="flow">${ROUTE.map((r,i)=>`${i?'<span class="sep">———</span>':''}<span class="node" data-edit="ov.route.${i}">${r}</span>`).join('')}</div>
+  </div>
+</div>`, "行程總覽 Overview", "page");
+
+/* 旅遊路線 地圖 */
+add(`<div class="mapslide">
+  <svg class="mapsvg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+  <div class="mapframe">
+    <div class="mhead">
+      <div class="kicker">The Route</div>
+      <div class="mttl" data-edit="map.ttl">旅遊路線</div>
+      <div class="msub" data-edit="map.sub">多倫多進 · 華盛頓出 · 跨加美兩國 16 天</div>
+    </div>
+    <div class="mlegend">
+      <span><i class="lg lg-g"></i>陸路專車</span>
+      <span><i class="lg lg-a"></i>內陸段班機 蒙特婁→紐約</span>
+      <span class="lg-int">✈ 長榮直飛 桃園 ⇌ 多倫多／華盛頓</span>
+    </div>
+  </div>
+</div>`, "旅遊路線 The Route", "map");
+
+/* 航班 */
+function legHTML(f, key){
+  return `<div class="leg">
+    <div class="ap"><div class="code" data-edit="${key}.fc">${f.from.code}</div><div class="city" data-edit="${key}.fcc">${f.from.city}</div><div class="time" data-edit="${key}.ft">${f.from.time}</div></div>
+    <div class="arrow"><div class="dur" data-edit="${key}.dur">${f.dur}</div><span class="ln"></span></div>
+    <div class="ap"><div class="code" data-edit="${key}.tc">${f.to.code}</div><div class="city" data-edit="${key}.tcc">${f.to.city}</div><div class="time" data-edit="${key}.tt">${f.to.time}</div></div>
+  </div>`;
+}
+add(`<div class="pageframe">
+  <div class="head">
+    <div><div class="kicker">Flights</div><h2 style="margin-top:.3em">Direct Service<span class="zh" data-edit="fl.zh">航班資訊</span></h2></div>
+    <div class="pgnum">04</div>
+  </div>
+  <div class="flights">
+    <div class="fcard rise">
+      <div class="tag" data-edit="fl.out.tag">${FLIGHTS.out.tag}</div>
+      <div class="airline" data-edit="fl.out.air">${FLIGHTS.out.airline}</div>
+      ${legHTML(FLIGHTS.out,'fl.out')}
+      <div class="when" data-edit="fl.out.when">${FLIGHTS.out.when}</div>
+    </div>
+    <div class="fcard rise d2">
+      <div class="tag" data-edit="fl.ret.tag">${FLIGHTS.ret.tag}</div>
+      <div class="airline" data-edit="fl.ret.air">${FLIGHTS.ret.airline}</div>
+      ${legHTML(FLIGHTS.ret,'fl.ret')}
+      <div class="when" data-edit="fl.ret.when">${FLIGHTS.ret.when}</div>
+    </div>
+    <div class="fnote rise d3" data-edit="fl.note">${FLIGHTS.note}</div>
+  </div>
+</div>`, "航班資訊 Flights", "page");
+
+/* 章節 + 每日 */
+CHAPTERS.forEach(c=>{
+  add(`<div class="chapter">
+    ${media(c.img,{zoom:true,scrim:'bottom'})}
+    <div class="content">
+      <div class="movable" data-move="mv.ch.${c.slug}">
+      <div class="idx" data-edit="ch.${c.slug}.idx">Chapter ${c.idx}</div>
+      <div class="kicker" data-edit="ch.${c.slug}.days">${c.days}</div>
+      <div class="mask"><h2 class="reveal" data-edit="ch.${c.slug}.latin">${c.latin}</h2></div>
+      <div class="zh" data-edit="ch.${c.slug}.zh">${c.zh}</div>
+      </div>
+    </div>
+  </div>`, `${c.zh}`, "chapter");
+
+  DAYS.filter(d=>d.ch===c.slug).forEach(d=>{
+    const aint = d.aint||[];
+    const acts = d.acts.length
+      ? `<ul class="acts">${d.acts.map((a,i)=>`<li class="rise${i>2?' d2':''}"><span class="i">${String(i+1).padStart(2,'0')}</span><span class="atext"><span class="an" data-edit="d${d.n}.act.${i}">${a}</span></span></li>`).join('')}</ul>`
+      : (d.flight?`<div class="flightchip rise" data-edit="d${d.n}.flight">✈ ${d.flight}</div>`:'');
+    const flightChip = (d.acts.length && d.flight)?`<div class="flightchip rise d3" data-edit="d${d.n}.flight">✈ ${d.flight}</div>`:'';
+    add(`<div class="day">
+      <div class="pane">
+        ${media(d.img,{scrim:''})}
+        <div class="scrim veil"></div>
+        <div class="daytag"><div class="dlabel">Day</div><div class="n" data-edit="d${d.n}.num">${String(d.n).padStart(2,'0')}</div></div>
+      </div>
+      <div class="body movable" data-move="mv.d${d.n}">
+        <div class="date rise" data-edit="d${d.n}.date">${d.date}</div>
+        <div class="kicker rise" data-edit="d${d.n}.kicker">${d.kicker}</div>
+        <h3 class="rise" data-edit="d${d.n}.title">${d.title}</h3>
+        ${acts}${flightChip}
+        <div class="meals rise d4">
+          <div class="m"><div class="lbl">早 Breakfast</div><div class="v" data-edit="d${d.n}.mb">${d.meals.b}</div>${(d.mint&&d.mint.b)?`<div class="mi" data-edit="d${d.n}.mintb">${d.mint.b}</div>`:''}</div>
+          <div class="m${d.meals.lstar?' star':''}"><div class="lbl">午 Lunch</div><div class="v" data-edit="d${d.n}.ml">${d.meals.l}</div>${(d.mint&&d.mint.l)?`<div class="mi" data-edit="d${d.n}.mintl">${d.mint.l}</div>`:''}</div>
+          <div class="m${d.meals.dstar?' star':''}"><div class="lbl">晚 Dinner</div><div class="v" data-edit="d${d.n}.md">${d.meals.d}</div>${(d.mint&&d.mint.d)?`<div class="mi" data-edit="d${d.n}.mintd">${d.mint.d}</div>`:''}</div>
+        </div>
+        <div class="stay rise d5"><div class="lbl">Stay</div><div class="v"><span data-edit="d${d.n}.hotel">${d.hotel}</span>${d.badge?`<span class="badge" data-edit="d${d.n}.badge">${d.badge}</span>`:''}</div></div>
+      </div>
+    </div>`, `Day ${String(d.n).padStart(2,'0')} · ${d.title}`, "day");
+    addDayIntros(d);
+  });
+});
+
+/* 景點與餐廳介紹改為「穿插在每一天的行程頁」（見 DAYS 渲染的景點介紹行與餐點介紹行），
+   不再走完行程後另開獨立說明區。此處只保留飯店各自獨立一頁。 */
+/* 精選住宿（每間飯店獨立一頁）*/
+addSpread("Where You Stay", "精選住宿", FEAT_HOTELS, "feat.h");
+
+/* 結尾 */
+add(`<div class="closing">
+  ${media('quebec',{zoom:true,scrim:'veil'})}<div class="scrim bottom"></div>
+  <div class="content">
+    <div class="movable" data-move="mv.cl">
+    <div class="kicker rise">Bon Voyage</div>
+    <div class="mask"><h2 class="reveal" data-edit="cl.title">A Journey Tailored<br>for <em>鼎碩投資顧問</em></h2></div>
+    <div class="zh rise d3" data-edit="cl.zh">為您量身打造的東岸之旅　期待同行</div>
+    <div class="sign rise d4">CORNER</div>
+    <div class="contact rise d5" data-edit="cl.contact">角落旅行 Corner Travel　·　sale@cornertravel.com.tw　·　cornertravel.com.tw</div>
+    </div>
+  </div>
+</div>`, "結尾 Thank You", "closing");
+
+/* 寫入 DOM */
+deck.innerHTML = slides.map((s,i)=>`<section class="slide" data-i="${i}" data-type="${s.type}">${s.html}</section>`).join('');
+const slideEls = [...document.querySelectorAll('.slide')];
+
+/* ============================================================
+   5) 狀態：本機保存
+   ============================================================ */
+const LS_KEY = "jfkdeck:JFK260714A:v1";
+let store = {texts:{}, images:{}, theme:"diapo", custom:{}, font:"editorial", scale:100, moves:{}, imgpos:{}};
+try{ const raw = localStorage.getItem(LS_KEY); if(raw) store = Object.assign(store, JSON.parse(raw)); }catch(e){}
+let saveTimer=null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    try{ localStorage.setItem(LS_KEY, JSON.stringify(store)); flashSaved(); }
+    catch(e){ alert("保存空間已滿——圖片過大時請改用較小的圖片，或先下載 HTML 副本。"); }
+  },300);
+}
+const savetag=document.getElementById('savetag');
+function flashSaved(){ savetag.classList.add('show'); setTimeout(()=>savetag.classList.remove('show'),900); }
+
+/* 套用圖片到一個 mediawrap */
+function applyImage(key, val){
+  document.querySelectorAll(`.mediawrap[data-img="${key}"] .media`).forEach(m=>{
+    if(val){ m.style.backgroundImage = `url("${val}")`; }
+    else { m.style.backgroundImage = ""; }
+  });
+}
+/* 帶失敗保護地載入（遠端圖失效→保留漸層佔位）*/
+function loadImage(key, val){
+  if(!val){ applyImage(key,""); return; }
+  if(val.startsWith("data:")){ applyImage(key,val); return; }
+  const im = new Image();
+  im.onload = ()=>applyImage(key,val);
+  im.onerror = ()=>applyImage(key,"");   /* 失效就退回漸層 */
+  im.src = val;
+}
+
+/* 初始：種子圖 → 使用者存的圖覆蓋 */
+function hydrateImages(){
+  const keys = new Set([...document.querySelectorAll('.mediawrap')].map(w=>w.dataset.img));
+  keys.forEach(k=>{
+    const val = store.images[k] != null ? store.images[k] : (SEED_IMAGES[k]||"");
+    loadImage(k, val);
+  });
+}
+/* 初始：套用使用者編輯過的文字 */
+function hydrateTexts(){
+  Object.entries(store.texts).forEach(([k,v])=>{
+    const el = document.querySelector(`[data-edit="${k}"]`);
+    if(el) el.innerHTML = v;
+  });
+}
+
+/* 主題 / 字體 / 字級 */
+function applyTheme(){
+  const t = Object.assign({}, THEMES[store.theme]||THEMES.ivory, store.custom);
+  const r = document.documentElement.style;
+  r.setProperty('--bg',t.bg); r.setProperty('--surface',t.surface||t.bg);
+  r.setProperty('--ink',t.ink); r.setProperty('--ink-soft',t.inkSoft||t.ink);
+  r.setProperty('--line',t.line||'#ddd'); r.setProperty('--accent',t.accent);
+  document.querySelectorAll('.sw').forEach(s=>s.classList.toggle('on', s.dataset.theme===store.theme && !Object.keys(store.custom).length));
+  document.getElementById('colBg').value = t.bg;
+  document.getElementById('colInk').value = t.ink;
+  document.getElementById('colAccent').value = t.accent;
+}
+function applyFont(){
+  const f = FONTS[store.font]||FONTS.editorial;
+  const r = document.documentElement.style;
+  r.setProperty('--display',f.display); r.setProperty('--serif',f.serif); r.setProperty('--sans',f.sans);
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('on', b.dataset.font===store.font));
+}
+function applyScale(){
+  document.documentElement.style.fontSize = store.scale + "%";
+  document.getElementById('scaleRange').value = store.scale;
+  document.getElementById('scaleVal').textContent = store.scale + "%";
+}
+
+/* ============================================================
+   6) 翻頁控制
+   ============================================================ */
+let cur = 0;
+const bar=document.getElementById('bar'), count=document.getElementById('count');
+function show(i){
+  cur = Math.max(0, Math.min(slideEls.length-1, i));
+  slideEls.forEach((s,idx)=>s.classList.toggle('is-active', idx===cur));
+  bar.style.width = ((cur)/(slideEls.length-1)*100) + "%";
+  count.textContent = String(cur+1).padStart(2,'0')+" / "+String(slideEls.length).padStart(2,'0');
+  if(cur===mapIdx) animateMap(); else resetMap();
+}
+function next(){ show(cur+1); } function prev(){ show(cur-1); }
+function initialSlide(){ const m=(location.hash||'').match(/\d+/); const n=m?parseInt(m[0],10):0; return Number.isFinite(n)?n:0; }
+
+/* ---------- 旅遊路線 地圖（真實輪廓 + 路線動畫）---------- */
+let mapIdx = -1;
+function buildMap(){
+  const svg=document.querySelector('.mapsvg'); if(!svg||typeof MAP==='undefined') return;
+  svg.setAttribute('viewBox', `0 0 ${MAP.W} ${MAP.H}`);
+  const C=MAP.city;
+  const P=arr=>arr.map((k,i)=>`${i?'L':'M'}${C[k][0]} ${C[k][1]}`).join(' ');
+  const g1=['niagara','toronto','thousand','ottawa','quebec','montreal'];
+  const g2=['newyork','philadelphia','washington'];
+  const air=`M${C.montreal[0]} ${C.montreal[1]} Q ${(C.montreal[0]+C.newyork[0])/2+26} ${(C.montreal[1]+C.newyork[1])/2} ${C.newyork[0]} ${C.newyork[1]}`;
+  const gateIn=`M26 ${C.toronto[1]} L ${C.toronto[0]} ${C.toronto[1]}`;
+  const gateOut=`M${C.washington[0]} ${C.washington[1]} L ${C.washington[0]} ${MAP.H-24}`;
+  const land=MAP.land.map(d=>`<path d="${d}"/>`).join('');
+  const meta={niagara:['尼加拉',-12,21,'end'],toronto:['多倫多',-12,-12,'end'],thousand:['千島群島',-10,-12,'end'],ottawa:['渥太華',0,-16,'middle'],quebec:['魁北克',14,-9,'start'],montreal:['蒙特婁',16,2,'start'],newyork:['紐約',16,5,'start'],philadelphia:['費城',16,5,'start'],washington:['華盛頓',16,5,'start']};
+  const hot=new Set(['toronto','quebec','newyork']);
+  const dots=Object.keys(meta).map(k=>{const x=C[k][0],y=C[k][1];const m=meta[k];
+    return `<g class="${hot.has(k)?'hot':''}"><circle cx="${x}" cy="${y}" r="${hot.has(k)?6:4.5}"/><text x="${x+m[1]}" y="${y+m[2]}" text-anchor="${m[3]}">${m[0]}</text></g>`;}).join('');
+  svg.innerHTML=`<g class="land">${land}</g>`
+    +`<path class="rt-gate" d="${gateIn}"/><path class="rt-gate" d="${gateOut}"/>`
+    +`<path class="rt-air" d="${air}"/>`
+    +`<path class="rt-g1" d="${P(g1)}"/><path class="rt-g2" d="${P(g2)}"/>`
+    +`<path class="plane" d="M16 0 L-9 8 L-3 0 L-9 -8 Z"/>`
+    +`<g class="gate"><text x="30" y="${C.toronto[1]-9}" text-anchor="start">✈ 桃園 TPE</text>`
+    +`<text x="${C.washington[0]+8}" y="${MAP.H-28}" text-anchor="start">TPE 桃園 ✈</text></g>`
+    +`<g class="dots">${dots}</g>`;
+  svg.querySelectorAll('.rt-g1,.rt-g2').forEach(p=>{const len=p.getTotalLength();p.style.strokeDasharray=len;p.style.strokeDashoffset=len;});
+}
+let mapTimers=[], planeRAF=0;
+function drawPath(p, dur){ if(!p) return; p.getBoundingClientRect(); p.style.transition=`stroke-dashoffset ${dur}s var(--ease-img)`; p.style.strokeDashoffset='0'; }
+function flyPlane(path, plane, dur, done){
+  if(!path||!plane){ if(done)done(); return; }
+  const len=path.getTotalLength(); const t0=performance.now();
+  plane.style.opacity='1';
+  (function step(now){
+    const pr=Math.min(1,(now-t0)/dur);
+    const pt=path.getPointAtLength(pr*len), pt2=path.getPointAtLength(Math.min(len,pr*len+0.8));
+    const ang=Math.atan2(pt2.y-pt.y, pt2.x-pt.x)*180/Math.PI;
+    plane.setAttribute('transform',`translate(${pt.x} ${pt.y}) rotate(${ang})`);
+    if(pr<1) planeRAF=requestAnimationFrame(step); else if(done) done();
+  })(performance.now());
+}
+/* 有序動畫：加拿大段 → 飛機沿虛線飛紐約 → 美東段 → 國際閘口 */
+function animateMap(){
+  const svg=document.querySelector('.mapsvg'); if(!svg) return;
+  resetMap();
+  const g1=svg.querySelector('.rt-g1'), g2=svg.querySelector('.rt-g2'),
+        air=svg.querySelector('.rt-air'), plane=svg.querySelector('.plane'); if(!g1) return;
+  requestAnimationFrame(()=>drawPath(g1, 1.7));                         // 1) 尼加拉→蒙特婁
+  mapTimers.push(setTimeout(()=>{                                       // 2) 蒙特婁→紐約：虛線＋飛機
+    if(air) air.style.opacity='.92';
+    flyPlane(air, plane, 1300, ()=>{ if(plane) plane.style.opacity='0'; });
+  }, 1850));
+  mapTimers.push(setTimeout(()=>drawPath(g2, 1.3), 3250));              // 3) 紐約→費城→華盛頓
+  mapTimers.push(setTimeout(()=>svg.querySelectorAll('.rt-gate').forEach(g=>g.style.opacity='.8'), 4500)); // 4) 長榮國際段
+}
+function resetMap(){
+  const svg=document.querySelector('.mapsvg'); if(!svg) return;
+  mapTimers.forEach(clearTimeout); mapTimers=[]; cancelAnimationFrame(planeRAF);
+  svg.querySelectorAll('.rt-g1,.rt-g2').forEach(p=>{p.style.transition='none';const len=p.getTotalLength();p.style.strokeDashoffset=len;});
+  const air=svg.querySelector('.rt-air'); if(air) air.style.opacity='0';
+  const plane=svg.querySelector('.plane'); if(plane) plane.style.opacity='0';
+  svg.querySelectorAll('.rt-gate').forEach(g=>g.style.opacity='0');
+}
+
+/* ============================================================
+   7) 編輯模式
+   ============================================================ */
+let editing=false;
+const editBtn=document.getElementById('editBtn'), designBtn=document.getElementById('designBtn');
+function setEditing(on){
+  editing=on;
+  document.body.classList.toggle('editing', on);
+  document.querySelectorAll('[data-edit]').forEach(el=>el.contentEditable = on);
+  if(on){ document.querySelectorAll('[data-move]').forEach(el=>{
+    if(!el.querySelector(':scope > .movehandle')){ const h=document.createElement('div'); h.className='movehandle'; h.textContent='✛'; h.title='拖曳移動文字'; el.prepend(h); }
+  }); }
+  editBtn.textContent = on?"完成編輯":"編輯";
+  editBtn.classList.toggle('on', on);
+  designBtn.style.display = on?"inline-block":"none";
+  if(!on) closeDrawer();
+}
+/* 拖曳移動文字組 */
+function applyMoves(){ Object.entries(store.moves||{}).forEach(([k,v])=>{ const el=document.querySelector(`[data-move="${k}"]`); if(el&&v) el.style.transform=`translate(${v.x}px,${v.y}px)`; }); }
+let mvDrag=null;
+document.addEventListener('pointerdown', e=>{
+  const h=e.target.closest('.movehandle'); if(!h||!editing) return;
+  e.preventDefault();
+  const el=h.closest('[data-move]'); const k=el.dataset.move;
+  const cur=(store.moves&&store.moves[k])||{x:0,y:0};
+  mvDrag={el,k,sx:e.clientX,sy:e.clientY,ox:cur.x,oy:cur.y,x:cur.x,y:cur.y};
+  try{ h.setPointerCapture(e.pointerId); }catch(_){}
+});
+document.addEventListener('pointermove', e=>{
+  if(!mvDrag) return;
+  mvDrag.x=mvDrag.ox+(e.clientX-mvDrag.sx); mvDrag.y=mvDrag.oy+(e.clientY-mvDrag.sy);
+  mvDrag.el.style.transform=`translate(${mvDrag.x}px,${mvDrag.y}px)`;
+});
+document.addEventListener('pointerup', ()=>{
+  if(!mvDrag) return;
+  store.moves=store.moves||{}; store.moves[mvDrag.k]={x:Math.round(mvDrag.x),y:Math.round(mvDrag.y)};
+  save(); mvDrag=null;
+});
+/* 拖曳平移圖片（調整裁切視角）*/
+function applyImgPos(){ Object.entries(store.imgpos||{}).forEach(([k,v])=>{ if(!v) return; document.querySelectorAll(`.mediawrap[data-img="${k}"] .media`).forEach(m=>{ m.style.backgroundPosition=`${v.x}% ${v.y}%`; }); }); }
+let panDrag=null;
+document.addEventListener('pointerdown', e=>{
+  if(!editing) return;
+  if(e.target.closest('.media-edit')||e.target.closest('.movehandle')) return;
+  const wrap=e.target.closest('.mediawrap'); if(!wrap) return;
+  const k=wrap.dataset.img; const cur=(store.imgpos&&store.imgpos[k])||{x:50,y:50};
+  panDrag={k,sx:e.clientX,sy:e.clientY,ox:cur.x,oy:cur.y,x:cur.x,y:cur.y,moved:false,el:wrap};
+  wrap.classList.add('panning');
+  try{ wrap.setPointerCapture(e.pointerId); }catch(_){}
+});
+document.addEventListener('pointermove', e=>{
+  if(!panDrag) return;
+  const k=0.16;
+  panDrag.x=Math.max(0,Math.min(100, panDrag.ox-(e.clientX-panDrag.sx)*k));
+  panDrag.y=Math.max(0,Math.min(100, panDrag.oy-(e.clientY-panDrag.sy)*k));
+  if(Math.abs(e.clientX-panDrag.sx)+Math.abs(e.clientY-panDrag.sy)>2) panDrag.moved=true;
+  document.querySelectorAll(`.mediawrap[data-img="${panDrag.k}"] .media`).forEach(m=>{ m.style.backgroundPosition=`${panDrag.x}% ${panDrag.y}%`; });
+});
+document.addEventListener('pointerup', ()=>{
+  if(!panDrag) return;
+  panDrag.el.classList.remove('panning');
+  if(panDrag.moved){ store.imgpos=store.imgpos||{}; store.imgpos[panDrag.k]={x:Math.round(panDrag.x),y:Math.round(panDrag.y)}; save(); }
+  panDrag=null;
+});
+/* 文字編輯：事件代理 */
+deck.addEventListener('input', e=>{
+  const t = e.target.closest('[data-edit]');
+  if(!t || !editing) return;
+  store.texts[t.dataset.edit] = t.innerHTML;
+  save();
+});
+/* 換頁鍵在編輯文字時不攔截 */
+function inText(){ const a=document.activeElement; return a && a.isContentEditable; }
+
+/* 圖片編輯 */
+const fileInput=document.getElementById('fileInput');
+let pendingKey=null;
+deck.addEventListener('click', e=>{
+  if(!editing) return;
+  const btn = e.target.closest('[data-mact]');
+  if(!btn) return;
+  const wrap = btn.closest('.mediawrap'); const key = wrap.dataset.img;
+  const act = btn.dataset.mact;
+  if(act==='up'){ pendingKey=key; fileInput.value=""; fileInput.click(); }
+  if(act==='url'){
+    const u = prompt("貼上圖片網址（https://...）：", store.images[key]||SEED_IMAGES[key]||"");
+    if(u!==null){ store.images[key]=u.trim(); save(); loadImage(key, u.trim()); }
+  }
+  if(act==='rm'){ store.images[key]=""; save(); applyImage(key,""); }
+});
+fileInput.addEventListener('change', ()=>{
+  const file=fileInput.files[0]; if(!file||!pendingKey) return;
+  const reader=new FileReader();
+  reader.onload=()=>{ store.images[pendingKey]=reader.result; save(); applyImage(pendingKey, reader.result); };
+  reader.readAsDataURL(file);
+});
+
+/* ============================================================
+   8) 設計抽屜：主題 / 字體 / 色彩 / 字級
+   ============================================================ */
+const drawer=document.getElementById('drawer');
+function openDrawer(){ drawer.classList.add('open'); designBtn.classList.add('on'); }
+function closeDrawer(){ drawer.classList.remove('open'); designBtn.classList.remove('on'); }
+function toggleDrawer(){ drawer.classList.contains('open')?closeDrawer():openDrawer(); }
+
+const themeSwatches=document.getElementById('themeSwatches');
+themeSwatches.innerHTML = Object.entries(THEMES).map(([k,t])=>
+  `<div class="sw" data-theme="${k}"><span class="chip" style="background:linear-gradient(135deg,${t.bg} 0 50%,${t.accent} 50% 100%)"></span>${t.name}</div>`).join('');
+themeSwatches.addEventListener('click', e=>{
+  const sw=e.target.closest('.sw'); if(!sw) return;
+  store.theme=sw.dataset.theme; store.custom={}; applyTheme(); save();
+});
+['colBg','colInk','colAccent'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', e=>{
+    const map={colBg:'bg',colInk:'ink',colAccent:'accent'};
+    store.custom[map[id]] = e.target.value;
+    if(map[id]==='bg'){ store.custom.surface = e.target.value; }
+    applyTheme(); save();
+  });
+});
+const fontBtns=document.getElementById('fontBtns');
+fontBtns.innerHTML = Object.entries(FONTS).map(([k,f])=>
+  `<div class="fbtn" data-font="${k}"><div class="big" style="font-family:${f.display}">${f.sample}</div><div class="lbl">${f.name}</div></div>`).join('');
+fontBtns.addEventListener('click', e=>{
+  const b=e.target.closest('.fbtn'); if(!b) return;
+  store.font=b.dataset.font; applyFont(); save();
+});
+document.getElementById('scaleRange').addEventListener('input', e=>{
+  store.scale = parseInt(e.target.value,10); applyScale(); save();
+});
+
+/* ============================================================
+   9) 目錄
+   ============================================================ */
+const toc=document.getElementById('toc'), tocList=document.getElementById('tocList');
+tocList.innerHTML = slides.map((s,i)=>`<li data-i="${i}"><span class="n">${String(i+1).padStart(2,'0')}</span><span class="t">${s.toc}</span></li>`).join('');
+tocList.addEventListener('click', e=>{ const li=e.target.closest('li'); if(li){ show(+li.dataset.i); toc.classList.remove('open'); } });
+function toggleTOC(){ toc.classList.toggle('open'); }
+
+/* ============================================================
+   10) 匯出：列印 / 下載 HTML 副本 / 重設
+   ============================================================ */
+function downloadHTML(){
+  /* 把目前主題 / 字級 / 種子圖內嵌，文字與圖片已寫進 DOM；輸出可獨立開啟的副本 */
+  const clone = document.documentElement.cloneNode(true);
+  /* 移除編輯態 */
+  clone.querySelectorAll('[contenteditable]').forEach(el=>el.removeAttribute('contenteditable'));
+  clone.querySelector('body')?.classList.remove('editing');
+  /* 內嵌目前的 CSS 變數（主題/字體/字級）到 :root style 屬性已存在於 documentElement.style，clone 已帶上 */
+  /* 把目前每張圖的實際背景寫成內嵌 SEED，確保副本不靠 localStorage */
+  const imgState={};
+  document.querySelectorAll('.mediawrap').forEach(w=>{
+    const m=w.querySelector('.media'); const bg=m.style.backgroundImage;
+    if(bg && bg!=='none'){ imgState[w.dataset.img]=bg.slice(5,-2); }
+  });
+  /* 注入一段把 imgState 套回去的啟動腳本 */
+  const inject = `<script>window.__BAKED_IMAGES=${JSON.stringify(imgState)};<\/script>`;
+  let html = "<!DOCTYPE html>\n"+clone.outerHTML;
+  html = html.replace('</body>', inject+'</body>');
+  const blob=new Blob([html],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download="鼎碩投資顧問_東岸16日_角落旅行.html";
+  a.click(); URL.revokeObjectURL(a.href);
+}
+function resetAll(){
+  if(confirm("確定清除所有文字 / 圖片 / 配色的編輯？此動作無法復原。")){
+    localStorage.removeItem(LS_KEY); location.reload();
+  }
+}
+
+/* ============================================================
+   11) 介面隱藏 / 快捷鍵 / 事件
+   ============================================================ */
+const toolbar=document.getElementById('toolbar'), navbar=document.getElementById('navbar');
+let uiHidden=false;
+function toggleUI(){ uiHidden=!uiHidden; toolbar.classList.toggle('fade',uiHidden); navbar.classList.toggle('fade',uiHidden); }
+
+/* 簡報（播放）模式：給客人看的乾淨版，藏掉後台按鈕 + 全螢幕 */
+let presenting=false;
+function enterPresent(){ presenting=true; if(editing) setEditing(false); toc.classList.remove('open'); closeDrawer(); document.body.classList.add('presenting'); try{ document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen().catch(()=>{}); }catch(_){} }
+function exitPresent(){ presenting=false; document.body.classList.remove('presenting'); try{ if(document.fullscreenElement&&document.exitFullscreen) document.exitFullscreen().catch(()=>{}); }catch(_){} }
+document.addEventListener('fullscreenchange', ()=>{ if(!document.fullscreenElement && presenting){ presenting=false; document.body.classList.remove('presenting'); } });
+
+document.addEventListener('click', e=>{
+  const b=e.target.closest('[data-act]'); if(!b) return;
+  const a=b.dataset.act;
+  if(a==='next')next(); if(a==='prev')prev();
+  if(a==='toc')toggleTOC();
+  if(a==='edit')setEditing(!editing);
+  if(a==='design')toggleDrawer();
+  if(a==='print')window.print();
+  if(a==='download')downloadHTML();
+  if(a==='reset')resetAll();
+  if(a==='present')enterPresent();
+  if(a==='exitpresent')exitPresent();
+});
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){ if(presenting)exitPresent(); toc.classList.remove('open'); closeDrawer(); return; }
+  if(inText()) return;                       /* 正在打字就不攔截方向鍵 */
+  switch(e.key){
+    case 'ArrowRight': case 'PageDown': case ' ': e.preventDefault(); next(); break;
+    case 'ArrowLeft': case 'PageUp': prev(); break;
+    case 'Home': show(0); break;
+    case 'End': show(slideEls.length-1); break;
+    case 'g': case 'G': toggleTOC(); break;
+    case 'e': case 'E': setEditing(!editing); break;
+    case 'h': case 'H': toggleUI(); break;
+    case 'p': case 'P': window.print(); break;
+  }
+});
+/* 觸控滑動 */
+let tx=0;
+deck.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+deck.addEventListener('touchend',e=>{ const dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>50){ dx<0?next():prev(); } });
+
+/* ============================================================
+   12) 啟動
+   ============================================================ */
+hydrateTexts();
+applyMoves();
+applyImgPos();
+applyTheme(); applyFont(); applyScale();
+/* 下載副本注入的烘焙圖（若有）優先；否則種子＋本機 */
+if(window.__BAKED_IMAGES){ Object.entries(window.__BAKED_IMAGES).forEach(([k,v])=>loadImage(k,v)); }
+else { hydrateImages(); }
+mapIdx = slides.findIndex(s=>s.type==='map');
+buildMap();
+show(initialSlide());
+const hint=document.getElementById('hint');
+setTimeout(()=>hint.classList.add('gone'), 5200);
+</script>
+</body>
+</html>
