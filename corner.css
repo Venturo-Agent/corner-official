@@ -133,11 +133,11 @@ nav.over-hero:not(.scrolled) .nav-cta{background:var(--gold);color:#1a1410!impor
 nav.over-hero:not(.scrolled) .nav-toggle span{background:var(--paper)}
 
 /* 漢堡 / 全屏選單 */
-.nav-toggle{display:none;flex-direction:column;justify-content:center;align-items:flex-end;gap:5px;width:44px;height:44px;background:none;border:0;cursor:pointer;z-index:210}
+.nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;z-index:210}
 .nav-toggle span{display:block;width:26px;height:1px;background:var(--ink);transition:transform .4s var(--ease-expo),opacity .3s}
 .nav-menu{position:fixed;inset:0;z-index:205;background:rgba(245,239,229,.98);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--s4);opacity:0;pointer-events:none;transition:opacity .5s var(--ease-expo)}
 .nav-menu.open{opacity:1;pointer-events:auto}
-.nav-menu a{font-family:"Noto Serif TC",serif;font-size:26px;letter-spacing:.12em;color:var(--ink);padding:8px 4px;opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease-expo),transform .6s var(--ease-expo)}
+.nav-menu a{font-family:"Noto Serif TC",serif;font-size:26px;letter-spacing:.12em;color:var(--ink);opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease-expo),transform .6s var(--ease-expo)}
 .nav-menu.open a{opacity:1;transform:none}
 .nav-menu a:nth-child(1){transition-delay:.08s}.nav-menu a:nth-child(2){transition-delay:.14s}.nav-menu a:nth-child(3){transition-delay:.20s}.nav-menu a:nth-child(4){transition-delay:.26s}.nav-menu a:nth-child(5){transition-delay:.32s}.nav-menu a:nth-child(6){transition-delay:.38s}
 
@@ -151,8 +151,6 @@ nav.over-hero:not(.scrolled) .nav-toggle span{background:var(--paper)}
 /* 深色照片上的 ghost（hero 用） */
 .on-dark .btn-ghost,.btn-ghost.on-dark{color:var(--paper)}
 .on-dark .btn-ghost:hover,.btn-ghost.on-dark:hover{color:#fff}
-/* 手機：ghost 連結補足觸控高度 */
-@media(max-width:680px){.btn-ghost{padding-top:12px;padding-bottom:12px}.btn-ghost::after{bottom:6px}}
 
 /* ---------- SECTION 系統 ---------- */
 .sec{padding:var(--s9) 0}
