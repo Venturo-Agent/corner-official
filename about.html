@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>關於角落 · 角落旅行社 CORNER TRAVEL</title>
+<meta name="description" content="角落旅行社是台北的私人小包團旅行社。我們相信旅行該為你一個人量身而走——把世界，走成你的樣子。">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="corner.css?v=2">
+<style>
+  /* ===== 本頁專屬版面（共用元件一律走 corner.css） ===== */
+  section[id]{scroll-margin-top:88px}
+
+  /* 深色貫穿底圖（與首頁一致） */
+  .page-bg{position:fixed;inset:0;z-index:-2;overflow:hidden;background:#0d0f0e}
+  .pb-forest{position:absolute;inset:-8%;background:url("assets/photos/forest-bg.jpg") center/cover no-repeat;will-change:transform;animation:forestDrift 46s ease-in-out infinite alternate}
+  .pb-veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(9,11,10,.72) 0%,rgba(9,11,10,.6) 40%,rgba(9,11,10,.78) 100%)}
+  .pb-fog{position:absolute;inset:-22%;background:url("assets/photos/fog-layer.jpg") center/cover no-repeat;mix-blend-mode:screen;opacity:.3;filter:blur(11px) saturate(0);will-change:transform;animation:fogDrift 26s linear infinite alternate}
+  @keyframes forestDrift{from{transform:scale(1.06) translate(0,0)}to{transform:scale(1.12) translate(-1.5%,-1.5%)}}
+  @keyframes fogDrift{from{transform:translate(-4%,0)}to{transform:translate(4%,2%)}}
+  @media(prefers-reduced-motion:reduce){.pb-forest,.pb-fog{animation:none}}
+
+  /* 通用：深色頁上的文字 */
+  .ab-wrap{max-width:1080px}
+  .ab-lead-en{display:block;font-family:"Cormorant Garamond",serif;font-weight:300;font-size:clamp(38px,5vw,72px);line-height:1.06;color:var(--paper);letter-spacing:-.01em;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  .ab-lead-cn{display:block;font-family:"Noto Serif TC",serif;font-weight:500;font-size:clamp(28px,3.6vw,48px);line-height:1.4;color:var(--paper);letter-spacing:.08em;margin-top:10px;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+
+  /* HERO 區 */
+  .ab-hero{min-height:82vh;display:flex;align-items:center;padding-top:var(--s9);padding-bottom:var(--s7)}
+  .ab-hero .kicker{margin-bottom:var(--s4)}
+  .ab-hero .ab-open{margin-top:var(--s5);max-width:30em;font-size:clamp(18px,2vw,21px);line-height:1.95;color:var(--paper-dim);text-shadow:0 1px 3px rgba(0,0,0,.55)}
+
+  /* 段落區塊 */
+  .ab-sec{padding:var(--s8) 0}
+  .ab-sec .kicker{margin-bottom:var(--s4)}
+  .ab-h2{font-family:"Cormorant Garamond",serif;font-weight:300;font-size:clamp(34px,4vw,52px);line-height:1.14;color:var(--paper);text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  .ab-h2cn{display:block;font-family:"Noto Serif TC",serif;font-weight:500;font-size:clamp(22px,2.4vw,28px);letter-spacing:.06em;color:var(--gold-bright);margin-top:12px}
+  .ab-body{margin-top:var(--s5);max-width:34em}
+  .ab-body p{font-size:clamp(16px,1.7vw,18px);line-height:2.05;color:var(--paper-dim);text-shadow:0 1px 2px rgba(0,0,0,.5);margin-bottom:var(--s3)}
+  .ab-body p strong{color:var(--paper);font-weight:500}
+
+  .ab-hair{border:none;border-top:1px solid var(--line-on-dark);max-width:1080px;margin:0 auto}
+
+  /* 三個信念 */
+  .ab-beliefs{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5);margin-top:var(--s6)}
+  .ab-belief{padding-top:var(--s4);border-top:1px solid var(--gold)}
+  .ab-belief .num{font-family:"Cormorant Garamond",serif;font-weight:300;font-size:44px;color:var(--gold-bright);line-height:1;margin-bottom:var(--s3)}
+  .ab-belief h3{font-family:"Noto Serif TC",serif;font-weight:500;font-size:22px;letter-spacing:.04em;color:var(--paper);margin-bottom:6px}
+  .ab-belief .en{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:18px;color:var(--gold-bright);letter-spacing:.01em}
+  .ab-belief p{margin-top:var(--s3);font-size:16px;line-height:1.95;color:var(--paper-dim);text-shadow:0 1px 2px rgba(0,0,0,.5)}
+
+  /* 服務方式：條列 */
+  .ab-how-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s6);margin-top:var(--s6);align-items:start}
+  .ab-how-list{list-style:none;padding:0;margin:0}
+  .ab-how-list li{padding:var(--s4) 0;border-top:1px solid var(--line-on-dark);display:flex;gap:var(--s3);align-items:baseline}
+  .ab-how-list li:last-child{border-bottom:1px solid var(--line-on-dark)}
+  .ab-how-list .k{flex:0 0 auto;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:19px;color:var(--gold-bright);min-width:2.4em}
+  .ab-how-list .v{font-size:16px;line-height:1.9;color:var(--paper-dim)}
+  .ab-how-list .v strong{display:block;font-family:"Noto Serif TC",serif;font-weight:500;font-size:18px;color:var(--paper);margin-bottom:4px;letter-spacing:.03em}
+
+  /* 目的地一列 */
+  .ab-dests{margin-top:var(--s5);display:flex;flex-wrap:wrap;gap:0}
+  .ab-dests span{font-family:"Noto Serif TC",serif;font-size:clamp(18px,2vw,22px);color:var(--paper);letter-spacing:.08em;padding:6px 0}
+  .ab-dests span::after{content:"／";color:var(--gold);opacity:.6;margin:0 .5em}
+  .ab-dests span:last-child::after{content:""}
+
+  /* 結尾 CTA */
+  .ab-cta{padding:var(--s8) 0 var(--s9);text-align:center}
+  .ab-cta .ab-lead-cn{margin-top:0}
+  .ab-cta .ab-open{margin:var(--s4) auto 0;max-width:26em;text-align:center;font-size:18px;line-height:1.95;color:var(--paper-dim);text-shadow:0 1px 3px rgba(0,0,0,.55)}
+  .ab-cta-btns{margin-top:var(--s5);display:flex;gap:var(--s4);align-items:center;justify-content:center;flex-wrap:wrap}
+
+  @media(max-width:900px){
+    .ab-beliefs{grid-template-columns:1fr;gap:var(--s5)}
+    .ab-how-grid{grid-template-columns:1fr;gap:var(--s5)}
+    .ab-sec{padding:var(--s7) 0}
+    .ab-hero{min-height:76vh;padding-top:var(--s8)}
+  }
+  @media(max-width:680px){
+    .ab-body p{line-height:1.95}
+    .ab-cta-btns{gap:var(--s3)}
+    .ab-cta-btns .btn-ghost{padding-top:11px;padding-bottom:11px}
+    .ab-dests span{font-size:19px}
+  }
+</style>
+</head>
+<body>
+<div class="page-bg"><div class="pb-forest"></div><div class="pb-veil"></div><div class="pb-fog"></div></div>
+
+<nav id="nav" class="over-hero">
+  <a href="index.html" class="logo"><img src="assets/corner-logo.png" alt="角落旅行社 corner"></a>
+  <div class="nav-links">
+    <div class="nav-dd">
+      <a class="nav-dd-t" href="index.html#trips">探索世界</a>
+      <div class="nav-dd-menu">
+        <a href="destination-vietnam.html">越南 · Vietnam</a>
+        <a href="moments.html">峇里 · Bali</a>
+        <a href="moments.html">日本 · Japan</a>
+        <a href="tour-penang.html">馬來西亞 · Malaysia</a>
+        <a href="moments.html">泰國 · Thailand</a>
+        <a href="moments.html">韓國 · Korea</a>
+        <a href="moments.html">中國 · China</a>
+        <a href="moments.html">埃及 · Egypt</a>
+      </div>
+    </div>
+    <a href="about.html">關於角落</a>
+    <a href="index.html#how">訂製行程</a>
+    <a href="index.html#trips">正在出發</a>
+    <a href="index.html#contact">聯絡</a>
+    <a href="index.html#contact" class="nav-cta">預約諮詢</a>
+  </div>
+  <button class="nav-toggle" aria-label="選單"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-menu">
+  <a href="moments.html">探索世界</a><a href="about.html">關於角落</a><a href="index.html#how">訂製行程</a><a href="index.html#trips">正在出發</a><a href="index.html#contact">聯絡</a><a href="index.html#contact">預約諮詢</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<header class="ab-hero">
+  <div class="wrap ab-wrap">
+    <div class="kicker">ABOUT CORNER<span class="sep"></span><span class="cn">關於角落</span></div>
+    <span class="ab-lead-en">We plan the journey, so you can simply feel it.</span>
+    <span class="ab-lead-cn">路我們來鋪，感受留給你</span>
+    <p class="ab-open">角落是一間台北的私人小包團旅行社。一團只走你和你在乎的人，從第一個念頭到落地的每一天，我們把該操心的都接了過來——讓你在旅途裡，只需要專心地在場。</p>
+  </div>
+</header>
+
+<hr class="ab-hair">
+
+<!-- ===== 為什麼創立角落 ===== -->
+<section class="ab-sec" id="story">
+  <div class="wrap ab-wrap">
+    <div class="kicker">WHY WE BEGAN<span class="sep"></span><span class="cn">為什麼有了角落</span></div>
+    <h2 class="ab-h2">The trips people remember<br>were never the crowded ones.<span class="ab-h2cn">被記住的旅程，從來不是人多的那一種</span></h2>
+    <div class="ab-body">
+      <p>大多數人對跟團的印象，是清晨被叫上遊覽車、在陌生人之間趕景點、把想多待五分鐘的地方換成下一個打卡點。旅行結束，帶回來的是疲累，不是故事。</p>
+      <p>角落是為了另一種可能而存在的。我們相信，一趟真正屬於你的旅行，不該和二十個不認識的人共用行程表；它該慢下來、該有餘裕、該圍繞著<strong>「你想怎麼過這幾天」</strong>來安排，而不是反過來要你遷就。</p>
+      <p>於是我們把自己做小——只做私人小包團，一次專心服務一組客人。人少了，我們才聽得見你真正在乎的是什麼：是想帶父母走一趟輕鬆的、是想給另一半一個安靜的紀念日、還是想帶孩子第一次看見海。<strong>每一趟旅程，都是從你的故事開始畫的。</strong></p>
+    </div>
+  </div>
+</section>
+
+<hr class="ab-hair">
+
+<!-- ===== 三個信念 ===== -->
+<section class="ab-sec" id="beliefs">
+  <div class="wrap ab-wrap">
+    <div class="kicker">WHAT WE BELIEVE<span class="sep"></span><span class="cn">我們相信的旅行</span></div>
+    <h2 class="ab-h2">Three things we hold to.<span class="ab-h2cn">三件我們始終堅持的事</span></h2>
+    <div class="ab-beliefs">
+      <div class="ab-belief">
+        <div class="num">01</div>
+        <h3>只走你的節奏</h3>
+        <div class="en">Your pace, not the bus's</div>
+        <p>不趕路、不湊團、不硬塞行程。想在一間老咖啡館多坐一下午，就坐；想把某天空下來什麼都不做，也可以。行程是為了你而動的。</p>
+      </div>
+      <div class="ab-belief">
+        <div class="num">02</div>
+        <h3>細節替你想在前面</h3>
+        <div class="en">The details, handled</div>
+        <p>選飯店、訂餐廳、接送、備案、當地的臨時狀況——這些讓人操心的環節，出發前我們就替你安排妥當，路上有事也第一時間接手。</p>
+      </div>
+      <div class="ab-belief">
+        <div class="num">03</div>
+        <h3>把角落留給你</h3>
+        <div class="en">Corners worth keeping</div>
+        <p>我們在意的不是拍了幾個景點，而是你有沒有真正走進一個地方。那些安靜的、只屬於你們的小角落，往往才是旅行最後被記住的部分。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="ab-hair">
+
+<!-- ===== 服務方式 / 我們怎麼帶你走 ===== -->
+<section class="ab-sec" id="how">
+  <div class="wrap ab-wrap">
+    <div class="kicker">HOW WE WORK<span class="sep"></span><span class="cn">我們怎麼帶你走</span></div>
+    <div class="ab-how-grid">
+      <div>
+        <h2 class="ab-h2">A journey shaped<br>by conversation.<span class="ab-h2cn">從一次好好的聊天開始</span></h2>
+        <div class="ab-body">
+          <p>訂製一趟旅程，對我們來說不是從行程表開始，而是從理解你開始。你想去哪、想和誰去、想在旅途裡得到什麼——這些先聊清楚，路線才有意義。</p>
+          <p>你負責想像，剩下的交給我們。</p>
+        </div>
+        <div class="ab-dests">
+          <span>越南</span><span>峇里</span><span>日本</span><span>泰國</span><span>韓國</span><span>中國</span><span>埃及</span>
+        </div>
+      </div>
+      <ul class="ab-how-list">
+        <li><span class="k">01</span><span class="v"><strong>聊聊你的旅程</strong>從一段對話開始，聽你想去的地方、同行的人、在意的細節。</span></li>
+        <li><span class="k">02</span><span class="v"><strong>量身規劃路線</strong>依你的節奏與喜好，設計專屬的行程、食宿與交通安排。</span></li>
+        <li><span class="k">03</span><span class="v"><strong>一起把它調到剛好</strong>來回微調，直到每個環節都合你的意，才定案。</span></li>
+        <li><span class="k">04</span><span class="v"><strong>安心地出發</strong>全程有人替你顧著，路上有任何狀況，都由我們接手。</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 結尾 CTA ===== -->
+<section class="ab-sec ab-cta" id="invite">
+  <div class="wrap ab-wrap">
+    <div class="kicker" style="justify-content:center">START YOUR JOURNEY<span class="sep"></span><span class="cn">開始你的旅程</span></div>
+    <span class="ab-lead-cn">把世界，走成你的樣子</span>
+    <p class="ab-open">告訴我們你心裡的那個角落，其餘的，讓我們替你安排好。</p>
+    <div class="ab-cta-btns">
+      <a class="btn-primary" href="index.html#contact">開始訂製我的旅程</a>
+      <a class="btn-ghost on-dark" href="index.html#trips">先看看能去哪</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer dark-lux" id="contact">
+  <div class="wrap">
+    <div class="contact-top reveal">
+      <div class="sec-head" style="margin-bottom:0">
+        <div class="kicker">CONTACT<span class="sep"></span><span class="cn">聯絡</span></div>
+        <h2 class="display">Tell us your corner</h2>
+        <span class="h2cn">說說你心裡的那個角落</span>
+      </div>
+      <a class="btn-primary" href="mailto:sales@cornertravel.com.tw">預約諮詢</a>
+    </div>
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="logo"><img src="assets/corner-logo.png" alt="角落旅行社 corner"></a>
+        <p style="font-family:'Cormorant Garamond',serif;font-style:normal;font-size:17px;line-height:1.7;color:var(--gold-bright);margin-bottom:16px">如果可以，讓我們一同探索世界上每個角落。</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>10350 台北市大同區重慶北路一段67號8樓之2</p>
+        <p><a href="tel:+886277516051,9">02-7751-6051 #9</a></p>
+        <p>傳真 02-2552-1332</p>
+        <p><a href="mailto:sales@cornertravel.com.tw">sales@cornertravel.com.tw</a></p>
+      </div>
+      <div>
+        <h4>Follow</h4>
+        <p><a href="https://www.instagram.com/cornertravel.w/" target="_blank" rel="noopener">IG ＠cornertravel.w</a></p>
+        <p><a href="https://www.facebook.com/corner.travel.w" target="_blank" rel="noopener">FB 角落旅行社</a></p>
+        <p><a href="https://lin.ee/Vwe6iYU" target="_blank" rel="noopener">LINE 線上諮詢</a></p>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p>© 2025 角落旅行社 CORNER TRAVEL．台北</p>
+      <p>角落旅行社股份有限公司　統一編號 83212711</p>
+      <p>交觀甲06015　品保協會 北2551</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="corner.js"></script>
+<script src="chat-widget.js" data-site-key="wsc_dce1a4c06f9c3dbf463454258e368ea0" data-endpoint="https://erp.venturo.tw/api/website/chat" data-title="角落・線上諮詢" data-avatar="assets/chat-icon.svg" data-color="#2A2018" defer></script>
+</body>
+</html>
