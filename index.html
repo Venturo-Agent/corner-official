@@ -236,6 +236,52 @@
   .nav-dd-menu a:hover{background:rgba(201,166,120,.14);color:var(--gold-bright)!important}
 
   .cm-name .cm-city{margin-left:16px;font-family:"Noto Serif TC",serif;font-weight:400;font-size:19px;letter-spacing:.14em;color:var(--gold-bright)}
+
+  /* ===== LUX 互動層（純加法：不動版面、不動文字） ===== */
+  /* 封面引言：由小字提升為陳述句（同字、同位置），逐行簾幕進場 */
+  .hero-lead{max-width:none;font-family:"Noto Serif TC",serif;font-weight:500;font-size:clamp(24px,2.4vw,36px);line-height:1.85;letter-spacing:.1em;color:var(--paper)}
+  .hero-lead .hl-line{display:block;overflow:hidden}
+  .hero-lead .hl-inner{display:inline-block;will-change:transform}
+  .hero-lead .hl-line:last-child .hl-inner{color:var(--paper-dim);font-size:.82em}
+
+  /* 主按鈕：hover 金光掠過 */
+  .btn-primary{position:relative;overflow:hidden}
+  .btn-primary::after{content:"";position:absolute;top:0;bottom:0;left:-70%;width:46%;transform:skewX(-22deg);background:linear-gradient(90deg,transparent,rgba(251,246,238,.34),transparent);transition:left .8s var(--ease-expo);pointer-events:none}
+  .btn-primary:hover::after{left:130%}
+
+  /* 收藏的角落：hover 標題舒展 + 引導句亮起、箭頭前送 */
+  .land-card .lc-info h3{transition:letter-spacing .7s var(--ease-expo)}
+  .land-card:hover .lc-info h3{letter-spacing:.16em}
+  .land-card .lc-info .enter{transition:transform .55s var(--ease-expo),color .4s var(--ease-expo)}
+  .land-card:hover .lc-info .enter{transform:translateX(7px);color:var(--gold-bright)}
+
+  /* 正在出發：hover 標題上浮、英文小標長出金線、價格轉亮 */
+  .photo-card .cap h3,.photo-card .cap p{transition:transform .6s var(--ease-expo),color .5s var(--ease-expo)}
+  .photo-card:hover .cap h3{transform:translateY(-5px)}
+  .photo-card .cap .en{position:relative;display:inline-block;padding-bottom:5px}
+  .photo-card .cap .en::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--gold-bright);transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease-expo)}
+  .photo-card:hover .cap .en::after{transform:scaleX(1)}
+  .photo-card:hover .cap p{color:#fff}
+
+  /* 封面地圖：當前國家輕輕呼吸浮動；圓點 hover 回應 */
+  .cmap.active .cm-svg{animation:mapFloat 7s ease-in-out infinite alternate}
+  @keyframes mapFloat{from{transform:translateY(0)}to{transform:translateY(-9px)}}
+  .hero-dot{transition:background .35s,border-color .35s,transform .35s}
+  .hero-dot:hover{transform:scale(1.5);border-color:var(--gold-bright)}
+  @media(prefers-reduced-motion:reduce){.cmap.active .cm-svg{animation:none}}
+
+  /* 見證：逐字進場的容器 */
+  .testi .pull .tw{display:inline-block;overflow:hidden;vertical-align:bottom}
+  .testi .pull .twi{display:inline-block;will-change:transform}
+
+  /* 金色雙層游標（JS 掛 lux-on 才生效；行動裝置不載） */
+  html.lux-on, html.lux-on a, html.lux-on button{cursor:none}
+  .lux-dot{position:fixed;top:0;left:0;width:6px;height:6px;border-radius:50%;background:var(--gold-bright);z-index:9999;pointer-events:none;opacity:0;transition:opacity .3s}
+  .lux-ring{position:fixed;top:0;left:0;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,166,120,.55);z-index:9998;pointer-events:none;opacity:0;display:flex;align-items:center;justify-content:center;transition:opacity .3s,width .45s var(--ease-expo),height .45s var(--ease-expo),border-color .35s,background .35s,backdrop-filter .35s}
+  .lux-ring.is-link{width:54px;height:54px;border-color:var(--gold-bright)}
+  .lux-ring.is-view{width:88px;height:88px;border-color:var(--gold-bright);background:rgba(20,16,12,.42);backdrop-filter:blur(3px)}
+  .lux-ring-t{font-family:"Noto Serif TC",serif;font-weight:500;font-size:13px;letter-spacing:.3em;text-indent:.3em;color:var(--gold-bright);opacity:0;transition:opacity .35s}
+  .lux-ring.is-view .lux-ring-t{opacity:1}
 </style>
 </head>
 <body>
@@ -546,6 +592,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script src="corner.js"></script>
 <script src="corner-gsap.js"></script>
+<script src="corner-lux.js"></script>
   <script src="chat-widget.js" data-site-key="wsc_dce1a4c06f9c3dbf463454258e368ea0" data-endpoint="https://erp.venturo.tw/api/website/chat" data-title="角落・線上諮詢" data-avatar="assets/chat-icon.svg" data-color="#2A2018" defer></script>
 </body>
 </html>
