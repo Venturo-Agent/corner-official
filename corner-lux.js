@@ -40,40 +40,6 @@
 
   if(!fine || reduce || !wide) return;
 
-  /* ---------- 金色雙層游標 ---------- */
-  var dot = document.createElement('div'); dot.className = 'lux-dot';
-  var ring = document.createElement('div'); ring.className = 'lux-ring';
-  ring.innerHTML = '<span class="lux-ring-t"></span>';
-  document.body.appendChild(dot); document.body.appendChild(ring);
-  document.documentElement.classList.add('lux-on');
-
-  var mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my, shown = false;
-  document.addEventListener('mousemove', function(e){
-    mx = e.clientX; my = e.clientY;
-    if(!shown){ shown = true; dot.style.opacity = '1'; ring.style.opacity = '1'; rx = mx; ry = my; }
-    dot.style.transform = 'translate(' + (mx - 3) + 'px,' + (my - 3) + 'px)';
-  }, {passive:true});
-  document.addEventListener('mouseleave', function(){ shown = false; dot.style.opacity = '0'; ring.style.opacity = '0'; });
-  (function follow(){
-    rx += (mx - rx) * .16; ry += (my - ry) * .16;
-    ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) translate(-50%,-50%)';
-    requestAnimationFrame(follow);
-  })();
-
-  /* 游標情境：一般連結放大；照片卡變成「探索」圓盤 */
-  var ringT = ring.querySelector('.lux-ring-t');
-  function bind(sel, cls, label){
-    document.querySelectorAll(sel).forEach(function(el){
-      el.addEventListener('mouseenter', function(){ ring.classList.add(cls); if(label) ringT.textContent = label; });
-      el.addEventListener('mouseleave', function(){ ring.classList.remove(cls); if(label) ringT.textContent = ''; });
-    });
-  }
-  bind('a, button', 'is-link');
-  bind('.land-card', 'is-view', '探索');
-  bind('.trip-card', 'is-view', '查看');
-  bind('.cmap', 'is-view', '前往');
-  bind('.slant-col', 'is-view', '展開');
-
   /* ---------- 磁吸按鈕（主按鈕 + 導覽 CTA） ---------- */
   document.querySelectorAll('.btn-primary, .nav-cta').forEach(function(btn){
     var raf = null;

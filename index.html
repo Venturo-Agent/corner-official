@@ -274,14 +274,6 @@
   .testi .pull .tw{display:inline-block;overflow:hidden;vertical-align:bottom}
   .testi .pull .twi{display:inline-block;will-change:transform}
 
-  /* 金色雙層游標（JS 掛 lux-on 才生效；行動裝置不載） */
-  html.lux-on, html.lux-on a, html.lux-on button{cursor:none}
-  .lux-dot{position:fixed;top:0;left:0;width:6px;height:6px;border-radius:50%;background:var(--gold-bright);z-index:9999;pointer-events:none;opacity:0;transition:opacity .3s}
-  .lux-ring{position:fixed;top:0;left:0;width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,166,120,.55);z-index:9998;pointer-events:none;opacity:0;display:flex;align-items:center;justify-content:center;transition:opacity .3s,width .45s var(--ease-expo),height .45s var(--ease-expo),border-color .35s,background .35s,backdrop-filter .35s}
-  .lux-ring.is-link{width:54px;height:54px;border-color:var(--gold-bright)}
-  .lux-ring.is-view{width:88px;height:88px;border-color:var(--gold-bright);background:rgba(20,16,12,.42);backdrop-filter:blur(3px)}
-  .lux-ring-t{font-family:"Noto Serif TC",serif;font-weight:500;font-size:13px;letter-spacing:.3em;text-indent:.3em;color:var(--gold-bright);opacity:0;transition:opacity .35s}
-  .lux-ring.is-view .lux-ring-t{opacity:1}
 </style>
 </head>
 <body>
