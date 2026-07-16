@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>天域科技・宜蘭三日遊 行前須知</title>
+<style>
+@font-face {
+  font-family: "NotoSerifTC";
+  src: local("Noto Serif TC"), local("PMingLiU");
+}
+
+:root {
+  --bg: #f6f1e7;
+  --bg-alt: #efe7d6;
+  --ink: #2b241c;
+  --ink-soft: #6b6053;
+  --line: #ddd0b8;
+  --accent: #c2551f;
+  --accent-soft: #e8c9a8;
+  --card: #fffdf8;
+  --shadow: rgba(43, 36, 28, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #211c16;
+    --bg-alt: #2a241c;
+    --ink: #ede4d3;
+    --ink-soft: #b3a690;
+    --line: #453c2e;
+    --accent: #e08a52;
+    --accent-soft: #4a3826;
+    --card: #2a241c;
+    --shadow: rgba(0, 0, 0, 0.35);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #211c16;
+  --bg-alt: #2a241c;
+  --ink: #ede4d3;
+  --ink-soft: #b3a690;
+  --line: #453c2e;
+  --accent: #e08a52;
+  --accent-soft: #4a3826;
+  --card: #2a241c;
+  --shadow: rgba(0, 0, 0, 0.35);
+}
+:root[data-theme="light"] {
+  --bg: #f6f1e7;
+  --bg-alt: #efe7d6;
+  --ink: #2b241c;
+  --ink-soft: #6b6053;
+  --line: #ddd0b8;
+  --accent: #c2551f;
+  --accent-soft: #e8c9a8;
+  --card: #fffdf8;
+  --shadow: rgba(43, 36, 28, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Hiragino Sans GB", "PingFang TC", "Noto Sans TC", sans-serif;
+  line-height: 1.6;
+}
+
+.wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* Hero */
+.hero {
+  padding: 56px 0 40px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 40px;
+}
+.eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.hero h1 {
+  font-family: "NotoSerifTC", "Noto Serif TC", serif;
+  font-size: clamp(2.1rem, 5vw, 3rem);
+  font-weight: 700;
+  margin: 0 0 12px;
+  text-wrap: balance;
+  color: var(--ink);
+}
+.hero .meta {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.hero .meta b { color: var(--ink); font-weight: 600; }
+
+/* Sections */
+section { margin-bottom: 44px; }
+h2 {
+  font-family: "NotoSerifTC", "Noto Serif TC", serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 18px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+/* Meeting card */
+.meet-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 1px 3px var(--shadow);
+}
+.meet-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 20px;
+  font-size: 0.98rem;
+}
+.meet-grid dt {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+.meet-grid dd {
+  margin: 0;
+  font-weight: 600;
+}
+.meet-grid .depart {
+  color: var(--accent);
+  font-weight: 700;
+}
+.addr {
+  font-weight: 400;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  display: block;
+  margin-top: 2px;
+}
+.warn-line {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+
+/* Timeline */
+.day {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 4px 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+.day:last-child { border-bottom: none; }
+.day .tag {
+  font-family: "NotoSerifTC", serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--accent);
+  line-height: 1.1;
+}
+.day .date {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.05em;
+}
+.day .route {
+  font-size: 1.02rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-wrap: balance;
+}
+.day .sub {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+
+/* Stay */
+.stay-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 22px 24px;
+  box-shadow: 0 1px 3px var(--shadow);
+}
+.stay-card .name { font-weight: 700; font-size: 1.05rem; }
+.stay-card .addr2 { color: var(--ink-soft); font-size: 0.92rem; margin-top: 4px; }
+.stay-facts {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px 16px;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+.stay-facts b { color: var(--ink); }
+
+/* Packing lists */
+.pack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 22px;
+}
+.pack-group h3 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 0 10px;
+  letter-spacing: 0.02em;
+}
+.pack-group ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.92rem;
+}
+.pack-group li {
+  padding: 5px 0 5px 18px;
+  position: relative;
+  border-bottom: 1px solid var(--line);
+}
+.pack-group li:last-child { border-bottom: none; }
+.pack-group li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 13px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+}
+
+/* Safety list */
+.safety-list {
+  background: var(--bg-alt);
+  border-radius: 10px;
+  padding: 20px 24px;
+  font-size: 0.94rem;
+}
+.safety-list li { margin-bottom: 8px; }
+.safety-list li:last-child { margin-bottom: 0; }
+
+/* Closing */
+.closing {
+  text-align: center;
+  padding-top: 36px;
+  border-top: 1px solid var(--line);
+}
+.closing .line {
+  font-family: "NotoSerifTC", serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.closing .sub {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+.closing .brand {
+  margin-top: 22px;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">天域科技 ・ 員工旅遊</div>
+    <h1>宜蘭三日遊 行前須知</h1>
+    <div class="meta">
+      <span><b>2026.07.18 – 07.20</b></span>
+      <span>團號 <b>TWN260718A</b></span>
+      <span>31 人</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>出發集合</h2>
+    <div class="meet-card">
+      <dl class="meet-grid">
+        <dt>集合時間</dt>
+        <dd>09:00</dd>
+        <dt>集合地點</dt>
+        <dd>台北車站 東三門
+          <span class="addr">100 台北市中正區北平西路 3 號</span>
+        </dd>
+        <dt>發車時間</dt>
+        <dd class="depart">09:30 準時發車</dd>
+        <dt>返抵時間</dt>
+        <dd>07/20（一）預計 16:00 抵台北車站</dd>
+      </dl>
+      <div class="warn-line">請準時報到，逾時恕無法等候。全程豪華遊覽車專車接送。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>三天行程</h2>
+
+    <div class="day">
+      <div>
+        <div class="tag">D1</div>
+        <div class="date">07/18 六</div>
+      </div>
+      <div>
+        <div class="route">台北出發 → 藏酒酒莊 → 礁溪入住</div>
+        <div class="sub">午｜藏酒酒莊（品酒午餐）　晚｜三燔礁溪　宿｜礁溪晶泉丰旅</div>
+        <div class="sub" style="margin-top:4px;">藏酒酒莊地址｜261 宜蘭縣頭城鎮更新里更新路 126-50 號</div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div>
+        <div class="tag">D2</div>
+        <div class="date">07/19 日</div>
+      </div>
+      <div>
+        <div class="route">南澳全地形沙灘車 → 南方澳海鮮 → 礁溪夜市</div>
+        <div class="sub">早｜飯店　午｜南方澳海鮮　晚｜夜市自理</div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div>
+        <div class="tag">D3</div>
+        <div class="date">07/20 一</div>
+      </div>
+      <div>
+        <div class="route">退房 → 櫻桃谷午餐 → 賦歸</div>
+        <div class="sub">早｜飯店　午｜櫻桃谷　16:00 抵台北車站</div>
+        <div class="sub" style="margin-top:4px;">礁溪庄櫻桃谷地址｜262 宜蘭縣礁溪鄉白雲村礁溪路七段 72 號</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>住宿</h2>
+    <div class="stay-card">
+      <div class="name">礁溪晶泉丰旅</div>
+      <div class="addr2">宜蘭縣礁溪鄉德陽村溫泉路 67 號</div>
+      <div class="stay-facts">
+        <div><b>住宿</b> 2 晚同飯店</div>
+        <div><b>房內溫泉</b> 碳酸氫鈉泉，房內獨立湯池</div>
+        <div><b>WIFI</b> wellspring（免密碼）</div>
+        <div><b>備品</b> 不提供牙刷/刮鬍刀/梳子，請自備</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>打包清單</h2>
+    <div class="pack-grid">
+      <div class="pack-group">
+        <h3>一定要帶</h3>
+        <ul>
+          <li>身分證件（住宿登記用）</li>
+          <li>健保卡、個人常備藥</li>
+          <li>換洗衣物 ×2 套</li>
+          <li>手機與充電器</li>
+        </ul>
+      </div>
+      <div class="pack-group">
+        <h3>夏天宜蘭</h3>
+        <ul>
+          <li>防曬乳、太陽眼鏡、帽子</li>
+          <li>雨具（午後常有雷陣雨）</li>
+          <li>泳衣（泡湯／泳池用）</li>
+          <li>防蚊液</li>
+        </ul>
+      </div>
+      <div class="pack-group">
+        <h3>沙灘車 Day 加碼</h3>
+        <ul>
+          <li>會弄髒的舊衣舊鞋</li>
+          <li>整套換洗衣物（玩完換）</li>
+          <li>毛巾、夾腳拖</li>
+          <li>不怕摔的相機／GoPro</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>安全與提醒</h2>
+    <ul class="safety-list">
+      <li>沙灘車全程聽教練指示、安全裝備全程配戴</li>
+      <li>已投保旅遊責任險與意外險，身體不適請立即告知領隊</li>
+      <li>每個景點集合時間請準時，離車請帶走貴重物品</li>
+      <li>有特殊飲食／過敏請提前告知領隊</li>
+    </ul>
+  </section>
+
+  <div class="closing">
+    <div class="line">準備好，一起出發！</div>
+    <div class="sub">2026.07.18　礁溪見</div>
+    <div class="brand">角落旅遊</div>
+  </div>
+
+</div>
+</body>
+</html>
