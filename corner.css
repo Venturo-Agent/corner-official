@@ -94,6 +94,9 @@ body::after{
 }
 .card-frame:hover{transform:translateY(-6px);box-shadow:0 6px 16px rgba(42,37,32,.14), 0 34px 70px -22px rgba(42,37,32,.40)}
 
+/* ---------- 卡片微圓角（統一 10px；hero 滿版底圖不吃） ---------- */
+.photo-card,.card-frame,.land-card,.why-block,.slant-col{border-radius:10px}
+
 /* ---------- NAV（淺底 → 深字；深色 hero 上 → 加 .over-hero 轉淺字） ---------- */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:200;
