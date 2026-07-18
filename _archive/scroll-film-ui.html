@@ -127,7 +127,7 @@ body{background:#0b0d0c;color:var(--paper);font-family:"Noto Serif TC",serif;ove
     </div>
 
     <div class="prog" id="prog"></div>
-    <div class="veil" id="veil"><div class="ring"></div><div class="bar"><i id="vbar"></i></div></div>
+    <div class="veil" id="veil"><div class="ring"></div></div>
   </div>
 </div>
 
@@ -142,37 +142,40 @@ body{background:#0b0d0c;color:var(--paper);font-family:"Noto Serif TC",serif;ove
   var frames=[];
   SEGS.forEach(function(s){for(var k=1;k<=s.count;k++)frames.push(s.dir+'/f_'+String(k).padStart(3,'0')+'.webp');});
   var TOTAL=frames.length;
-  var START_NEED=SEGS[0].count; /* 第一章就緒即開演，其餘背景載入 */
 
   var cv=document.getElementById('cv'), bg=document.getElementById('bg');
   var prog=document.getElementById('prog'), veil=document.getElementById('veil');
   var scroller=document.getElementById('scroller');
-  var imgs=new Array(TOTAL), ok=new Array(TOTAL), started=false;
+  var imgs=new Array(TOTAL), ok=new Array(TOTAL);
   var target=0, cur=0, lastDrawn=-1;
 
-  frames.forEach(function(src,i){
-    var im=new Image();
-    im.onload=function(){ok[i]=true;if(i<START_NEED)veilTick();maybeStart();};
-    im.onerror=function(){ok[i]=false;if(i<START_NEED)veilTick();maybeStart();};
-    im.src=src; imgs[i]=im;
-  });
-  function veilTick(){
-    var n=0;for(var k=0;k<START_NEED;k++)if(ok[k]!==undefined)n++;
-    var b=document.getElementById('vbar');if(b)b.style.width=Math.round(n/START_NEED*100)+'%';
+  /* 梯度載入：頁面即開即玩 — 先鋪稀疏幀(1/8)，再逐層補密，畫面隨載入自動變順 */
+  var order=[];[[8,0],[8,4],[4,2],[2,1]].forEach(function(sp){for(var k=sp[1];k<TOTAL;k+=sp[0])order.push(k);});
+  var qi=0, revealed=false;
+  var veilEl=document.getElementById('veil')||document.getElementById('loading');
+  function reveal(){if(revealed)return;revealed=true;if(veilEl)veilEl.classList.add('hidden');}
+  function pump(){
+    if(qi>=order.length)return;
+    var i=order[qi++], im=new Image();
+    im.onload=function(){imgs[i]=im;ok[i]=true;lastDrawn=-1;if(i===0)reveal();pump();};
+    im.onerror=function(){ok[i]=false;pump();};
+    im.src=frames[i];
   }
-  function maybeStart(){
-    if(started)return;
-    for(var k=0;k<START_NEED;k++){if(ok[k]===undefined)return;}
-    started=true; begin();
-  }
-  /* absolute fallback: never block the page */
-  setTimeout(function(){if(!started){started=true;begin();}},9000);
+  for(var w=0;w<12;w++)pump();
+  setTimeout(reveal,3000);
+  begin();
 
   function draw(force){
     var idx=Math.max(0,Math.min(TOTAL-1,Math.round(cur*(TOTAL-1))));
-    /* frame not yet loaded → hold the nearest earlier loaded frame */
-    while(idx>0&&!ok[idx])idx--;
-    if(!ok[idx])return;
+    if(!ok[idx]){
+      var dd=1,ff=-1;
+      while(dd<TOTAL){
+        if(idx-dd>=0&&ok[idx-dd]){ff=idx-dd;break;}
+        if(idx+dd<TOTAL&&ok[idx+dd]){ff=idx+dd;break;}
+        dd++;
+      }
+      if(ff<0)return; idx=ff;
+    }
     if(!force&&idx===lastDrawn)return;
     var im=imgs[idx]; if(!im||!im.naturalWidth)return;
     var dpr=Math.min(window.devicePixelRatio||1,2);
@@ -239,7 +242,6 @@ body{background:#0b0d0c;color:var(--paper);font-family:"Noto Serif TC",serif;ove
 
   function begin(){
     resize();
-    veil.classList.add('hidden');
     (function tick(){
       cur+=(target-cur)*0.085;
       draw(false);

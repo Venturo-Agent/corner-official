@@ -29,7 +29,7 @@ body{background:#0b0d0c;overflow-x:hidden}
   <div class="viewport">
     <div class="bg" id="bg"><canvas id="cv"></canvas></div>
     <div class="prog" id="prog"></div>
-    <div class="loading" id="loading"><div class="ring"></div><div class="ltx" id="ltx">0%</div></div>
+    <div class="loading" id="loading"><div class="ring"></div></div>
   </div>
 </div>
 
@@ -52,23 +52,36 @@ body{background:#0b0d0c;overflow-x:hidden}
   var cv=document.getElementById('cv'), bg=document.getElementById('bg');
   var prog=document.getElementById('prog'), loading=document.getElementById('loading');
   var ltx=document.getElementById('ltx'), scroller=document.getElementById('scroller');
-  var imgs=new Array(TOTAL), loaded=0, started=false;
+  var imgs=new Array(TOTAL), ok=new Array(TOTAL);
   var target=0, cur=0, lastDrawn=-1;
 
-  /* preload all frames (local/near assets — fast), gate on completion */
-  frames.forEach(function(src,i){
-    var im=new Image();
-    im.onload=im.onerror=function(){
-      loaded++;
-      ltx.textContent=Math.round(loaded/TOTAL*100)+'%';
-      if(loaded===TOTAL && !started){started=true;begin();}
-    };
-    im.src=src;
-    imgs[i]=im;
-  });
+  /* 梯度載入：頁面即開即玩 — 先鋪稀疏幀(1/8)，再逐層補密，畫面隨載入自動變順 */
+  var order=[];[[8,0],[8,4],[4,2],[2,1]].forEach(function(sp){for(var k=sp[1];k<TOTAL;k+=sp[0])order.push(k);});
+  var qi=0, revealed=false;
+  var veilEl=document.getElementById('veil')||document.getElementById('loading');
+  function reveal(){if(revealed)return;revealed=true;if(veilEl)veilEl.classList.add('hidden');}
+  function pump(){
+    if(qi>=order.length)return;
+    var i=order[qi++], im=new Image();
+    im.onload=function(){imgs[i]=im;ok[i]=true;lastDrawn=-1;if(i===0)reveal();pump();};
+    im.onerror=function(){ok[i]=false;pump();};
+    im.src=frames[i];
+  }
+  for(var w=0;w<12;w++)pump();
+  setTimeout(reveal,3000);
+  begin();
 
   function draw(force){
     var idx=Math.max(0,Math.min(TOTAL-1,Math.round(cur*(TOTAL-1))));
+    if(!ok[idx]){
+      var dd=1,ff=-1;
+      while(dd<TOTAL){
+        if(idx-dd>=0&&ok[idx-dd]){ff=idx-dd;break;}
+        if(idx+dd<TOTAL&&ok[idx+dd]){ff=idx+dd;break;}
+        dd++;
+      }
+      if(ff<0)return; idx=ff;
+    }
     if(!force && idx===lastDrawn) return;
     var im=imgs[idx];
     if(!im||!im.naturalWidth) return;
@@ -106,7 +119,6 @@ body{background:#0b0d0c;overflow-x:hidden}
 
   function begin(){
     resize();
-    loading.classList.add('hidden');
     (function tick(){
       cur+=(target-cur)*0.085;
       draw(false);
