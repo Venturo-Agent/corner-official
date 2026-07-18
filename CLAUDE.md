@@ -16,6 +16,7 @@
 - `corner.css` 共用設計系統｜`corner.js` 共用互動｜`corner-gsap.js` 首頁 GSAP 動態層（含封面輪播 controller）
 - `assets/photos/` — 照片素材
 - `_archive/` — 探索用 demo 版本（不影響 live，僅備份）
+- `首頁捲動放映-概念.md` — **新首頁方向總綱（2026-07-18 拍板走 C 路線）**：捲動＝放映旅程電影＋章節節點互動層。體驗架構、圖片序列引擎、首尾幀接龍 SOP、提示詞鐵律、轉場文法庫、分鏡現況與待辦全在裡面；動新首頁前先讀這份。試看頁 `/_archive/film-demo.html`。
 
 ## 設計重點 / 慣例
 - 風格參考 domitur.pt + fitzroy-travel.com + izanami-official.com（精品、襯線編輯、慢捲動、電影感）。
