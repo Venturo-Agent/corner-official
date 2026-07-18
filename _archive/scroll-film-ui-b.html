@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>捲動放映 C · A＋疊層｜角落旅行社</title>
+<title>捲動放映 D · B＋疊層｜角落旅行社</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -18,7 +18,7 @@ a{color:inherit;text-decoration:none}
 ::-webkit-scrollbar-thumb{background:#3a2f22;border-radius:3px}
 body{background:#0b0d0c;color:var(--paper);font-family:"Noto Serif TC",serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-.scroller{position:relative;height:560vh}
+.scroller{position:relative;height:420vh}
 .viewport{position:fixed;inset:0;overflow:hidden;background:#0b0d0c}
 .bg{position:absolute;top:-3%;left:-3%;width:106%;height:106%;transform:translate3d(0,0,0);transition:transform .5s cubic-bezier(.15,.85,.35,1)}
 .bg canvas{width:100%;height:100%;display:block}
@@ -125,6 +125,32 @@ body{background:#0b0d0c;color:var(--paper);font-family:"Noto Serif TC",serif;ove
       </div>
     </div>
 
+
+    <!-- chapter node: thailand (hidden until the node) -->
+    <div class="ov jp" id="ovTh" style="visibility:hidden">
+      <div class="scrim" id="thScrim"></div>
+      <div class="map" id="thMap">
+        <div class="k">The World · 此刻位置</div>
+        <svg id="wmapTh" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+      <div class="drawer" id="thDrawer">
+        <div class="k">Chapter 02 · Thailand</div>
+        <h2>THAILAND<span class="cn">泰 國</span></h2>
+        <p class="lead">金色佛塔與蓮花水岸，熱帶的暖與慢。</p>
+        <div class="tours">
+          <a class="tour" href="../index.html#contact">
+            <div class="th"><img src="../assets/photos/thailand-temple.jpg" alt=""></div>
+            <div class="bd"><div class="d">5 Days · Private</div><h3>曼谷寺廟與夜市 5 日</h3><div class="p">每人 <b>NT$ 32,800</b> 起</div></div>
+          </a>
+          <a class="tour" href="../index.html#contact">
+            <div class="th"><img src="../assets/photos/thailand-wat.jpg" alt=""></div>
+            <div class="bd"><div class="d">6 Days · Private</div><h3>清邁山城 6 日</h3><div class="p">每人 <b>NT$ 36,000</b> 起</div></div>
+          </a>
+        </div>
+        <a class="more" href="../index.html#contact">全部 泰國 行程 →</a>
+      </div>
+    </div>
+
     <div class="prog" id="prog"></div>
     <div class="veil" id="veil"><div class="ring"></div></div>
   </div>
@@ -135,9 +161,8 @@ body{background:#0b0d0c;color:var(--paper);font-family:"Noto Serif TC",serif;ove
 (function(){
   /* ============ image-sequence engine (A route) — progressive start ============ */
   var SEGS=[
-    {dir:'film/frames/s1', count:122},
-    {dir:'film/frames/s2', count:122},
-    {dir:'film/frames/s3', count:122},
+    {dir:'film/frames/s1b', count:121},
+    {dir:'film/frames/s4', count:121},
   ];
   var frames=[];
   SEGS.forEach(function(s){for(var k=1;k<=s.count;k++)frames.push(s.dir+'/f_'+String(k).padStart(3,'0')+'.webp');});
@@ -226,6 +251,9 @@ body{background:#0b0d0c;color:var(--paper);font-family:"Noto Serif TC",serif;ove
     {cn:'東京',lon:139.69,lat:35.68},{cn:'京都',lon:135.77,lat:35.01},
     {cn:'富士',lon:138.73,lat:35.36},{cn:'札幌',lon:141.35,lat:43.06}
   ]);
+  buildMap('wmapTh','th',[
+    {cn:'曼谷',lon:100.50,lat:13.75},{cn:'清邁',lon:98.98,lat:18.79}
+  ]);
 
   /* ============ overlay choreography (nodes only, rewind-safe) ============ */
   var ovIntro=document.getElementById('ovIntro');
@@ -233,6 +261,10 @@ body{background:#0b0d0c;color:var(--paper);font-family:"Noto Serif TC",serif;ove
   var jpScrim=document.getElementById('jpScrim');
   var jpMap=document.getElementById('jpMap');
   var jpDrawer=document.getElementById('jpDrawer');
+  var ovTh=document.getElementById('ovTh');
+  var thScrim=document.getElementById('thScrim');
+  var thMap=document.getElementById('thMap');
+  var thDrawer=document.getElementById('thDrawer');
 
   function clamp01(v){return Math.max(0,Math.min(1,v));}
   function ramp(p,a,b,c,d){
@@ -252,12 +284,19 @@ body{background:#0b0d0c;color:var(--paper);font-family:"Noto Serif TC",serif;ove
       style(ovIntro,fi,0,(1-fi)*-60,(1-fi)*14,false);
       ovIntro.style.visibility=fi<=0.01?'hidden':'visible';
 
-      var v=ramp(p,0.68,0.755,0.925,0.975);
+      var v=ramp(p,0.33,0.405,0.475,0.54);
       ovJp.style.visibility=v<=0.01?'hidden':'visible';
       jpScrim.style.opacity=v*0.98;
       style(jpMap,v,(1-v)*-90,0,(1-v)*10,true);
       style(jpDrawer,v,(1-v)*90,0,(1-v)*10,true);
       ovJp.style.pointerEvents=v>0.85?'auto':'none';
+
+      var w=ramp(p,0.86,0.93,1.01,1.02); /* 停在片尾不退場 */
+      ovTh.style.visibility=w<=0.01?'hidden':'visible';
+      thScrim.style.opacity=w*0.98;
+      style(thMap,w,(1-w)*-90,0,(1-w)*10,true);
+      style(thDrawer,w,(1-w)*90,0,(1-w)*10,true);
+      ovTh.style.pointerEvents=w>0.85?'auto':'none';
     }catch(e){}
   }
 
