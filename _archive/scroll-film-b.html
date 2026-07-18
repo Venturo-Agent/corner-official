@@ -44,7 +44,7 @@ body{background:#0b0d0c;overflow-x:hidden}
   var frames=[]; // flat, in play order
   SEGS.forEach(function(s){
     for(var k=1;k<=s.count;k++){
-      frames.push(s.dir+'/f_'+String(k).padStart(3,'0')+'.jpg');
+      frames.push(s.dir+'/f_'+String(k).padStart(3,'0')+'.webp');
     }
   });
   var TOTAL=frames.length;

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>捲動放映 · UI 疊層版｜角落旅行社</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4EEE4; --paper-dim:#DBD0C0;
+  --gold:#B07A4E; --gold-bright:#E6C79C;
+  --ease-expo:cubic-bezier(.16,1,.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:#0b0d0c}
+::-webkit-scrollbar-thumb{background:#3a2f22;border-radius:3px}
+body{background:#0b0d0c;color:var(--paper);font-family:"Noto Serif TC",serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+.scroller{position:relative;height:560vh}
+.viewport{position:fixed;inset:0;overflow:hidden;background:#0b0d0c}
+.bg{position:absolute;top:-3%;left:-3%;width:106%;height:106%;transform:translate3d(0,0,0);transition:transform .5s cubic-bezier(.15,.85,.35,1)}
+.bg canvas{width:100%;height:100%;display:block}
+.prog{position:fixed;top:0;left:0;height:2px;width:100%;z-index:40;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,#B07A4E,#E6C79C)}
+
+/* ---------- loading ---------- */
+.loading{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#0b0d0c;transition:opacity .9s ease}
+.loading.hidden{opacity:0;pointer-events:none}
+.ring{width:46px;height:46px;border-radius:50%;border:1px solid rgba(230,199,156,.25);border-top-color:#E6C79C;animation:spin 1.1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ltx{font-family:"Cormorant Garamond",serif;letter-spacing:.3em;text-transform:uppercase;font-size:11px;color:rgba(230,199,156,.8)}
+
+/* ---------- overlay: brand intro (act 0) ---------- */
+.ov{position:fixed;inset:0;pointer-events:none;will-change:transform,opacity,filter}
+.intro{z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+.intro .scrim{position:absolute;inset:0;background:radial-gradient(90% 80% at 50% 50%, rgba(8,9,8,.55) 0%, rgba(8,9,8,.15) 60%, transparent 100%);z-index:-1}
+.intro img.logo{width:min(300px,56vw);display:block;filter:drop-shadow(0 4px 24px rgba(0,0,0,.6))}
+.intro .slogan{margin-top:26px;font-family:"Noto Serif TC",serif;font-weight:500;font-size:clamp(22px,3vw,34px);letter-spacing:.3em;color:var(--paper);text-shadow:0 2px 18px rgba(0,0,0,.7)}
+.intro .en{margin-top:12px;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:clamp(15px,1.6vw,20px);letter-spacing:.12em;color:var(--gold-bright)}
+.intro .cue{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:9px}
+.intro .cue span{font-family:"Cormorant Garamond",serif;letter-spacing:.3em;text-transform:uppercase;font-size:10px;color:var(--gold-bright)}
+.intro .cue .ln{width:1px;height:44px;background:linear-gradient(var(--gold-bright),transparent);transform-origin:top;animation:cue 2.2s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:scaleY(.4);opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+/* ---------- overlay: japan chapter (map left + options right) ---------- */
+.jp{z-index:32}
+.jp .scrim{position:absolute;inset:0;background:
+  linear-gradient(90deg, rgba(8,9,8,.82) 0%, rgba(8,9,8,.45) 34%, rgba(8,9,8,.18) 50%, rgba(8,9,8,.5) 68%, rgba(8,9,8,.86) 100%)}
+.jp .map,.jp .drawer{position:absolute;top:50%;will-change:transform,opacity,filter}
+/* left: world map */
+.jp .map{left:clamp(16px,4vw,64px);transform:translateY(-50%);width:min(44vw,620px)}
+.jp .map .k{font-family:"Cormorant Garamond",serif;text-transform:uppercase;letter-spacing:.34em;font-size:11px;color:var(--gold-bright)}
+.jp .map svg{margin-top:14px;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 14px 40px rgba(0,0,0,.55))}
+.jp .map .country{fill:rgba(230,220,205,.14);stroke:rgba(230,220,205,.32);stroke-width:.4;vector-effect:non-scaling-stroke}
+.jp .map .hl{fill:rgba(201,166,120,.3);stroke:var(--gold-bright);stroke-width:1.2;vector-effect:non-scaling-stroke}
+.jp .map .pin-ring{fill:none;stroke:var(--gold-bright);stroke-width:.7;vector-effect:non-scaling-stroke;transform-box:fill-box;transform-origin:center;animation:ping 2.8s ease-out infinite}
+.jp .map .pin-dot{fill:var(--gold-bright)}
+.jp .map .lbl{fill:#fff;font-family:"Noto Serif TC",serif;font-weight:500;font-size:9px;letter-spacing:.1em;paint-order:stroke;stroke:rgba(0,0,0,.6);stroke-width:.6;text-anchor:middle}
+@keyframes ping{0%{transform:scale(.6);opacity:.9}70%{transform:scale(3);opacity:0}100%{opacity:0}}
+/* right: options drawer */
+.jp .drawer{right:clamp(16px,4vw,64px);transform:translateY(-50%);width:min(40vw,460px);pointer-events:auto}
+.jp .drawer .k{font-family:"Cormorant Garamond",serif;text-transform:uppercase;letter-spacing:.32em;font-size:11px;color:var(--gold-bright)}
+.jp .drawer h2{margin-top:8px;font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(40px,4.6vw,62px);line-height:1;color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.6)}
+.jp .drawer h2 .cn{display:block;font-family:"Noto Serif TC",serif;font-weight:500;font-size:.42em;letter-spacing:.24em;color:var(--gold-bright);margin-top:10px}
+.jp .drawer .lead{margin-top:14px;font-size:14.5px;line-height:1.9;color:var(--paper-dim);max-width:24em;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+.jp .tours{margin-top:20px;display:flex;flex-direction:column;gap:12px}
+.jp .tour{display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:stretch;padding:9px;border:1px solid rgba(230,199,156,.2);background:rgba(11,10,9,.55);overflow:hidden;transition:border-color .4s,background .4s,transform .5s var(--ease-expo)}
+.jp .tour:hover{border-color:rgba(230,199,156,.6);background:rgba(201,166,120,.1);transform:translateX(5px)}
+.jp .tour .th{height:82px;overflow:hidden}
+.jp .tour .th img{width:100%;height:100%;object-fit:cover;filter:saturate(.9) brightness(.95);transition:transform .9s var(--ease-expo)}
+.jp .tour:hover .th img{transform:scale(1.07)}
+.jp .tour .bd{display:flex;flex-direction:column;justify-content:center}
+.jp .tour .d{font-family:"Cormorant Garamond",serif;letter-spacing:.16em;text-transform:uppercase;font-size:10px;color:var(--gold-bright)}
+.jp .tour h3{margin-top:4px;font-family:"Noto Serif TC",serif;font-weight:500;font-size:15.5px;letter-spacing:.05em;color:var(--paper)}
+.jp .tour .p{margin-top:5px;font-size:11.5px;color:var(--paper-dim)}
+.jp .tour .p b{color:var(--gold-bright);font-weight:500;font-size:13px}
+.jp .more{margin-top:16px;display:inline-flex;align-items:center;gap:9px;font-family:"Cormorant Garamond",serif;letter-spacing:.14em;text-transform:uppercase;font-size:11.5px;color:var(--gold-bright);transition:gap .35s var(--ease-expo)}
+.jp .more:hover{gap:16px}
+
+@media(max-width:900px){
+  .jp .scrim{background:linear-gradient(180deg, rgba(8,9,8,.7), rgba(8,9,8,.85))}
+  .jp .map{display:none}
+  .jp .drawer{left:20px;right:20px;width:auto}
+}
+</style>
+</head>
+<body>
+<div class="scroller" id="scroller">
+  <div class="viewport">
+    <div class="bg" id="bg"><canvas id="cv"></canvas></div>
+
+    <!-- act 0: brand intro -->
+    <div class="ov intro" id="ovIntro">
+      <div class="scrim"></div>
+      <img class="logo" src="../assets/corner-logo.png" alt="角落旅行社 CORNER TRAVEL">
+      <div class="slogan">走進世界的角落</div>
+      <div class="en">Fall into the World — journeys made only for you</div>
+      <div class="cue"><span>Scroll · 入場</span><div class="ln"></div></div>
+    </div>
+
+    <!-- japan chapter: map left + options right -->
+    <div class="ov jp" id="ovJp">
+      <div class="scrim" id="jpScrim"></div>
+      <div class="map" id="jpMap">
+        <div class="k">The World · 此刻位置</div>
+        <svg id="wmap" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+      <div class="drawer" id="jpDrawer">
+        <div class="k">Chapter 01 · Japan</div>
+        <h2>JAPAN<span class="cn">日 本</span></h2>
+        <p class="lead">楓與鳥居、湯煙與石徑——四季在京都的巷弄裡各自成篇。</p>
+        <div class="tours">
+          <a class="tour" href="../tour-fuji.html">
+            <div class="th"><img src="../assets/photos/fuji-summit.jpg" alt=""></div>
+            <div class="bd"><div class="d">5 Days · Private</div><h3>富士山登頂 5 日</h3><div class="p">每人 <b>NT$ 68,800</b> 起</div></div>
+          </a>
+          <a class="tour" href="../index.html#contact">
+            <div class="th"><img src="../assets/photos/kyoto-temple.jpg" alt=""></div>
+            <div class="bd"><div class="d">6 Days · Private</div><h3>京都紅葉深度 6 日</h3><div class="p">每人 <b>NT$ 72,000</b> 起</div></div>
+          </a>
+          <a class="tour" href="../tour-hokkaido.html">
+            <div class="th"><img src="../assets/photos/hokkaido/d4-aoike.jpg" alt=""></div>
+            <div class="bd"><div class="d">8 Days · Private</div><h3>北海道 冰雪之旅 8 日</h3><div class="p">流冰・星野・三大冬祭</div></div>
+          </a>
+        </div>
+        <a class="more" href="../index.html#trips">全部 日本 行程 →</a>
+      </div>
+    </div>
+
+    <div class="prog" id="prog"></div>
+    <div class="loading" id="loading"><div class="ring"></div><div class="ltx" id="ltx">0%</div></div>
+  </div>
+</div>
+
+<script src="explore-map-data.js"></script>
+<script>
+(function(){
+  /* ============ image-sequence engine (A route) ============ */
+  var SEGS=[
+    {dir:'film/frames/s1', count:122},
+    {dir:'film/frames/s2', count:122},
+    {dir:'film/frames/s3', count:122},
+  ];
+  var frames=[];
+  SEGS.forEach(function(s){for(var k=1;k<=s.count;k++)frames.push(s.dir+'/f_'+String(k).padStart(3,'0')+'.webp');});
+  var TOTAL=frames.length;
+
+  var cv=document.getElementById('cv'), bg=document.getElementById('bg');
+  var prog=document.getElementById('prog'), loading=document.getElementById('loading');
+  var ltx=document.getElementById('ltx'), scroller=document.getElementById('scroller');
+  var imgs=new Array(TOTAL), loaded=0, started=false;
+  var target=0, cur=0, lastDrawn=-1;
+
+  frames.forEach(function(src,i){
+    var im=new Image();
+    im.onload=im.onerror=function(){
+      loaded++; ltx.textContent=Math.round(loaded/TOTAL*100)+'%';
+      if(loaded===TOTAL&&!started){started=true;begin();}
+    };
+    im.src=src; imgs[i]=im;
+  });
+
+  function draw(force){
+    var idx=Math.max(0,Math.min(TOTAL-1,Math.round(cur*(TOTAL-1))));
+    if(!force&&idx===lastDrawn)return;
+    var im=imgs[idx]; if(!im||!im.naturalWidth)return;
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    var cW=cv.width/dpr,cH=cv.height/dpr; if(!cW||!cH)return;
+    var vA=im.naturalWidth/im.naturalHeight,cA=cW/cH,dW=cW,dH=cH,oX=0,oY=0;
+    if(vA>cA){dW=cH*vA;oX=(cW-dW)/2;}else{dH=cW/vA;oY=(cH-dH)/2;}
+    var ctx=cv.getContext('2d');
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.drawImage(im,oX,oY,dW,dH);
+    lastDrawn=idx;
+  }
+  function resize(){
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    var w=bg.clientWidth,h=bg.clientHeight;
+    cv.width=w*dpr;cv.height=h*dpr;cv.style.width=w+'px';cv.style.height=h+'px';
+    draw(true);
+  }
+  window.addEventListener('resize',resize);
+  window.addEventListener('scroll',function(){
+    var st=window.pageYOffset||document.documentElement.scrollTop;
+    var max=scroller.scrollHeight-window.innerHeight;
+    target=max>0?Math.max(0,Math.min(1,st/max)):0;
+  },{passive:true});
+  window.addEventListener('mousemove',function(e){
+    var x=(e.clientX-innerWidth/2)/(innerWidth/2);
+    var y=(e.clientY-innerHeight/2)/(innerHeight/2);
+    bg.style.transform='translate3d('+(x*-18)+'px,'+(y*-18)+'px,0)';
+  });
+
+  /* ============ world map (japan lit) ============ */
+  (function buildMap(){
+    var M=window.WORLD_MAP,P=M.proj;
+    var proj=function(lon,lat){return{x:P.ax*lon+P.bx,y:P.ay*lat+P.by};};
+    var NS='http://www.w3.org/2000/svg';
+    var el=function(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;};
+    var svg=document.getElementById('wmap');
+    svg.setAttribute('viewBox',M.viewBox);
+    var jpD=null;
+    M.countries.forEach(function(c){
+      if(c.id==='jp'){jpD=c.d;return;}
+      svg.appendChild(el('path',{d:c.d,class:'country'}));
+    });
+    if(jpD)svg.appendChild(el('path',{d:jpD,class:'hl'}));
+    [{cn:'東京',lon:139.69,lat:35.68},{cn:'京都',lon:135.77,lat:35.01},{cn:'富士',lon:138.73,lat:35.36},{cn:'札幌',lon:141.35,lat:43.06}].forEach(function(c){
+      var p=proj(c.lon,c.lat);
+      svg.appendChild(el('circle',{class:'pin-ring',cx:p.x,cy:p.y,r:3}));
+      svg.appendChild(el('circle',{class:'pin-dot',cx:p.x,cy:p.y,r:2.2}));
+      var t=el('text',{class:'lbl',x:p.x,y:p.y-8});t.textContent=c.cn;svg.appendChild(t);
+    });
+  })();
+
+  /* ============ overlay choreography (progress-driven, rewind-safe) ============ */
+  var ovIntro=document.getElementById('ovIntro');
+  var ovJp=document.getElementById('ovJp');
+  var jpScrim=document.getElementById('jpScrim');
+  var jpMap=document.getElementById('jpMap');
+  var jpDrawer=document.getElementById('jpDrawer');
+
+  function clamp01(v){return Math.max(0,Math.min(1,v));}
+  /* ramp: 0 before a, up a→b, hold 1, down c→d, 0 after */
+  function ramp(p,a,b,c,d){
+    if(p<=a||p>=d)return 0;
+    if(p<b)return clamp01((p-a)/(b-a));
+    if(p<=c)return 1;
+    return clamp01(1-(p-c)/(d-c));
+  }
+  function style(elm,op,tx,ty,bl){
+    elm.style.opacity=op;
+    elm.style.transform=(elm===jpMap||elm===jpDrawer)
+      ? 'translateY(-50%) translate3d('+tx+'px,'+ty+'px,0)'
+      : 'translate3d('+tx+'px,'+ty+'px,0)';
+    elm.style.filter='blur('+bl+'px)';
+  }
+
+  function overlays(p){
+    /* intro: full at start, lifts away by 8% */
+    var fi=1-clamp01((p-0.015)/0.075);
+    style(ovIntro,fi,0,(1-fi)*-60,(1-fi)*14);
+    ovIntro.style.visibility=fi<=0.01?'hidden':'visible';
+
+    /* japan chapter: torii established ~70% → slides in; slides out by 97% */
+    var v=ramp(p,0.68,0.755,0.925,0.975);
+    ovJp.style.visibility=v<=0.01?'hidden':'visible';
+    jpScrim.style.opacity=v*0.98;
+    /* map from the left, drawer from the right — 滑入 / 滑出 */
+    style(jpMap,v,(1-v)*-90,0,(1-v)*10);
+    style(jpDrawer,v,(1-v)*90,0,(1-v)*10);
+    jpDrawer.style.pointerEvents=v>0.85?'auto':'none';
+  }
+
+  function begin(){
+    resize();
+    loading.classList.add('hidden');
+    (function tick(){
+      cur+=(target-cur)*0.085;
+      draw(false);
+      overlays(cur);
+      prog.style.transform='scaleX('+cur+')';
+      requestAnimationFrame(tick);
+    })();
+  }
+})();
+</script>
+</body>
+</html>
