@@ -250,3 +250,36 @@ nav.over-hero:not(.scrolled) .nav-toggle span{background:var(--paper)}
   .slant-col .h-body{opacity:1}
   .slant-col .corner{opacity:1}
 }
+
+/* ===== 液態玻璃（動態島）nav —— 首頁 .glass-nav 專用 ===== */
+.liquid-glass{
+  background:rgba(255,255,255,.03);
+  background-blend-mode:luminosity;
+  backdrop-filter:blur(7px) saturate(1.2);
+  -webkit-backdrop-filter:blur(7px) saturate(1.2);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.12), 0 10px 34px rgba(0,0,0,.16);
+  position:relative;
+}
+.liquid-glass::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1.2px;
+  background:linear-gradient(180deg,
+    rgba(255,255,255,.48) 0%, rgba(255,255,255,.15) 22%,
+    rgba(255,255,255,0) 42%, rgba(255,255,255,0) 58%,
+    rgba(255,255,255,.15) 78%, rgba(255,255,255,.48) 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;
+}
+.glass-nav .nav-links{border-radius:999px;padding:9px 10px 9px 30px;gap:28px}
+.glass-nav .nav-links .nav-cta{border-radius:999px;height:36px;padding:0 22px}
+
+/* 斜切卡 hover 展開層：純文字浮現，零遮罩（W 拍板）；可讀性靠文字陰影 */
+.slant-col .h-body{
+  background:none;
+}
+.slant-col .h-body h3{text-shadow:0 1px 14px rgba(0,0,0,.75)}
+.slant-col .h-body p{text-shadow:0 1px 10px rgba(0,0,0,.75)}
+/* 斜切卡：陰影加深＋高低錯落 */
+.slant-col{box-shadow:0 30px 62px -22px rgba(0,0,0,.58)}
+.slant-acc .slant-col:nth-child(2n){transform:skewX(-7deg) translateY(26px)}
+@media(max-width:900px){.slant-acc .slant-col:nth-child(2n){transform:skewX(-5deg) translateY(0)}}
