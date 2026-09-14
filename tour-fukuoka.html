@@ -123,6 +123,14 @@
   .course-b h3{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(20px,2.1vw,26px);color:var(--paper);margin:6px 0 8px;line-height:1.25}
   .course-b p{color:rgba(219,208,192,.78);font-size:14px;line-height:1.85}
   @media(max-width:760px){.courses{grid-template-columns:1fr}}
+  /* 三場球：一張大圖領銜＋三張文字卡（只有一座球場拿得到可用的實景照，
+     其餘寧可不放，也不用示意圖充數） */
+  .courses.three{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:960px){.courses.three{grid-template-columns:1fr}}
+  .course-hero{max-width:1080px;margin:0 auto var(--s5);border:1px solid rgba(230,199,156,.16);border-radius:4px;overflow:hidden}
+  .course-hero img{width:100%;aspect-ratio:21/9;object-fit:cover;display:block}
+  .course-hero figcaption{padding:10px 18px;font-size:12.5px;letter-spacing:.08em;color:rgba(219,208,192,.6);background:rgba(18,16,14,.52)}
+  .course-b .c-when{display:block;font-size:12px;letter-spacing:.14em;color:rgba(219,208,192,.55);margin-top:10px}
 
   /* 行程加配圖 */
   .itin-day{grid-template-columns:70px 230px 1fr}
@@ -163,10 +171,10 @@
   <div class="hero-inner wrap">
     <div class="kicker">PRIVATE JOURNEY<span class="sep"></span><span class="cn">日本・福岡</span></div>
     <h1><span class="en">Fukuoka</span><span class="cn">福岡 私人訂製之旅</span></h1>
-    <p class="hero-lead">博多市區精品飯店與糸島海濱別墅各兩晚，揉合城市風味、海岸風光與一場酣暢的高爾夫。全程私人包團，為您與家人量身安排節奏。</p>
+    <p class="hero-lead">天神精品飯店與糸島海濱別墅各兩晚，三天下場、三座風格迥異的球場，其餘時間交給海岸與溫泉。全程私人包團，為您與家人量身安排節奏。</p>
     <div class="hero-facts">
       <span><b>住宿</b>市區精品 + 海濱別墅</span>
-      <span><b>主題</b>城市・海岸・高爾夫</span>
+      <span><b>主題</b>城市・海岸・三場球</span>
       <span><b>形式</b>私人包團</span>
     </div>
   </div>
@@ -204,8 +212,8 @@
         <div class="hotel-info">
           <span class="hotel-n">第 1–2 晚</span>
           <h3>THE GATE HOTEL FUKUOKA by HULIC</h3>
-          <p class="hotel-loc">福岡市・博多</p>
-          <p>坐落博多核心、緊鄰中洲與運河城，精品設計與絕佳地段，逛街、美食、交通一步到位。</p>
+          福岡市中央區・天神
+          <p>2025 年 4 月開幕、九州第一家 THE GATE HOTEL，直接連著地下鐵天神站，客房位於十至十九樓。下樓即天神地下街，開車至中洲與運河城約五分鐘，逛街、美食、交通一步到位。</p>
         </div>
       </article>
       <article class="hotel reveal">
@@ -231,24 +239,38 @@
     <div class="sec-head reveal" data-reveal-title>
       <div class="kicker">GOLF<span class="sep"></span><span class="cn">高爾夫</span></div>
       <h2 class="display">On the green</h2>
-      <span class="h2cn">糸島兩座名門球場</span>
+      <span class="h2cn">三場球，三個方向</span>
     </div>
-    <p class="course-intro reveal">糸島不只有海岸與田園，也藏著九州的高球名門。這趟為先生們安排兩座風格迥異的球場——一座倚雷山而立、綠意連綿，一座臨玄界灘而展、海風相伴，球敘之間盡覽糸島的山與海。</p>
-    <div class="courses">
+    <p class="course-intro reveal">三場球分別落在福岡的東南、東北與更北 —— 一座在筑紫野的內陸丘陵，一座就蓋在海之中道的沙洲上、球道一側便是玄界灘，一座是宗像的冠軍球場。三天下場，走過福岡的山、海與名門。</p>
+
+    <figure class="course-hero reveal">
+      <img src="assets/photos/fukuoka/golf-saitozaki.jpg" alt="西戸崎海濱鄉村俱樂部空拍，球場位於海之中道沙洲、兩側臨海" loading="lazy">
+      <figcaption>西戸崎海濱鄉村俱樂部　球場在海之中道的沙洲上，左右兩側都是海</figcaption>
+    </figure>
+
+    <div class="courses three">
       <article class="course reveal">
-        <img src="assets/photos/fukuoka/ito-drone.jpg" alt="伊都高爾夫俱樂部空拍" loading="lazy">
         <div class="course-b">
-          <span class="c-loc">福岡・糸島市</span>
-          <h3>伊都高爾夫俱樂部　Ito GC</h3>
-          <p>開場於 1976 年的福岡老牌名門，由職業好手藤井義將與河原崎清共同設計。18 洞 6,830 碼 par 72，bentgrass 果嶺細緻，球道沿雷山山麓鋪展、起伏和緩，遠處可眺糸島平原。距福岡機場與博多約 40 分鐘，全程附桿弟。</p>
+          <span class="c-loc">福岡・筑紫野市 山家</span>
+          <h3>セントラル福岡<br>中央福岡高爾夫俱樂部</h3>
+          <p>位於筑紫野往內陸的丘陵地，九州自動車道筑紫野交流道下約 15 公里。開球後穿行於起伏和緩的球道之間，是三場裡最從容的一場。</p>
+          <span class="c-when">10 / 13　10:04 開球</span>
         </div>
       </article>
       <article class="course reveal">
-        <img src="assets/photos/fukuoka/golf-keya.jpg" alt="芥屋高爾夫俱樂部" loading="lazy">
         <div class="course-b">
-          <span class="c-loc">福岡・糸島市 志摩芥屋</span>
-          <h3>芥屋高爾夫俱樂部　Keya GC</h3>
-          <p>由日本球場設計巨匠赤星四郎操刀的經典名門，緊鄰志摩芥屋海岸。丘陵起伏豐富、戰略性強，講究力量與技術的拿捏；球道高處不時透出玄界灘的湛藍海景，挑戰與景致兼得。</p>
+          <span class="c-loc">福岡市東區 西戸崎・海之中道</span>
+          <h3>西戸崎シーサイド<br>西戸崎海濱鄉村俱樂部</h3>
+          <p>整座球場蓋在伸進博多灣的沙洲上，球道一側就是玄界灘，是福岡市區最近的海景球場，車程僅約二十五分鐘。海風是這裡真正的對手。</p>
+          <span class="c-when">10 / 15　09:59 開球</span>
+        </div>
+      </article>
+      <article class="course reveal">
+        <div class="course-b">
+          <span class="c-loc">福岡・宗像市 朝町</span>
+          <h3>福岡國際 中山 IN<br>福岡國際鄉村俱樂部</h3>
+          <p>三十六洞的老牌名門，中山是辦過職業賽事的冠軍球場，上下坡連著來、講究距離判斷。位於福岡與北九州之間，兩地皆在三十分鐘圈內。</p>
+          <span class="c-when">10 / 16　10:27 開球</span>
         </div>
       </article>
     </div>
@@ -303,15 +325,15 @@
       <span class="h2cn">五天四夜・城市、綠茵與海岸</span>
     </div>
         <div class="flights reveal">
-      <div class="flight-row"><span class="fl-tag">去程</span><span class="fl-no">CI 110</span><span class="fl-rt">台北 06:50 → 福岡 09:55</span></div>
-      <div class="flight-row"><span class="fl-tag">回程</span><span class="fl-no">CI 129</span><span class="fl-rt">福岡 19:10 → 台北 20:35</span></div>
+      <div class="flight-row"><span class="fl-tag">去程</span><span class="fl-no">BR 106</span><span class="fl-rt">10/12　台北 08:00 → 福岡 11:20</span></div>
+      <div class="flight-row"><span class="fl-tag">回程</span><span class="fl-no">BR 101</span><span class="fl-rt">10/16　福岡 19:20 → 台北 20:45</span></div>
     </div>
     <div class="itin">
       <div class="itin-day reveal">
         <div class="itin-photo"><img src="assets/photos/fukuoka/day1-mojiko.jpg" alt="D1" loading="lazy"></div>
         <div class="itin-body">
           <div class="itin-head"><span class="dnum">D1</span><span class="dsub">Arrival</span></div>
-          <p class="itin-route">抵達福岡，前往門司港走走。漫步懷舊港町，欣賞大正浪漫風情的紅磚建築與海濱景致，為旅程揭開序章。</p>
+          <p class="itin-route">上午八點的班機，十一點二十分就落地。午後前往門司港，漫步懷舊港町，欣賞大正浪漫風情的紅磚建築與海濱景致，為旅程揭開序章。</p>
           <div class="itin-meta"><span><b>住宿</b>THE GATE HOTEL FUKUOKA by HULIC</span></div>
         </div>
       </div>
@@ -319,31 +341,31 @@
         <div class="itin-photo"><img src="assets/photos/fukuoka/day2-beppu.jpg" alt="別府 海地獄" loading="lazy"></div>
         <div class="itin-body">
           <div class="itin-head"><span class="dnum">D2</span><span class="dsub">Golf · Beppu</span></div>
-          <p class="itin-route">先生們前往球場揮桿；太太們前往別府一日遊。走一趟地獄巡禮，看海地獄那池攝氏九十八度的鈷藍色湯泉在湯煙裡翻騰；在日本湧泉量第一的溫泉鄉泡足湯、嚐地獄蒸料理，一日之間感受九州溫泉的熱度。</p>
+          <p class="itin-route">先生們前往筑紫野的中央福岡球場，十點零四分開球；太太們前往別府一日遊。走一趟地獄巡禮，看海地獄那池攝氏九十八度的鈷藍色湯泉在湯煙裡翻騰；在日本湧泉量第一的溫泉鄉泡足湯、嚐地獄蒸料理，一日之間感受九州溫泉的熱度。</p>
           <div class="itin-meta"><span><b>住宿</b>THE GATE HOTEL FUKUOKA by HULIC</span></div>
         </div>
       </div>
       <div class="itin-day reveal">
         <div class="itin-photo two"><img src="assets/photos/fukuoka/day3-nokonoshima.jpg" alt="能古島波斯菊" loading="lazy"><img src="assets/photos/fukuoka/day3-noko2.png" alt="能古島花海" loading="lazy"></div>
         <div class="itin-body">
-          <div class="itin-head"><span class="dnum">D3</span><span class="dsub">Golf · Nokonoshima</span></div>
-          <p class="itin-route">先生們再戰球場；太太們搭渡輪前往能古島海島公園（自福岡市約 10 分鐘船程），秋季大片波斯菊與蔚藍海景交織，是必訪的賞花勝地。傍晚移居糸島海濱別墅。</p>
+          <div class="itin-head"><span class="dnum">D3</span><span class="dsub">Nokonoshima · Itoshima</span></div>
+          <p class="itin-route">這一天不下場。全團搭渡輪前往能古島海島公園（自福岡市約 10 分鐘船程），秋季大片波斯菊與蔚藍海景交織，是必訪的賞花勝地。傍晚移居糸島海濱別墅，換一種住法。</p>
           <div class="itin-meta"><span><b>住宿</b>SEVEN X SEVEN ITOSHIMA</span></div>
         </div>
       </div>
       <div class="itin-day reveal">
         <div class="itin-photo two"><img src="assets/photos/fukuoka/d4-futamigaura.png" alt="D4" loading="lazy"><img src="assets/photos/fukuoka/d4-seafood.png" alt="D4" loading="lazy"></div>
         <div class="itin-body">
-          <div class="itin-head"><span class="dnum">D4</span><span class="dsub">Itoshima</span></div>
-          <p class="itin-route">糸島深度觀光。走訪海中佇立白色鳥居的櫻井二見ヶ浦與夫婦岩——糸島最具代表的海岸風景；搭觀光船一覽芥屋大門玄武岩海蝕洞，並品嚐糸島當地時令海鮮。</p>
+          <div class="itin-head"><span class="dnum">D4</span><span class="dsub">Golf · Itoshima</span></div>
+          <p class="itin-route">先生們前往海之中道的西戸崎海濱球場，九點五十九分開球，球道一側就是玄界灘；太太們留在糸島深度觀光，走訪海中佇立白色鳥居的櫻井二見ヶ浦與夫婦岩，搭觀光船一覽芥屋大門玄武岩海蝕洞，並品嚐當地時令海鮮。</p>
           <div class="itin-meta"><span><b>住宿</b>SEVEN X SEVEN ITOSHIMA</span></div>
         </div>
       </div>
       <div class="itin-day reveal">
         <div class="itin-photo"><img src="assets/photos/fukuoka/sevenxseven-3.webp" alt="D5" loading="lazy"></div>
         <div class="itin-body">
-          <div class="itin-head"><span class="dnum">D5</span><span class="dsub">Departure</span></div>
-          <p class="itin-route">於別墅享用早餐，白天糸島海濱自由漫遊，傍晚整裝前往機場賦歸，或為您延續下一段日本旅程。</p>
+          <div class="itin-head"><span class="dnum">D5</span><span class="dsub">Golf · Departure</span></div>
+          <p class="itin-route">回程是晚班機，最後一天照樣打滿十八洞。先生們前往宗像的福岡國際中山球場，十點二十七分開球，午後收桿即直趨機場；太太們於別墅享用早餐、海濱自由漫遊後於機場會合。晚間七點二十分起飛，當日返抵台北。</p>
         </div>
       </div>
     </div>
