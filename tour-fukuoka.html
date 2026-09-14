@@ -132,6 +132,21 @@
   .course-hero figcaption{padding:10px 18px;font-size:12.5px;letter-spacing:.08em;color:rgba(219,208,192,.6);background:rgba(18,16,14,.52)}
   .course-b .c-when{display:block;font-size:12px;letter-spacing:.14em;color:rgba(219,208,192,.55);margin-top:10px}
 
+  /* 逐日時刻表：幾點、做什麼、怎麼移動 */
+  .tl{margin:18px 0 16px;padding-top:16px;border-top:1px dashed rgba(230,199,156,.22)}
+  .tl-track + .tl-track{margin-top:22px;padding-top:20px;border-top:1px dashed rgba(230,199,156,.14)}
+  .tl-h{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .tl-h i{width:2px;height:15px;flex:none;background:var(--gold)}
+  .tl-h i.b{background:rgba(219,208,192,.5)}
+  .tl-h span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+  .tl-h span.b{color:rgba(219,208,192,.62)}
+  .tl-row{display:grid;grid-template-columns:62px 1fr;gap:14px;padding:6px 0}
+  .tl-t{font-family:"Cormorant Garamond",serif;font-size:16px;line-height:1.5;color:var(--gold-bright);letter-spacing:.03em}
+  .tl-c b{display:block;font-family:"Noto Serif TC",serif;font-weight:500;font-size:14.5px;line-height:1.6;color:rgba(244,238,228,.94);margin-bottom:2px}
+  .tl-c em{font-style:normal;font-size:13.5px;line-height:1.85;color:rgba(219,208,192,.72)}
+  .tl-note{margin-top:14px;font-size:12.5px;line-height:1.85;color:rgba(219,208,192,.55);border-left:1px solid rgba(230,199,156,.3);padding-left:12px}
+  @media(max-width:680px){.tl-row{grid-template-columns:50px 1fr;gap:10px}.tl-t{font-size:14px}}
+
   /* 行程加配圖 */
   .itin-day{grid-template-columns:70px 230px 1fr}
   .itin-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:3px;display:block}
@@ -146,7 +161,11 @@
   .flight-row .fl-no{color:var(--paper);font-family:"Cormorant Garamond",serif;font-size:18px;letter-spacing:.03em}
   .flight-row .fl-rt{color:rgba(219,208,192,.82);font-size:14px;letter-spacing:.02em}
   .itin{max-width:1000px;margin:0 auto;background:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:none!important;padding:0!important;border-radius:0!important}
-  .itin-day{display:grid!important;grid-template-columns:1fr 1fr!important;gap:var(--s5)!important;align-items:center;padding:var(--s6) 0!important;border-top:1px solid rgba(230,199,156,.16)!important}
+  /* 逐日內容加了時刻表之後文字欄變長：圖片改為靠上並沿捲動跟隨，
+     欄寬也讓給文字（原本 1fr 1fr ＋ 垂直置中，圖會浮在中間、上下留一大片空白） */
+  .itin-day{display:grid!important;grid-template-columns:.78fr 1fr!important;gap:var(--s5)!important;align-items:start;padding:var(--s6) 0!important;border-top:1px solid rgba(230,199,156,.16)!important}
+  .itin-day .itin-photo{position:sticky;top:92px}
+  @media(max-width:760px){.itin-day .itin-photo{position:static;top:auto}}
   .itin-day:last-child{border-bottom:1px solid rgba(230,199,156,.16)!important}
   .itin-day:nth-child(even) .itin-photo{order:2}
   .itin-photo img{width:100%;aspect-ratio:3/2!important;object-fit:cover;border-radius:3px;display:block}
@@ -333,7 +352,7 @@
         <div class="itin-photo"><img src="assets/photos/fukuoka/day1-mojiko.jpg" alt="D1" loading="lazy"></div>
         <div class="itin-body">
           <div class="itin-head"><span class="dnum">D1</span><span class="dsub">Arrival</span></div>
-          <p class="itin-route">上午八點的班機，十一點二十分就落地。午後前往門司港，漫步懷舊港町，欣賞大正浪漫風情的紅磚建築與海濱景致，為旅程揭開序章。</p>
+          <p class="itin-route">上午八點的班機，十一點二十分就落地。午後前往門司港，漫步懷舊港町，欣賞大正浪漫風情的紅磚建築與海濱景致，為旅程揭開序章。</p><div class="tl"><div class="tl-row"><div class="tl-t">08:00</div><div class="tl-c"><b>桃園出發・長榮 BR 106</b><em>第一航廈報到。早班機的好處是落地就是中午，第一天不會只剩半天</em></div></div><div class="tl-row"><div class="tl-t">11:20</div><div class="tl-c"><b>抵達福岡機場</b><em>通關、領行李後專車接駁</em></div></div><div class="tl-row"><div class="tl-t">12:30</div><div class="tl-c"><b>午餐</b></div></div><div class="tl-row"><div class="tl-t">13:10</div><div class="tl-c"><b>專車前往門司港</b><em>走九州自動車道，約 87 公里、車程一小時十五分</em></div></div><div class="tl-row"><div class="tl-t">14:30</div><div class="tl-c"><b>門司港懷舊區</b><em>關門海峽邊的紅磚港町。門司港站是大正三年的建築、日本第一座被指定為國家重要文化財的車站；舊門司三井俱樂部、舊大阪商船皆在步行圈內</em></div></div><div class="tl-row"><div class="tl-t">17:00</div><div class="tl-c"><b>返回福岡市區</b><em>同路回程，約一小時十五分</em></div></div><div class="tl-row"><div class="tl-t">18:30</div><div class="tl-c"><b>入住 THE GATE HOTEL 福岡</b><em>天神站直結，客房在十至十九樓</em></div></div><div class="tl-row"><div class="tl-t">19:30</div><div class="tl-c"><b>晚餐</b><em>餐廳依當日安排</em></div></div></div>
           <div class="itin-meta"><span><b>住宿</b>THE GATE HOTEL FUKUOKA by HULIC</span></div>
         </div>
       </div>
@@ -341,7 +360,7 @@
         <div class="itin-photo"><img src="assets/photos/fukuoka/day2-beppu.jpg" alt="別府 海地獄" loading="lazy"></div>
         <div class="itin-body">
           <div class="itin-head"><span class="dnum">D2</span><span class="dsub">Golf · Beppu</span></div>
-          <p class="itin-route">先生們前往筑紫野的中央福岡球場，十點零四分開球；太太們前往別府一日遊。走一趟地獄巡禮，看海地獄那池攝氏九十八度的鈷藍色湯泉在湯煙裡翻騰；在日本湧泉量第一的溫泉鄉泡足湯、嚐地獄蒸料理，一日之間感受九州溫泉的熱度。</p>
+          <p class="itin-route">先生們前往筑紫野的中央福岡球場，十點零四分開球；太太們前往別府一日遊。走一趟地獄巡禮，看海地獄那池攝氏九十八度的鈷藍色湯泉在湯煙裡翻騰；在日本湧泉量第一的溫泉鄉泡足湯、嚐地獄蒸料理，一日之間感受九州溫泉的熱度。</p><div class="tl"><div class="tl-track"><div class="tl-h"><i class=""></i><span>Golf · 高球組</span></div><div class="tl-row"><div class="tl-t">07:30</div><div class="tl-c"><b>飯店出發</b><em>天神往筑紫野，車程約四十五分</em></div></div><div class="tl-row"><div class="tl-t">09:30</div><div class="tl-c"><b>球場報到・練習果嶺</b></div></div><div class="tl-row"><div class="tl-t">10:04</div><div class="tl-c"><b>第一組開球</b><em>連續三組開出，最後一組約十點二十分上場</em></div></div><div class="tl-row"><div class="tl-t">12:30</div><div class="tl-c"><b>場內午餐</b></div></div><div class="tl-row"><div class="tl-t">16:00</div><div class="tl-c"><b>收桿・專車返回市區</b><em>依實際完賽時間出發</em></div></div></div><div class="tl-track"><div class="tl-h"><i class="b"></i><span class="b">Beppu · 太太組</span></div><div class="tl-row"><div class="tl-t">08:30</div><div class="tl-c"><b>專車前往別府</b><em>跨進大分縣，車程約兩小時</em></div></div><div class="tl-row"><div class="tl-t">10:40</div><div class="tl-c"><b>地獄巡禮・鉄輪一帶</b><em>海地獄那池鈷藍色湯泉水溫攝氏九十八度；鬼石坊主、かまど、鬼山、白池四處都在步行圈內</em></div></div><div class="tl-row"><div class="tl-t">12:30</div><div class="tl-c"><b>地獄蒸し午餐</b><em>用攝氏百度的溫泉蒸氣蒸海鮮與野菜，江戶時代傳下來的作法</em></div></div><div class="tl-row"><div class="tl-t">14:00</div><div class="tl-c"><b>血之池地獄・龍卷地獄</b><em>前者因氧化鐵而赤紅，後者是每隔一段時間噴發一次的間歇泉</em></div></div><div class="tl-row"><div class="tl-t">15:30</div><div class="tl-c"><b>別府出發</b></div></div><div class="tl-row"><div class="tl-t">17:30</div><div class="tl-c"><b>返抵天神</b></div></div></div><div class="tl-track"><div class="tl-h"><i class=""></i><span>Together · 全團</span></div><div class="tl-row"><div class="tl-t">19:00</div><div class="tl-c"><b>全團晚餐</b><em>兩組會合</em></div></div></div><p class="tl-note">＊七處地獄的共通觀覽券為 ¥2,200（單處 ¥400）；全部走完約需兩個半小時，本行程取其精華五處加兩處，節奏從容。</p></div>
           <div class="itin-meta"><span><b>住宿</b>THE GATE HOTEL FUKUOKA by HULIC</span></div>
         </div>
       </div>
@@ -349,7 +368,7 @@
         <div class="itin-photo two"><img src="assets/photos/fukuoka/day3-nokonoshima.jpg" alt="能古島波斯菊" loading="lazy"><img src="assets/photos/fukuoka/day3-noko2.png" alt="能古島花海" loading="lazy"></div>
         <div class="itin-body">
           <div class="itin-head"><span class="dnum">D3</span><span class="dsub">Nokonoshima · Itoshima</span></div>
-          <p class="itin-route">這一天不下場。全團搭渡輪前往能古島海島公園（自福岡市約 10 分鐘船程），秋季大片波斯菊與蔚藍海景交織，是必訪的賞花勝地。傍晚移居糸島海濱別墅，換一種住法。</p>
+          <p class="itin-route">這一天不下場。全團搭渡輪前往能古島海島公園（自福岡市約 10 分鐘船程），秋季大片波斯菊與蔚藍海景交織，是必訪的賞花勝地。傍晚移居糸島海濱別墅，換一種住法。</p><div class="tl"><div class="tl-row"><div class="tl-t">09:00</div><div class="tl-c"><b>飯店出發・前往姪浜渡船場</b><em>市區車程約二十五分</em></div></div><div class="tl-row"><div class="tl-t">09:40</div><div class="tl-c"><b>搭渡輪往能古島</b><em>航程僅十分鐘，船資大人 ¥230</em></div></div><div class="tl-row"><div class="tl-t">10:00</div><div class="tl-c"><b>轉西鐵巴士</b><em>約十三分鐘抵達島上公園</em></div></div><div class="tl-row"><div class="tl-t">10:20</div><div class="tl-c"><b>能古島海島公園</b><em>十月正是波斯菊花期，整片花海直接鋪到海的顏色裡</em></div></div><div class="tl-row"><div class="tl-t">12:00</div><div class="tl-c"><b>島上午餐</b></div></div><div class="tl-row"><div class="tl-t">13:40</div><div class="tl-c"><b>回程渡輪・返回本島</b></div></div><div class="tl-row"><div class="tl-t">14:40</div><div class="tl-c"><b>專車前往糸島</b><em>沿海岸線西行，約四十分鐘</em></div></div><div class="tl-row"><div class="tl-t">15:30</div><div class="tl-c"><b>入住 seven x seven 糸島</b><em>四十七間房全部帶露台、全部看得到海</em></div></div><div class="tl-row"><div class="tl-t">17:40</div><div class="tl-c"><b>二見浦夕陽</b><em>十月中旬日落約在傍晚六點，門口就是，不必移動</em></div></div><div class="tl-row"><div class="tl-t">19:00</div><div class="tl-c"><b>晚餐</b></div></div><p class="tl-note">＊渡輪約一小時一班，實際班次於出發前依當日時刻表確認。</p></div>
           <div class="itin-meta"><span><b>住宿</b>SEVEN X SEVEN ITOSHIMA</span></div>
         </div>
       </div>
@@ -357,7 +376,7 @@
         <div class="itin-photo two"><img src="assets/photos/fukuoka/d4-futamigaura.png" alt="D4" loading="lazy"><img src="assets/photos/fukuoka/d4-seafood.png" alt="D4" loading="lazy"></div>
         <div class="itin-body">
           <div class="itin-head"><span class="dnum">D4</span><span class="dsub">Golf · Itoshima</span></div>
-          <p class="itin-route">先生們前往海之中道的西戸崎海濱球場，九點五十九分開球，球道一側就是玄界灘；太太們留在糸島深度觀光，走訪海中佇立白色鳥居的櫻井二見ヶ浦與夫婦岩，搭觀光船一覽芥屋大門玄武岩海蝕洞，並品嚐當地時令海鮮。</p>
+          <p class="itin-route">先生們前往海之中道的西戸崎海濱球場，九點五十九分開球，球道一側就是玄界灘；太太們留在糸島深度觀光，走訪海中佇立白色鳥居的櫻井二見ヶ浦與夫婦岩，搭觀光船一覽芥屋大門玄武岩海蝕洞，並品嚐當地時令海鮮。</p><div class="tl"><div class="tl-track"><div class="tl-h"><i class=""></i><span>Golf · 高球組</span></div><div class="tl-row"><div class="tl-t">08:00</div><div class="tl-c"><b>別墅出發</b><em>糸島往海之中道，車程約一小時十分</em></div></div><div class="tl-row"><div class="tl-t">09:20</div><div class="tl-c"><b>球場報到</b><em>這場是含球車、餐食、置物櫃的全套價</em></div></div><div class="tl-row"><div class="tl-t">09:59</div><div class="tl-c"><b>第一組開球</b><em>球場蓋在伸進博多灣的沙洲上，球道一側就是玄界灘，海風是真正的對手</em></div></div><div class="tl-row"><div class="tl-t">12:30</div><div class="tl-c"><b>場內午餐</b></div></div><div class="tl-row"><div class="tl-t">16:00</div><div class="tl-c"><b>收桿・返回糸島</b></div></div></div><div class="tl-track"><div class="tl-h"><i class="b"></i><span class="b">Itoshima · 太太組</span></div><div class="tl-row"><div class="tl-t">09:30</div><div class="tl-c"><b>櫻井二見浦・夫婦岩</b><em>海中佇立的白色鳥居，糸島最具代表的一幅海岸風景</em></div></div><div class="tl-row"><div class="tl-t">10:40</div><div class="tl-c"><b>芥屋大門遊覽船</b><em>繞進日本最大的玄武岩海蝕洞，航程約二十五分鐘</em></div></div><div class="tl-row"><div class="tl-t">12:00</div><div class="tl-c"><b>糸島海鮮午餐</b><em>當季漁獲，牡蠣小屋亦在此一帶</em></div></div><div class="tl-row"><div class="tl-t">14:00</div><div class="tl-c"><b>海岸線咖啡與小店</b><em>糸島這條路上開了不少面海的獨立店</em></div></div><div class="tl-row"><div class="tl-t">16:00</div><div class="tl-c"><b>返回別墅・泳池與三溫暖</b></div></div></div><div class="tl-track"><div class="tl-h"><i class=""></i><span>Together · 全團</span></div><div class="tl-row"><div class="tl-t">18:30</div><div class="tl-c"><b>全團晚餐</b></div></div></div><p class="tl-note">＊芥屋大門遊覽船僅於每年四月至十一月運航，平日上午九點半起每四十五分鐘一班。⚠ 風浪較大時停航，一個月約有三分之一的日子開不出去 —— 若當日停航，改走糸島半島其餘海岸景點，行程不減。</p></div>
           <div class="itin-meta"><span><b>住宿</b>SEVEN X SEVEN ITOSHIMA</span></div>
         </div>
       </div>
@@ -365,7 +384,7 @@
         <div class="itin-photo"><img src="assets/photos/fukuoka/sevenxseven-3.webp" alt="D5" loading="lazy"></div>
         <div class="itin-body">
           <div class="itin-head"><span class="dnum">D5</span><span class="dsub">Golf · Departure</span></div>
-          <p class="itin-route">回程是晚班機，最後一天照樣打滿十八洞。先生們前往宗像的福岡國際中山球場，十點二十七分開球，午後收桿即直趨機場；太太們於別墅享用早餐、海濱自由漫遊後於機場會合。晚間七點二十分起飛，當日返抵台北。</p>
+          <p class="itin-route">回程是晚班機，最後一天照樣打滿十八洞。先生們前往宗像的福岡國際中山球場，十點二十七分開球，午後收桿即直趨機場；太太們於別墅享用早餐、海濱自由漫遊後於機場會合。晚間七點二十分起飛，當日返抵台北。</p><div class="tl"><div class="tl-track"><div class="tl-h"><i class=""></i><span>Golf · 高球組</span></div><div class="tl-row"><div class="tl-t">07:30</div><div class="tl-c"><b>退房・行李上車</b><em>之後不再回飯店，打完直接往機場</em></div></div><div class="tl-row"><div class="tl-t">09:30</div><div class="tl-c"><b>抵達宗像</b><em>糸島往宗像，車程約一小時二十分</em></div></div><div class="tl-row"><div class="tl-t">09:50</div><div class="tl-c"><b>球場報到</b><em>自助式球場</em></div></div><div class="tl-row"><div class="tl-t">10:27</div><div class="tl-c"><b>第一組開球・中山 IN</b><em>辦過職業賽事的冠軍球場，上下坡連著來</em></div></div><div class="tl-row"><div class="tl-t">12:50</div><div class="tl-c"><b>場內午餐</b></div></div><div class="tl-row"><div class="tl-t">16:30</div><div class="tl-c"><b>收桿・前往福岡機場</b><em>宗像到機場約四十五分鐘</em></div></div></div><div class="tl-track"><div class="tl-h"><i class="b"></i><span class="b">Itoshima · 太太組</span></div><div class="tl-row"><div class="tl-t">09:00</div><div class="tl-c"><b>海濱漫步</b><em>最後一個早晨留在海邊</em></div></div><div class="tl-row"><div class="tl-t">11:30</div><div class="tl-c"><b>退房</b></div></div><div class="tl-row"><div class="tl-t">12:30</div><div class="tl-c"><b>進市區・天神最後採買</b><em>伴手禮一次買齊</em></div></div><div class="tl-row"><div class="tl-t">16:30</div><div class="tl-c"><b>前往福岡機場</b></div></div></div><div class="tl-track"><div class="tl-h"><i class=""></i><span>Together · 全團</span></div><div class="tl-row"><div class="tl-t">17:30</div><div class="tl-c"><b>福岡機場會合・辦理登機</b><em>時間充裕，退稅與免稅店慢慢逛</em></div></div><div class="tl-row"><div class="tl-t">19:20</div><div class="tl-c"><b>長榮 BR 101 起飛</b></div></div><div class="tl-row"><div class="tl-t">20:45</div><div class="tl-c"><b>抵達桃園機場</b></div></div></div><p class="tl-note">＊回程是晚班機，最後一天照樣打得完十八洞 —— 收桿到起飛之間留有近三小時，不必趕。</p></div>
         </div>
       </div>
     </div>
