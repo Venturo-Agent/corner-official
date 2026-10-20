@@ -1,18 +1,13 @@
 # CORNER 角落旅行社 — 對外行銷官網
 
-純靜態網站（HTML / CSS / JS，無框架）。這是真實客戶 **角落旅行社 CORNER TRAVEL** 的對外行銷官網，與「一棧 ERP（yizhan-erp）」專案**完全分開、互不相干**。
+純靜態網站（HTML / CSS / JS，無框架）。這是真實客戶 **角落旅行社 CORNER TRAVEL** 的對外行銷官網，與 ERP 分開維護；若任務涉及客服接頭或 ERP 資料，另核對該接頭及 ERP 規則，不把本網站當 ERP 首頁。
 
 ## 部署（唯一方式）
 - 這個資料夾本身就是 git repo，連到 **github.com/Venturo-Agent/corner-official**（PUBLIC、main 分支）。
-- 改完即部署：`git add <你改的檔案> && git commit -m "..." && git push origin main` → **Coolify 自動建置**（約 2–3 分鐘）。
+- 已授權發布時，本案 main 分支推送會觸發 **Coolify 自動建置**。只納入本次明確檔案；文件整理、驗收或舊待辦不自動授權推送。
 - 線上網址：**https://www.cornertravel.com.tw/**（子頁例：`/tour-fukuoka`，網址不帶 `.html`）
 - 驗收：`curl -sL -o /dev/null -w "%{http_code}\n" https://www.cornertravel.com.tw/tour-fukuoka`，**再抓一次內文確認是新版**——換版當下會有短暫期間網頁已 200、大圖仍 404，等 20 秒再驗一次。
 - ⚠️ **絕不要**把這個站推進 yizhan-erp repo（那個 repo 一 push 就會觸發 ERP 正式環境部署，客戶在用）。
-
-> ⚠️ **2026-09-14 更正**：上面原本寫「GitHub Pages 自動建置，線上網址 venturo-agent.github.io/corner-official」。
-> **那是舊的。** 實際線上站是 www.cornertravel.com.tw，走 Coolify（見 `guild/INFRA.md` 第 21 行），
-> 當天實測 push 後該網域確實換版。照舊敘述去驗 GitHub Pages 的網址，會以為自己沒部署成功。
-> 而且生態鐵律第 1 條已明令禁止新開 GitHub Pages，這份文件卻還把它寫成「唯一方式」。
 
 > ⚠️ **`git add -A` 在這個 repo 會出事**：repo 曾被整包 chmod（644→755），
 > `git status` 會把上千個檔案列為已修改。已於 2026-09-14 設 `core.fileMode false`（本機設定，不進 git），
@@ -52,18 +47,9 @@ with sync_playwright() as p:
 本地起站：`python3 -m http.server 8801`（在本資料夾內）。**截圖出來一定要用 Read 工具親眼看**——
 回 0、沒紅字、沒例外，三件加起來都不等於版面是對的。
 
-> ⚠️ **2026-09-14 更正**：原本寫「Playwright 裝在 ERP 專案，
-> `require('/Users/williamchien/Projects/未命名檔案夾/yizhan-erp/node_modules/playwright')`」。
-> 那是舊 Mac 主力機的路徑，**這台 Linux 上不存在**（2026-08-08 已單機收斂）。照著做會直接找不到模組。
-
 ## 待辦
 - 全站深淺統一（首頁深色、內頁仍淺色）。
 - 其餘各國專屬產品頁（目前只有越南）。
 - 全站手機版走查。
 
 
-## 模型編排（全局規矩，本專案適用）
-
-> 本專案遵循 `~/Projects/CLAUDE.md` 的「模型編排」章節（SSOT，規則以那份為準）。
-> 口訣：**會後悔的題找 Fable，日常的題找 Opus，動手的活丟 MiniMax。**
-> 開工先判斷這題的錯誤成本：拆錯全盤重來的決策 → 編排者用 Fable 5（effort 拉高）；日常改版面/研究功能/修 bug → Opus 編排；機械執行照工單丟 MiniMax（走 venturo-dispatch）；高風險決策用 Opus 平行出第二意見。

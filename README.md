@@ -1,29 +1,16 @@
-# 角落旅行社 CORNER TRAVEL — 官網
+# 角落旅行社官網
 
-角落旅行社的對外行銷官網（純靜態，HTML/CSS/JS）。
+純靜態網站。規則正本為 [CLAUDE.md](CLAUDE.md)，責任分界沿 [AI調度表](../../vans/AI調度表.md)。
 
-🌐 **線上：** https://venturo-agent.github.io/corner-official/
+## 工作位置
 
-## 開發 / 部署
-這個資料夾就是 GitHub repo，改完直接推就上線：
+- 首頁 `index.html`，子頁 `moments.html`、`destination-vietnam.html`、`tour-fuji.html`。
+- 共用樣式／互動：`corner.css`、`corner.js`、`corner-gsap.js`；照片在 `assets/photos/`。
+- 本機可直接預覽，或在本目錄啟動本機靜態站；改頁面後核對圖片、互動與手機畫面。
+- 進度回 [角落官網狀態卡](../../_cockpit/status/corner-official.md)。
 
-```bash
-git add -A
-git commit -m "你的說明"
-git push origin main      # → GitHub Pages 自動部署
-```
+## 發布與驗收
 
-本機預覽：用瀏覽器直接開 `index.html` 即可（或 `python3 -m http.server` 起本地伺服器）。
+既有正式站為 https://www.cornertravel.com.tw/，由本案倉庫透過 Coolify 建置。發布依本次授權與專案規則，僅整理文件不觸發發布；只處理本次改動，不整包納入別人的檔案。
 
-## 結構
-| 檔案 | 說明 |
-|---|---|
-| `index.html` | 首頁 |
-| `moments.html` | 目的地影片格牆 |
-| `destination-vietnam.html` | 越南產品頁 |
-| `tour-fuji.html` | 富士山登頂 5D4N 行程頁 |
-| `corner.css` / `corner.js` / `corner-gsap.js` | 共用樣式 / 互動 / GSAP 動態 |
-| `assets/photos/` | 照片 |
-| `_archive/` | 探索用 demo（不上線） |
-
-詳見 `CLAUDE.md`。
+驗收須確認目標頁內容是新版、素材成功載入與手機畫面正常，不能只看回應成功或推送完成。規則與本機來源核對不等於已重驗正式站。
