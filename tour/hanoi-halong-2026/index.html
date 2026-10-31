@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>河內・下龍灣五日 — 角落旅行社</title>
+  <meta name="description" content="長榮直飛河內，法屬古城巴亭廣場、胡志明陵寢、還劍湖、聖若瑟主教座堂，下龍灣皇后雙層纜車＋摩天輪，登船先鋒號住進海上 Villa，驚訝洞、盧昂洞穴，五天四夜河內下龍灣之旅。角落旅行社客製行程。" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            corner: '#FFA500',
+            cornerDark: '#E68A00',
+            ink: '#262626',
+            inkSoft: '#565656',
+            cream: '#FAF7F2',
+          },
+          fontFamily: {
+            display: ['"Josefin Sans"', '"Noto Sans TC"', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            card: '0 8px 28px -10px rgba(38,38,38,0.18)',
+            cardHover: '0 18px 40px -12px rgba(38,38,38,0.28)',
+            search: '0 18px 50px -16px rgba(38,38,38,0.30)',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html, body { font-family: 'Josefin Sans', 'Noto Sans TC', system-ui, sans-serif; color:#262626; }
+    body { background:#FFFFFF; }
+
+    .tracking-explore { letter-spacing:0.30em; }
+    .tracking-wider2  { letter-spacing:0.14em; }
+    .num { font-family:'IBM Plex Mono', ui-monospace, monospace; font-variant-numeric:tabular-nums; }
+
+    .hero-headline { font-weight:700; font-size:clamp(36px,7.4vw,100px); line-height:0.98; letter-spacing:0.01em; }
+    .hero-pre { font-weight:300; font-size:clamp(18px,1.4vw,22px); letter-spacing:0.30em; }
+
+    .tour-card { transition:transform .35s ease, box-shadow .35s ease; }
+    .tour-card:hover { transform:translateY(-6px); box-shadow:0 18px 40px -12px rgba(38,38,38,0.28); }
+
+    .nav-link { position:relative; }
+    .nav-link::after{ content:""; position:absolute; left:50%; bottom:-6px; height:2px; width:0; background:#FFA500; transition:width .25s ease, left .25s ease; }
+    .nav-link:hover::after{ left:0; width:100%; }
+
+    .btn-corner { background:#FFA500; color:#fff; border-radius:6px; padding:14px 30px; font-weight:600; letter-spacing:0.08em; transition:background .2s ease, transform .2s ease; display:inline-flex; align-items:center; gap:10px; }
+    .btn-corner:hover { background:#E68A00; transform:translateY(-1px); }
+
+    .field-label { font-size:11px; letter-spacing:0.22em; color:#565656; text-transform:uppercase; }
+    .accent-bar { display:inline-block; width:48px; height:2px; background:#FFA500; }
+
+    .hero-veil { background:linear-gradient(180deg, rgba(38,38,38,0.32) 0%, rgba(38,38,38,0.18) 32%, rgba(38,38,38,0.66) 100%); }
+    .ico { stroke:#FFA500; stroke-width:1.6; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+
+    .tag { display:inline-flex; align-items:center; gap:6px; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; padding:5px 10px; border-radius:999px; background:#FFF4E0; color:#B26A00; font-weight:500; }
+    .tag-hot { background:#FFA500; color:#fff; }
+
+    .num-bubble { width:46px; height:46px; border:1.5px solid #FFA500; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; color:#FFA500; font-weight:600; letter-spacing:0.05em; }
+
+    /* 逐日：圓圈編號 + 連接線 + 時刻列 */
+    .day-rail { position:relative; }
+    .day-rail::before { content:""; position:absolute; left:22px; top:52px; bottom:-28px; width:1.5px; background:#F0E6D6; }
+    .day-block:last-child .day-rail::before { display:none; }
+    .step { display:flex; gap:14px; align-items:flex-start; }
+    .step + .step { margin-top:14px; }
+    .step .t { min-width:50px; text-align:right; color:#E68A00; font-weight:600; font-size:13px; padding-top:2px; }
+    .step .si { width:22px; flex:none; padding-top:1px; }
+    .step .si svg { width:18px; height:18px; }
+
+    .leaflet-container { background:#FAF7F2; font-family:'Noto Sans TC',sans-serif; }
+    .rm-dot { width:9px; height:9px; border-radius:50%; background:#FFA500; display:inline-block; flex:none; }
+    .rm-dot.air { background:#262626; }
+    .city-marker { display:flex; flex-direction:column; align-items:center; transform:translateY(-50%); }
+    .city-marker .pin { width:14px; height:14px; border-radius:50%; background:#FFA500; border:3px solid #fff; box-shadow:0 2px 6px rgba(38,38,38,.4); }
+    .city-marker .pin.air { background:#262626; }
+    .city-marker .lbl { font-family:'Josefin Sans',sans-serif; font-weight:600; font-size:.86rem; margin-top:3px; white-space:nowrap; color:#262626;
+      text-shadow:0 0 4px #fff,0 0 4px #fff,0 0 6px #fff; }
+
+    img { cursor: zoom-in; }
+    .lb-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(20,20,20,.92); display: none; align-items: center; justify-content: center; padding: 24px; }
+    .lb-overlay.open { display: flex; }
+    .lb-overlay img { max-width: 94vw; max-height: 90vh; width: auto; height: auto; border-radius: 8px; box-shadow: 0 24px 60px -20px rgba(0,0,0,.6); cursor: zoom-out; }
+    .lb-close { position: absolute; top: 20px; right: 28px; background: none; border: none; color: #fff; font-size: 2.4rem; line-height: 1; cursor: pointer; }
+    .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.12); border: none; color: #fff; font-size: 2rem; width: 52px; height: 52px; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s ease; }
+    .lb-nav:hover { background: rgba(255,255,255,.26); }
+    .lb-prev { left: 20px; } .lb-next { right: 20px; }
+    .lb-count { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: #fff; font-family: 'IBM Plex Mono', monospace; font-size: .8rem; letter-spacing: .1em; background: rgba(0,0,0,.5); padding: 4px 14px; border-radius: 999px; }
+    @media (max-width: 600px) { .lb-nav { width: 42px; height: 42px; font-size: 1.6rem; } }
+  </style>
+</head>
+<body class="font-display antialiased">
+
+  <!-- ====================== NAVBAR ====================== -->
+  <header class="absolute top-0 left-0 right-0 z-30">
+    <div class="max-w-[1440px] mx-auto h-20 px-6 md:px-10 flex items-center justify-between">
+      <a href="#" class="text-white text-[18px] font-semibold tracking-wider2">角落旅行社</a>
+      <nav class="hidden md:flex items-center gap-10 text-[14px] text-white/90 tracking-wider2">
+        <a href="#itinerary" class="nav-link">逐日行程 <span class="opacity-60 ml-1">Days</span></a>
+        <a href="#cruise" class="nav-link">海上船宿 <span class="opacity-60 ml-1">Cruise</span></a>
+        <a href="#stay" class="nav-link">住宿 <span class="opacity-60 ml-1">Stay</span></a>
+        <a href="#contact" class="nav-link">諮詢 <span class="opacity-60 ml-1">Contact</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ====================== HERO ====================== -->
+  <section class="relative w-full" style="min-height:max(70vh,520px);">
+    <img src="/tour/hanoi-halong-2026/img/halongbay.jpg" alt="下龍灣喀斯特島群海景" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 hero-veil"></div>
+
+    <div class="relative z-10 max-w-[1440px] mx-auto min-h-[max(70vh,520px)] px-6 md:px-10 pt-24 pb-14 xl:pb-24 flex flex-col justify-center text-white">
+      <div class="max-w-[820px]">
+        <div class="flex items-center gap-4 mb-6">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-white/90">角落旅行社 — 河內進出・法屬古城＋海上船宿</span>
+        </div>
+        <p class="hero-pre uppercase text-white/95 mb-2">Hanoi · Ha Long Bay</p>
+        <h1 class="hero-headline">河內下龍灣五日</h1>
+        <p class="mt-7 text-white/90 text-[18px] leading-[1.8] max-w-[660px] font-light">
+          法屬時代的老城街區，下龍灣皇后雙層纜車俯瞰喀斯特全景，<br/>
+          一晚登船先鋒號住進海上 Villa，五天四夜古城與海灣。
+        </p>
+        <div class="mt-10 flex items-center gap-6 flex-wrap">
+          <a href="#itinerary" class="btn-corner text-[14px]">
+            看完整行程
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-10 items-center gap-8 md:gap-10 text-white/90 hidden xl:flex">
+        <div><div class="text-[28px] font-semibold leading-none num">5<span class="text-corner">天</span></div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">4 晚</div></div>
+        <div class="h-10 w-px bg-white/30"></div>
+        <div><div class="text-[28px] font-semibold leading-none num">1</div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">晚海上船宿</div></div>
+        <div class="h-10 w-px bg-white/30"></div>
+        <div><div class="text-[28px] font-semibold leading-none num">2</div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">座鐘乳石洞</div></div>
+        <div class="h-10 w-px bg-white/30"></div>
+        <div><div class="text-[28px] font-semibold leading-none num">1</div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">趟跨海纜車</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 行程速覽（浮卡）====================== -->
+  <section class="relative z-20 -mt-12">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="bg-white rounded-xl shadow-search px-6 md:px-8 py-6 grid grid-cols-2 md:grid-cols-12 gap-6 items-center">
+        <div class="col-span-2 md:col-span-5 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">路線 · Route</div>
+          <div class="flex items-center gap-2 mt-2 text-[15px] text-ink flex-wrap">
+            <span>河內</span>
+            <svg class="w-4 h-4 ico" viewBox="0 0 24 24"><path d="M3.4 13.5l8-2 5-7 1.6.6L15.5 11l4-1 1 1.5-4 2.6 1 5-1.3.6-3-4.4-3.8 1.1-1 3.2-1.3-.3v-3.3l-3-1z"/></svg>
+            <span class="font-semibold text-cornerDark">下龍灣</span>
+            <span class="text-inkSoft text-[13px] ml-1">古城＋海灣</span>
+          </div>
+        </div>
+        <div class="md:col-span-2 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">天數 · Days</div>
+          <div class="mt-2 text-[15px] text-ink num">5 天 4 晚</div>
+        </div>
+        <div class="md:col-span-3 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">航班 · Flight</div>
+          <div class="mt-2 text-[13px] text-ink num leading-relaxed">
+            <div><span class="text-inkSoft">去程</span> BR397 09:00/11:05</div>
+            <div><span class="text-inkSoft">回程</span> BR398 12:05/15:55</div>
+          </div>
+        </div>
+        <div class="col-span-2 md:col-span-2">
+          <a href="#contact" class="w-full btn-corner justify-center !py-3.5 text-[14px]">諮詢報價</a>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-3 mt-6 text-[13px] text-inkSoft">
+        <span class="tracking-wider2">本趟重點</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">巴亭廣場・胡志明陵寢</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">還劍湖・36 古街</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">皇后雙層纜車・摩天輪</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">先鋒號海上船宿</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">驚訝洞・盧昂洞穴</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 路線圖 ====================== -->
+  <section id="route-map" class="pt-24 pb-4">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Route Map</span>
+        </div>
+        <h2 class="text-[30px] md:text-[38px] font-semibold leading-tight">河內 → 下龍灣 → 驚訝洞・盧昂洞</h2>
+        <p class="text-inkSoft mt-3 max-w-[560px] font-light text-[15px] leading-relaxed">真實地理位置的移動路線，橘點是行程停留景點，深色點是機場。</p>
+      </div>
+      <div id="route-map-canvas" class="w-full rounded-2xl border border-black/5 shadow-card" style="height:480px;"></div>
+      <ul id="rm-legend" class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[13px] text-inkSoft"></ul>
+    </div>
+  </section>
+
+  <!-- ====================== 逐日行程 ====================== -->
+  <section id="itinerary" class="pt-24 pb-20">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-14">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Day by Day</span>
+        </div>
+        <h2 class="text-[36px] md:text-[48px] font-semibold leading-tight max-w-[680px]">五天四晚，<br/>古城老街走到海上船宿</h2>
+        <p class="text-inkSoft mt-4 max-w-[560px] font-light text-[15px] leading-relaxed">
+          法屬古城、纜車海景、船宿探洞分開排開，每天一個主題，不塞行程。
+        </p>
+      </div>
+
+      <div id="days" class="flex flex-col gap-10"></div>
+    </div>
+  </section>
+
+  <!-- ====================== 先鋒號海上船宿 FEATURE ====================== -->
+  <section id="cruise" class="bg-cream py-24">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
+      <div class="lg:col-span-6">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Signature Day</span>
+        </div>
+        <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">D3<br/>先鋒號海上船宿</h2>
+        <p class="text-inkSoft mt-5 leading-relaxed font-light text-[15px] max-w-[520px]">
+          登船「先鋒號 Grand Pioneers」，客艙如海上 Villa 般寬敞；前往驚訝洞探訪下龍灣規模最大的鐘乳石洞，入夜後甲板夜釣魷魚，海上星空與船燈是最放鬆的一晚。
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-9">
+          <div class="flex gap-4">
+            <span class="shrink-0 w-12 h-12 rounded-xl bg-white shadow-card flex items-center justify-center">
+              <svg class="w-6 h-6 ico" viewBox="0 0 24 24"><path d="M12 3l2.4 5 5.6.8-4 4 1 5.6L12 21l-5-2.6 1-5.6-4-4 5.6-.8z"/></svg>
+            </span>
+            <div>
+              <div class="text-[15px] font-semibold">驚訝洞</div>
+              <div class="text-[13px] text-inkSoft font-light leading-relaxed mt-1">下龍灣最壯觀的鐘乳石洞，1901 年法國人發現。</div>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <span class="shrink-0 w-12 h-12 rounded-xl bg-white shadow-card flex items-center justify-center">
+              <svg class="w-6 h-6 ico" viewBox="0 0 24 24"><path d="M12 21c4-2.5 7-6 7-10a3.5 3.5 0 0 0-7-1 3.5 3.5 0 0 0-7 1c0 4 3 7.5 7 10z"/></svg>
+            </span>
+            <div>
+              <div class="text-[15px] font-semibold">甲板夜釣魷魚</div>
+              <div class="text-[13px] text-inkSoft font-light leading-relaxed mt-1">體驗下龍灣漁家夜間活動，船上另安排烹飪課程。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-6">
+        <img src="/tour/hanoi-halong-2026/img/grandpioneers.jpg" alt="先鋒號 Grand Pioneers 遊船外觀" class="w-full h-[420px] object-cover rounded-2xl shadow-card" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 住宿 ====================== -->
+  <section id="stay" class="py-24">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="flex items-end justify-between mb-12 flex-wrap gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="accent-bar"></span>
+            <span class="text-[12px] tracking-explore uppercase text-corner">Where You Stay</span>
+          </div>
+          <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">河內兩晚＋下龍灣兩晚，<br/>中段登船船宿</h2>
+        </div>
+        <p class="text-inkSoft max-w-[420px] font-light text-[15px] leading-relaxed">
+          河內前後各住一晚不同飯店，登船前一晚落腳下龍灣市區，隔天直接住進海上船宿。實際入住以出發前確認為準。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/hanoi-halong-2026/img/dusit.jpg" alt="都喜皇宮飯店 西湖景觀客房" class="w-full h-[190px] object-cover" />
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3 text-[13px] text-inkSoft">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="#FFA500" fill="none" stroke-width="1.8"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              D1・河內西湖
+            </div>
+            <h3 class="text-[20px] font-semibold leading-snug">都喜皇宮飯店<span class="block text-[13px] tracking-wider2 text-inkSoft font-light mt-1">Dusit Le Palais Tu Hoa Hanoi</span></h3>
+            <div class="flex items-center gap-2 my-3 text-[13px] text-inkSoft"><span class="tag">西湖畔</span></div>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">Dusit 集團 2025 年新開幕的河內首店，坐落西湖畔，以越南阮朝公主「柃花」的絲織文化為設計靈感，207 間客房多數擁湖景或市景，並設有市區少見的溫泉桑拿設施，距機場車程約 20 分。</p>
+          </div>
+        </article>
+
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/hanoi-halong-2026/img/yacht.jpg" alt="雅特航海飯店大廳" class="w-full h-[190px] object-cover" />
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3 text-[13px] text-inkSoft">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="#FFA500" fill="none" stroke-width="1.8"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              D2・下龍灣
+            </div>
+            <h3 class="text-[20px] font-semibold leading-snug">雅特航海飯店<span class="block text-[13px] tracking-wider2 text-inkSoft font-light mt-1">The Yacht Hotel by DC</span></h3>
+            <div class="flex items-center gap-2 my-3 text-[13px] text-inkSoft"><span class="tag">拜柴區</span></div>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">下龍灣新開幕的現代風格飯店，步行即達下龍灣海岸與 Sun Square 商圈，鄰近皇后纜車站，是搭船前一晚落腳的方便選擇，附 24 小時健身房。</p>
+          </div>
+        </article>
+
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/hanoi-halong-2026/img/grandpioneers.jpg" alt="先鋒號 Grand Pioneers 遊船外觀" class="w-full h-[190px] object-cover" />
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3 text-[13px] text-inkSoft">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="#FFA500" fill="none" stroke-width="1.8"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              D3・海上船宿一晚
+            </div>
+            <h3 class="text-[20px] font-semibold leading-snug">先鋒號<span class="block text-[13px] tracking-wider2 text-inkSoft font-light mt-1">Grand Pioneers Cruise</span></h3>
+            <div class="flex items-center gap-2 my-3 text-[13px] text-inkSoft"><span class="tag">博多島海域</span></div>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">下龍灣頂級遊船之一，2023 年底投入營運，客艙如海上 Villa 般寬敞舒適；船上安排驚訝洞探訪、越式烹飪課程與甲板夜釣魷魚，是全程最特別的一晚。</p>
+          </div>
+        </article>
+
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/hanoi-halong-2026/img/capella.jpg" alt="嘉佩樂飯店建築外觀" class="w-full h-[190px] object-cover" />
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3 text-[13px] text-inkSoft">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="#FFA500" fill="none" stroke-width="1.8"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              D4・河內舊城
+            </div>
+            <h3 class="text-[20px] font-semibold leading-snug">嘉佩樂飯店<span class="block text-[13px] tracking-wider2 text-inkSoft font-light mt-1">Capella Hanoi</span></h3>
+            <div class="flex items-center gap-2 my-3 text-[13px] text-inkSoft"><span class="tag">還劍湖畔・法國區</span></div>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">河內第一家超奢華精品飯店，鄰近還劍湖與河內歌劇院，步行 6 分即達湖畔；建築靈感取自法屬時代的歌劇院美學，是全程壓軸的下榻選擇。</p>
+          </div>
+        </article>
+      </div>
+      <p class="mt-6 text-[12px] text-inkSoft/80 leading-relaxed max-w-[600px] font-light">
+        ＊D3 登船船宿為雙人一室海景陽台艙房，如需特殊房型請提前告知業務。＊河內前後兩晚為不同飯店，行李需重新打包。
+      </p>
+    </div>
+  </section>
+
+  <!-- ====================== 注意事項 ====================== -->
+  <section class="bg-cream py-20">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="flex items-center gap-3 mb-8">
+        <span class="accent-bar"></span>
+        <span class="text-[12px] tracking-explore uppercase text-corner">Notice</span>
+      </div>
+      <ul class="space-y-3 text-[14px] text-inkSoft font-light leading-relaxed max-w-[820px]">
+        <li>・ 胡志明陵寢僅能外觀參觀，入內須遵守服裝規定（不可露肩露膝）且有開放時間限制，實際能否入內以當日現場公告為準。</li>
+        <li>・ 纜車、摩天輪與船上甲板活動皆為戶外設施，遇強風、雷雨或大浪，營運方將暫停或調整，行程保有彈性因應。</li>
+        <li>・ 台灣護照赴越南觀光需事先申請簽證或電子簽證（e-Visa），請於出發前依規定辦妥，以免影響登機與入境。</li>
+        <li>・ 登船先鋒號當晚建議只帶輕便隔夜包，行李可托運寄放，減少上下船的搬運負擔。</li>
+        <li>・ 船上退房時間約上午 9:30，返程河內車程約 3.5–4 小時，中途將安排休息站。</li>
+        <li>・ 釣魷魚為體驗性質的夜間活動，實際收穫依當晚海況與魷魚活動而定，不保證釣獲數量。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====================== CTA 帶 ====================== -->
+  <section id="contact" class="py-20">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+      <div>
+        <h2 class="text-[28px] md:text-[34px] font-semibold leading-tight">這份行程喜歡的話，<br/>我們幫你把細節談定</h2>
+        <p class="text-inkSoft mt-3 font-light text-[15px]">時刻、房型與船艙配置都可依出發日微調。</p>
+      </div>
+      <a href="#" class="btn-corner text-[15px] !px-9 !py-4">諮詢報價
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ====================== FOOTER ====================== -->
+  <footer class="bg-ink text-white pt-20 pb-10">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-14 border-b border-white/10">
+        <div class="md:col-span-5">
+          <div class="text-[20px] font-semibold tracking-wider2 mb-6">角落旅行社</div>
+          <p class="text-white/70 text-[14px] leading-relaxed font-light max-w-[420px]">河內下龍灣五日，法屬古城與海上船宿。</p>
+        </div>
+        <div class="md:col-span-3">
+          <h4 class="text-[12px] tracking-explore uppercase text-corner mb-5">This Trip</h4>
+          <ul class="space-y-3 text-[14px] text-white/80">
+            <li><a href="#itinerary" class="hover:text-corner transition">逐日行程</a></li>
+            <li><a href="#cruise" class="hover:text-corner transition">海上船宿</a></li>
+            <li><a href="#stay" class="hover:text-corner transition">住宿安排</a></li>
+            <li><a href="#contact" class="hover:text-corner transition">諮詢報價</a></li>
+          </ul>
+        </div>
+        <div class="md:col-span-4">
+          <h4 class="text-[12px] tracking-explore uppercase text-corner mb-5">Contact</h4>
+          <ul class="space-y-4 text-[14px] text-white/80 font-light">
+            <li class="flex gap-3"><svg class="w-4 h-4 mt-1 text-corner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 5h18v14H3z"/><path d="M3 5l9 9 9-9"/></svg>agency@venturo.tw</li>
+            <li class="flex gap-3"><svg class="w-4 h-4 mt-1 text-corner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>客製行程提案 · 河內下龍灣五日版</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 flex flex-wrap items-center justify-between gap-4 text-[12px] text-white/50 tracking-wider2">
+        <div>© 2026 VENTURO × 角落旅行社. 時刻與房型以出發前確認為準。</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====================== 行程資料 + renderer ====================== -->
+  <script>
+    const ICO = {
+      plane:'<path d="M3.4 13.5l8-2 5-7 1.6.6L15.5 11l4-1 1 1.5-4 2.6 1 5-1.3.6-3-4.4-3.8 1.1-1 3.2-1.3-.3v-3.3l-3-1z"/>',
+      meal:'<path d="M6 3v8a2 2 0 0 0 2 2v8M6 3v5M9 3v5M18 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/>',
+      sight:'<path d="M12 21s7-7.5 7-13a7 7 0 1 0-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="8.5" r="2.6"/>',
+      spa:'<path d="M12 21c4-2.5 7-6 7-10a3.5 3.5 0 0 0-7-1 3.5 3.5 0 0 0-7 1c0 4 3 7.5 7 10z"/>',
+      boat:'<path d="M3 15h18l-2 5H5l-2-5z"/><path d="M5 15V7l7-4 7 4v8"/>',
+      cave:'<path d="M4 20c0-7 3.5-13 8-13s8 6 8 13"/><path d="M8 20c0-4 1.8-8 4-8s4 4 4 8"/>',
+      free:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>'
+    };
+    const DAYS = [
+      { n:1, title:"抵達河內・法屬古城", en:"Arrive & French Quarter", theme:["入境","法屬古城"], img:"/tour/hanoi-halong-2026/img/mausoleum.jpg", cap:"胡志明陵寢",
+        gallery:[
+          {img:"/tour/hanoi-halong-2026/img/huc.jpg", cap:"還劍湖・棋橋"},
+          {img:"/tour/hanoi-halong-2026/img/cathedral.jpg", cap:"聖若瑟主教座堂"}
+        ],
+        steps:[
+          {t:"09:00", k:"plane", name:"桃園機場搭乘 BR397", d:"11:05 抵達河內，入境接機"},
+          {t:"上午", k:"sight", name:"巴亭廣場・胡志明陵寢（外觀）", d:"越南獨立宣言宣讀地，僅外觀參觀"},
+          {t:"午後", k:"sight", name:"總督府（外觀）・一柱廟", d:"法式黃樓與造型獨特的一柱廟"},
+          {t:"傍晚", k:"sight", name:"36 古街・還劍湖・聖若瑟主教座堂", d:"千年商業老街，湖心龜塔與紅色棋橋"},
+        ]},
+      { n:2, title:"河內 → 下龍灣", en:"Hanoi to Ha Long Bay", theme:["市區採買","纜車海景"], img:"/tour/hanoi-halong-2026/img/cablecar.jpg", cap:"搭乘皇后雙層纜車俯瞰下龍灣",
+        gallery:[
+          {img:"/tour/hanoi-halong-2026/img/lotte.jpg", cap:"樂天百貨"}
+        ],
+        steps:[
+          {t:"上午", k:"sight", name:"樂天百貨", d:"河內地標高樓百貨，出發下龍灣前最後市區採買"},
+          {t:"午後", k:"sight", name:"皇后雙層纜車＋摩天輪", d:"全球最長跨海纜車之一，山頂摩天輪俯瞰喀斯特全景"},
+        ]},
+      { n:3, title:"先鋒號海上船宿", en:"Grand Pioneers Cruise", theme:["海上船宿","驚訝洞"], feat:true, img:"/tour/hanoi-halong-2026/img/sungsot.jpg", cap:"驚訝洞鐘乳石景觀",
+        steps:[
+          {t:"上午", k:"boat", name:"登船「先鋒號 Grand Pioneers」", d:"客艙如海上 Villa 般寬敞"},
+          {t:"午後", k:"cave", name:"驚訝洞", d:"博多島鐘乳石洞，下龍灣規模最大、1901 年法國人發現"},
+          {t:"夜間", k:"spa", name:"船上烹飪課程・甲板釣魷魚", d:"動手做春捲，夜釣體驗漁家活動"},
+        ]},
+      { n:4, title:"盧昂洞穴 → 返回河內", en:"Luon Cave & Back to Hanoi", theme:["竹筏探洞","法越美食"], img:"/tour/hanoi-halong-2026/img/banhmi.jpg", cap:"越式法國麵包 Bánh Mì",
+        steps:[
+          {t:"上午", k:"cave", name:"盧昂洞穴", d:"竹筏低身穿過洞口，洞內海水湛藍平靜"},
+          {t:"09:30", k:"boat", name:"船上退房", d:"返程河內車程約 3.5–4 小時"},
+          {t:"傍晚", k:"meal", name:"法國麵包・CONG 咖啡", d:"越式法國麵包配招牌椰子咖啡"},
+        ]},
+      { n:5, title:"賦歸", en:"Homeward", theme:["搭機返台"],
+        steps:[
+          {t:"上午", k:"free", name:"河內市區", d:"從容用早餐，機場車程預留約 30–40 分鐘"},
+          {t:"12:05", k:"plane", name:"河內搭乘 BR398", d:"15:55 抵達桃園機場，行程圓滿"}
+        ]}
+    ];
+
+    const ic = (k) => '<svg class="ico" viewBox="0 0 24 24">'+(ICO[k]||ICO.sight)+'</svg>';
+    document.getElementById('days').innerHTML = DAYS.map(day => {
+      const steps = day.steps.map(s =>
+        '<div class="step">'+
+          '<div class="t num">'+s.t+'</div>'+
+          '<div class="si">'+ic(s.k)+'</div>'+
+          '<div class="flex-1">'+
+            '<div class="text-[15px] font-semibold text-ink">'+s.name+
+              (s.hot?' <span class="tag tag-hot align-middle ml-1">'+s.hot+'</span>':'')+'</div>'+
+            (s.d?'<div class="text-[13.5px] text-inkSoft font-light leading-relaxed mt-0.5">'+s.d+'</div>':'')+
+          '</div>'+
+        '</div>'
+      ).join('');
+      const tags = day.theme.map(t=>'<span class="tag">'+t+'</span>').join('');
+      const media = day.img
+        ? '<div class="relative order-1 lg:order-2 h-52 lg:h-auto lg:min-h-full overflow-hidden">'+
+            '<img src="'+day.img+'" alt="'+(day.cap||day.title)+'" loading="lazy" class="w-full h-full object-cover" />'+
+            (day.cap?'<span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">'+day.cap+'</span>':'')+
+          '</div>'
+        : '';
+      const bodyCols = day.img ? 'lg:grid-cols-[1fr_320px]' : '';
+      return (
+        '<div class="day-block">'+
+          '<div class="day-rail grid grid-cols-1 md:grid-cols-[auto_1fr] gap-5 md:gap-8">'+
+            '<div class="num-bubble'+(day.feat?' !bg-corner !text-white':'')+' num">'+String(day.n).padStart(2,'0')+'</div>'+
+            '<div class="bg-white rounded-2xl shadow-card border border-black/5 overflow-hidden grid grid-cols-1 '+bodyCols+'">'+
+              '<div class="p-6 md:p-8 order-2 lg:order-1">'+
+                '<div class="flex items-baseline gap-3 flex-wrap">'+
+                  '<h3 class="text-[24px] md:text-[26px] font-semibold leading-tight">'+day.title+'</h3>'+
+                  '<span class="text-[13px] tracking-wider2 text-inkSoft font-light">'+day.en+'</span>'+
+                '</div>'+
+                '<div class="flex flex-wrap gap-2 mt-3 mb-6">'+tags+'</div>'+
+                steps+
+                (day.gallery ? '<div class="flex gap-3 mt-6 flex-wrap">'+day.gallery.map(g=>
+                  '<div class="relative w-[110px] h-[78px] rounded-lg overflow-hidden shrink-0">'+
+                    '<img src="'+g.img+'" alt="'+g.cap+'" loading="lazy" class="w-full h-full object-cover" />'+
+                    '<span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-white/90 text-[9px] tracking-wide text-ink font-medium">'+g.cap+'</span>'+
+                  '</div>'
+                ).join('')+'</div>' : '')+
+              '</div>'+
+              media+
+            '</div>'+
+          '</div>'+
+        '</div>'
+      );
+    }).join('');
+  </script>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+  (function(){
+    const ROUTE = [
+      { city: "河內機場",   en: "Noi Bai Airport", coords: [21.2212, 105.8072], note: "去程 11:05 抵達／回程 12:05 出發", air:true },
+      { city: "河內舊城",   en: "Hanoi Old Quarter", coords: [21.0333, 105.8500], note: "巴亭廣場、還劍湖、36 古街" },
+      { city: "下龍灣",     en: "Ha Long Bay",      coords: [20.9101, 107.1839], note: "皇后雙層纜車＋摩天輪" },
+      { city: "驚訝洞・盧昂洞", en: "Sung Sot & Luon Cave", coords: [20.8935, 107.0715], note: "博多島鐘乳石洞＋竹筏洞穴" },
+    ];
+    const map = L.map('route-map-canvas',{zoomControl:false,attributionControl:false,scrollWheelZoom:false})
+      .setView([21.0,106.3],8);
+    L.control.zoom({position:'bottomright'}).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:18,subdomains:'abcd'}).addTo(map);
+
+    const pts = ROUTE.map(r=>r.coords);
+    L.polyline(pts,{color:'#FFA500',weight:3,opacity:.85,dashArray:'1 9',lineCap:'round'}).addTo(map);
+
+    const legend = document.getElementById('rm-legend');
+    ROUTE.forEach(r=>{
+      const html = `<div class="city-marker"><div class="pin ${r.air?'air':''}"></div><div class="lbl">${r.city}</div></div>`;
+      L.marker(r.coords,{icon:L.divIcon({className:'',html,iconSize:[0,0]})}).addTo(map);
+      legend.insertAdjacentHTML('beforeend',
+        `<li class="flex items-center gap-2"><span class="rm-dot ${r.air?'air':''}"></span><b class="text-ink font-medium">${r.city}</b><span>${r.note}</span></li>`);
+    });
+    map.fitBounds(L.latLngBounds(pts).pad(0.35));
+    map.once('moveend', ()=>map.setZoom(map.getZoom()+1));
+    setTimeout(()=>map.invalidateSize(), 200);
+    window.addEventListener('load', ()=>map.invalidateSize());
+  })();
+  </script>
+
+  <div class="lb-overlay" id="lb" aria-hidden="true">
+    <button class="lb-close" aria-label="關閉">&times;</button>
+    <button class="lb-nav lb-prev" aria-label="上一張">&#8249;</button>
+    <img alt="" />
+    <button class="lb-nav lb-next" aria-label="下一張">&#8250;</button>
+    <div class="lb-count"></div>
+  </div>
+  <script>
+  (function(){
+    const lb=document.getElementById('lb'), lbImg=lb.querySelector('img'), cnt=lb.querySelector('.lb-count');
+    let group=[], idx=0;
+    function show(i){
+      idx=(i+group.length)%group.length;
+      const im=group[idx];
+      lbImg.src=im.currentSrc||im.src; lbImg.alt=im.alt||'';
+      cnt.textContent=group.length>1?(idx+1)+' / '+group.length:'';
+    }
+    document.addEventListener('click', e=>{
+      const img = e.target.closest('img');
+      if(!img) return;
+      const scope = img.closest('.day-block, .tour-card, section') || img.parentElement;
+      group = Array.from(scope.querySelectorAll('img'));
+      if(!group.length) group=[img];
+      show(group.indexOf(img));
+      lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
+    });
+    function close(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbImg.src=''; }
+    function prev(e){ if(e) e.stopPropagation(); show(idx-1); }
+    function next(e){ if(e) e.stopPropagation(); show(idx+1); }
+    lb.addEventListener('click', close);
+    lbImg.addEventListener('click', e=>e.stopPropagation());
+    lb.querySelector('.lb-prev').addEventListener('click', prev);
+    lb.querySelector('.lb-next').addEventListener('click', next);
+    document.addEventListener('keydown', e=>{
+      if(!lb.classList.contains('open')) return;
+      if(e.key==='Escape') close();
+      else if(e.key==='ArrowLeft') prev();
+      else if(e.key==='ArrowRight') next();
+    });
+  })();
+  </script>
+</body>
+</html>

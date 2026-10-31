@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>墨爾本・雪梨雙案提案 · 多聯科技員工旅遊 · 角落旅行社</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<!-- 墨爾本／雪梨兩份 2026-08-14 定稿成品的合併版：封面→關於我們→墨爾本22頁→雪梨23頁→報價→封底。
+     2026-08-31 整合。CSS/JS 完全沿用兩份原始檔（通用、無城市寫死），只重排 sections。
+     純靜態自給自足，跟兩份母檔一樣直接編這個檔即可，不用重新產生。 -->
+<style>
+/* ============================================================
+   ⚠️ 這份簡報不要加 will-change、也不要在大圖上加 filter / mix-blend-mode。
+
+   2026-08-14 的教訓：改版時為了讓動畫順，加了 22 處 will-change 和
+   4 個濾鏡。動畫確實變順了，但每一個都會讓瀏覽器「永久」保留一塊
+   全尺寸畫布——iPhone 上一塊 1920x1080 就是 71MB，而一個分頁大約
+   200~300MB 就會被系統砍掉，症狀是「翻到某頁整個重載」。
+
+   實測（WebKit，iPhone 尺寸、3 倍像素）：
+     改版前 8/12    0 MB
+     改版後 8/14  1342 MB   ← 開始出現翻頁被砍
+     清乾淨後        見下
+
+   要動畫順，正確做法是「動畫開始前才加、結束就拿掉」，
+   不是寫死在樣式裡。改版前這份是 0 處，動畫一樣好看。
+   ============================================================ */
+
+/* ============================================================
+   VENTURO Deck · 「陽光海報」版式（poster）
+   用途：企業提案簡報（投影給幾百人看），不是拿來讀的手冊。
+   手冊版式在 tools/tour/assets/deck.css（白紙・墨黑・朱紅），兩者不要混用。
+
+   ── 調性開關（2026-08-12 加）────────────────────────────
+   William：「原本的風格比較文青簡雅，這次這個亮版我也喜歡。」
+   結論是不二選一：骨架同一套，差別只在飽和度／留白／字重三個變數。
+   <body data-tone="bright">  預設，提案搶眼用
+   <body data-tone="calm">    文青版，正式手冊／對外印刷用
+   要調就調 :root 那幾個變數，**不要去個別版型裡就地改色**。
+   ============================================================ */
+:root{
+  --ink:#0B1220; --ink-2:#33445C; --soft:#7A8798; --line:#DCE5F0;
+  --sky:#0A4FD1; --cyan:#00B4E6; --sun:#FFC400; --coral:#FF4A26;
+  --paper:#fff; --fog:#EDF2FA; --night:#05080F; --on-dark:#E6EEF8;
+  --sans:"Noto Sans TC","PingFang TC",sans-serif;
+  --post:"Anton","Arial Black",sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+
+  /* 三個調性變數：亮版 */
+  --sat:1;            /* 色彩飽和倍率 */
+  --wt-h:900;         /* 標題字重 */
+  --pad:76px;         /* 版心左右安全邊 */
+  --hero-tint:0;      /* 照片降飽和量 */
+}
+/* 文青版：降飽和、加留白、字重減一級。骨架完全不動。 */
+body[data-tone="calm"]{
+  --sky:#2A4A7A; --cyan:#5B8CA8; --sun:#D8A94A; --coral:#C25A3A;
+  --fog:#F4F1EA; --line:#E2DDD2;
+  --sat:.72; --wt-h:700; --pad:104px; --hero-tint:.22;
+}
+
+/* ── 安全區（2026-08-12 修）────────────────────────────
+   舊版問題：元素直接貼 1920×1080 邊界，被 overflow:hidden 削掉；
+   #nav/#hint 又是 position:fixed（不在 #stage 內、不隨縮放走），
+   在滿版時直接壓在 folio 與圖說上。
+   規則：內容一律不進 --pad 的邊，底部再留 --footzone 給 folio。 */
+:root{ --footzone:132px; }
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--night)}
+body{font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;
+  transform:translate(-50%,-50%);opacity:0;transition:opacity .18s linear}
+#stage.ready{opacity:1}
+.slide{position:absolute;inset:0;background:var(--paper);opacity:0;visibility:hidden;
+  transition:opacity .45s var(--ease);overflow:hidden}
+.slide.on{opacity:1;visibility:visible;z-index:2}
+img{display:block;width:100%;height:100%;object-fit:cover}
+/* 還沒載入／已卸載的圖不要露出 alt 文字或破圖圖示（見 build.mjs 的 lazyImages） */
+img:not([src]){visibility:hidden}
+/* 只有文青版才真的降飽和。原本無條件套在 .slide img 上，而預設 --hero-tint 是 0
+   ＝視覺上完全沒差，卻讓每一張圖都被瀏覽器留一塊全尺寸畫布。手機上這是白付的記憶體。 */
+body[data-tone="calm"] .slide img{filter:saturate(calc(1 - var(--hero-tint)))}
+
+/* 頁面家具 */
+.mast{position:absolute;top:52px;left:var(--pad);right:var(--pad);display:flex;
+  justify-content:space-between;align-items:center;font-size:20px;letter-spacing:.16em;
+  font-weight:700;z-index:9}
+.mast .r{font-family:var(--post);letter-spacing:.22em;font-size:19px;opacity:.75}
+.folio{position:absolute;bottom:52px;left:var(--pad);right:var(--pad);display:flex;
+  justify-content:space-between;font-family:var(--post);font-size:18px;letter-spacing:.2em;
+  z-index:9;opacity:.55}
+.chip{display:inline-flex;align-items:center;gap:10px;background:var(--sun);color:var(--ink);
+  font-weight:900;font-size:22px;letter-spacing:.06em;padding:12px 24px;border-radius:999px}
+.chip.line{background:transparent;border:2.5px solid currentColor}
+b.warn{color:var(--coral)}
+
+/* ───────── cover ───────── */
+.cover{background:linear-gradient(155deg,var(--sky) 0%,#0C74DD 48%,var(--cyan) 100%);color:#fff}
+body[data-tone="calm"] .cover{background:linear-gradient(155deg,#2A4A7A 0%,#3C6389 55%,#5B8CA8 100%)}
+.cover .mast,.cover .folio{color:#fff}
+.cover .grain{position:absolute;inset:0;opacity:.16;
+  background-image:radial-gradient(circle at 1px 1px,#fff 1px,transparent 0);background-size:5px 5px}
+/* 裝飾圓刻意出血，但收在右上角、不壓字 */
+.cover .disc{position:absolute;width:640px;height:640px;border-radius:50%;
+  background:var(--coral);right:-190px;top:-210px;opacity:.92}
+.cover .body{position:absolute;left:var(--pad);top:212px;width:1010px}
+.cover .kick{font-family:var(--post);font-size:26px;letter-spacing:.3em;margin-bottom:20px;opacity:.9}
+/* 196px 是量出來的上限：再大最後一個 E 就會鑽到右邊照片帶底下 */
+.cover h1{font-family:var(--post);font-size:196px;line-height:.85;letter-spacing:-.015em;
+  text-transform:uppercase}
+/* 每行自己是一條 flex（字母要逐個進場，所以拆成 span 後不能讓它換行） */
+.cover h1 .ln{display:flex;flex-wrap:nowrap;overflow:hidden}
+.cover h1 .ln span{display:inline-block}
+.cover .zh{font-size:66px;font-weight:900;letter-spacing:.14em;margin-top:34px;line-height:1.3}
+.cover .zh em{font-style:normal;color:var(--sun)}
+.cover .meta{display:flex;gap:16px;align-items:center;margin-top:46px;flex-wrap:wrap}
+.cover .strip{position:absolute;right:var(--pad);top:150px;display:flex;gap:26px}
+.cover .strip figure{width:262px;height:700px;border-radius:20px;overflow:hidden;
+  box-shadow:0 40px 90px rgba(3,20,50,.42)}
+.cover .strip figure:nth-child(2){margin-top:64px}
+.cover .strip figure:nth-child(3){margin-top:128px}
+.cover .rule{position:absolute;left:var(--pad);bottom:var(--footzone);width:1010px;height:5px;
+  background:#fff;opacity:.35}
+
+/* ───────── quote：滿版照片 ＋ 大字宣言 ───────── */
+.quote{background:var(--night);color:#fff}
+.quote .bg{position:absolute;inset:0}
+.quote .bg img{transform:scale(1.06)}
+.quote .veil{position:absolute;inset:0;
+  background:linear-gradient(105deg,rgba(4,12,26,.90) 0%,rgba(4,12,26,.66) 52%,rgba(4,12,26,.42) 100%)}
+.quote .body{position:absolute;left:var(--pad);right:var(--pad);top:50%;transform:translateY(-54%)}
+.quote .big{font-size:64px;font-weight:var(--wt-h);line-height:1.5;letter-spacing:.03em;max-width:1500px}
+.quote .big em{font-style:normal;color:var(--sun)}
+.quote .dash{width:120px;height:5px;background:var(--coral);margin:44px 0 34px}
+.quote .sub{font-size:30px;line-height:1.85;color:var(--on-dark);max-width:1080px}
+
+/* ───────── dayhero：滿版推鏡 ＋ 巨大描邊數字 ───────── */
+.dayhero{background:#07101f;color:#fff}
+.dayhero .bg{position:absolute;inset:0}
+.dayhero .bg img{transform:scale(1.09);transform-origin:58% 45%}
+.dayhero .veil{position:absolute;inset:0;
+  background:linear-gradient(100deg,rgba(4,12,26,.74) 0%,rgba(4,12,26,.32) 40%,rgba(4,12,26,0) 64%)}
+.dayhero .veil2{position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(4,12,26,.88) 0%,rgba(4,12,26,.26) 36%,transparent 54%)}
+/* 340px＋top:56 是為了跟下面文字塊留出 100px 以上淨空 */
+.dayhero .num{position:absolute;left:44px;top:56px;font-family:var(--post);font-size:340px;
+  line-height:.78;color:transparent;-webkit-text-stroke:3px rgba(255,196,0,.85);letter-spacing:-.02em}
+body[data-tone="calm"] .dayhero .num{-webkit-text-stroke-color:rgba(216,169,74,.8)}
+.dayhero .body{position:absolute;left:var(--pad);bottom:var(--footzone);width:1240px}
+.dayhero .en{font-family:var(--post);font-size:30px;letter-spacing:.3em;color:var(--sun);margin-bottom:18px}
+.dayhero h2{font-size:104px;font-weight:var(--wt-h);line-height:1.08;letter-spacing:.04em}
+/* .ln 必須是 block：不然 <br> 拆出來的兩行會擠回同一行，逐行揭字也失效
+   （overflow:hidden 是給 i 的 yPercent 進場當遮罩用的） */
+.dayhero h2 .ln{display:block;overflow:hidden}
+.dayhero h2 .ln i{display:block;font-style:normal}
+.dayhero .lead{font-size:29px;line-height:1.72;margin-top:24px;max-width:1120px;color:var(--on-dark)}
+.dayhero .lead b{color:var(--sun);font-weight:900}
+.dayhero .chips{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
+.dayhero .chips span{background:rgba(255,255,255,.13);border:1.5px solid rgba(255,255,255,.4);
+  color:#fff;font-size:21px;font-weight:700;padding:11px 22px;border-radius:999px;
+  backdrop-filter:blur(2px)}
+.dayhero .note{position:absolute;right:var(--pad);bottom:var(--footzone);width:520px;
+  font-size:19px;line-height:1.7;color:rgba(230,238,248,.8);text-align:right;
+  border-right:3px solid var(--sun);padding-right:20px}
+.dayhero .note b{color:var(--sun)}
+
+/* ───────── grid：編號要點格（取代原 bento，欄數可變）───────── */
+.grid-s{background:var(--fog)}
+.grid-s .hd{position:absolute;left:var(--pad);right:var(--pad);top:150px}
+.grid-s .hd .no{font-family:var(--post);font-size:120px;line-height:.8;color:var(--sun);
+  position:absolute;right:0;top:-30px;opacity:.9}
+.grid-s .hd .en{font-family:var(--post);font-size:24px;letter-spacing:.28em;color:var(--sky)}
+.grid-s .hd h3{font-size:76px;font-weight:var(--wt-h);letter-spacing:.05em;margin-top:12px;line-height:1.14}
+.grid-s .hd p{font-size:27px;line-height:1.8;color:var(--ink-2);margin-top:20px;max-width:1240px}
+.grid-s .cells{position:absolute;left:var(--pad);right:var(--pad);top:452px;
+  bottom:var(--footzone);display:grid;gap:20px}
+.grid-s.compact .cells{top:420px}
+.grid-s .cell{background:#fff;border-radius:22px;padding:32px 30px;
+  box-shadow:0 18px 40px rgba(11,30,64,.09);
+  display:flex;flex-direction:column}
+.grid-s .cell .n{font-family:var(--post);font-size:46px;line-height:.9;color:var(--sky);opacity:.55}
+.grid-s .cell h4{font-size:30px;font-weight:900;letter-spacing:.04em;margin-top:14px;line-height:1.3}
+.grid-s .cell p{font-size:21px;line-height:1.7;color:var(--ink-2);margin-top:14px}
+.grid-s.compact .cell{padding:26px 24px}
+.grid-s.compact .cell h4{font-size:26px}
+.grid-s.compact .cell p{font-size:19px;line-height:1.65}
+.grid-s .foot{position:absolute;left:var(--pad);right:var(--pad);bottom:calc(var(--footzone) - 34px);
+  font-size:20px;color:var(--ink-2);line-height:1.6}
+
+/* ───────── spec / feature：左大圖 ＋ 右規格列 ───────── */
+.spec,.feature{background:#fff}
+.spec .hero,.feature .hero{position:absolute;left:0;top:0;width:1010px;height:1080px;overflow:hidden}
+/* will-change 只留給「小而且真的在動」的元素（標題逐字、裝飾點）。
+   大圖掛上它＝瀏覽器永久保留一塊全尺寸畫布，手機上很貴，而且是白付的：
+   這裡的放大是靜態的，不需要靠它加速。 */
+.spec .hero img,.feature .hero img{transform:scale(1.06)}
+/* 圖說要抬到 footzone 之上，否則會跟 folio 的品牌字疊在一起（2026-08-12 實際踩到） */
+.spec .hero .cap,.feature .hero .cap{position:absolute;left:40px;right:40px;
+  bottom:var(--footzone);color:#fff;font-size:19px;font-weight:700;letter-spacing:.03em;
+  text-shadow:0 2px 14px rgba(0,0,0,.75);z-index:3}
+.spec .hero .sh,.feature .hero .sh{position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(4,10,20,.72),transparent 34%)}
+/* 右欄可用高度 = 1080 − top(150) − footzone(132) = 798px。
+   加內容前先量：P14（銀行之夜，5 列＋長註）曾經超出 142px，整列「影像」被吃掉。
+   解法是把大數字抽成絕對定位（不佔流，省 106px），不是縮到看不清楚。 */
+.spec .side,.feature .side{position:absolute;left:1078px;right:var(--pad);top:150px;
+  bottom:var(--footzone);overflow:hidden}
+/* top 不可為負：side 是 overflow:hidden，負值會把數字上半切掉 */
+.spec .side .no,.feature .side .no{position:absolute;right:0;top:0;font-family:var(--post);
+  font-size:84px;line-height:.86;color:var(--sun);opacity:.9;z-index:0}
+.spec .side .en,.feature .side .en{font-family:var(--post);font-size:21px;letter-spacing:.24em;
+  color:var(--sky);position:relative;z-index:1}
+.spec .side h3,.feature .side h3{font-size:52px;font-weight:var(--wt-h);line-height:1.18;
+  letter-spacing:.03em;margin-top:12px;position:relative;z-index:1}
+.spec .side .sub,.feature .side .sub{font-size:22px;color:var(--ink-2);margin-top:16px;line-height:1.7}
+.spec .side .sub b,.feature .side .sub b{color:var(--coral);font-weight:900}
+.spec .rows,.feature .rows{margin-top:22px}
+.spec .rows .row,.feature .rows .row{display:grid;grid-template-columns:112px 1fr;gap:16px;
+  padding:12px 0;border-bottom:1.5px solid var(--line)}
+.spec .rows .k,.feature .rows .k{font-size:19px;font-weight:900;letter-spacing:.08em;color:var(--coral)}
+.spec .rows .v,.feature .rows .v{font-size:20px;line-height:1.58;color:var(--ink-2)}
+.spec .rows .v b,.feature .rows .v b{color:var(--ink);font-weight:900}
+.spec .note,.feature .note{margin-top:22px;font-size:18px;line-height:1.65;color:var(--soft);
+  border-left:3px solid var(--line);padding-left:16px}
+/* 左半是滿高照片，folio 左欄用墨黑會消失；mast 左欄同理 */
+.spec .folio .l,.feature .folio .l,.spec .mast .lft,.feature .mast .lft{
+  color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+.spec .folio,.feature .folio{opacity:.75}
+
+/* ───────── table：資料表 ───────── */
+.table-s{background:var(--fog)}
+.table-s .hd{position:absolute;left:var(--pad);right:var(--pad);top:140px}
+.table-s .hd .no{font-family:var(--post);font-size:110px;line-height:.8;color:var(--sun);
+  position:absolute;right:0;top:-24px;opacity:.9}
+.table-s .hd .en{font-family:var(--post);font-size:23px;letter-spacing:.28em;color:var(--sky)}
+.table-s .hd h3{font-size:68px;font-weight:var(--wt-h);letter-spacing:.05em;margin-top:10px}
+.table-s .hd p{font-size:24px;line-height:1.75;color:var(--ink-2);margin-top:16px;max-width:1400px}
+.table-s .tb{position:absolute;left:var(--pad);right:var(--pad);top:330px;
+  bottom:var(--footzone);overflow:hidden}
+.table-s .tr{display:grid;gap:24px;padding:17px 26px;align-items:center;border-radius:12px}
+.table-s .tr.th{background:var(--ink);color:#fff;font-size:20px;font-weight:900;letter-spacing:.14em}
+.table-s .tr.td{font-size:22px;line-height:1.55;color:var(--ink-2);border-bottom:1.5px solid var(--line)}
+.table-s .tr.td b{color:var(--ink);font-weight:900}
+.table-s .tr.td.hl{background:#fff;box-shadow:0 8px 22px rgba(11,30,64,.07)}
+.table-s .tr.td .c0{font-family:var(--post);font-size:22px;letter-spacing:.1em;color:var(--sky)}
+.table-s .aside{position:absolute;right:var(--pad);bottom:calc(var(--footzone) + 4px);width:600px;
+  background:#fff;border-radius:18px;padding:22px 26px;box-shadow:0 14px 36px rgba(11,30,64,.12)}
+.table-s .aside h5{font-size:21px;font-weight:900;color:var(--coral);letter-spacing:.06em;margin-bottom:12px}
+.table-s .aside div{display:grid;grid-template-columns:150px 1fr;gap:14px;font-size:19px;
+  padding:7px 0;color:var(--ink-2);border-top:1px solid var(--line)}
+.table-s .foot{position:absolute;left:var(--pad);right:var(--pad);
+  bottom:calc(var(--footzone) - 34px);font-size:19px;line-height:1.62;color:var(--ink-2)}
+
+/* ───────── routemap：真實底圖 ＋ 描線 ─────────
+   地理是真的：底圖是 CARTO Positron 圖磚在固定 center/zoom 下算出來的。
+   復古感是「皮」——不是把海岸線畫出來。輪廓與相對位置不准動。 */
+.routemap{background:var(--fog)}
+.routemap .mapwrap{position:absolute;inset:0}
+/* 調色與上面那層做舊已經烤進 au-mel-map-base.webp，這裡不再用 CSS 算。
+   原因：這張是 1920x1080，濾鏡與混合各要一塊全尺寸畫布，在 iPhone（3 倍像素）
+   各佔 71MB、合計 142MB；而 iPhone 一個分頁大約 200~300MB 就會被系統砍掉。
+   will-change 也拿掉——它是「永久」保留畫布，不是動畫期間才留。 */
+.routemap .mapwrap img{transform:scale(1.05)}
+/* 已烤進圖檔（見上）。mix-blend-mode 一定要拿掉——那是另一塊 71MB。 */
+.routemap .mapskin{display:none}
+.routemap svg.routes{position:absolute;inset:0;width:1920px;height:1080px;overflow:visible}
+.routemap svg.routes path{fill:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;
+  opacity:.95;/* 陰影拿掉：這張 SVG 是 1920x1080 整塊，drop-shadow 會讓瀏覽器再留一塊全尺寸畫布（iPhone 上 71MB）。路線本身有顏色，看得很清楚，不差這道陰影。 */}
+.routemap svg.routes .hub{fill:var(--ink);stroke:#fff;stroke-width:5}
+.routemap svg.routes circle.stop{stroke:#fff;stroke-width:4}
+.routemap .medal{position:absolute;width:112px;height:112px;transform:translate(-50%,-50%);
+  border-radius:50%;z-index:3;
+  box-shadow:0 12px 28px rgba(11,30,64,.28),0 0 0 3px #fff}
+.routemap .medal img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.routemap .medal.hub{width:132px;height:132px;box-shadow:0 14px 32px rgba(11,30,64,.32),0 0 0 4px #fff}
+.routemap .pin{position:absolute;transform:translate(-50%,0);white-space:nowrap;
+  font-weight:900;letter-spacing:.04em;z-index:4}
+.routemap .pin b{display:block;font-size:30px;color:var(--ink);
+  text-shadow:0 1px 0 #fff,0 0 8px #fff,0 0 15px rgba(255,255,255,.95)}
+.routemap .pin i{display:block;font-style:normal;font-family:var(--post);font-size:16px;
+  letter-spacing:.18em;color:var(--sky);text-shadow:0 0 8px #fff,0 0 12px #fff}
+.routemap .pin.sm b{font-size:22px}
+.routemap .pin.hub b{font-size:40px}
+.routemap .mapinfo{position:absolute;left:70px;bottom:calc(var(--footzone) + 6px);width:520px;z-index:6;
+  background:rgba(255,255,255,.94);border:1.5px solid var(--line);border-radius:22px;
+  padding:30px 32px 26px;box-shadow:0 18px 48px rgba(11,30,64,.16)}
+.routemap .mapinfo .en{font-family:var(--post);font-size:21px;letter-spacing:.24em;color:var(--sky)}
+.routemap .mapinfo h3{font-size:46px;font-weight:var(--wt-h);line-height:1.18;margin-top:10px;color:var(--ink)}
+.routemap .mapinfo p{font-size:21px;line-height:1.7;color:var(--ink-2);margin-top:12px}
+.routemap .mapinfo ol{list-style:none;margin-top:20px;border-top:1.5px solid var(--line);padding-top:6px}
+.routemap .mapinfo li{display:flex;align-items:center;gap:12px;padding:11px 0;
+  border-bottom:1px solid var(--line);font-size:21px;color:var(--ink)}
+.routemap .mapinfo li em{font-style:normal;font-family:var(--post);font-size:19px;
+  letter-spacing:.1em;color:var(--sky);min-width:56px}
+.routemap .mapinfo li s{width:26px;height:6px;border-radius:3px;text-decoration:none;flex:none}
+.routemap .mapinfo li span{margin-left:auto;font-size:18px;color:var(--soft)}
+/* 羅盤原本 bottom:104 會跟 folio 疊，收到 footzone 之上 */
+.routemap .compass{position:absolute;right:var(--pad);bottom:calc(var(--footzone) + 10px);
+  width:112px;height:112px;z-index:5;opacity:.72}
+
+/* ───────── end ───────── */
+.end{background:var(--night);color:#fff}
+.end .bg{position:absolute;inset:0;opacity:.5}
+.end .bg img{transform:scale(1.05)}
+.end .veil{position:absolute;inset:0;background:linear-gradient(to right,rgba(4,10,20,.92),rgba(4,10,20,.55))}
+.end .body{position:absolute;left:var(--pad);right:var(--pad);top:50%;transform:translateY(-56%)}
+.end .big{font-size:52px;font-weight:var(--wt-h);line-height:1.72;letter-spacing:.04em;max-width:1560px}
+.end .big em{font-style:normal;color:var(--sun)}
+.end .dash{width:140px;height:5px;background:var(--coral);margin:48px 0 32px}
+.end .sign{font-size:26px;letter-spacing:.1em;color:var(--on-dark)}
+.end .brand{font-family:var(--post);font-size:24px;letter-spacing:.26em;margin-top:12px;color:var(--sun)}
+
+/* 捲軸轉場：刻意用 CSS animation 而非 GSAP inline clip-path——
+   inline 樣式若動畫中斷會把整頁永久夾成一條縫（2026-08-12 踩到）。 */
+@keyframes unfurl{from{clip-path:inset(0 50% 0 50%)}to{clip-path:inset(0 0% 0 0%)}}
+.slide.unfurl-run{animation:unfurl 1.05s cubic-bezier(.62,0,.32,1) forwards}
+
+/* ── 導覽：position:fixed，且必須放在 #stage 之外 ──────────────
+   放進 #stage 會跟著舞台 transform 縮放：手機直向舞台只有 0.2 倍，
+   52px 的按鈕縮成 11px，等於沒有（2026-08-12 實測）。
+   fixed 定在視窗底部，跟舞台內 bottom:52px 的 folio 錯開，不會打架；
+   手機上舞台四周本來就有大片留白，按鈕正好落在留白區。 */
+#nav{position:fixed;right:20px;bottom:10px;z-index:50;display:flex;gap:12px;align-items:center;
+  font-family:var(--post);font-size:15px;letter-spacing:.18em;color:#fff;opacity:.5;
+  mix-blend-mode:difference}
+#nav button{background:rgba(255,255,255,.16);color:#fff;border:0;width:36px;height:36px;
+  border-radius:50%;cursor:pointer;font-size:16px;line-height:1}
+/* 觸控裝置：點畫面翻頁已停用，按鈕是唯一的手動翻頁方式，要點得到（≥44px） */
+@media (pointer:coarse){
+  #nav{opacity:.9;gap:18px;bottom:16px;right:16px;mix-blend-mode:normal}
+  #nav button{width:54px;height:54px;font-size:24px;background:rgba(10,20,40,.55);
+    backdrop-filter:blur(6px)}
+}
+#hint{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:50;color:#fff;
+  font-size:15px;letter-spacing:.14em;opacity:.5;background:rgba(0,0,0,.42);padding:8px 18px;
+  border-radius:999px;white-space:nowrap}
+@media (pointer:coarse){#hint{font-size:13px;bottom:80px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ============================================================
+   2026-08-14 擴充：轉場、格子底圖、每日示意圖、飯店頁、Thank You、導覽
+   ============================================================ */
+
+/* ───────── 轉場：每個版型有自己的進場方式 ─────────
+   一律用 CSS @keyframes ＋ forwards，不用 GSAP inline clip-path
+   （中斷會把整頁永久夾成一條縫，2026-08-12 踩過）。 */
+@keyframes dissolve{from{opacity:0;transform:scale(1.035)}to{opacity:1;transform:none}}
+@keyframes wipeup {from{clip-path:inset(34% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes slidein{from{clip-path:inset(0 0 0 62%)}to{clip-path:inset(0 0 0 0)}}
+@keyframes zoomin {from{clip-path:inset(0 0 40% 0)}to{clip-path:inset(0 0 0 0)}}
+.slide.dissolve-run{animation:dissolve .85s var(--ease) forwards}
+.slide.wipeup-run  {animation:wipeup  .90s cubic-bezier(.62,0,.32,1) forwards}
+.slide.slidein-run {animation:slidein .90s cubic-bezier(.62,0,.32,1) forwards}
+.slide.zoomin-run  {animation:zoomin 1.00s cubic-bezier(.62,0,.32,1) forwards}
+
+/* ───────── grid：格子可帶底圖，文字上下左右置中 ───────── */
+.grid-s .cell{position:relative;overflow:hidden;align-items:center;justify-content:center;text-align:center}
+.grid-s .cell .in{position:relative;z-index:2;width:100%}
+.grid-s .cell .cbg{position:absolute;inset:0;z-index:0}
+/* will-change 只留給「小而且真的在動」的元素（標題逐字、裝飾點）。
+   大圖掛上它＝瀏覽器永久保留一塊全尺寸畫布，手機上很貴，而且是白付的：
+   這裡的放大是靜態的，不需要靠它加速。 */
+.grid-s .cell .cbg img{width:100%;height:100%;object-fit:cover;transform:scale(1.06)}
+.grid-s .cell .cbg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(5,12,24,.62) 0%,rgba(5,12,24,.88) 100%)}
+.grid-s .cell.has-bg{background:#08111f;box-shadow:0 20px 44px rgba(11,30,64,.22)}
+.grid-s .cell.has-bg .n{color:var(--sun);opacity:.95}
+.grid-s .cell.has-bg h4{color:#fff}
+.grid-s .cell.has-bg p{color:rgba(230,238,248,.9)}
+
+/* ───────── dayhero：本日亮點 ＋ 右側示意圖卡 ─────────
+   目的是讓「每日行程」跟「總覽」一眼分得出來——總覽是表，每日是畫面。 */
+.dayhero .hi{display:inline-flex;align-items:center;gap:16px;margin-top:24px;
+  background:rgba(255,196,0,.13);border:1.5px solid rgba(255,196,0,.5);
+  border-radius:999px;padding:9px 26px 9px 10px}
+.dayhero .hi span{font-family:var(--post);font-size:16px;letter-spacing:.18em;color:#07101f;
+  background:var(--sun);border-radius:999px;padding:7px 15px}
+.dayhero .hi b{font-size:26px;font-weight:900;color:var(--sun);letter-spacing:.03em}
+.dayhero .plate{position:absolute;right:var(--pad);top:128px;width:432px;z-index:3;
+  display:flex;flex-direction:column;gap:18px}
+.dayhero .plate figure{position:relative;border-radius:20px;overflow:hidden;
+  box-shadow:0 22px 46px rgba(0,0,0,.46),0 0 0 1.5px rgba(255,255,255,.2)}
+.dayhero .plate img{width:100%;height:228px;object-fit:cover;display:block}
+.dayhero .plate figcaption{position:absolute;left:0;right:0;bottom:0;padding:12px 16px;
+  color:#fff;font-size:17px;font-weight:700;letter-spacing:.03em;
+  background:linear-gradient(to top,rgba(4,10,20,.86),transparent)}
+
+/* ───────── hotel：左規格、右四宮格圖 ───────── */
+.hotel{background:var(--fog)}
+.hotel .hd{position:absolute;left:var(--pad);right:var(--pad);top:120px}
+.hotel .hd .no{font-family:var(--post);font-size:110px;line-height:.8;color:var(--sun);
+  position:absolute;right:0;top:6px;opacity:.9}
+.hotel .hd .en{font-family:var(--post);font-size:24px;letter-spacing:.28em;color:var(--sky)}
+.hotel .hd h3{font-size:70px;font-weight:var(--wt-h);letter-spacing:.04em;margin-top:12px;line-height:1.14}
+.hotel .hd p{font-size:24px;line-height:1.75;color:var(--ink-2);margin-top:16px;max-width:1560px}
+.hotel .hrows{position:absolute;left:var(--pad);top:390px;bottom:var(--footzone);width:840px}
+.hotel .hrows .row{display:grid;grid-template-columns:122px 1fr;gap:20px;padding:15px 0;
+  border-bottom:1.5px solid var(--line)}
+.hotel .hrows .k{font-size:19px;font-weight:900;letter-spacing:.08em;color:var(--coral)}
+.hotel .hrows .v{font-size:21px;line-height:1.6;color:var(--ink-2)}
+.hotel .hrows .v b{color:var(--ink);font-weight:900}
+.hotel .gal{position:absolute;right:var(--pad);top:390px;bottom:var(--footzone);width:900px;
+  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:18px}
+.hotel .gal figure{position:relative;border-radius:20px;overflow:hidden;
+  box-shadow:0 18px 40px rgba(11,30,64,.16)}
+.hotel .gal img{width:100%;height:100%;object-fit:cover}
+.hotel .gal figcaption{position:absolute;left:0;right:0;bottom:0;padding:13px 16px;color:#fff;
+  font-size:17px;font-weight:700;letter-spacing:.03em;
+  background:linear-gradient(to top,rgba(4,10,20,.82),transparent)}
+.hotel .foot{position:absolute;left:var(--pad);right:var(--pad);bottom:calc(var(--footzone) - 40px);
+  font-size:19px;color:var(--soft);line-height:1.6}
+
+/* ───────── thanks：收尾 ───────── */
+.thanks{background:var(--night);color:#fff}
+.thanks .bg{position:absolute;inset:0;opacity:.4}
+.thanks .bg img{transform:scale(1.06)}
+.thanks .veil{position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 50% 46%,rgba(4,10,20,.42) 0%,rgba(4,10,20,.93) 72%)}
+.thanks .tk{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:0 var(--pad)}
+.thanks h2{font-family:var(--post);font-size:184px;line-height:.92;letter-spacing:.04em;color:#fff}
+.thanks h2 span{display:inline-block}
+.thanks .zh{font-size:33px;letter-spacing:.14em;color:var(--on-dark);margin-top:30px}
+.thanks .dash{width:120px;height:5px;background:var(--sun);margin:40px 0 30px}
+.thanks .sign{font-size:24px;letter-spacing:.08em;color:var(--on-dark);line-height:1.85}
+.thanks .brand{font-family:var(--post);font-size:22px;letter-spacing:.28em;color:var(--sun);margin-top:14px}
+
+/* ───────── 導覽：原本 mix-blend-mode:difference 在亮頁上幾乎看不到 ───────── */
+#nav{mix-blend-mode:normal;opacity:1;background:rgba(8,16,32,.5);backdrop-filter:blur(10px);
+  padding:7px 8px 7px 20px;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.28)}
+#nav #cnt{color:#fff;font-size:16px;letter-spacing:.2em;opacity:.95}
+#nav button{background:rgba(255,255,255,.2);transition:background .2s}
+#nav button:hover{background:var(--sun);color:#07101f}
+@media (pointer:coarse){#nav{background:rgba(8,16,32,.62)}}
+.thanks h2 span.sp{width:.34em}
+
+/* ───────── deco：撞色幾何點綴（只加在淺底頁，深底頁靠照片本身） ─────────
+   全部從版面邊緣「探出來」被 overflow 切掉，不會落在文字上；z-index:0 壓在內容下。 */
+.deco{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.deco i{position:absolute;display:block}
+.deco .c1{width:520px;height:520px;border-radius:50%;border:26px solid var(--sun);
+  opacity:.22;right:-200px;top:-180px}
+.deco .c2{width:124px;height:124px;border-radius:28px;background:var(--coral);
+  opacity:.85;left:-44px;bottom:228px;transform:rotate(14deg)}
+.deco .c3{width:22px;height:280px;border-radius:999px;background:var(--cyan);
+  opacity:.55;right:-8px;bottom:210px}
+.deco .c4{width:46px;height:46px;border-radius:50%;background:var(--sky);
+  opacity:.5;left:236px;bottom:-16px}
+/* spec／feature 左半是滿版照片，幾何只在右欄那側出現 */
+.spec .deco,.feature .deco{left:1010px}
+.spec .deco .c2,.feature .deco .c2{left:-52px;bottom:150px}
+.spec .deco .c4,.feature .deco .c4{left:120px;bottom:-18px}
+
+/* ───────── quote 主題標籤 ───────── */
+.quote .tag{display:inline-flex;align-items:center;gap:14px;margin-bottom:30px;
+  font-size:22px;font-weight:900;letter-spacing:.16em;color:#07101f;
+  background:var(--sun);border-radius:999px;padding:11px 26px}
+/* hotel 左欄是規格列，幾何要讓開欄名（2026-08-14：珊瑚紅方塊壓到「露台／健身」） */
+.hotel .deco .c2{left:-72px;bottom:56px}
+.hotel .deco .c4{left:150px;bottom:-24px}
+
+
+/* 咖啡闖關那頁的六個徽章（2026-08-15 加）*/
+.feature .cw-rings{display:flex;gap:14px;margin:18px 0 4px}
+.feature .cw-ring{width:74px;height:74px;border-radius:50%;overflow:hidden;flex:none;
+  border:2px solid #fff;box-shadow:0 8px 20px rgba(11,30,64,.18)}
+.feature .cw-ring img{width:100%;height:100%;object-fit:cover}
+
+/* ═══════════════════════════════════════════════════════════════
+   dayhero 的右側圖卡：**規則，不是寫死的位置**（2026-08-15 立）
+
+   William 指出的問題：小圖釘死在右上角，一張是它、兩張也是它，
+   而且離內容很遠、不仔細看看不到。位置寫死＝每次都要人工喬。
+
+   規則：
+     · 右側垂直置中（不是貼右上角）——跟左邊的標題視覺上對得起來
+     · 一張圖  → 佔滿整個高度，就是一張大的
+     · 兩張圖  → 上下均分
+     · 三張以上 → 繼續均分，不用改樣式
+   靠 flex 自動分配，加幾張都不必動 CSS。
+   ═══════════════════════════════════════════════════════════════ */
+.dayhero .plate{position:absolute;right:var(--pad);top:50%;transform:translateY(-50%);
+  z-index:4;width:392px;height:392px;display:flex;flex-direction:column;gap:16px}
+.dayhero .plate figure{flex:1;min-height:0;position:relative;border-radius:20px;
+  overflow:hidden;box-shadow:0 22px 46px rgba(0,0,0,.46),0 0 0 1.5px rgba(255,255,255,.2)}
+.dayhero .plate figure img{width:100%;height:100%;object-fit:cover;display:block}
+.dayhero .plate figcaption{position:absolute;left:0;right:0;bottom:0;
+  padding:26px 16px 12px;color:#fff;font-size:17px;letter-spacing:.02em;
+  background:linear-gradient(transparent,rgba(6,14,28,.82))}
+
+/* 天數的大數字：原本下緣離英文行只有 37px，空心字又跟背景混在一起。
+   往上收、和下面拉開距離。 */
+.dayhero .num{top:44px;left:var(--pad)}
+.dayhero .body{margin-top:26px}
+
+/* 咖啡闖關那頁的主圖換成「卡片本人」——要讓客戶看到我們真的做了這張卡，
+   不是只在文字裡講。正面大、背面斜壓在後面，像桌上放了兩張。 */
+.feature .hero.cardshow{background:#EDE7DA;display:flex;align-items:center;justify-content:center}
+.feature .hero.cardshow img{position:absolute;border-radius:10px;
+  box-shadow:0 26px 60px rgba(11,30,64,.34);object-fit:contain;background:#F2EBDD}
+/* 用高度控制，不用寬度百分比——這個框很高，用寬度算會爆出下緣 */
+.feature .hero.cardshow .cbig{height:38%;width:auto;left:9%;top:36%;transform:rotate(-3.5deg);z-index:2}
+.feature .hero.cardshow .csml{height:32%;width:auto;right:8%;top:17%;transform:rotate(4deg);z-index:1;opacity:.97}
+/* ───────── 影片頁（2026-08-15）─────────
+   跟雪梨那份同一套：刻意做成「點了才播」，沒點就是一張劇照。
+   理由：簡報常常在客戶端離線放，直接嵌 iframe 的話沒網路就開天窗。 */
+.videoslide{background:var(--fog,#F4F1EA)}
+.videoslide .vs-stage{position:absolute;left:var(--pad);top:120px;
+  width:1000px;height:562px;z-index:2}
+.videoslide .vs-frame{position:relative;width:100%;height:100%;overflow:hidden;
+  border-radius:18px;box-shadow:0 26px 60px rgba(11,30,64,.28);background:#0A1420}
+.videoslide .vs-frame img{width:100%;height:100%;object-fit:cover;display:block}
+.videoslide .vs-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.videoslide .vs-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:104px;height:104px;border-radius:50%;border:0;cursor:pointer;
+  background:rgba(255,255,255,.94);box-shadow:0 14px 40px rgba(0,0,0,.4);
+  display:flex;align-items:center;justify-content:center}
+.videoslide .vs-play span{width:0;height:0;margin-left:8px;
+  border-left:30px solid #12304A;border-top:19px solid transparent;border-bottom:19px solid transparent}
+.videoslide .vs-cap{position:absolute;left:0;right:0;bottom:0;padding:38px 26px 16px;
+  color:#fff;font-size:19px;letter-spacing:.02em;
+  background:linear-gradient(transparent,rgba(6,14,28,.78))}
+.videoslide .vs-side{position:absolute;right:var(--pad);top:120px;width:660px;z-index:3}
+.videoslide .vs-side .en{font-family:var(--post);font-size:19px;letter-spacing:.22em;color:var(--sky)}
+.videoslide .vs-side h3{font-size:52px;line-height:1.2;margin:10px 0 18px;color:var(--ink)}
+.videoslide .vs-side .sub{font-size:22px;line-height:1.8;color:var(--ink-2);margin-bottom:22px}
+.videoslide .vs-side .rows .row{display:grid;grid-template-columns:118px 1fr;gap:16px;
+  padding:14px 0;border-bottom:1.5px solid var(--line);font-size:20px}
+.videoslide .vs-side .rows .k{color:var(--coral);font-weight:800}
+
+/* ───────── 地圖上的點對點距離（2026-08-15 William 要求）─────────
+   白底藥丸貼在路線中段。車程是一般路況概估，不是保證值。 */
+.routemap .dist{position:absolute;z-index:5;transform:translate(-50%,-50%);
+  white-space:nowrap;background:rgba(255,255,255,.94);border:1.5px solid var(--line);
+  border-radius:99px;padding:7px 16px;font-size:19px;font-weight:800;color:var(--ink);
+  box-shadow:0 6px 18px rgba(11,30,64,.16)}
+.routemap .dist em{font-style:normal;color:var(--soft,#8A8578);font-weight:600;margin-left:8px}
+/* ═══ 下方留白 · 第二輪（2026-08-15 William 再次指出）═══
+   症狀：影片頁的畫面偏小、右欄與表格全擠在上緣，下面整片空著。
+   作法一律是「把可用高度用滿」——影片放大並垂直置中，
+   列與列之間自動均分；有說明卡的表格頁則把說明卡拉成整排兩欄填住下緣。 */
+.videoslide .vs-stage{top:219px;width:1120px;height:630px}
+.videoslide .vs-side{top:130px;bottom:var(--footzone);width:600px;
+  display:flex;flex-direction:column}
+.videoslide .vs-side .rows{flex:1;display:flex;flex-direction:column;justify-content:space-evenly}
+.table-s .tb{justify-content:space-evenly}
+/* 左欄的列要跟右邊照片牆對齊：第一列切齊上緣、最後一列切齊下緣，
+   中間自動均分。用 space-evenly 會讓整欄往中間縮，看起來像沒對好。 */
+.hotel .hrows{margin-top:0;display:flex;flex-direction:column}
+.hotel .hrows .row{flex:1;align-items:center}
+.hotel .hrows .row:last-child{border-bottom:0}
+.table-s.has-aside .tb{bottom:calc(var(--footzone) + 236px);justify-content:space-evenly}
+.table-s.has-aside .aside{left:var(--pad);width:auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:0 44px;align-content:start}
+.table-s.has-aside .aside h5{grid-column:1 / -1}
+/* 只有一句話的說明卡：拉成整排一條，貼在表格下面，不要縮在右下角 */
+.table-s.has-note .tb{bottom:calc(var(--footzone) + 110px);justify-content:space-evenly}
+.table-s.has-note .aside{left:var(--pad);width:auto}
+</style>
+<style>
+/* ============================================================
+   ⚠️ 這份簡報不要加 will-change、也不要在大圖上加 filter / mix-blend-mode。
+
+   2026-08-14 的教訓：改版時為了讓動畫順，加了 22 處 will-change 和
+   4 個濾鏡。動畫確實變順了，但每一個都會讓瀏覽器「永久」保留一塊
+   全尺寸畫布——iPhone 上一塊 1920x1080 就是 71MB，而一個分頁大約
+   200~300MB 就會被系統砍掉，症狀是「翻到某頁整個重載」。
+
+   實測（WebKit，iPhone 尺寸、3 倍像素）：
+     改版前 8/12    0 MB
+     改版後 8/14  1342 MB   ← 開始出現翻頁被砍
+     清乾淨後        見下
+
+   要動畫順，正確做法是「動畫開始前才加、結束就拿掉」，
+   不是寫死在樣式裡。改版前這份是 0 處，動畫一樣好看。
+   ============================================================ */
+
+/* ============================================================
+   VENTURO Deck · 「陽光海報」版式（poster）
+   用途：企業提案簡報（投影給幾百人看），不是拿來讀的手冊。
+   手冊版式在 tools/tour/assets/deck.css（白紙・墨黑・朱紅），兩者不要混用。
+
+   ── 調性開關（2026-08-12 加）────────────────────────────
+   William：「原本的風格比較文青簡雅，這次這個亮版我也喜歡。」
+   結論是不二選一：骨架同一套，差別只在飽和度／留白／字重三個變數。
+   <body data-tone="bright">  預設，提案搶眼用
+   <body data-tone="calm">    文青版，正式手冊／對外印刷用
+   要調就調 :root 那幾個變數，**不要去個別版型裡就地改色**。
+   ============================================================ */
+:root{
+  --ink:#0B1220; --ink-2:#33445C; --soft:#7A8798; --line:#DCE5F0;
+  --sky:#0A4FD1; --cyan:#00B4E6; --sun:#FFC400; --coral:#FF4A26;
+  --paper:#fff; --fog:#EDF2FA; --night:#05080F; --on-dark:#E6EEF8;
+  --sans:"Noto Sans TC","PingFang TC",sans-serif;
+  --post:"Anton","Arial Black",sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+
+  /* 三個調性變數：亮版 */
+  --sat:1;            /* 色彩飽和倍率 */
+  --wt-h:900;         /* 標題字重 */
+  --pad:76px;         /* 版心左右安全邊 */
+  --hero-tint:0;      /* 照片降飽和量 */
+}
+/* 文青版：降飽和、加留白、字重減一級。骨架完全不動。 */
+body[data-tone="calm"]{
+  --sky:#2A4A7A; --cyan:#5B8CA8; --sun:#D8A94A; --coral:#C25A3A;
+  --fog:#F4F1EA; --line:#E2DDD2;
+  --sat:.72; --wt-h:700; --pad:104px; --hero-tint:.22;
+}
+
+/* ── 安全區（2026-08-12 修）────────────────────────────
+   舊版問題：元素直接貼 1920×1080 邊界，被 overflow:hidden 削掉；
+   #nav/#hint 又是 position:fixed（不在 #stage 內、不隨縮放走），
+   在滿版時直接壓在 folio 與圖說上。
+   規則：內容一律不進 --pad 的邊，底部再留 --footzone 給 folio。 */
+:root{ --footzone:132px; }
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--night)}
+body{font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;
+  transform:translate(-50%,-50%);opacity:0;transition:opacity .18s linear}
+#stage.ready{opacity:1}
+.slide{position:absolute;inset:0;background:var(--paper);opacity:0;visibility:hidden;
+  transition:opacity .45s var(--ease);overflow:hidden}
+.slide.on{opacity:1;visibility:visible;z-index:2}
+img{display:block;width:100%;height:100%;object-fit:cover}
+/* 還沒載入／已卸載的圖不要露出 alt 文字或破圖圖示（見 build.mjs 的 lazyImages） */
+img:not([src]){visibility:hidden}
+/* 只有文青版才真的降飽和。原本無條件套在 .slide img 上，而預設 --hero-tint 是 0
+   ＝視覺上完全沒差，卻讓每一張圖都被瀏覽器留一塊全尺寸畫布。手機上這是白付的記憶體。 */
+body[data-tone="calm"] .slide img{filter:saturate(calc(1 - var(--hero-tint)))}
+
+/* 頁面家具 */
+.mast{position:absolute;top:52px;left:var(--pad);right:var(--pad);display:flex;
+  justify-content:space-between;align-items:center;font-size:20px;letter-spacing:.16em;
+  font-weight:700;z-index:9}
+.mast .r{font-family:var(--post);letter-spacing:.22em;font-size:19px;opacity:.75}
+.folio{position:absolute;bottom:52px;left:var(--pad);right:var(--pad);display:flex;
+  justify-content:space-between;font-family:var(--post);font-size:18px;letter-spacing:.2em;
+  z-index:9;opacity:.55}
+.chip{display:inline-flex;align-items:center;gap:10px;background:var(--sun);color:var(--ink);
+  font-weight:900;font-size:22px;letter-spacing:.06em;padding:12px 24px;border-radius:999px}
+.chip.line{background:transparent;border:2.5px solid currentColor}
+b.warn{color:var(--coral)}
+
+/* ───────── cover ───────── */
+.cover{background:linear-gradient(155deg,var(--sky) 0%,#0C74DD 48%,var(--cyan) 100%);color:#fff}
+body[data-tone="calm"] .cover{background:linear-gradient(155deg,#2A4A7A 0%,#3C6389 55%,#5B8CA8 100%)}
+.cover .mast,.cover .folio{color:#fff}
+.cover .grain{position:absolute;inset:0;opacity:.16;
+  background-image:radial-gradient(circle at 1px 1px,#fff 1px,transparent 0);background-size:5px 5px}
+/* 裝飾圓刻意出血，但收在右上角、不壓字 */
+.cover .disc{position:absolute;width:640px;height:640px;border-radius:50%;
+  background:var(--coral);right:-190px;top:-210px;opacity:.92}
+.cover .body{position:absolute;left:var(--pad);top:212px;width:1010px}
+.cover .kick{font-family:var(--post);font-size:26px;letter-spacing:.3em;margin-bottom:20px;opacity:.9}
+/* 196px 是量出來的上限：再大最後一個 E 就會鑽到右邊照片帶底下 */
+.cover h1{font-family:var(--post);font-size:196px;line-height:.85;letter-spacing:-.015em;
+  text-transform:uppercase}
+/* 每行自己是一條 flex（字母要逐個進場，所以拆成 span 後不能讓它換行） */
+.cover h1 .ln{display:flex;flex-wrap:nowrap;overflow:hidden}
+.cover h1 .ln span{display:inline-block}
+.cover .zh{font-size:66px;font-weight:900;letter-spacing:.14em;margin-top:34px;line-height:1.3}
+.cover .zh em{font-style:normal;color:var(--sun)}
+.cover .meta{display:flex;gap:16px;align-items:center;margin-top:46px;flex-wrap:wrap}
+.cover .strip{position:absolute;right:var(--pad);top:150px;display:flex;gap:26px}
+.cover .strip figure{width:262px;height:700px;border-radius:20px;overflow:hidden;
+  box-shadow:0 40px 90px rgba(3,20,50,.42)}
+.cover .strip figure:nth-child(2){margin-top:64px}
+.cover .strip figure:nth-child(3){margin-top:128px}
+.cover .rule{position:absolute;left:var(--pad);bottom:var(--footzone);width:1010px;height:5px;
+  background:#fff;opacity:.35}
+
+/* ───────── quote：滿版照片 ＋ 大字宣言 ───────── */
+.quote{background:var(--night);color:#fff}
+.quote .bg{position:absolute;inset:0}
+.quote .bg img{transform:scale(1.06)}
+.quote .veil{position:absolute;inset:0;
+  background:linear-gradient(105deg,rgba(4,12,26,.90) 0%,rgba(4,12,26,.66) 52%,rgba(4,12,26,.42) 100%)}
+.quote .body{position:absolute;left:var(--pad);right:var(--pad);top:50%;transform:translateY(-54%)}
+.quote .big{font-size:64px;font-weight:var(--wt-h);line-height:1.5;letter-spacing:.03em;max-width:1500px}
+.quote .big em{font-style:normal;color:var(--sun)}
+.quote .dash{width:120px;height:5px;background:var(--coral);margin:44px 0 34px}
+.quote .sub{font-size:30px;line-height:1.85;color:var(--on-dark);max-width:1080px}
+
+/* ───────── dayhero：滿版推鏡 ＋ 巨大描邊數字 ───────── */
+.dayhero{background:#07101f;color:#fff}
+.dayhero .bg{position:absolute;inset:0}
+.dayhero .bg img{transform:scale(1.09);transform-origin:58% 45%}
+.dayhero .veil{position:absolute;inset:0;
+  background:linear-gradient(100deg,rgba(4,12,26,.74) 0%,rgba(4,12,26,.32) 40%,rgba(4,12,26,0) 64%)}
+.dayhero .veil2{position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(4,12,26,.88) 0%,rgba(4,12,26,.26) 36%,transparent 54%)}
+/* 340px＋top:56 是為了跟下面文字塊留出 100px 以上淨空 */
+.dayhero .num{position:absolute;left:44px;top:56px;font-family:var(--post);font-size:340px;
+  line-height:.78;color:transparent;-webkit-text-stroke:3px rgba(255,196,0,.85);letter-spacing:-.02em}
+body[data-tone="calm"] .dayhero .num{-webkit-text-stroke-color:rgba(216,169,74,.8)}
+.dayhero .body{position:absolute;left:var(--pad);bottom:var(--footzone);width:1240px}
+.dayhero .en{font-family:var(--post);font-size:30px;letter-spacing:.3em;color:var(--sun);margin-bottom:18px}
+.dayhero h2{font-size:104px;font-weight:var(--wt-h);line-height:1.08;letter-spacing:.04em}
+/* .ln 必須是 block：不然 <br> 拆出來的兩行會擠回同一行，逐行揭字也失效
+   （overflow:hidden 是給 i 的 yPercent 進場當遮罩用的） */
+.dayhero h2 .ln{display:block;overflow:hidden}
+.dayhero h2 .ln i{display:block;font-style:normal}
+.dayhero .lead{font-size:29px;line-height:1.72;margin-top:24px;max-width:1120px;color:var(--on-dark)}
+.dayhero .lead b{color:var(--sun);font-weight:900}
+.dayhero .chips{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
+.dayhero .chips span{background:rgba(255,255,255,.13);border:1.5px solid rgba(255,255,255,.4);
+  color:#fff;font-size:21px;font-weight:700;padding:11px 22px;border-radius:999px;
+  backdrop-filter:blur(2px)}
+.dayhero .note{position:absolute;right:var(--pad);bottom:var(--footzone);width:520px;
+  font-size:19px;line-height:1.7;color:rgba(230,238,248,.8);text-align:right;
+  border-right:3px solid var(--sun);padding-right:20px}
+.dayhero .note b{color:var(--sun)}
+
+/* ───────── grid：編號要點格（取代原 bento，欄數可變）───────── */
+.grid-s{background:var(--fog)}
+.grid-s .hd{position:absolute;left:var(--pad);right:var(--pad);top:150px}
+.grid-s .hd .no{font-family:var(--post);font-size:120px;line-height:.8;color:var(--sun);
+  position:absolute;right:0;top:-30px;opacity:.9}
+.grid-s .hd .en{font-family:var(--post);font-size:24px;letter-spacing:.28em;color:var(--sky)}
+.grid-s .hd h3{font-size:76px;font-weight:var(--wt-h);letter-spacing:.05em;margin-top:12px;line-height:1.14}
+.grid-s .hd p{font-size:27px;line-height:1.8;color:var(--ink-2);margin-top:20px;max-width:1240px}
+.grid-s .cells{position:absolute;left:var(--pad);right:var(--pad);top:452px;
+  bottom:var(--footzone);display:grid;gap:20px}
+.grid-s.compact .cells{top:420px}
+.grid-s .cell{background:#fff;border-radius:22px;padding:32px 30px;
+  box-shadow:0 18px 40px rgba(11,30,64,.09);
+  display:flex;flex-direction:column}
+.grid-s .cell .n{font-family:var(--post);font-size:46px;line-height:.9;color:var(--sky);opacity:.55}
+.grid-s .cell h4{font-size:30px;font-weight:900;letter-spacing:.04em;margin-top:14px;line-height:1.3}
+.grid-s .cell p{font-size:21px;line-height:1.7;color:var(--ink-2);margin-top:14px}
+.grid-s.compact .cell{padding:26px 24px}
+.grid-s.compact .cell h4{font-size:26px}
+.grid-s.compact .cell p{font-size:19px;line-height:1.65}
+.grid-s .foot{position:absolute;left:var(--pad);right:var(--pad);bottom:calc(var(--footzone) - 34px);
+  font-size:20px;color:var(--ink-2);line-height:1.6}
+
+/* ───────── spec / feature：左大圖 ＋ 右規格列 ───────── */
+.spec,.feature{background:#fff}
+.spec .hero,.feature .hero{position:absolute;left:0;top:0;width:1010px;height:1080px;overflow:hidden}
+/* will-change 只留給「小而且真的在動」的元素（標題逐字、裝飾點）。
+   大圖掛上它＝瀏覽器永久保留一塊全尺寸畫布，手機上很貴，而且是白付的：
+   這裡的放大是靜態的，不需要靠它加速。 */
+.spec .hero img,.feature .hero img{transform:scale(1.06)}
+/* 圖說要抬到 footzone 之上，否則會跟 folio 的品牌字疊在一起（2026-08-12 實際踩到） */
+.spec .hero .cap,.feature .hero .cap{position:absolute;left:40px;right:40px;
+  bottom:var(--footzone);color:#fff;font-size:19px;font-weight:700;letter-spacing:.03em;
+  text-shadow:0 2px 14px rgba(0,0,0,.75);z-index:3}
+.spec .hero .sh,.feature .hero .sh{position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(4,10,20,.72),transparent 34%)}
+/* 右欄可用高度 = 1080 − top(150) − footzone(132) = 798px。
+   加內容前先量：P14（銀行之夜，5 列＋長註）曾經超出 142px，整列「影像」被吃掉。
+   解法是把大數字抽成絕對定位（不佔流，省 106px），不是縮到看不清楚。 */
+.spec .side,.feature .side{position:absolute;left:1078px;right:var(--pad);top:150px;
+  bottom:var(--footzone);overflow:hidden}
+/* top 不可為負：side 是 overflow:hidden，負值會把數字上半切掉 */
+.spec .side .no,.feature .side .no{position:absolute;right:0;top:0;font-family:var(--post);
+  font-size:84px;line-height:.86;color:var(--sun);opacity:.9;z-index:0}
+.spec .side .en,.feature .side .en{font-family:var(--post);font-size:21px;letter-spacing:.24em;
+  color:var(--sky);position:relative;z-index:1}
+.spec .side h3,.feature .side h3{font-size:52px;font-weight:var(--wt-h);line-height:1.18;
+  letter-spacing:.03em;margin-top:12px;position:relative;z-index:1}
+.spec .side .sub,.feature .side .sub{font-size:22px;color:var(--ink-2);margin-top:16px;line-height:1.7}
+.spec .side .sub b,.feature .side .sub b{color:var(--coral);font-weight:900}
+.spec .rows,.feature .rows{margin-top:22px}
+.spec .rows .row,.feature .rows .row{display:grid;grid-template-columns:112px 1fr;gap:16px;
+  padding:12px 0;border-bottom:1.5px solid var(--line)}
+.spec .rows .k,.feature .rows .k{font-size:19px;font-weight:900;letter-spacing:.08em;color:var(--coral)}
+.spec .rows .v,.feature .rows .v{font-size:20px;line-height:1.58;color:var(--ink-2)}
+.spec .rows .v b,.feature .rows .v b{color:var(--ink);font-weight:900}
+.spec .note,.feature .note{margin-top:22px;font-size:18px;line-height:1.65;color:var(--soft);
+  border-left:3px solid var(--line);padding-left:16px}
+/* 左半是滿高照片，folio 左欄用墨黑會消失；mast 左欄同理 */
+.spec .folio .l,.feature .folio .l,.spec .mast .lft,.feature .mast .lft{
+  color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+.spec .folio,.feature .folio{opacity:.75}
+
+/* ───────── table：資料表 ───────── */
+.table-s{background:var(--fog)}
+.table-s .hd{position:absolute;left:var(--pad);right:var(--pad);top:140px}
+.table-s .hd .no{font-family:var(--post);font-size:110px;line-height:.8;color:var(--sun);
+  position:absolute;right:0;top:-24px;opacity:.9}
+.table-s .hd .en{font-family:var(--post);font-size:23px;letter-spacing:.28em;color:var(--sky)}
+.table-s .hd h3{font-size:68px;font-weight:var(--wt-h);letter-spacing:.05em;margin-top:10px}
+.table-s .hd p{font-size:24px;line-height:1.75;color:var(--ink-2);margin-top:16px;max-width:1400px}
+.table-s .tb{position:absolute;left:var(--pad);right:var(--pad);top:330px;
+  bottom:var(--footzone);overflow:hidden}
+.table-s .tr{display:grid;gap:24px;padding:17px 26px;align-items:center;border-radius:12px}
+.table-s .tr.th{background:var(--ink);color:#fff;font-size:20px;font-weight:900;letter-spacing:.14em}
+.table-s .tr.td{font-size:22px;line-height:1.55;color:var(--ink-2);border-bottom:1.5px solid var(--line)}
+.table-s .tr.td b{color:var(--ink);font-weight:900}
+.table-s .tr.td.hl{background:#fff;box-shadow:0 8px 22px rgba(11,30,64,.07)}
+.table-s .tr.td .c0{font-family:var(--post);font-size:22px;letter-spacing:.1em;color:var(--sky)}
+.table-s .aside{position:absolute;right:var(--pad);bottom:calc(var(--footzone) + 4px);width:600px;
+  background:#fff;border-radius:18px;padding:22px 26px;box-shadow:0 14px 36px rgba(11,30,64,.12)}
+.table-s .aside h5{font-size:21px;font-weight:900;color:var(--coral);letter-spacing:.06em;margin-bottom:12px}
+.table-s .aside div{display:grid;grid-template-columns:150px 1fr;gap:14px;font-size:19px;
+  padding:7px 0;color:var(--ink-2);border-top:1px solid var(--line)}
+.table-s .foot{position:absolute;left:var(--pad);right:var(--pad);
+  bottom:calc(var(--footzone) - 34px);font-size:19px;line-height:1.62;color:var(--ink-2)}
+
+/* ───────── routemap：真實底圖 ＋ 描線 ─────────
+   地理是真的：底圖是 CARTO Positron 圖磚在固定 center/zoom 下算出來的。
+   復古感是「皮」——不是把海岸線畫出來。輪廓與相對位置不准動。 */
+.routemap{background:var(--fog)}
+.routemap .mapwrap{position:absolute;inset:0}
+/* 調色與上面那層做舊已經烤進 au-mel-map-base.webp，這裡不再用 CSS 算。
+   原因：這張是 1920x1080，濾鏡與混合各要一塊全尺寸畫布，在 iPhone（3 倍像素）
+   各佔 71MB、合計 142MB；而 iPhone 一個分頁大約 200~300MB 就會被系統砍掉。
+   will-change 也拿掉——它是「永久」保留畫布，不是動畫期間才留。 */
+.routemap .mapwrap img{transform:scale(1.05)}
+/* 已烤進圖檔（見上）。mix-blend-mode 一定要拿掉——那是另一塊 71MB。 */
+.routemap .mapskin{display:none}
+.routemap svg.routes{position:absolute;inset:0;width:1920px;height:1080px;overflow:visible}
+.routemap svg.routes path{fill:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;
+  opacity:.95;/* 陰影拿掉：這張 SVG 是 1920x1080 整塊，drop-shadow 會讓瀏覽器再留一塊全尺寸畫布（iPhone 上 71MB）。路線本身有顏色，看得很清楚，不差這道陰影。 */}
+.routemap svg.routes .hub{fill:var(--ink);stroke:#fff;stroke-width:5}
+.routemap svg.routes circle.stop{stroke:#fff;stroke-width:4}
+.routemap .medal{position:absolute;width:112px;height:112px;transform:translate(-50%,-50%);
+  border-radius:50%;z-index:3;
+  box-shadow:0 12px 28px rgba(11,30,64,.28),0 0 0 3px #fff}
+.routemap .medal img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.routemap .medal.hub{width:132px;height:132px;box-shadow:0 14px 32px rgba(11,30,64,.32),0 0 0 4px #fff}
+.routemap .pin{position:absolute;transform:translate(-50%,0);white-space:nowrap;
+  font-weight:900;letter-spacing:.04em;z-index:4}
+.routemap .pin b{display:block;font-size:30px;color:var(--ink);
+  text-shadow:0 1px 0 #fff,0 0 8px #fff,0 0 15px rgba(255,255,255,.95)}
+.routemap .pin i{display:block;font-style:normal;font-family:var(--post);font-size:16px;
+  letter-spacing:.18em;color:var(--sky);text-shadow:0 0 8px #fff,0 0 12px #fff}
+.routemap .pin.sm b{font-size:22px}
+.routemap .pin.hub b{font-size:40px}
+.routemap .mapinfo{position:absolute;left:70px;bottom:calc(var(--footzone) + 6px);width:520px;z-index:6;
+  background:rgba(255,255,255,.94);border:1.5px solid var(--line);border-radius:22px;
+  padding:30px 32px 26px;box-shadow:0 18px 48px rgba(11,30,64,.16)}
+.routemap .mapinfo .en{font-family:var(--post);font-size:21px;letter-spacing:.24em;color:var(--sky)}
+.routemap .mapinfo h3{font-size:46px;font-weight:var(--wt-h);line-height:1.18;margin-top:10px;color:var(--ink)}
+.routemap .mapinfo p{font-size:21px;line-height:1.7;color:var(--ink-2);margin-top:12px}
+.routemap .mapinfo ol{list-style:none;margin-top:20px;border-top:1.5px solid var(--line);padding-top:6px}
+.routemap .mapinfo li{display:flex;align-items:center;gap:12px;padding:11px 0;
+  border-bottom:1px solid var(--line);font-size:21px;color:var(--ink)}
+.routemap .mapinfo li em{font-style:normal;font-family:var(--post);font-size:19px;
+  letter-spacing:.1em;color:var(--sky);min-width:56px}
+.routemap .mapinfo li s{width:26px;height:6px;border-radius:3px;text-decoration:none;flex:none}
+.routemap .mapinfo li span{margin-left:auto;font-size:18px;color:var(--soft)}
+/* 羅盤原本 bottom:104 會跟 folio 疊，收到 footzone 之上 */
+.routemap .compass{position:absolute;right:var(--pad);bottom:calc(var(--footzone) + 10px);
+  width:112px;height:112px;z-index:5;opacity:.72}
+
+/* ───────── end ───────── */
+.end{background:var(--night);color:#fff}
+.end .bg{position:absolute;inset:0;opacity:.5}
+.end .bg img{transform:scale(1.05)}
+.end .veil{position:absolute;inset:0;background:linear-gradient(to right,rgba(4,10,20,.92),rgba(4,10,20,.55))}
+.end .body{position:absolute;left:var(--pad);right:var(--pad);top:50%;transform:translateY(-56%)}
+.end .big{font-size:52px;font-weight:var(--wt-h);line-height:1.72;letter-spacing:.04em;max-width:1560px}
+.end .big em{font-style:normal;color:var(--sun)}
+.end .dash{width:140px;height:5px;background:var(--coral);margin:48px 0 32px}
+.end .sign{font-size:26px;letter-spacing:.1em;color:var(--on-dark)}
+.end .brand{font-family:var(--post);font-size:24px;letter-spacing:.26em;margin-top:12px;color:var(--sun)}
+
+/* 捲軸轉場：刻意用 CSS animation 而非 GSAP inline clip-path——
+   inline 樣式若動畫中斷會把整頁永久夾成一條縫（2026-08-12 踩到）。 */
+@keyframes unfurl{from{clip-path:inset(0 50% 0 50%)}to{clip-path:inset(0 0% 0 0%)}}
+.slide.unfurl-run{animation:unfurl 1.05s cubic-bezier(.62,0,.32,1) forwards}
+
+/* ── 導覽：position:fixed，且必須放在 #stage 之外 ──────────────
+   放進 #stage 會跟著舞台 transform 縮放：手機直向舞台只有 0.2 倍，
+   52px 的按鈕縮成 11px，等於沒有（2026-08-12 實測）。
+   fixed 定在視窗底部，跟舞台內 bottom:52px 的 folio 錯開，不會打架；
+   手機上舞台四周本來就有大片留白，按鈕正好落在留白區。 */
+#nav{position:fixed;right:20px;bottom:10px;z-index:50;display:flex;gap:12px;align-items:center;
+  font-family:var(--post);font-size:15px;letter-spacing:.18em;color:#fff;opacity:.5;
+  mix-blend-mode:difference}
+#nav button{background:rgba(255,255,255,.16);color:#fff;border:0;width:36px;height:36px;
+  border-radius:50%;cursor:pointer;font-size:16px;line-height:1}
+/* 觸控裝置：點畫面翻頁已停用，按鈕是唯一的手動翻頁方式，要點得到（≥44px） */
+@media (pointer:coarse){
+  #nav{opacity:.9;gap:18px;bottom:16px;right:16px;mix-blend-mode:normal}
+  #nav button{width:54px;height:54px;font-size:24px;background:rgba(10,20,40,.55);
+    backdrop-filter:blur(6px)}
+}
+#hint{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:50;color:#fff;
+  font-size:15px;letter-spacing:.14em;opacity:.5;background:rgba(0,0,0,.42);padding:8px 18px;
+  border-radius:999px;white-space:nowrap}
+@media (pointer:coarse){#hint{font-size:13px;bottom:80px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ============================================================
+   2026-08-14 擴充：轉場、格子底圖、每日示意圖、飯店頁、Thank You、導覽
+   ============================================================ */
+
+/* ───────── 轉場：每個版型有自己的進場方式 ─────────
+   一律用 CSS @keyframes ＋ forwards，不用 GSAP inline clip-path
+   （中斷會把整頁永久夾成一條縫，2026-08-12 踩過）。 */
+@keyframes dissolve{from{opacity:0;transform:scale(1.035)}to{opacity:1;transform:none}}
+@keyframes wipeup {from{clip-path:inset(34% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes slidein{from{clip-path:inset(0 0 0 62%)}to{clip-path:inset(0 0 0 0)}}
+@keyframes zoomin {from{clip-path:inset(0 0 40% 0)}to{clip-path:inset(0 0 0 0)}}
+.slide.dissolve-run{animation:dissolve .85s var(--ease) forwards}
+.slide.wipeup-run  {animation:wipeup  .90s cubic-bezier(.62,0,.32,1) forwards}
+.slide.slidein-run {animation:slidein .90s cubic-bezier(.62,0,.32,1) forwards}
+.slide.zoomin-run  {animation:zoomin 1.00s cubic-bezier(.62,0,.32,1) forwards}
+
+/* ───────── grid：格子可帶底圖，文字上下左右置中 ───────── */
+.grid-s .cell{position:relative;overflow:hidden;align-items:center;justify-content:center;text-align:center}
+.grid-s .cell .in{position:relative;z-index:2;width:100%}
+.grid-s .cell .cbg{position:absolute;inset:0;z-index:0}
+/* will-change 只留給「小而且真的在動」的元素（標題逐字、裝飾點）。
+   大圖掛上它＝瀏覽器永久保留一塊全尺寸畫布，手機上很貴，而且是白付的：
+   這裡的放大是靜態的，不需要靠它加速。 */
+.grid-s .cell .cbg img{width:100%;height:100%;object-fit:cover;transform:scale(1.06)}
+.grid-s .cell .cbg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(5,12,24,.62) 0%,rgba(5,12,24,.88) 100%)}
+.grid-s .cell.has-bg{background:#08111f;box-shadow:0 20px 44px rgba(11,30,64,.22)}
+.grid-s .cell.has-bg .n{color:var(--sun);opacity:.95}
+.grid-s .cell.has-bg h4{color:#fff}
+.grid-s .cell.has-bg p{color:rgba(230,238,248,.9)}
+
+/* ───────── dayhero：本日亮點 ＋ 右側示意圖卡 ─────────
+   目的是讓「每日行程」跟「總覽」一眼分得出來——總覽是表，每日是畫面。 */
+.dayhero .hi{display:inline-flex;align-items:center;gap:16px;margin-top:24px;
+  background:rgba(255,196,0,.13);border:1.5px solid rgba(255,196,0,.5);
+  border-radius:999px;padding:9px 26px 9px 10px}
+.dayhero .hi span{font-family:var(--post);font-size:16px;letter-spacing:.18em;color:#07101f;
+  background:var(--sun);border-radius:999px;padding:7px 15px}
+.dayhero .hi b{font-size:26px;font-weight:900;color:var(--sun);letter-spacing:.03em}
+.dayhero .plate{position:absolute;right:var(--pad);top:128px;width:432px;z-index:3;
+  display:flex;flex-direction:column;gap:18px}
+.dayhero .plate figure{position:relative;border-radius:20px;overflow:hidden;
+  box-shadow:0 22px 46px rgba(0,0,0,.46),0 0 0 1.5px rgba(255,255,255,.2)}
+.dayhero .plate img{width:100%;height:228px;object-fit:cover;display:block}
+.dayhero .plate figcaption{position:absolute;left:0;right:0;bottom:0;padding:12px 16px;
+  color:#fff;font-size:17px;font-weight:700;letter-spacing:.03em;
+  background:linear-gradient(to top,rgba(4,10,20,.86),transparent)}
+
+/* ───────── hotel：左規格、右四宮格圖 ───────── */
+.hotel{background:var(--fog)}
+.hotel .hd{position:absolute;left:var(--pad);right:var(--pad);top:120px}
+.hotel .hd .no{font-family:var(--post);font-size:110px;line-height:.8;color:var(--sun);
+  position:absolute;right:0;top:6px;opacity:.9}
+.hotel .hd .en{font-family:var(--post);font-size:24px;letter-spacing:.28em;color:var(--sky)}
+.hotel .hd h3{font-size:70px;font-weight:var(--wt-h);letter-spacing:.04em;margin-top:12px;line-height:1.14}
+.hotel .hd p{font-size:24px;line-height:1.75;color:var(--ink-2);margin-top:16px;max-width:1560px}
+.hotel .hrows{position:absolute;left:var(--pad);top:390px;bottom:var(--footzone);width:840px}
+.hotel .hrows .row{display:grid;grid-template-columns:122px 1fr;gap:20px;padding:15px 0;
+  border-bottom:1.5px solid var(--line)}
+.hotel .hrows .k{font-size:19px;font-weight:900;letter-spacing:.08em;color:var(--coral)}
+.hotel .hrows .v{font-size:21px;line-height:1.6;color:var(--ink-2)}
+.hotel .hrows .v b{color:var(--ink);font-weight:900}
+.hotel .gal{position:absolute;right:var(--pad);top:390px;bottom:var(--footzone);width:900px;
+  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:18px}
+.hotel .gal figure{position:relative;border-radius:20px;overflow:hidden;
+  box-shadow:0 18px 40px rgba(11,30,64,.16)}
+.hotel .gal img{width:100%;height:100%;object-fit:cover}
+.hotel .gal figcaption{position:absolute;left:0;right:0;bottom:0;padding:13px 16px;color:#fff;
+  font-size:17px;font-weight:700;letter-spacing:.03em;
+  background:linear-gradient(to top,rgba(4,10,20,.82),transparent)}
+.hotel .foot{position:absolute;left:var(--pad);right:var(--pad);bottom:calc(var(--footzone) - 40px);
+  font-size:19px;color:var(--soft);line-height:1.6}
+
+/* ───────── thanks：收尾 ───────── */
+.thanks{background:var(--night);color:#fff}
+.thanks .bg{position:absolute;inset:0;opacity:.4}
+.thanks .bg img{transform:scale(1.06)}
+.thanks .veil{position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 50% 46%,rgba(4,10,20,.42) 0%,rgba(4,10,20,.93) 72%)}
+.thanks .tk{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:0 var(--pad)}
+.thanks h2{font-family:var(--post);font-size:184px;line-height:.92;letter-spacing:.04em;color:#fff}
+.thanks h2 span{display:inline-block}
+.thanks .zh{font-size:33px;letter-spacing:.14em;color:var(--on-dark);margin-top:30px}
+.thanks .dash{width:120px;height:5px;background:var(--sun);margin:40px 0 30px}
+.thanks .sign{font-size:24px;letter-spacing:.08em;color:var(--on-dark);line-height:1.85}
+.thanks .brand{font-family:var(--post);font-size:22px;letter-spacing:.28em;color:var(--sun);margin-top:14px}
+
+/* ───────── 導覽：原本 mix-blend-mode:difference 在亮頁上幾乎看不到 ───────── */
+#nav{mix-blend-mode:normal;opacity:1;background:rgba(8,16,32,.5);backdrop-filter:blur(10px);
+  padding:7px 8px 7px 20px;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.28)}
+#nav #cnt{color:#fff;font-size:16px;letter-spacing:.2em;opacity:.95}
+#nav button{background:rgba(255,255,255,.2);transition:background .2s}
+#nav button:hover{background:var(--sun);color:#07101f}
+@media (pointer:coarse){#nav{background:rgba(8,16,32,.62)}}
+.thanks h2 span.sp{width:.34em}
+
+/* ───────── deco：撞色幾何點綴（只加在淺底頁，深底頁靠照片本身） ─────────
+   全部從版面邊緣「探出來」被 overflow 切掉，不會落在文字上；z-index:0 壓在內容下。 */
+.deco{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.deco i{position:absolute;display:block}
+.deco .c1{width:520px;height:520px;border-radius:50%;border:26px solid var(--sun);
+  opacity:.22;right:-200px;top:-180px}
+.deco .c2{width:124px;height:124px;border-radius:28px;background:var(--coral);
+  opacity:.85;left:-44px;bottom:228px;transform:rotate(14deg)}
+.deco .c3{width:22px;height:280px;border-radius:999px;background:var(--cyan);
+  opacity:.55;right:-8px;bottom:210px}
+.deco .c4{width:46px;height:46px;border-radius:50%;background:var(--sky);
+  opacity:.5;left:236px;bottom:-16px}
+/* spec／feature 左半是滿版照片，幾何只在右欄那側出現 */
+.spec .deco,.feature .deco{left:1010px}
+.spec .deco .c2,.feature .deco .c2{left:-52px;bottom:150px}
+.spec .deco .c4,.feature .deco .c4{left:120px;bottom:-18px}
+
+/* ───────── quote 主題標籤 ───────── */
+.quote .tag{display:inline-flex;align-items:center;gap:14px;margin-bottom:30px;
+  font-size:22px;font-weight:900;letter-spacing:.16em;color:#07101f;
+  background:var(--sun);border-radius:999px;padding:11px 26px}
+/* hotel 左欄是規格列，幾何要讓開欄名（2026-08-14：珊瑚紅方塊壓到「露台／健身」） */
+.hotel .deco .c2{left:-72px;bottom:56px}
+.hotel .deco .c4{left:150px;bottom:-24px}
+
+
+/* ───────── 路線圖：真實地理，不是手畫 ─────────
+   輪廓來自 Natural Earth 的新南威爾斯州界（公有領域），
+   城市座標由真實經緯度等距投影算出，不是用眼睛喬的。
+   ⚠️ 這頁刻意不用 filter / mix-blend-mode / will-change——
+      墨爾本那頁就是死在這三樣（見檔頭）。 */
+.routemap .geo{position:absolute;inset:0;width:100%;height:100%}
+.routemap .sea{fill:#DCE7EC}
+.routemap .land path{fill:#EDE8DB;stroke:#CFC6B0;stroke-width:2.5}
+.routemap .geo path[class^="r-"]{fill:none;stroke-width:8;stroke-linecap:round}
+.routemap .r-day2{stroke:#C25A3A}
+.routemap .r-day4{stroke:#E0A03C}
+.routemap .r-day5{stroke:#2E6F8E}
+.routemap .r-air{stroke:#6E6A5E;stroke-width:9;stroke-dasharray:3 13}
+.routemap .hub{fill:#12304A;stroke:#fff;stroke-width:5}
+.routemap .stop{fill:#12304A;stroke:#fff;stroke-width:3.5}
+.routemap .zh{font-size:34px;font-weight:900;fill:#12304A}
+.routemap .en{font-size:19px;font-weight:700;letter-spacing:.14em;fill:#6C6656}
+.routemap .mapinfo{position:absolute;left:70px;bottom:calc(var(--footzone) + 6px);width:600px;z-index:6;
+  background:rgba(255,255,255,.94);border:1.5px solid var(--line);border-radius:18px;padding:26px 30px}
+.routemap .mapinfo .en{font-size:15px;letter-spacing:.2em;color:var(--sky);font-weight:700}
+.routemap .mapinfo h3{font-size:40px;line-height:1.22;margin:8px 0 10px}
+.routemap .mapinfo p{font-size:20px;color:var(--ink);margin-bottom:14px}
+.routemap .mapinfo ul{list-style:none;margin:0;padding:0}
+.routemap .mapinfo li{display:flex;align-items:center;gap:12px;padding:9px 0;
+  border-top:1px solid var(--line);font-size:19px;color:var(--ink)}
+.routemap .mapinfo li i{width:34px;height:6px;border-radius:99px;flex:none}
+.routemap .mapinfo li i.r-day2{background:#C25A3A}
+.routemap .mapinfo li i.r-day4{background:#E0A03C}
+.routemap .mapinfo li i.r-day5{background:#2E6F8E}
+.routemap .mapinfo li i.r-air{background:#8A8578}
+
+
+/* ───────── 地圖上的點對點距離（2026-08-15 William 要求）─────────
+   白底藥丸貼在路線中段。車程是一般路況概估，不是保證值。 */
+.routemap .dist{position:absolute;z-index:5;transform:translate(-50%,-50%);
+  white-space:nowrap;background:rgba(255,255,255,.94);border:1.5px solid var(--line);
+  border-radius:99px;padding:7px 16px;font-size:19px;font-weight:800;color:var(--ink);
+  box-shadow:0 6px 18px rgba(11,30,64,.16)}
+.routemap .dist em{font-style:normal;color:var(--soft);font-weight:600;margin-left:8px}
+
+/* 圓徽章：跟墨爾本同一套做法。用真照片圓裁，不是生成的插圖。 */
+.routemap .medal{position:absolute;width:104px;height:104px;transform:translate(-50%,-50%);
+  border-radius:50%;z-index:4;box-shadow:0 12px 28px rgba(11,30,64,.28),0 0 0 4px #fff}
+.routemap .medal img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.routemap .medal.hub{width:128px;height:128px;z-index:5;
+  box-shadow:0 14px 32px rgba(11,30,64,.32),0 0 0 5px #fff}
+
+/* ───────── 影片頁（2026-08-15）─────────
+   刻意做成「點了才播」：沒點就是一張劇照。
+   理由：簡報常常在客戶端離線放，直接嵌 iframe 的話沒網路就開天窗。
+   點下去才換成 YouTube，離線時至少還看得到畫面與說明。 */
+.videoslide{background:var(--fog,#F4F1EA)}
+.videoslide .vs-stage{position:absolute;left:var(--pad);top:120px;
+  width:1000px;height:562px;z-index:2}
+.videoslide .vs-frame{position:relative;width:100%;height:100%;overflow:hidden;
+  border-radius:18px;box-shadow:0 26px 60px rgba(11,30,64,.28);background:#0A1420}
+.videoslide .vs-frame img{width:100%;height:100%;object-fit:cover;display:block}
+.videoslide .vs-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.videoslide .vs-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:104px;height:104px;border-radius:50%;border:0;cursor:pointer;
+  background:rgba(255,255,255,.94);box-shadow:0 14px 40px rgba(0,0,0,.4);
+  display:flex;align-items:center;justify-content:center}
+.videoslide .vs-play span{width:0;height:0;margin-left:8px;
+  border-left:30px solid #12304A;border-top:19px solid transparent;border-bottom:19px solid transparent}
+.videoslide .vs-cap{position:absolute;left:0;right:0;bottom:0;padding:38px 26px 16px;
+  color:#fff;font-size:19px;letter-spacing:.02em;
+  background:linear-gradient(transparent,rgba(6,14,28,.78))}
+.videoslide .vs-side{position:absolute;right:var(--pad);top:120px;width:660px;z-index:3}
+.videoslide .vs-side .en{font-size:17px;letter-spacing:.22em;color:var(--sky);font-weight:800}
+.videoslide .vs-side h3{font-size:52px;line-height:1.2;margin:10px 0 18px}
+.videoslide .vs-side .sub{font-size:22px;line-height:1.8;color:var(--ink);margin-bottom:22px}
+.videoslide .vs-side .rows .row{display:grid;grid-template-columns:104px 1fr;gap:16px;
+  padding:12px 0;border-bottom:1.5px solid var(--line);font-size:20px}
+.videoslide .vs-side .rows .k{color:var(--coral);font-weight:800}
+
+/* ═══════════════════════════════════════════════════════════════
+   dayhero 的右側圖卡：**規則，不是寫死的位置**（2026-08-15 立）
+
+   William 指出的問題：小圖釘死在右上角，一張是它、兩張也是它，
+   而且離內容很遠、不仔細看看不到。位置寫死＝每次都要人工喬。
+
+   規則：
+     · 右側垂直置中（不是貼右上角）——跟左邊的標題視覺上對得起來
+     · 一張圖  → 佔滿整個高度，就是一張大的
+     · 兩張圖  → 上下均分
+     · 三張以上 → 繼續均分，不用改樣式
+   靠 flex 自動分配，加幾張都不必動 CSS。
+   ═══════════════════════════════════════════════════════════════ */
+.dayhero .plate{position:absolute;right:var(--pad);top:50%;transform:translateY(-50%);
+  z-index:4;width:392px;height:392px;display:flex;flex-direction:column;gap:16px}
+.dayhero .plate figure{flex:1;min-height:0;position:relative;border-radius:20px;
+  overflow:hidden;box-shadow:0 22px 46px rgba(0,0,0,.46),0 0 0 1.5px rgba(255,255,255,.2)}
+.dayhero .plate figure img{width:100%;height:100%;object-fit:cover;display:block}
+.dayhero .plate figcaption{position:absolute;left:0;right:0;bottom:0;
+  padding:26px 16px 12px;color:#fff;font-size:17px;letter-spacing:.02em;
+  background:linear-gradient(transparent,rgba(6,14,28,.82))}
+
+/* 天數的大數字：原本下緣離英文行只有 37px，空心字又跟背景混在一起。
+   往上收、和下面拉開距離。 */
+.dayhero .num{top:44px;left:var(--pad)}
+.dayhero .body{margin-top:26px}
+
+/* ═══ 下方留白：把內容區撐開，不要全部擠在上緣（2026-08-15 William 指出）═══
+   feature／hotel／table 的右欄原本是內容多高就多高，剩下全是空白。
+   改成填滿可用高度、列與列之間自動均分——內容少的時候看起來是「疏朗」，
+   不是「沒做完」。 */
+.feature .side,.hotel .hd{display:flex;flex-direction:column}
+.feature .side .rows{flex:1;display:flex;flex-direction:column;justify-content:space-evenly}
+.hotel .hrows{margin-top:18px}
+.hotel .hrows .row{display:grid;grid-template-columns:132px 1fr;gap:18px;
+  padding:13px 0;border-bottom:1.5px solid var(--line);font-size:20px}
+.hotel .hrows .k{color:var(--coral);font-weight:800}
+.table-s .tb{display:flex;flex-direction:column;justify-content:flex-start}
+.table-s .tb .tr.td{padding-top:4px;padding-bottom:4px}
+.videoslide .vs-side .rows{margin-top:8px}
+.videoslide .vs-side .rows .row{padding:15px 0}
+/* ═══ 下方留白 · 第二輪（2026-08-15 William 再次指出）═══
+   症狀：影片頁的畫面偏小、右欄與表格全擠在上緣，下面整片空著。
+   作法一律是「把可用高度用滿」——影片放大並垂直置中，
+   列與列之間自動均分；有說明卡的表格頁則把說明卡拉成整排兩欄填住下緣。 */
+.videoslide .vs-stage{top:219px;width:1120px;height:630px}
+.videoslide .vs-side{top:130px;bottom:var(--footzone);width:600px;
+  display:flex;flex-direction:column}
+.videoslide .vs-side .rows{flex:1;display:flex;flex-direction:column;justify-content:space-evenly}
+.table-s .tb{justify-content:space-evenly}
+/* 左欄的列要跟右邊照片牆對齊：第一列切齊上緣、最後一列切齊下緣，
+   中間自動均分。用 space-evenly 會讓整欄往中間縮，看起來像沒對好。 */
+.hotel .hrows{margin-top:0;display:flex;flex-direction:column}
+.hotel .hrows .row{flex:1;align-items:center}
+.hotel .hrows .row:last-child{border-bottom:0}
+.table-s.has-aside .tb{bottom:calc(var(--footzone) + 236px);justify-content:space-evenly}
+.table-s.has-aside .aside{left:var(--pad);width:auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:0 44px;align-content:start}
+.table-s.has-aside .aside h5{grid-column:1 / -1}
+/* 只有一句話的說明卡：拉成整排一條，貼在表格下面，不要縮在右下角 */
+.table-s.has-note .tb{bottom:calc(var(--footzone) + 110px);justify-content:space-evenly}
+.table-s.has-note .aside{left:var(--pad);width:auto}
+</style>
+</head>
+<body>
+<div id="stage">
+<section class="slide cover on" data-anim="cover" data-i="0">
+  <div class="grain"></div><div class="disc"></div>
+  <div class="body">
+    <div class="kick">CORPORATE TRAVEL PROPOSAL</div>
+    <h1 id="cvTitle"><span class="ln">AUS</span><span class="ln">TRALIA</span></h1>
+    <div class="zh">墨爾本　·　雪梨<em>雙案提案</em></div>
+    <div class="meta"><span class="chip line">兩案任選一・皆為 7 日</span><span class="chip line">台北／桃園直飛不轉機</span><span class="chip line">2027 員工旅遊</span></div>
+  </div>
+  <div class="strip"><figure><img data-src="/tour/melbourne-7d/img/au-mel-tram-strip.webp" alt=""></figure><figure><img data-src="/tour/sydney-7d/img/syd-opera-cell.webp" alt=""></figure><figure><img data-src="/tour/sydney-7d/img/syd-quay-cell.webp" alt=""></figure></div>
+  <div class="rule"></div>
+<div class="folio"><span class="l">MELBOURNE · SYDNEY · AUSTRALIA</span></div>
+</section>
+
+<section class="slide spec" data-anim="spec" data-i="1" data-trans="slidein">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+  <div class="hero"><img data-src="/tour/melbourne-sydney-7d/img/corner-services.jpg" alt=""><div class="sh"></div>
+    <div class="cap">角落旅行社　·　CORNER TRAVEL</div></div>
+  <div class="side">
+    <div class="no">00</div>
+    <div class="en">WHO WE ARE</div><h3>關於我們<br>角落旅行社</h3>
+    <div class="sub">由一群志同道合的夥伴組成的新穎公司，主力做高端客製化行程、日本滑雪學校代理、大型獎勵旅遊與私人招待。這次多聯科技的兩案提案，從行程規劃到現場帶隊，都是我們親自操刀。</div>
+    <div class="rows"><div class="row"><div class="k">會議假期</div><div class="v">企業尾牙、春酒、家庭日、會議假期整合規劃</div></div><div class="row"><div class="k">主題活動</div><div class="v">依行程與主題客製化的活動設計與執行</div></div><div class="row"><div class="k">獎勵旅遊</div><div class="v">大型獎勵團體、郵輪包船、企業客製化行程</div></div><div class="row"><div class="k">文化體驗</div><div class="v">深度在地文化與獨家私人招待行程</div></div><div class="row"><div class="k">合作方式</div><div class="v">與五星飯店、航空公司直接簽約，價格透明無中間層</div></div><div class="row"><div class="k">專案團隊</div><div class="v">專案協理與導遊全程對接，出發前到回程都是同一組人</div></div></div>
+  </div>
+<div class="mast"><span class="lft">關於我們</span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide feature" data-anim="feature" data-i="2" data-trans="slidein">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+  <div class="hero"><img data-src="/tour/melbourne-sydney-7d/img/corner-innovation.jpg" alt=""><div class="sh"></div>
+    <div class="cap">角落旅行社　·　創新服務</div></div>
+  <div class="side">
+    <div class="en">INNOVATION · BEYOND THE ITINERARY</div><h3>行程之外<br>我們還做更多</h3>
+    <div class="sub">從活動企劃到視覺設計，角落不只是排行程的旅行社——是一支能把整場活動一次做完的團隊。</div>
+    <div class="rows"><div class="row"><div class="k">活動策劃</div><div class="v">活動規劃與執行，如尾牙晚宴、策劃會報、家庭日等，提供專業意見和協助</div></div><div class="row"><div class="k">視覺設計</div><div class="v">根據不同活動主題及行程安排，設計相關視覺風格</div></div><div class="row"><div class="k">原創客製</div><div class="v">客製化專屬周邊小物和特色伴手禮，別出心裁點亮每趟旅程</div></div><div class="row"><div class="k">影片剪輯</div><div class="v">行前影片、活動花絮與成果影片，從腳本到剪接一手完成</div></div><div class="row"><div class="k">網站製作</div><div class="v">活動專屬網頁與線上報名，行程與名單即時更新</div></div><div class="row"><div class="k">AI 客服</div><div class="v">線上即時回覆行程與報名問題，不受上班時間限制</div></div></div>
+  </div>
+<div class="mast"><span class="lft">創新服務</span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide cover on" data-anim="cover" data-i="3">
+
+
+  <div class="grain"></div><div class="disc"></div>
+  <div class="body">
+    <div class="kick">CORPORATE TRAVEL PROPOSAL</div>
+    <h1 id="cvTitle"><span class="ln">MEL</span><span class="ln">BOURNE</span></h1>
+    <div class="zh">文化美學<em>七日</em></div>
+    <div class="meta"><span class="chip line">華航 CI 57／CI 58 直飛</span><span class="chip line">墨爾本四晚連住</span><span class="chip line">六天九餐全指定</span></div>
+  </div>
+  <div class="strip"><figure><img data-src="/tour/melbourne-7d/img/au-mel-tram-strip.webp" alt=""></figure><figure><img data-src="/tour/melbourne-7d/img/au-mel-sovereignhill-strip.webp" alt=""></figure><figure><img data-src="/tour/melbourne-7d/img/au-mel-degraves-strip.webp" alt=""></figure></div>
+  <div class="rule"></div>
+
+<div class="folio"><span class="l">MELBOURNE · VICTORIA · AUSTRALIA</span></div>
+</section>
+
+<section class="slide quote" data-anim="quote" data-i="4" data-trans="dissolve">
+
+
+  <div class="bg"><img data-src="/tour/melbourne-7d/img/au-mel-skyline.webp" alt=""></div><div class="veil"></div>
+  <div class="body">
+    <div class="tag">本次主題　·　周杰倫《周遊記》</div>
+    <div class="big">這一趟，我們照<em>《周遊記》</em>的方式走——<br>不趕景點、不排滿，<br>用一座城市的日常把七天走完</div><div class="dash"></div>
+    <div class="sub">白天在巷子裡亂走，傍晚坐上百年蒸汽火車，入夜看企鵝上岸，<br>最後一晚，一群人一起吃一頓像樣的飯。<br>四晚同住、行李只打開一次，力氣留著玩。</div>
+  </div>
+<div class="mast"><span class="lft">本次主題</span><span class="r">THE THEME</span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide grid-s" data-anim="grid" data-i="5" data-trans="wipeup">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+
+  <div class="hd">
+    <div class="no">01</div>
+    <div class="en">HOW WE BUILT IT</div><h3>這趟旅程怎麼設計</h3>
+    <p>員工旅遊的成敗不在景點數量。這五件事，我們在排行程時先決定。</p>
+  </div>
+  <div class="cells" style="grid-template-columns:repeat(5,1fr)">
+    <div class="cell has-bg"><div class="cbg"><img data-src="/tour/melbourne-7d/img/au-mel-rochford-cell.webp" alt=""></div><div class="in"><div class="n">01</div><h4>每一餐都寫清楚</h4><p>六天九餐的餐廳、菜色與餐標全部列進提案裡。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/melbourne-7d/img/au-mel-bourke-mall-cell.webp" alt=""></div><div class="in"><div class="n">02</div><h4>四晚不搬行李</h4><p>以墨爾本市區為單一基地，每天出發、每天回同一家飯店。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/melbourne-7d/img/au-mel-nobbies-cell.webp" alt=""></div><div class="in"><div class="n">03</div><h4>體力有節奏</h4><p>夜航日不塞景點，企鵝日晚歸則隔天順延，最後一天不排硬景點。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/melbourne-7d/img/au-mel-sovereignhill-cell.webp" alt=""></div><div class="in"><div class="n">04</div><h4>一天一種面貌</h4><p>城市、海島生態、淘金史、酒鄉，四天四個不同的墨爾本。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/melbourne-7d/img/au-mel-tram-cell.webp" alt=""></div><div class="in"><div class="n">05</div><h4>說得出理由</h4><p>每一項取捨都有原因，出發前福委就能對員工說清楚。</p></div></div>
+  </div>
+  
+<div class="mast"><span class="lft"></span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide spec" data-anim="spec" data-i="6" data-trans="slidein">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+
+  <div class="hero"><img data-src="/tour/melbourne-7d/img/au-mel-flinders.webp" alt=""><div class="sh"></div>
+    <div class="cap">墨爾本　·　弗林德斯街車站</div></div>
+  
+  <div class="side">
+    <div class="no">02</div>
+    <div class="en">THE SHAPE OF THE TRIP</div><h3>這趟行程<br>長什麼樣子</h3>
+    <div class="sub">不是以景點數量取勝，而是把每天的體力與每一餐的規格都先算好。</div>
+    <div class="rows"><div class="row"><div class="k">航班</div><div class="v">中華航空 CI 57／CI 58 台北—墨爾本<b>直飛</b>，去回程都不轉機</div></div><div class="row"><div class="k">住宿</div><div class="v">Holiday Inn Melbourne Bourke Street Mall by IHG（2025 年 9 月開幕），<b>四晚連住</b>不換飯店</div></div><div class="row"><div class="k">餐食</div><div class="v">六天九餐<b>全數指定餐廳與餐標</b>，以最低餐標計約 <b>A$630／人</b></div></div><div class="row"><div class="k">城市</div><div class="v">市區觀光、Hummer 加長禮車車遊、咖啡巷導覽、查斯頓購物</div></div><div class="row"><div class="k">郊區</div><div class="v">普芬比利蒸汽火車與企鵝歸巢、疏芬山淘金與下礦區、亞拉河谷酒莊與巧克力工廠</div></div><div class="row"><div class="k">節奏</div><div class="v">企鵝日晚歸，隔日順延出發；購物排在返程當天，買完直接進機場</div></div><div class="row"><div class="k">紀念</div><div class="v">專屬過夜包、墨爾本在地手工皂與企業小卡，每位員工一份</div></div><div class="row"><div class="k">標準</div><div class="v">分梯出發，各梯住宿、餐食、門票與服務標準完全一致</div></div></div>
+    
+  </div>
+<div class="mast"><span class="lft">行程輪廓</span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide routemap" data-anim="routemap" data-i="7" data-trans="unfurl">
+
+
+  <div class="mapwrap"><img data-src="/tour/melbourne-7d/img/au-mel-map-base.webp" alt="維多利亞州墨爾本與周邊真實地圖"><div class="mapskin"></div></div>
+  <svg class="routes" viewBox="0 0 1920 1080" aria-hidden="true">
+    <path id="rd3" d="M1405.6,424.0 C1476.3,465.5 1552.6,488.7 1634.4,493.6 C1556.7,631.8 1514.5,780.0 1508.0,938.4" stroke="var(--sky)"/><path id="rd4" d="M1405.6,424.0 C1202.4,321.7 987.2,264.7 760.0,252.8 C962.1,381.8 1181.5,464.8 1418.4,501.6" stroke="var(--coral)"/><path id="rd5" d="M1405.6,424.0 C1501.3,429.2 1587.7,403.4 1664.8,346.4" stroke="var(--cyan)"/>
+    <circle class="ring" id="hubRing" cx="1405.6" cy="424" r="70"/>
+    
+  </svg>
+  <div class="medal m-bri" style="left:1418.4px;top:501.6px"><img data-src="/tour/melbourne-7d/img/medal-brighton.webp" alt="布萊頓彩虹小屋徽章"></div><div class="medal m3" style="left:760px;top:252.8px"><img data-src="/tour/melbourne-7d/img/medal-gold.webp" alt="疏芬山淘金徽章"></div><div class="medal hub m5" style="left:1405.6px;top:424px"><img data-src="/tour/melbourne-7d/img/medal-tram.webp" alt="墨爾本電車徽章"></div><div class="medal m4a" style="left:1634.4px;top:493.6px"><img data-src="/tour/melbourne-7d/img/medal-train.webp" alt="普芬比利蒸汽火車徽章"></div><div class="medal m4b" style="left:1508px;top:938.4px"><img data-src="/tour/melbourne-7d/img/medal-penguin.webp" alt="小藍企鵝徽章"></div><div class="medal m5b" style="left:1664.8px;top:346.4px"><img data-src="/tour/melbourne-7d/img/medal-wine.webp" alt="亞拉河谷葡萄酒徽章"></div>
+  <div class="dist" style="left:1524px;top:468px">40 km<em>1 小時</em></div>
+  <div class="dist" style="left:1596px;top:706px">130 km<em>1 小時 50 分</em></div>
+  <div class="dist" style="left:1046px;top:296px">115 km<em>1 小時 30 分</em></div>
+  <div class="dist" style="left:1092px;top:452px">120 km<em>1 小時 30 分</em></div>
+  <div class="dist" style="left:1548px;top:352px">55 km<em>1 小時</em></div>
+  <div class="pin hub" style="left:1348px;top:285px"><b>墨爾本</b><i>MELBOURNE · 連住 4 晚</i></div><div class="pin p3" style="left:760px;top:125px"><b>疏芬山</b><i>SOVEREIGN HILL</i></div><div class="pin p3 sm" style="left:1418.4px;top:540px"><b>布萊頓彩虹小屋</b><i>BRIGHTON</i></div><div class="pin p4" style="left:1634.4px;top:558px"><b>普芬比利</b><i>PUFFING BILLY</i></div><div class="pin p4" style="left:1508px;top:812px"><b>菲利浦島</b><i>PENGUIN PARADE</i></div><div class="pin p5" style="left:1664.8px;top:218px"><b>亞拉河谷</b><i>YARRA VALLEY</i></div>
+  <div class="mapinfo">
+    <div class="en">ONE BASE · FOUR DIRECTIONS</div><h3>四晚連住墨爾本<br>每天換一個方向</h3><p>行李不必搬、不必每天重新入住——風景卻換了四次。圖上標的是各段公里數與車程（一般路況概估）。</p>
+    <ol><li><em>DAY 3</em><s style="background:var(--sky)"></s><b>普芬比利 → 菲利浦島</b><span>東・轉南</span></li><li><em>DAY 4</em><s style="background:var(--coral)"></s><b>疏芬山 → 布萊頓</b><span>西北・轉南灣岸</span></li><li><em>DAY 5</em><s style="background:var(--cyan)"></s><b>亞拉河谷</b><span>東北・酒鄉</span></li><li><em>D2/6</em><s style="background:var(--ink)"></s><b>墨爾本市區・查斯頓</b><span>原地・不出城</span></li></ol>
+  </div>
+  <div class="compass"><svg viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="46" fill="rgba(255,255,255,.82)" stroke="var(--line)" stroke-width="2"/>
+    <path d="M50,8 L58,50 L50,44 L42,50 Z" fill="var(--coral)"/>
+    <path d="M50,92 L42,50 L50,56 L58,50 Z" fill="var(--ink)"/>
+    <text x="50" y="26" text-anchor="middle" font-family="Anton" font-size="13" fill="var(--ink)">N</text>
+  </svg></div>
+<div class="mast"><span class="lft">旅遊路線</span><span class="r">THE ROUTE</span></div>
+<div class="folio"><span class="l">ROUTE · VICTORIA</span></div>
+</section>
+
+<section class="slide table-s" data-anim="table" data-i="8" data-trans="wipeup">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+
+  <div class="hd">
+    <div class="no">03</div>
+    <div class="en">ITINERARY OVERVIEW</div><h3>七日總覽</h3>
+    
+  </div>
+  <div class="tb">
+    <div class="tr th" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">天數</div><div class="c1">行程重點</div><div class="c2">餐食</div><div class="c3">住宿</div></div>
+    <div class="tr td" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 1</div><div class="c1">桃園出發・華航 CI 57 夜航直飛</div><div class="c2">機上餐</div><div class="c3">機上</div></div><div class="tr td" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 2</div><div class="c1">抵達墨爾本・市區觀光・<b>Hummer 車遊</b></div><div class="c2">Universal 披薩分享餐／Munich Brauhaus 歡迎晚宴</div><div class="c3">墨爾本　連住 1／4</div></div><div class="tr td hl" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 3</div><div class="c1">普芬比利蒸汽火車・<b>企鵝歸巢</b></div><div class="c2">複合式自助餐／Beach HQ 龍蝦三道式</div><div class="c3">墨爾本　連住 2／4</div></div><div class="tr td hl" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 4</div><div class="c1"><b>疏芬山</b>（含下礦區）・布萊頓彩虹小屋</div><div class="c2">園區內兩道式／中式八菜一湯</div><div class="c3">墨爾本　連住 3／4</div></div><div class="tr td hl" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 5</div><div class="c1">羅富酒莊品酒・巧克力工廠・<b>惜別晚宴</b></div><div class="c2">酒莊兩道式／The Meat &amp; Wine Co 包廂牛排</div><div class="c3">墨爾本　連住 4／4</div></div><div class="tr td" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 6</div><div class="c1">咖啡巷導覽・查斯頓購物・CI 58 返程</div><div class="c2">港式飲茶／購物中心發代金 A$30／機上餐</div><div class="c3">機上</div></div><div class="tr td" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 7</div><div class="c1">清晨平安返抵桃園</div><div class="c2">—</div><div class="c3">—</div></div>
+  </div>
+  
+  <div class="foot">企鵝歸巢隨季節日落浮動，看完約 22:30 返抵飯店；隔日出發時間順延、早餐延後供應。</div>
+<div class="mast"><span class="lft"></span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide dayhero" data-anim="dayhero" data-i="9" data-trans="zoomin">
+
+
+  <div class="bg"><img data-src="/tour/melbourne-7d/img/au-mel-skyline.webp" alt=""></div>
+  <div class="veil"></div><div class="veil2"></div>
+  <div class="num">01</div>
+  <div class="plate"><figure><img data-src="/tour/melbourne-7d/img/gift-overnight-kit-plate.webp" alt=""><figcaption>多聯專屬過夜包　·　集合時發放</figcaption></figure></div>
+  <div class="body">
+    <div class="en">TAOYUAN TPE → MELBOURNE MEL</div>
+    <h2><span class="ln"><i>桃園出發</i></span><span class="ln"><i>華航夜航墨爾本</i></span></h2>
+    <div class="hi"><span>本日亮點</span><b>還沒上飛機，先拿到一只自己的袋子</b></div>
+    <div class="lead">夜裡十一點半的桃園，登機門前發下多聯專屬過夜包——眼罩、機上襪、盥洗小物，當晚就用得到。九個多小時後醒來，窗外是南半球的早晨。</div>
+    <div class="chips"><span>CI 57　TPE 23:30 → MEL 10:40</span><span>波音 777．約 9 小時 20 分</span><span>直飛不轉機</span><span>機上餐・機上過夜</span></div>
+  </div>
+  <div class="note">華航墨爾本線每週一・二・四・六飛。各梯統一採「週六出發、週四搭 CI 58 返程」，去回都對得上班表。</div>
+<div class="mast"><span class="lft"></span><span class="r">TAOYUAN → MELBOURNE</span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide dayhero" data-anim="dayhero" data-i="10" data-trans="zoomin">
+
+
+  <div class="bg"><img data-src="/tour/melbourne-7d/img/au-mel-bourke-mall.webp" alt=""></div>
+  <div class="veil"></div><div class="veil2"></div>
+  <div class="num">02</div>
+  <div class="plate"><figure><img data-src="/tour/melbourne-7d/img/au-mel-tram-plate.webp" alt=""><figcaption>墨爾本　·　市區電車</figcaption></figure><figure><img data-src="/tour/melbourne-7d/img/au-mel-flinders-plate.webp" alt=""><figcaption>弗林德斯街車站　·　城市的起點</figcaption></figure></div>
+  <div class="body">
+    <div class="en">MELBOURNE CITY · HUMMER LIMO</div>
+    <h2><span class="ln"><i>初見墨爾本</i></span><span class="ln"><i>市區與 Hummer 車遊</i></span></h2>
+    <div class="hi"><span>本日亮點</span><b>一小時加長禮車，繞一圈墨爾本</b></div>
+    <div class="lead">上午十點四十落地，夜航後不趕景點。先吃一頓從容的午餐，再沿著電車軌道認識這座城市；下午換上 Hummer 加長禮車，同一批市區風景，多聯員工的版本會不一樣。</div>
+    <div class="chips"><span>10:40 落地・專車接機</span><span>市區觀光</span><span>Hummer 加長禮車車遊 1 小時</span><span>Munich Brauhaus 歡迎晚宴</span></div>
+  </div>
+  <div class="note">午餐 Universal・義大利披薩分享餐 A$35 起；歡迎晚宴 Munich Brauhaus Melbourne・德國豬腳分享餐＋300ml 啤酒 A$60 起。</div>
+<div class="mast"><span class="lft"></span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide hotel" data-anim="hotel" data-i="11" data-trans="wipeup">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+
+  <div class="hd">
+    <div class="no">04</div>
+    <div class="en">WHERE YOU STAY</div><h3>Holiday Inn Melbourne Bourke Street Mall</h3>
+    <p>2025 年 9 月才開幕的新飯店，就開在 Bourke Street Mall 徒步區正上方。四晚都住這裡，行李只打開一次。</p>
+  </div>
+  <div class="gal"><figure><img data-src="/tour/melbourne-7d/img/hotel-room.webp" alt=""><figcaption>客房　·　Twin 雙床</figcaption></figure><figure><img data-src="/tour/melbourne-7d/img/hotel-lobby.webp" alt=""><figcaption>大廳　·　苔蘚牆與淺木質調</figcaption></figure><figure><img data-src="/tour/melbourne-7d/img/hotel-terrace.webp" alt=""><figcaption>220 ㎡ 私人露台　·　俯瞰 Bourke Street Mall</figcaption></figure><figure><img data-src="/tour/melbourne-7d/img/hotel-dining.webp" alt=""><figcaption>The Greenery　·　團體早餐在此</figcaption></figure></div>
+  <div class="hrows"><div class="row"><div class="k">位置</div><div class="v">Bourke Street Mall 徒步區正上方，<b>市區免費電車圈內</b></div></div><div class="row"><div class="k">房型</div><div class="v">273 間客房，<b>Twin 雙床房型充足</b>，兩人一室</div></div><div class="row"><div class="k">餐飲</div><div class="v">The Greenery 全日餐廳，團體早餐在此</div></div><div class="row"><div class="k">設施</div><div class="v">Lifecycle 器材健身房；<b>220 ㎡ 私人露台</b>直接俯瞰 Bourke Street Mall</div></div><div class="row"><div class="k">走得到</div><div class="v">維多利亞女王市場、Block Arcade、柯林斯街皆步行可達</div></div><div class="row"><div class="k">為什麼選它</div><div class="v"><b>2025 年 9 月才開幕</b>的新旅店，保留原有 Art Deco 立面；四晚連住不換飯店</div></div></div>
+  <div class="foot">從飯店走出去就是市中心——這四晚不必為了交通再多想一件事。</div>
+<div class="mast"><span class="lft">住宿</span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide dayhero" data-anim="dayhero" data-i="12" data-trans="zoomin">
+
+
+  <div class="bg"><img data-src="/tour/melbourne-7d/img/au-mel-puffingbilly-loco.webp" alt=""></div>
+  <div class="veil"></div><div class="veil2"></div>
+  <div class="num">03</div>
+  <div class="plate"><figure><img data-src="/tour/melbourne-7d/img/au-mel-nobbies-plate.webp" alt=""><figcaption>諾比司角　·　菲利浦島西端海岸</figcaption></figure></div>
+  <div class="body">
+    <div class="en">PUFFING BILLY · PHILLIP ISLAND</div>
+    <h2><span class="ln"><i>普芬比利蒸汽火車</i></span><span class="ln"><i>菲利浦島企鵝歸巢</i></span></h2>
+    <div class="hi"><span>本日亮點</span><b>日落之後，企鵝準時上岸</b></div>
+    <div class="lead">上午坐上百年蒸汽火車穿過尤加利樹林，午後往南到海邊。晚餐就在島上的 Beach HQ，吃完直接進場——天色一暗，企鵝成群從浪裡衝上沙灘回巢。</div>
+    <div class="chips"><span>貝爾格雷夫</span><span>普芬比利蒸汽火車</span><span>諾比司角</span><span>神仙企鵝歸巢</span></div>
+  </div>
+  <div class="note">午餐複合式自助餐 A$30；晚餐 Beach HQ Restaurant &amp; Bar（菲利浦島）· 三道式／主餐半隻龍蝦 A$95。</div>
+<div class="mast"><span class="lft"></span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide feature" data-anim="feature" data-i="13" data-trans="slidein">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+
+  <div class="hero"><img data-src="/tour/melbourne-7d/img/au-mel-penguin-parade.webp" alt=""><div class="sh"></div>
+    <div class="cap">菲利浦島　·　日落後上岸的神仙企鵝</div></div>
+  
+  <div class="side">
+    
+    <div class="en">THE PENGUIN PARADE</div><h3>全世界最小的企鵝<br>每天日落準時上岸</h3>
+    <div class="sub">神仙企鵝身高約 33 公分，是全世界體型最小的企鵝。牠們整天在海上覓食，直到天色暗到足以躲開猛禽，才成群衝上沙灘回巢——這件事每天發生，時間跟著日落走，不是表演。</div>
+    <div class="rows"><div class="row"><div class="k">入場時間</div><div class="v">依季節日落調整，夏季可晚至 20:30 後；<b>看完約 22:30 返抵飯店</b></div></div><div class="row"><div class="k">座位</div><div class="v">團體看台席次事前劃位；下雨照常舉行</div></div><div class="row"><div class="k">現場規定</div><div class="v">全場<b>禁止攝影</b>（含手機閃光燈）——閃光會傷企鵝視力，領隊會在車上先說明</div></div><div class="row"><div class="k">數量</div><div class="v">全島棲息約 4 萬隻，每晚上岸數量依季節浮動</div></div><div class="row"><div class="k">季節</div><div class="v">全年可見；夏季（12–2 月）上岸最多、時間也最晚</div></div><div class="row"><div class="k">隔天配套</div><div class="v">D4 出發時間順延、早餐延後供應，不讓晚歸變成隔天的疲勞</div></div></div>
+    <div class="note">晚餐安排在島上的 Beach HQ Restaurant &amp; Bar，用完直接進場，省下一趟往返車程。</div>
+  </div>
+<div class="mast"><span class="lft">菲利浦島　·　神仙企鵝歸巢</span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide dayhero" data-anim="dayhero" data-i="14" data-trans="zoomin">
+
+
+  <div class="bg"><img data-src="/tour/melbourne-7d/img/au-mel-sovereignhill.webp" alt=""></div>
+  <div class="veil"></div><div class="veil2"></div>
+  <div class="num">04</div>
+  <div class="plate"><figure><img data-src="/tour/melbourne-7d/img/au-mel-brighton-plate.webp" alt=""><figcaption>布萊頓　·　海灘彩虹小屋</figcaption></figure></div>
+  <div class="body">
+    <div class="en">SOVEREIGN HILL · BRIGHTON</div>
+    <h2><span class="ln"><i>疏芬山淘金小鎮</i></span><span class="ln"><i>與布萊頓彩虹小屋</i></span></h2>
+    <div class="hi"><span>本日亮點</span><b>戴上頭燈，走進 1850 年代的金礦坑</b></div>
+    <div class="lead">整座小鎮停在 1850 年代：郵局在寄信、鑄金廠在倒金磚、街上有人拉小提琴。午餐就在園區裡解決，下午一路開到南邊灣岸，八十幾間彩色小屋沿著沙灘排開。</div>
+    <div class="chips"><span>疏芬山淘金小鎮</span><span>下礦區導覽</span><span>淘金體驗</span><span>Brighton Bathing Boxes 彩虹小屋</span></div>
+  </div>
+  <div class="note">午餐疏芬山園區內・兩道式 A$50；晚餐中式八菜一湯合菜 A$40。疏芬山在墨爾本西北、彩虹小屋在東南灣岸——一天之內，從內陸的金礦走到海岸線。</div>
+<div class="mast"><span class="lft"></span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide feature" data-anim="feature" data-i="15" data-trans="slidein">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+
+  <div class="hero"><img data-src="/tour/melbourne-7d/img/au-mel-sovereignhill-life.webp" alt=""><div class="sh"></div>
+    <div class="cap">疏芬山　·　郵局前的樂師（園區內實景演出）</div></div>
+  
+  <div class="side">
+    
+    <div class="en">THE GOLD THAT BUILT MELBOURNE</div><h3>金子挖出來的<br>維多利亞</h3>
+    <div class="sub">1851 年的一則發現，讓墨爾本在十年內成為當時全世界最富有的城市之一。疏芬山不是仿古商店街，是把 1850 年代淘金鎮完整重建的戶外博物館：郵局、藥房、馬車、鑄金廠都在運作。</div>
+    <div class="rows"><div class="row"><div class="k">下礦區導覽</div><div class="v">導覽員隨行進入地底坑道，全程約 45 分鐘，含安全裝備</div></div><div class="row"><div class="k">園區午餐</div><div class="v">兩道式，安排在園區內，省下往返市區的兩趟車程</div></div><div class="row"><div class="k">淘金體驗</div><div class="v">溪邊實際淘洗，淘到的金砂可以帶走</div></div><div class="row"><div class="k">接得起來</div><div class="v">柯林斯街上那一整排銀行大樓，就是這批金子蓋出來的</div></div></div>
+    <div class="note">同樣的景點，講得出來歷與講不出來，員工回國後記得的東西完全不同。</div>
+  </div>
+<div class="mast"><span class="lft">疏芬山　·　下礦區導覽</span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide videoslide" data-anim="feature" data-i="16" data-trans="dissolve">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="vs-stage">
+  <div class="vs-frame" data-yt="SW3OQ0ijUCI">
+    <img data-src="/tour/melbourne-7d/img/au-mel-sovereignhill.webp" alt="周杰倫〈淘金小鎮〉MV 拍攝地 · 疏芬山">
+    <button class="vs-play" aria-label="播放影片"><span></span></button>
+    <div class="vs-cap">周杰倫〈淘金小鎮 Gold Rush Town〉官方 MV · 拍攝地就是疏芬山</div>
+  </div>
+</div>
+<div class="vs-side">
+  <div class="en">GOLD RUSH TOWN · THE MUSIC VIDEO</div>
+  <h3>員工站的那條街<br>就是 MV 裡那條街</h3>
+  <div class="sub">周杰倫〈淘金小鎮〉整支 MV 在疏芬山拍。歌講的是十九世紀華人礦工遠渡重洋來挖金的那段歷史——那批人當年就把這裡叫做「新金山」。澳洲媒體形容這支歌讓疏芬山重新爆紅，園區網站流量創了新高。</div>
+  <div class="rows">
+    <div class="row"><div class="k">為什麼放</div><div class="v">同仁一進園區就認得出景，拍照有目標、回國有話題</div></div>
+    <div class="row"><div class="k">走同一條街</div><div class="v">MV 主場景是主街與郵局前那一段，我們的下礦區行程就從這裡出發</div></div>
+    <div class="row"><div class="k">歌裡的歷史</div><div class="v">華人礦工的視角——這是第一次有華語巨星把這段講給全世界聽</div></div>
+    <div class="row"><div class="k">怎麼播</div><div class="v">點畫面中央播放，現場沒網路時就是一張劇照，不會開天窗</div></div>
+  </div>
+</div>
+<div class="mast"><span class="lft">疏芬山　·　周杰倫〈淘金小鎮〉</span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide dayhero" data-anim="dayhero" data-i="17" data-trans="zoomin">
+
+
+  <div class="bg"><img data-src="/tour/melbourne-7d/img/au-mel-rochford.webp" alt=""></div>
+  <div class="veil"></div><div class="veil2"></div>
+  <div class="num">05</div>
+  <div class="plate"><figure><img data-src="/tour/melbourne-7d/img/au-mel-winery-plate.webp" alt=""><figcaption>亞拉河谷　·　葡萄園</figcaption></figure></div>
+  <div class="body">
+    <div class="en">ROCHFORD WINES · YARRA VALLEY</div>
+    <h2><span class="ln"><i>羅富酒莊品酒</i></span><span class="ln"><i>與惜別晚宴</i></span></h2>
+    <div class="hi"><span>本日亮點</span><b>上午在葡萄園，晚上在包廂裡切牛排</b></div>
+    <div class="lead">亞拉河谷是墨爾本的後院酒鄉。上午在羅富酒莊由人帶著喝過一輪，午餐就在莊內的葡萄園景觀餐廳；下午轉往巧克力工廠，晚上換上正式一點的衣服，走進今晚的包廂。</div>
+    <div class="chips"><span>羅富酒莊品酒 TOUR</span><span>酒莊景觀午餐</span><span>亞拉河谷巧克力工廠</span><span>18:00 惜別晚宴</span></div>
+  </div>
+  <div class="note">午餐羅富酒莊內・兩道式 A$55；惜別晚宴 The Meat &amp; Wine Co（包廂）· 三道式／主餐牛排 A$200 起，是全程餐標最高的一餐。不飲酒者全程提供無酒精飲品。</div>
+<div class="mast"><span class="lft"></span><span class="r">ROCHFORD WINES · FAREWELL DINNER</span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide dayhero" data-anim="dayhero" data-i="18" data-trans="zoomin">
+
+
+  <div class="bg"><img data-src="/tour/melbourne-7d/img/au-mel-degraves.webp" alt=""></div>
+  <div class="veil"></div><div class="veil2"></div>
+  <div class="num">06</div>
+  <div class="plate"><figure><img data-src="/tour/melbourne-7d/img/au-mel-chadstone-plate.webp" alt=""><figcaption>查斯頓　·　南半球最大購物中心</figcaption></figure></div>
+  <div class="body">
+    <div class="en">COFFEE LANES · CHADSTONE · MEL</div>
+    <h2><span class="ln"><i>咖啡巷導覽</i></span><span class="ln"><i>查斯頓購物與賦歸</i></span></h2>
+    <div class="hi"><span>本日亮點</span><b>咖啡之都的秘密，全藏在巷子裡</b></div>
+    <div class="lead">墨爾本被稱為咖啡之都，靠的不是連鎖店，是巷子裡一間間自己烘豆的小店。上午走兩小時的咖啡巷，午餐後直奔南半球最大的查斯頓購物中心，買完直接進機場。</div>
+    <div class="chips"><span>咖啡巷導覽 2 小時</span><span>市區巷弄</span><span>查斯頓購物中心</span><span>CI 58　21:50 起飛</span></div>
+  </div>
+  <div class="note">午餐港式飲茶 A$35；購物中心發代金 A$30，直接抵用不佔用團體餐標。行李在退房時直接上車，買完不必再回飯店。</div>
+<div class="mast"><span class="lft"></span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide feature" data-anim="feature" data-i="19" data-trans="slidein">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="hero cardshow"><img class="cbig" data-src="/tour/melbourne-7d/img/coffeecard-front.webp" alt="咖啡漫遊護照 正面"><img class="csml" data-src="/tour/melbourne-7d/img/coffeecard-back.webp" alt="咖啡漫遊護照 背面"><div class="cap">咖啡漫遊護照 · 明信片尺寸，每人一張</div></div>
+<div class="side">
+<div class="en">COFFEE WALK · A TEAM GAME</div>
+<h3>不是帶著走完<br>是讓他們自己去找</h3>
+<div class="sub">同一個下午，我們不排定四家店讓大家跟著走，而是發一張明信片大小的集章卡：這一區的巷子裡藏著幾十家咖啡館，<b>自己挑六家</b>，每家點一杯、喝完請店家蓋章、寫下店名。六格集滿算完成。</div>
+<div class="cw-rings"><div class="cw-ring"><img data-src="/tour/melbourne-7d/img/medal-roaster.webp" alt=""></div><div class="cw-ring"><img data-src="/tour/melbourne-7d/img/medal-machine.webp" alt=""></div><div class="cw-ring"><img data-src="/tour/melbourne-7d/img/medal-laneway.webp" alt=""></div><div class="cw-ring"><img data-src="/tour/melbourne-7d/img/medal-market.webp" alt=""></div><div class="cw-ring"><img data-src="/tour/melbourne-7d/img/medal-roaster.webp" alt=""></div><div class="cw-ring"><img data-src="/tour/melbourne-7d/img/medal-machine.webp" alt=""></div></div>
+<div class="rows">
+<div class="row"><div class="k">怎麼分組</div><div class="v">四到五人一組，一組一張卡。走散了反而是重點——回來才有得聊</div></div>
+<div class="row"><div class="k">為何不指定</div><div class="v">指定就變成跟團。自己挑的那杯，才會記得是誰推薦的</div></div>
+<div class="row"><div class="k">印章</div><div class="v"><b>我們準備好交給店家</b>，同仁只要走進去點一杯</div></div>
+<div class="row"><div class="k">時間</div><div class="v">路線全長約 1 公里，走完 15 分鐘；含喝與拍照，抓一個下午</div></div>
+</div>
+</div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide table-s has-aside" data-anim="table" data-i="20" data-trans="wipeup">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+
+  <div class="hd">
+    <div class="no">06</div>
+    <div class="en">DEPARTURE DATES</div><h3>出發日與當地假期</h3>
+    
+  </div>
+  <div class="tb">
+    <div class="tr th" style="grid-template-columns:320px 320px 1fr"><div class="c0">出發（週六）</div><div class="c1">返抵（週五）</div><div class="c2">狀態</div></div>
+    <div class="tr td hl" style="grid-template-columns:320px 320px 1fr"><div class="c0">3 / 13</div><div class="c1">3 / 19</div><div class="c2"><b class=warn>抵達當日城裡有大型活動</b></div></div><div class="tr td hl" style="grid-template-columns:320px 320px 1fr"><div class="c0">3 / 20</div><div class="c1">3 / 26</div><div class="c2"><b class=warn>回程撞上復活節連假，機位與房價會漲</b></div></div><div class="tr td" style="grid-template-columns:320px 320px 1fr"><div class="c0">4 / 10</div><div class="c1">4 / 16</div><div class="c2">可排</div></div><div class="tr td hl" style="grid-template-columns:320px 320px 1fr"><div class="c0">4 / 17</div><div class="c1">4 / 23</div><div class="c2"><b class=warn>抵達當日城裡有大型活動</b></div></div><div class="tr td" style="grid-template-columns:320px 320px 1fr"><div class="c0">5 / 15</div><div class="c1">5 / 21</div><div class="c2">可排</div></div>
+  </div>
+  <div class="aside"><h5>這五個日期都落在墨爾本的秋天</h5><div><span>白天氣溫</span><span>約 20 度上下，走一整天也不會流汗</span></div><div><span>一天四季</span><span>墨爾本早晚溫差大，隨身一件外套最實用</span></div><div><span>南半球</span><span>季節與台灣相反——台灣最熱的時候，墨爾本在過冬</span></div><div><span>要避開的</span><span>12 月到 1 月中是澳洲人的長假，最擠也最貴</span></div></div>
+  <div class="foot">3/13 與 4/17 抵達當日，市區正逢大型活動（板球 150 週年、遊戲與動漫展），飯店與街上都會比較滿；3/20 那一梯回程則碰上澳洲復活節（3/28）連假前夕，機位與房價會往上跳。最單純的是 4/10 與 5/15。</div>
+<div class="mast"><span class="lft">出發梯次</span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide feature" data-anim="feature" data-i="21" data-trans="slidein">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+
+  <div class="hero"><img data-src="/tour/melbourne-7d/img/gift-overnight-kit.webp" alt=""><div class="sh"></div>
+    <div class="cap">袋內全部內容　·　收納袋、眼罩、機上襪、手工皂與專屬小卡</div></div>
+  
+  <div class="side">
+    <div class="no">07</div>
+    <div class="en">WHAT THEY TAKE HOME</div><h3>帶回去的<br>除了回憶以外</h3>
+    <div class="sub">行程會忘記，袋子不會。一只燙印多聯字樣的黑帆布袋，裡面裝的每一樣都挑過——不是伴手禮店買得到的那種。</div>
+    <div class="rows"><div class="row"><div class="k">帆布收納袋</div><div class="v">黑帆布拉鍊袋，燙印多聯字樣；旅程結束後可以繼續當健身袋、電腦配件袋</div></div><div class="row"><div class="k">機上組合</div><div class="v">眼罩、機上襪與盥洗小物，去程 CI 57 就用得到，回程再用一次</div></div><div class="row"><div class="k">在地手工皂</div><div class="v">墨爾本冷製皂 100g　·　綠薄荷與尤加利　·　腰封印多聯字樣與年份</div></div><div class="row"><div class="k">企業小卡</div><div class="v">燙金對摺卡，內頁可印董事長或福委致詞——回國後留下來的通常是這張</div></div><div class="row"><div class="k">三種記得</div><div class="v">袋子繼續用、皂會用完、卡片留著——回國後三個不同的記得法</div></div></div>
+    <div class="note">這一份，是角落送給每一位同仁的。</div>
+  </div>
+<div class="mast"><span class="lft">過夜包與企業伴手禮</span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide grid-s" data-anim="grid" data-i="22" data-trans="wipeup">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+
+  <div class="hd">
+    <div class="no">08</div>
+    <div class="en">AFTER THE TRIP</div><h3>回國之後</h3>
+    <p>CI 58 於清晨抵達桃園，領隊協助確認行李及後續交通。旅行社的服務不會在飛機落地時就結束。</p>
+  </div>
+  <div class="cells" style="grid-template-columns:repeat(5,1fr)">
+    <div class="cell has-bg"><div class="cbg"><img data-src="/tour/melbourne-7d/img/au-mel-flinders-cell.webp" alt=""></div><div class="in"><div class="n">01</div><h4>企業電子相簿</h4><p>整趟照片整理後交付福委，可直接用於內部公告。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/melbourne-7d/img/au-mel-winery-cell.webp" alt=""></div><div class="in"><div class="n">02</div><h4>團體合照</h4><p>惜別晚宴與各日合照，統一規格輸出。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/melbourne-7d/img/au-mel-blockarcade-cell.webp" alt=""></div><div class="in"><div class="n">03</div><h4>員工回饋</h4><p>回收問卷，讓下一梯更貼近同仁想要的。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/melbourne-7d/img/au-mel-qvmarket-cell.webp" alt=""></div><div class="in"><div class="n">04</div><h4>餐食紀錄</h4><p>逐餐記錄實際餐廳與特殊餐安排。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/melbourne-7d/img/au-mel-degraves-cell.webp" alt=""></div><div class="in"><div class="n">05</div><h4>持續優化</h4><p>這一梯發現的細節，下一梯就改掉。</p></div></div>
+  </div>
+  
+<div class="mast"><span class="lft"></span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide table-s" data-anim="table" data-i="23" data-trans="wipeup">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+
+  <div class="hd">
+    <div class="no">05</div>
+    <div class="en">DINING SPECIFICATION</div><h3>六天九餐，餐廳與餐標都寫清楚</h3>
+    
+  </div>
+  <div class="tb">
+    <div class="tr th" style="grid-template-columns:120px 1fr 130px 1fr 150px"><div class="c0">天數</div><div class="c1">午餐</div><div class="c2">餐標</div><div class="c3">晚餐</div><div class="c4">餐標</div></div>
+    <div class="tr td" style="grid-template-columns:120px 1fr 130px 1fr 150px"><div class="c0">DAY 2</div><div class="c1">Universal・義大利披薩分享餐</div><div class="c2">A$35 起</div><div class="c3">Munich Brauhaus・德國豬腳分享餐＋300ml 啤酒<br><i>歡迎晚宴</i></div><div class="c4">A$60 起</div></div><div class="tr td" style="grid-template-columns:120px 1fr 130px 1fr 150px"><div class="c0">DAY 3</div><div class="c1">複合式自助餐</div><div class="c2">A$30</div><div class="c3">Beach HQ Restaurant &amp; Bar（菲利浦島）<br><i>三道式／主餐半隻龍蝦</i></div><div class="c4">A$95</div></div><div class="tr td" style="grid-template-columns:120px 1fr 130px 1fr 150px"><div class="c0">DAY 4</div><div class="c1">疏芬山園區內・兩道式</div><div class="c2">A$50</div><div class="c3">中式八菜一湯合菜</div><div class="c4">A$40</div></div><div class="tr td hl" style="grid-template-columns:120px 1fr 130px 1fr 150px"><div class="c0">DAY 5</div><div class="c1">羅富酒莊內・兩道式</div><div class="c2">A$55</div><div class="c3">The Meat &amp; Wine Co（包廂）<br><i>三道式／主餐牛排・惜別晚宴</i></div><div class="c4">A$200 起</div></div><div class="tr td" style="grid-template-columns:120px 1fr 130px 1fr 150px"><div class="c0">DAY 6</div><div class="c1">港式飲茶</div><div class="c2">A$35</div><div class="c3">購物中心發代金</div><div class="c4">A$30</div></div><div class="tr td" style="grid-template-columns:120px 1fr 130px 1fr 150px"><div class="c0">合計</div><div class="c1">九餐餐標合計（以最低餐標計，不含機上餐）</div><div class="c2"></div><div class="c3"></div><div class="c4"><b>A$630</b></div></div>
+  </div>
+  
+  <div class="foot">早餐：D2 機上早餐，D3–D6 飯店團體早餐。素食與其他飲食需求，出發前逐一確認。</div>
+<div class="mast"><span class="lft">餐食規格</span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide cover on" data-anim="cover" data-i="24">
+<div class="grain"></div><div class="disc"></div>
+<div class="body">
+<div class="kick">CORPORATE TRAVEL PROPOSAL</div>
+<h1 id="cvTitle"><span class="ln">SYD</span><span class="ln">NEY</span></h1>
+<div class="zh">港灣與藍山<em>七日</em></div>
+<div class="meta"><span class="chip line">雪梨市區連住</span><span class="chip line">藍山住一晚山上</span><span class="chip line">六天九餐全指定</span></div>
+</div>
+<div class="strip"><figure><img data-src="/tour/sydney-7d/img/syd-opera-cell.webp" alt=""></figure><figure><img data-src="/tour/sydney-7d/img/syd-bluemtn-cell.webp" alt=""></figure><figure><img data-src="/tour/sydney-7d/img/syd-quay-cell.webp" alt=""></figure></div>
+<div class="rule"></div>
+<div class="folio"><span class="l">SYDNEY · NEW SOUTH WALES · AUSTRALIA</span></div>
+</section>
+
+<section class="slide quote" data-anim="quote" data-i="25" data-trans="dissolve">
+<div class="bg"><img data-src="/tour/sydney-7d/img/syd-bridge.webp" alt=""></div><div class="veil"></div>
+<div class="body">
+<div class="tag">本次主題　·　一座港灣，兩種節奏</div>
+<h2><span class="ln"><i>白天在山裡</i></span><span class="ln"><i>晚上在海上</i></span></h2>
+<div class="lead">雪梨的好看不只在歌劇院。往西兩小時是藍山的斷崖與雨林，回到市區是港灣、渡輪與晚餐燈火。這七天我們兩邊都排進去，而且不讓同仁在路上耗掉一整天。</div>
+</div>
+<div class="folio"><span class="l">THE IDEA</span></div>
+</section>
+
+<section class="slide grid-s" data-anim="grid" data-i="26" data-trans="wipeup"><div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="hd"><div class="no">01</div><div class="en">HOW WE BUILT IT</div><h3>這趟旅程怎麼設計</h3>
+<p>員工旅遊的成敗不在景點數量。這五件事，我們在排行程時先決定。</p></div>
+<div class="cells" style="grid-template-columns:repeat(5,1fr)"><div class="cell has-bg"><div class="cbg"><img data-src="/tour/sydney-7d/img/syd-hunter-cell.webp" alt=""></div><div class="in"><div class="n">01</div><h4>每一餐都寫清楚</h4><p>六天九餐的餐廳、菜色與餐標全部列進提案，不用猜。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/sydney-7d/img/syd-bluemtn-cell.webp" alt=""></div><div class="in"><div class="n">02</div><h4>山上住一晚</h4><p>藍山不當天來回。第二晚住山上的費爾蒙特度假村，隔天早上直接上纜車。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/sydney-7d/img/syd-skyline-cell.webp" alt=""></div><div class="in"><div class="n">03</div><h4>市區當基地</h4><p>其餘晚上都回雪梨同一家飯店，行李不用天天收。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/sydney-7d/img/syd-cruise-cell.webp" alt=""></div><div class="in"><div class="n">04</div><h4>海上與陸上各一次</h4><p>黃昏遊船看港灣，走一次雪梨大橋看城市。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/sydney-7d/img/syd-outlet-cell.webp" alt=""></div><div class="in"><div class="n">05</div><h4>購物排在後面</h4><p>Outlet 與市區購物放在行程後段，買完直接進機場。</p></div></div></div>
+<div class="folio"><span class="l">DESIGN NOTES</span></div>
+</section>
+
+<section class="slide spec" data-anim="spec" data-i="27" data-trans="slidein"><div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="hero"><img data-src="/tour/sydney-7d/img/syd-opera.webp" alt=""><div class="sh"></div><div class="cap">雪梨 · 歌劇院與港灣</div></div>
+<div class="side"><div class="no">02</div><div class="en">THE SHAPE OF THE TRIP</div>
+<h3>這趟行程<br>長什麼樣子</h3>
+<div class="sub">不是以景點數量取勝，而是把每天的體力與每一餐的規格都先算好。</div>
+<div class="rows"><div class="row"><div class="k">怎麼飛</div><div class="v">台北直飛雪梨，去回程都不轉機</div></div><div class="row"><div class="k">住哪裡</div><div class="v"><b>第二晚住藍山山上的費爾蒙特度假村</b>，其餘三晚連住 Crowne Plaza Sydney Macquarie Park</div></div><div class="row"><div class="k">吃什麼</div><div class="v">六天九餐<b>全數指定餐廳與餐標</b>，最高一餐 A$185</div></div><div class="row"><div class="k">城市看什麼</div><div class="v">歌劇院、岩石區、走一次雪梨大橋、雪梨塔晚餐</div></div><div class="row"><div class="k">郊區去哪</div><div class="v">藍山纜車與 Z 字鐵道、費瑟戴爾無尾熊、獵人谷酒莊</div></div><div class="row"><div class="k">節奏怎麼抓</div><div class="v">藍山不當天來回；購物排在返程當天，買完直接進機場</div></div></div></div>
+<div class="folio"><span class="l">OVERVIEW</span></div>
+</section>
+
+<section class="slide table-s" data-anim="table" data-i="28" data-trans="wipeup"><div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="hd"><div class="no">03</div><div class="en">ITINERARY OVERVIEW</div><h3>七日總覽</h3></div>
+<div class="tb"><div class="tr th" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">天數</div><div class="c1">行程重點</div><div class="c2">餐食</div><div class="c3">住宿</div></div><div class="tr td" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 1</div><div class="c1">桃園出發・夜航直飛雪梨</div><div class="c2">機上餐</div><div class="c3">機上</div></div><div class="tr td" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 2</div><div class="c1">雪梨市區觀光・<b>雪梨魚市場</b>・下午上藍山</div><div class="c2">魚市場炸魚薯條 A$30／楓林小館 8 菜 1 湯 A$45</div><div class="c3"><b>藍山・費爾蒙特度假村</b></div></div><div class="tr td" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 3</div><div class="c1"><b>Z 字鐵道</b>・藍山纜車・三姊妹峰・回雪梨市區</div><div class="c2">Echo Point 西式兩道式 A$55／複合式自助餐 A$35</div><div class="c3">雪梨市區</div></div><div class="tr td" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 4</div><div class="c1">費瑟戴爾無尾熊合影・Birkenhead Point・<b>黃昏遊船</b></div><div class="c2">漢堡套餐 A$25／Showboat 三道式 A$75</div><div class="c3">雪梨市區</div></div><div class="tr td" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 5</div><div class="c1"><b>獵人谷酒莊品酒</b>・雪梨晚宴</div><div class="c2">AUSSIE BBQ 自助 A$60／Aria 三道式 A$185</div><div class="c3">雪梨市區</div></div><div class="tr td" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 6</div><div class="c1">歌劇院・岩石區・<b>走雪梨大橋</b>・雪梨塔晚餐・轉往機場</div><div class="c2">義式披薩分享餐 A$35／雪梨塔自助餐 A$98</div><div class="c3">機上</div></div><div class="tr td" style="grid-template-columns:132px 1fr 440px 260px"><div class="c0">DAY 7</div><div class="c1">抵達台北</div><div class="c2">—</div><div class="c3">—</div></div></div>
+<div class="folio"><span class="l">DAY 1 — DAY 7</span></div>
+</section>
+
+<section class="slide routemap" data-anim="routemap" data-i="29" data-trans="unfurl">
+<svg class="geo" viewBox="0 0 1920 1080" aria-label="雪梨與新南威爾斯周邊真實地理路線圖">
+<rect class="sea" width="1920" height="1080"/>
+<g class="land"><path d="M2042.8,-1954.6 L2053.0,-1940.9 L2065.2,-1942.3 L2068.4,-1933.3 L2072.7,-1907.9 L2076.6,-1897.5 L2076.5,-1873.6 L2065.6,-1805.5 L2065.2,-1784.6 L2070.6,-1743.9 L2073.9,-1735.0 L2088.6,-1717.6 L2092.4,-1709.4 L2091.8,-1706.7 L2088.1,-1697.4 L2087.0,-1693.1 L2087.2,-1688.2 L2088.0,-1682.6 L2088.0,-1676.9 L2080.7,-1661.6 L2080.2,-1651.1 L2084.2,-1630.7 L2082.6,-1610.9 L2073.1,-1597.2 L2048.7,-1574.5 L2030.5,-1547.4 L2021.7,-1530.4 L2015.8,-1512.5 L2014.7,-1506.7 L2014.5,-1502.5 L2018.3,-1480.4 L2018.6,-1474.9 L2016.8,-1473.1 L2009.3,-1470.4 L2007.6,-1468.5 L2006.3,-1463.2 L1988.6,-1431.8 L1980.5,-1412.9 L1976.4,-1393.0 L1980.0,-1374.6 L1986.9,-1364.3 L1988.2,-1357.6 L1984.3,-1350.2 L1982.8,-1344.5 L1983.3,-1335.4 L1984.6,-1326.6 L1985.8,-1322.3 L1981.1,-1312.9 L1977.9,-1291.2 L1971.3,-1277.0 L1970.1,-1271.8 L1969.2,-1261.4 L1969.6,-1259.0 L1971.4,-1254.5 L1971.9,-1251.6 L1971.1,-1248.6 L1967.4,-1243.4 L1966.4,-1240.1 L1967.4,-1228.4 L1969.5,-1220.9 L1968.9,-1213.6 L1958.8,-1195.7 L1956.7,-1187.0 L1955.6,-1178.3 L1955.5,-1171.4 L1958.2,-1151.8 L1956.6,-1147.6 L1951.0,-1140.3 L1949.8,-1137.1 L1948.9,-1115.9 L1947.2,-1105.1 L1944.3,-1096.0 L1930.1,-1075.1 L1928.2,-1068.2 L1926.9,-1065.4 L1921.3,-1057.0 L1920.0,-1051.7 L1920.3,-1046.6 L1922.5,-1033.6 L1921.8,-1007.0 L1916.1,-985.1 L1895.2,-945.4 L1898.9,-931.9 L1893.1,-913.9 L1876.1,-882.7 L1873.3,-874.3 L1870.5,-859.0 L1860.6,-842.3 L1857.6,-832.5 L1849.6,-793.4 L1847.6,-765.9 L1843.5,-757.0 L1844.7,-755.2 L1835.5,-717.3 L1840.3,-709.4 L1842.3,-668.8 L1851.3,-649.8 L1854.3,-646.5 L1857.6,-643.9 L1862.1,-641.5 L1866.2,-641.2 L1867.9,-645.0 L1869.2,-646.8 L1872.0,-644.9 L1874.8,-640.6 L1876.1,-635.4 L1875.5,-625.3 L1874.6,-621.3 L1873.1,-617.1 L1865.7,-609.6 L1859.0,-593.7 L1856.3,-575.9 L1858.7,-568.0 L1863.5,-565.5 L1864.7,-561.3 L1864.1,-553.3 L1857.0,-547.1 L1843.9,-531.7 L1832.6,-510.8 L1832.0,-494.9 L1824.3,-475.2 L1828.5,-467.9 L1831.0,-437.1 L1813.4,-415.1 L1807.5,-401.1 L1806.9,-388.9 L1814.1,-380.4 L1815.9,-372.6 L1816.5,-368.9 L1814.2,-359.2 L1802.9,-348.2 L1791.0,-335.4 L1778.5,-317.8 L1780.4,-303.2 L1775.0,-291.0 L1779.8,-281.9 L1773.3,-276.4 L1765.5,-266.7 L1756.0,-253.3 L1762.0,-246.0 L1760.8,-239.3 L1750.6,-229.0 L1738.1,-210.7 L1735.1,-194.3 L1739.3,-187.0 L1726.7,-179.1 L1717.6,-166.5 L1706.2,-157.8 L1684.2,-137.6 L1659.0,-90.8 L1662.6,-77.4 L1651.8,-65.2 L1648.6,-56.2 L1646.6,-46.3 L1644.5,-34.2 L1647.3,-26.8 L1654.7,-24.0 L1658.6,-17.4 L1666.4,-13.1 L1668.3,-6.7 L1663.1,-0.6 L1659.1,6.2 L1656.5,12.7 L1653.9,17.0 L1650.9,23.1 L1650.4,29.3 L1651.3,38.0 L1656.5,38.9 L1662.2,42.1 L1661.3,45.4 L1659.8,47.3 L1658.2,49.0 L1656.8,51.9 L1655.1,58.0 L1654.1,65.2 L1650.4,74.2 L1648.7,84.7 L1649.1,92.9 L1656.4,99.9 L1601.5,122.6 L1581.9,134.8 L1558.4,156.2 L1554.9,170.1 L1546.2,172.8 L1534.9,178.9 L1524.8,190.2 L1517.4,200.7 L1515.6,208.6 L1522.1,216.9 L1528.3,222.0 L1522.8,222.4 L1521.4,221.4 L1518.2,217.2 L1516.8,215.8 L1515.0,215.5 L1510.7,216.3 L1508.9,215.8 L1498.7,207.4 L1495.3,206.0 L1494.7,207.4 L1487.3,213.8 L1484.3,215.8 L1465.0,222.4 L1475.3,231.0 L1477.5,232.2 L1507.5,232.2 L1511.8,233.2 L1516.6,235.5 L1519.7,237.7 L1518.5,238.7 L1516.9,240.9 L1516.4,251.4 L1514.6,255.3 L1510.5,256.5 L1500.6,255.0 L1496.6,257.0 L1493.1,262.1 L1491.6,264.8 L1489.6,266.5 L1484.3,268.4 L1464.4,264.2 L1434.6,270.6 L1414.7,278.8 L1390.9,291.4 L1383.1,298.0 L1374.3,302.3 L1360.4,316.1 L1362.1,328.3 L1355.8,334.3 L1349.7,340.9 L1340.2,346.4 L1335.7,353.5 L1335.1,364.1 L1334.4,374.0 L1328.9,376.2 L1322.2,380.6 L1313.3,390.9 L1308.9,396.2 L1307.5,402.0 L1307.0,408.7 L1301.9,419.8 L1299.4,436.2 L1294.7,442.9 L1292.5,450.3 L1291.1,458.6 L1285.6,466.3 L1276.7,471.7 L1268.3,483.8 L1266.0,493.8 L1271.1,502.1 L1268.3,506.8 L1253.0,519.7 L1246.9,523.5 L1246.9,518.5 L1253.6,511.9 L1257.1,499.8 L1247.2,491.9 L1237.2,497.9 L1222.3,512.5 L1221.9,516.0 L1228.7,524.0 L1223.3,525.4 L1217.8,526.9 L1218.4,532.4 L1221.3,537.1 L1224.7,539.0 L1230.6,540.7 L1236.1,534.1 L1238.9,529.5 L1242.7,531.5 L1242.3,539.2 L1236.8,546.2 L1235.1,555.5 L1223.7,567.9 L1218.9,575.6 L1221.6,579.9 L1221.1,583.8 L1216.4,588.8 L1217.9,595.8 L1219.8,599.8 L1217.4,602.1 L1211.9,603.6 L1213.8,610.8 L1212.8,613.4 L1212.3,616.6 L1210.4,619.5 L1206.5,622.0 L1203.6,622.8 L1195.4,622.5 L1192.8,623.8 L1185.9,621.6 L1182.3,626.2 L1178.0,629.3 L1169.0,630.8 L1164.3,629.0 L1154.0,636.0 L1147.4,635.5 L1143.0,628.6 L1139.2,616.3 L1133.1,623.0 L1131.6,632.5 L1134.4,641.3 L1141.9,645.7 L1140.0,649.4 L1137.6,652.1 L1134.6,654.0 L1131.1,655.2 L1131.1,658.4 L1140.6,657.1 L1153.5,641.1 L1160.5,640.0 L1164.8,644.0 L1160.3,657.2 L1157.4,671.6 L1158.9,677.4 L1164.4,672.1 L1167.6,664.7 L1171.0,650.3 L1177.1,662.5 L1169.3,686.6 L1164.5,698.6 L1163.1,711.6 L1162.6,714.5 L1165.5,719.2 L1167.9,724.3 L1167.7,729.5 L1164.3,740.7 L1162.7,762.0 L1157.5,764.1 L1152.5,763.0 L1147.4,763.4 L1141.9,770.1 L1139.6,776.8 L1139.7,782.0 L1142.7,785.3 L1148.8,786.5 L1152.9,783.7 L1154.7,778.6 L1155.9,776.8 L1158.6,783.5 L1157.8,793.7 L1150.3,815.6 L1153.4,822.7 L1147.8,836.8 L1144.9,842.0 L1140.6,847.4 L1137.5,844.9 L1126.1,829.6 L1121.6,826.0 L1113.8,828.1 L1112.0,833.0 L1111.3,839.5 L1106.5,845.9 L1099.0,847.3 L1090.7,845.7 L1083.4,846.0 L1079.0,852.4 L1091.1,855.3 L1093.9,857.1 L1098.3,861.2 L1100.5,860.8 L1105.0,853.9 L1129.4,857.5 L1133.7,857.1 L1133.3,864.9 L1131.2,868.1 L1112.7,868.5 L1111.1,867.9 L1109.8,868.5 L1106.5,871.8 L1104.2,875.5 L1102.9,879.5 L1100.5,883.0 L1095.3,885.1 L1099.6,886.7 L1109.0,886.7 L1111.6,888.4 L1111.7,893.6 L1108.4,898.2 L1101.0,905.0 L1086.0,917.1 L1079.3,923.5 L1068.2,929.3 L1052.1,941.6 L1044.8,950.8 L1028.5,971.3 L1017.2,990.1 L1010.9,1003.7 L1012.2,1019.5 L1004.1,1040.6 L1002.1,1061.3 L1008.5,1078.3 L1000.0,1085.8 L995.8,1099.3 L990.2,1106.6 L982.9,1104.7 L987.7,1095.6 L985.3,1091.2 L980.2,1089.9 L977.5,1089.9 L975.0,1091.4 L961.3,1107.9 L963.3,1112.2 L965.8,1114.1 L969.1,1114.6 L977.7,1114.4 L982.9,1118.3 L993.9,1129.0 L999.8,1133.3 L1007.7,1134.3 L994.4,1136.1 L989.1,1145.5 L980.1,1205.3 L974.4,1220.0 L965.2,1226.1 L952.7,1231.7 L942.3,1256.2 L932.4,1261.8 L931.8,1263.9 L936.5,1268.5 L942.6,1273.1 L946.2,1275.1 L952.3,1277.0 L951.7,1281.1 L946.6,1284.6 L939.3,1285.0 L942.6,1289.7 L951.4,1293.4 L955.9,1298.0 L952.9,1301.6 L955.9,1304.9 L951.4,1317.9 L959.4,1326.0 L972.0,1330.2 L981.6,1331.3 L982.9,1334.5 L978.4,1350.0 L978.8,1361.1 L974.1,1367.6 L963.8,1377.0 L960.5,1371.7 L955.4,1366.8 L952.2,1361.7 L954.4,1355.8 L958.1,1348.3 L953.4,1337.8 L955.9,1331.3 L948.0,1327.6 L940.5,1329.1 L933.5,1332.4 L919.2,1336.6 L915.8,1342.8 L912.0,1360.4 L919.7,1362.3 L921.6,1368.6 L921.3,1376.5 L922.5,1381.8 L910.4,1383.6 L895.6,1393.3 L886.2,1413.8 L875.4,1418.0 L862.6,1426.3 L860.2,1430.1 L858.5,1438.0 L856.9,1442.7 L854.8,1446.2 L850.3,1450.6 L840.8,1462.8 L836.7,1470.5 L834.9,1479.3 L835.0,1491.7 L836.4,1498.6 L837.8,1500.9 L837.8,1502.7 L835.0,1508.1 L823.4,1517.5 L821.4,1519.6 L819.2,1527.8 L814.2,1535.0 L808.7,1541.7 L805.0,1547.6 L803.8,1557.4 L804.8,1581.9 L803.6,1586.8 L796.9,1591.1 L790.0,1601.2 L774.1,1630.2 L763.8,1659.3 L757.7,1670.1 L750.6,1673.8 L742.5,1671.7 L733.8,1665.5 L729.9,1667.6 L717.5,1672.0 L728.3,1683.6 L731.4,1696.9 L732.6,1700.0 L736.5,1706.8 L737.5,1711.7 L736.5,1722.9 L734.1,1728.0 L728.3,1731.0 L717.5,1734.4 L716.8,1735.5 L702.2,1751.9 L701.0,1754.0 L701.2,1760.9 L705.4,1773.9 L706.5,1782.0 L703.7,1814.7 L700.6,1832.7 L693.0,1831.2 L683.8,1826.0 L676.2,1832.7 L677.6,1836.3 L677.2,1838.8 L673.8,1842.8 L676.2,1842.3 L678.1,1842.3 L679.9,1841.6 L682.0,1839.3 L688.8,1843.4 L695.4,1849.5 L698.4,1857.5 L690.3,1875.8 L689.6,1885.9 L690.8,1896.2 L699.0,1923.7 L699.7,1933.6 L694.2,1937.9 L694.2,1940.0 L697.3,1951.0 L698.1,1955.9 L696.4,1960.7 L692.5,1964.6 L684.4,1970.9 L678.0,1978.8 L672.8,1987.5 L669.3,1997.2 L668.1,2008.2 L670.3,2019.6 L670.8,2024.5 L669.5,2027.7 L663.9,2036.7 L662.6,2042.5 L666.6,2062.7 L667.4,2073.9 L663.9,2083.7 L652.8,2101.5 L639.3,2131.3 L636.8,2140.0 L635.6,2148.7 L635.3,2159.2 L633.0,2171.2 L627.2,2183.0 L620.0,2193.1 L613.2,2200.2 L617.2,2211.0 L615.1,2219.4 L605.1,2236.1 L602.7,2247.1 L605.7,2251.9 L611.8,2254.6 L618.6,2259.0 L614.0,2264.8 L610.4,2273.4 L609.2,2282.6 L611.9,2290.1 L615.1,2294.1 L617.2,2297.5 L618.3,2301.5 L618.6,2306.9 L617.8,2311.1 L615.9,2314.3 L614.1,2315.3 L613.2,2313.1 L610.2,2310.9 L603.5,2315.3 L597.3,2321.6 L595.4,2324.6 L591.6,2327.2 L594.0,2332.8 L599.8,2338.4 L606.4,2341.0 L613.2,2340.1 L616.8,2338.7 L619.6,2338.4 L624.7,2341.0 L640.2,2353.3 L643.5,2357.4 L645.7,2364.3 L646.9,2379.6 L649.0,2387.0 L662.6,2409.9 L662.6,2413.5 L653.2,2408.7 L644.1,2405.5 L635.3,2405.3 L626.9,2409.9 L621.6,2417.4 L621.7,2424.8 L629.8,2442.9 L624.1,2462.2 L623.9,2480.2 L628.0,2498.5 L635.3,2518.6 L630.0,2525.5 L545.6,2484.8 L459.0,2442.9 L372.3,2401.0 L285.6,2359.0 L198.9,2317.1 L112.2,2275.2 L25.5,2233.3 L-61.2,2191.4 L-71.6,2186.4 L-94.2,2184.8 L-104.5,2182.2 L-109.0,2180.0 L-109.1,2178.0 L-80.3,2133.5 L-75.9,2124.6 L-72.8,2114.4 L-71.6,2103.4 L-72.4,2098.0 L-79.2,2082.9 L-84.2,2081.1 L-89.8,2080.1 L-93.6,2078.7 L-96.4,2075.5 L-98.2,2071.9 L-99.2,2068.1 L-99.6,2064.0 L-98.8,2044.1 L-99.7,2041.8 L-101.6,2039.5 L-103.4,2036.2 L-104.7,2026.0 L-105.9,2022.3 L-110.0,2016.6 L-124.2,2006.1 L-131.3,1998.8 L-134.4,1988.5 L-133.1,1983.5 L-127.8,1975.2 L-126.6,1972.4 L-127.2,1966.4 L-128.6,1961.8 L-132.1,1954.2 L-141.0,1926.4 L-141.4,1921.3 L-145.5,1916.2 L-144.6,1904.8 L-140.1,1885.3 L-143.9,1875.4 L-158.5,1865.2 L-161.7,1857.4 L-160.0,1844.4 L-157.8,1836.4 L-159.6,1831.1 L-169.9,1826.2 L-178.6,1824.4 L-182.0,1823.1 L-186.6,1819.7 L-189.8,1814.9 L-191.9,1809.5 L-194.4,1805.1 L-198.8,1803.3 L-209.6,1801.9 L-261.7,1776.9 L-265.6,1776.2 L-272.7,1773.7 L-276.9,1773.9 L-280.3,1775.9 L-287.0,1782.1 L-289.3,1783.4 L-335.5,1801.0 L-342.6,1798.3 L-344.7,1789.5 L-350.1,1782.6 L-357.3,1778.2 L-364.7,1776.9 L-367.9,1778.0 L-375.2,1782.5 L-379.5,1783.4 L-390.3,1782.3 L-394.7,1783.4 L-399.5,1786.8 L-405.3,1793.0 L-410.5,1800.2 L-413.8,1806.6 L-418.8,1832.6 L-422.0,1839.3 L-428.5,1832.2 L-435.6,1827.6 L-443.4,1826.3 L-449.3,1826.2 L-451.4,1826.8 L-471.8,1832.2 L-484.4,1833.5 L-492.0,1831.1 L-496.5,1825.5 L-500.4,1822.1 L-504.2,1821.6 L-508.2,1824.6 L-519.0,1837.8 L-520.5,1841.0 L-521.3,1844.0 L-525.0,1849.6 L-526.2,1852.3 L-526.3,1856.4 L-525.4,1859.6 L-524.2,1862.6 L-523.5,1865.7 L-522.1,1877.5 L-520.5,1883.1 L-518.0,1888.6 L-514.5,1893.4 L-510.1,1897.2 L-504.9,1900.1 L-498.9,1901.9 L-487.4,1901.8 L-482.7,1903.0 L-479.6,1908.2 L-515.3,1918.2 L-520.5,1914.7 L-537.4,1896.2 L-541.7,1885.9 L-542.6,1869.0 L-540.1,1854.2 L-551.6,1847.3 L-555.9,1845.9 L-561.9,1845.8 L-568.5,1848.1 L-571.5,1852.0 L-573.1,1856.2 L-575.6,1859.2 L-585.6,1858.1 L-595.6,1850.4 L-606.5,1844.6 L-619.2,1849.4 L-626.3,1841.0 L-629.7,1838.0 L-632.9,1836.0 L-643.8,1835.7 L-649.5,1834.7 L-655.4,1824.9 L-663.6,1823.4 L-673.6,1823.8 L-682.3,1822.9 L-689.6,1817.8 L-702.7,1802.9 L-708.3,1799.7 L-739.8,1799.7 L-743.8,1798.0 L-752.1,1791.7 L-756.2,1790.3 L-759.3,1791.2 L-764.0,1795.7 L-768.6,1796.8 L-772.3,1795.6 L-776.6,1793.4 L-781.0,1792.5 L-785.1,1795.0 L-803.9,1825.4 L-810.1,1828.0 L-837.4,1824.8 L-851.2,1819.5 L-860.4,1819.7 L-866.1,1820.8 L-868.7,1821.6 L-871.3,1829.5 L-878.2,1826.9 L-884.7,1822.9 L-894.2,1820.7 L-919.1,1818.7 L-927.3,1814.8 L-932.9,1811.0 L-945.4,1809.4 L-960.9,1810.4 L-964.4,1809.6 L-968.3,1805.7 L-970.0,1800.9 L-971.2,1796.0 L-973.9,1791.7 L-981.9,1786.9 L-990.4,1785.5 L-999.3,1786.9 L-1025.8,1794.8 L-1042.9,1793.1 L-1059.9,1785.9 L-1128.6,1727.9 L-1143.0,1721.0 L-1160.1,1720.9 L-1177.3,1725.9 L-1207.2,1741.9 L-1224.0,1743.4 L-1241.0,1740.4 L-1257.4,1734.4 L-1270.4,1731.5 L-1309.2,1731.5 L-1354.1,1739.4 L-1360.2,1742.4 L-1366.9,1748.8 L-1369.0,1752.4 L-1372.5,1780.5 L-1381.8,1796.8 L-1383.9,1805.4 L-1379.5,1814.8 L-1373.3,1821.9 L-1366.5,1831.5 L-1363.2,1841.5 L-1367.3,1849.4 L-1375.0,1850.2 L-1393.1,1841.6 L-1401.4,1839.3 L-1408.6,1842.8 L-1425.1,1859.6 L-1433.1,1865.7 L-1450.7,1868.0 L-1461.2,1867.3 L-1465.8,1863.9 L-1466.2,1858.5 L-1467.6,1856.1 L-1470.5,1855.5 L-1475.2,1855.6 L-1475.1,1853.7 L-1478.2,1849.6 L-1484.7,1842.8 L-1492.4,1840.1 L-1509.4,1838.7 L-1516.3,1834.4 L-1560.3,1783.4 L-1576.3,1777.4 L-1583.1,1770.3 L-1588.3,1761.5 L-1606.9,1713.9 L-1616.0,1696.3 L-1627.6,1685.1 L-1632.3,1683.7 L-1642.0,1683.3 L-1646.7,1682.1 L-1650.1,1679.2 L-1656.0,1670.8 L-1662.0,1667.3 L-1669.7,1659.6 L-1671.2,1657.5 L-1672.9,1654.3 L-1676.7,1652.5 L-1681.2,1651.1 L-1685.1,1649.2 L-1696.9,1635.3 L-1717.2,1605.0 L-1731.3,1596.6 L-1749.2,1593.9 L-1757.9,1589.9 L-1764.9,1574.6 L-1772.9,1569.7 L-1797.5,1559.5 L-1813.8,1549.4 L-1822.9,1540.1 L-1826.7,1537.4 L-1830.7,1535.1 L-1839.3,1533.2 L-1841.7,1530.8 L-1843.3,1527.6 L-1846.4,1524.4 L-1863.6,1516.4 L-1896.7,1510.5 L-1918.9,1496.7 L-1922.7,1493.0 L-1925.6,1488.1 L-1926.5,1481.6 L-1924.6,1477.8 L-1921.9,1474.7 L-1920.6,1470.3 L-1920.6,1461.2 L-1921.4,1452.1 L-1924.6,1443.5 L-1931.3,1435.9 L-1938.3,1432.3 L-1973.1,1424.3 L-1982.0,1419.6 L-1989.7,1414.1 L-1994.3,1409.7 L-2003.5,1393.9 L-2011.5,1375.4 L-2017.0,1355.7 L-2020.0,1327.3 L-2023.7,1314.2 L-2024.5,1306.3 L-2023.8,1302.6 L-2020.2,1293.2 L-2019.1,1288.2 L-2019.6,1285.2 L-2020.9,1281.6 L-2022.0,1277.2 L-2021.8,1271.9 L-2020.3,1270.0 L-2017.4,1267.8 L-2014.6,1264.7 L-2013.4,1260.3 L-2013.8,1256.7 L-2015.7,1250.4 L-2016.4,1245.5 L-2013.7,1236.6 L-2012.9,1231.4 L-2014.9,1229.1 L-2025.8,1220.9 L-2031.4,1220.2 L-2038.3,1224.2 L-2044.0,1224.8 L-2046.4,1214.4 L-2049.5,1206.4 L-2056.6,1203.5 L-2064.1,1201.6 L-2068.5,1196.4 L-2094.3,1182.0 L-2100.0,1180.1 L-2136.9,1176.8 L-2151.9,1167.6 L-2158.7,1165.6 L-2161.5,1172.1 L-2164.4,1176.1 L-2171.1,1171.6 L-2183.3,1160.5 L-2188.2,1160.5 L-2191.0,1162.3 L-2193.3,1164.8 L-2204.8,1170.7 L-2205.5,1168.5 L-2209.3,1162.3 L-2211.2,1157.8 L-2212.9,1146.9 L-2214.9,1142.7 L-2218.1,1139.8 L-2229.7,1134.4 L-2234.0,1128.8 L-2237.0,1125.7 L-2240.9,1124.2 L-2245.2,1125.1 L-2254.0,1129.7 L-2258.8,1130.8 L-2266.5,1134.2 L-2270.2,1142.7 L-2273.6,1164.1 L-2274.9,1166.5 L-2276.8,1168.9 L-2278.6,1171.6 L-2279.3,1175.3 L-2278.2,1183.1 L-2277.3,1186.7 L-2279.0,1195.3 L-2281.9,1197.6 L-2286.3,1196.8 L-2293.0,1196.4 L-2300.8,1197.0 L-2304.5,1197.9 L-2305.2,1201.4 L-2303.9,1209.8 L-2299.4,1218.1 L-2299.8,1222.5 L-2306.6,1226.1 L-2313.3,1219.5 L-2319.0,1217.8 L-2325.4,1217.6 L-2334.2,1216.0 L-2337.7,1214.5 L-2342.2,1211.6 L-2346.1,1208.2 L-2347.8,1204.6 L-2347.4,1193.7 L-2347.8,1189.9 L-2359.0,1164.1 L-2368.2,1153.4 L-2369.7,1149.0 L-2369.4,1144.2 L-2368.8,1141.2 L-2368.7,1138.4 L-2369.7,1134.4 L-2373.4,1128.7 L-2398.9,1107.3 L-2402.5,1100.8 L-2408.2,1058.4 L-2407.9,1048.8 L-2405.5,1038.5 L-2397.6,1024.4 L-2394.2,1016.1 L-2398.2,1007.3 L-2403.8,1006.2 L-2410.8,1008.4 L-2418.8,1009.6 L-2425.5,1005.7 L-2434.7,997.3 L-2442.8,988.1 L-2447.6,979.8 L-2450.4,978.3 L-2453.3,976.1 L-2454.5,971.8 L-2455.2,960.6 L-2457.2,950.2 L-2461.4,939.5 L-2462.7,937.4 L-2467.1,936.6 L-2476.8,937.8 L-2480.6,935.6 L-2486.4,927.7 L-2491.1,923.3 L-2496.7,921.4 L-2505.2,921.1 L-2507.6,922.0 L-2514.6,926.3 L-2519.0,927.3 L-2525.7,910.9 L-2536.2,901.0 L-2546.6,899.3 L-2568.2,904.7 L-2572.5,905.2 L-2576.9,904.9 L-2581.4,903.8 L-2586.0,901.5 L-2594.6,906.1 L-2601.7,908.0 L-2620.3,908.0 L-2629.8,905.9 L-2648.4,896.9 L-2657.2,894.9 L-2674.2,898.2 L-2690.2,906.3 L-2704.2,916.9 L-2714.8,927.3 L-2724.0,942.2 L-2729.4,947.9 L-2738.1,950.2 L-2741.6,948.8 L-2744.7,945.4 L-2746.9,940.7 L-2749.0,930.0 L-2752.3,928.0 L-2772.8,926.5 L-2778.0,924.0 L-2790.5,915.3 L-2793.0,912.9 L-2799.8,909.5 L-2809.1,911.2 L-2818.2,914.3 L-2824.2,914.8 L-2827.8,910.7 L-2832.7,900.3 L-2836.6,898.2 L-2842.2,896.1 L-2846.6,891.6 L-2850.2,887.2 L-2853.1,885.1 L-2855.4,884.5 L-2859.8,881.9 L-2862.6,881.5 L-2865.2,882.7 L-2870.8,887.1 L-2873.8,888.4 L-2880.4,888.3 L-2884.0,885.9 L-2887.3,882.4 L-2892.9,878.6 L-2902.8,876.2 L-2938.2,875.3 L-2946.8,870.1 L-2956.4,854.4 L-2956.4,707.5 L-2956.4,557.2 L-2956.4,406.8 L-2956.4,256.5 L-2956.4,106.1 L-2956.4,-44.2 L-2956.4,-194.5 L-2956.4,-344.8 L-2956.4,-495.2 L-2956.4,-645.5 L-2956.4,-795.8 L-2956.4,-946.2 L-2956.4,-1096.5 L-2956.4,-1246.8 L-2956.4,-1397.1 L-2956.4,-1547.5 L-2762.2,-1547.5 L-2568.0,-1547.5 L-2373.8,-1547.5 L-2179.7,-1547.5 L-1985.5,-1547.5 L-1791.3,-1547.5 L-1597.1,-1547.5 L-1403.0,-1547.5 L-1208.8,-1547.5 L-1014.6,-1547.5 L-820.4,-1547.5 L-626.3,-1547.5 L-432.1,-1547.5 L-237.9,-1547.5 L-43.8,-1547.5 L150.4,-1547.5 L228.0,-1547.5 L230.0,-1547.6 L240.7,-1558.2 L251.2,-1562.7 L260.0,-1569.4 L266.8,-1577.9 L271.0,-1587.9 L274.9,-1610.0 L278.8,-1620.0 L286.1,-1624.1 L295.2,-1625.5 L304.3,-1629.2 L312.8,-1634.4 L320.1,-1640.5 L323.2,-1645.2 L325.6,-1650.6 L328.4,-1655.0 L336.3,-1658.4 L341.3,-1662.3 L345.7,-1667.1 L347.6,-1671.5 L351.4,-1672.2 L392.2,-1695.0 L401.0,-1696.0 L407.8,-1700.2 L414.2,-1709.7 L429.0,-1741.3 L435.1,-1746.6 L472.4,-1752.0 L479.4,-1755.4 L485.3,-1749.5 L487.2,-1741.8 L489.6,-1735.1 L497.0,-1732.3 L511.4,-1733.8 L517.6,-1732.2 L523.0,-1725.7 L533.3,-1732.3 L537.9,-1734.3 L544.9,-1735.5 L589.4,-1736.7 L604.2,-1734.6 L621.5,-1738.8 L629.9,-1739.3 L642.5,-1737.7 L649.1,-1738.8 L664.5,-1746.5 L683.0,-1751.4 L704.5,-1760.6 L710.4,-1761.8 L735.5,-1759.9 L744.4,-1761.3 L751.8,-1766.5 L760.3,-1770.0 L770.0,-1765.9 L785.8,-1751.9 L808.2,-1726.6 L820.9,-1716.6 L837.9,-1712.7 L889.4,-1710.7 L906.6,-1712.7 L942.0,-1721.7 L958.3,-1722.1 L974.9,-1716.0 L989.5,-1705.4 L997.3,-1701.2 L1014.3,-1697.2 L1020.4,-1691.5 L1026.1,-1684.9 L1032.6,-1679.7 L1041.1,-1678.1 L1051.0,-1677.5 L1059.2,-1674.3 L1062.7,-1665.0 L1062.3,-1648.8 L1063.1,-1638.1 L1065.7,-1629.8 L1071.9,-1625.5 L1081.2,-1623.6 L1096.9,-1623.2 L1105.1,-1621.1 L1113.5,-1615.9 L1128.5,-1603.3 L1155.8,-1585.3 L1161.5,-1554.9 L1164.5,-1547.5 L1161.7,-1542.3 L1161.9,-1538.7 L1163.5,-1535.8 L1164.5,-1532.8 L1164.5,-1518.1 L1166.9,-1499.9 L1168.3,-1497.0 L1175.1,-1492.4 L1177.8,-1488.7 L1178.5,-1481.7 L1178.2,-1474.2 L1181.1,-1468.3 L1191.2,-1465.8 L1194.5,-1466.8 L1202.8,-1471.3 L1209.8,-1473.5 L1210.9,-1476.2 L1211.4,-1479.4 L1213.1,-1482.1 L1221.8,-1487.0 L1225.5,-1489.8 L1227.8,-1495.8 L1233.8,-1506.5 L1237.7,-1510.1 L1246.4,-1515.4 L1248.8,-1518.1 L1249.1,-1521.4 L1248.8,-1534.4 L1251.4,-1543.5 L1260.5,-1561.8 L1262.5,-1568.9 L1263.7,-1569.2 L1266.5,-1571.1 L1269.9,-1572.3 L1273.1,-1573.0 L1275.7,-1573.2 L1277.9,-1573.9 L1284.8,-1579.2 L1287.4,-1580.1 L1290.3,-1580.6 L1295.7,-1580.9 L1298.2,-1581.5 L1302.5,-1583.3 L1306.5,-1585.8 L1320.9,-1597.2 L1326.8,-1600.7 L1328.8,-1601.5 L1330.7,-1601.7 L1332.4,-1600.6 L1345.7,-1572.5 L1347.2,-1570.8 L1349.0,-1569.4 L1351.1,-1568.4 L1353.8,-1567.8 L1359.1,-1567.6 L1361.6,-1567.1 L1363.4,-1565.8 L1366.5,-1562.4 L1368.3,-1561.1 L1370.3,-1560.1 L1372.5,-1561.0 L1374.2,-1563.9 L1377.0,-1577.0 L1379.7,-1583.2 L1381.7,-1585.9 L1384.2,-1587.5 L1386.5,-1588.2 L1389.0,-1588.5 L1391.4,-1588.3 L1399.7,-1586.5 L1408.7,-1583.5 L1410.3,-1583.1 L1412.1,-1583.2 L1414.2,-1583.7 L1426.4,-1590.3 L1431.0,-1592.0 L1433.7,-1592.3 L1439.1,-1592.3 L1440.8,-1592.5 L1442.5,-1593.1 L1444.2,-1594.0 L1446.1,-1595.7 L1447.7,-1597.8 L1449.3,-1601.0 L1450.3,-1603.9 L1450.8,-1606.9 L1450.8,-1619.0 L1451.4,-1621.5 L1456.0,-1633.4 L1457.6,-1638.6 L1458.2,-1645.2 L1458.2,-1656.7 L1459.1,-1668.8 L1460.2,-1674.1 L1461.1,-1676.4 L1462.2,-1678.6 L1466.2,-1684.5 L1467.1,-1686.7 L1467.4,-1689.5 L1466.4,-1693.0 L1464.0,-1697.6 L1452.9,-1711.2 L1443.7,-1720.1 L1441.9,-1722.8 L1440.0,-1726.8 L1438.7,-1732.2 L1437.9,-1739.4 L1434.7,-1745.8 L1424.0,-1757.7 L1424.4,-1763.2 L1425.0,-1765.2 L1426.2,-1767.6 L1427.6,-1769.3 L1429.9,-1770.7 L1432.8,-1771.8 L1437.3,-1772.2 L1441.0,-1773.3 L1444.8,-1775.2 L1454.7,-1783.1 L1456.9,-1785.9 L1460.8,-1791.7 L1506.2,-1816.9 L1509.5,-1817.8 L1515.5,-1818.2 L1527.9,-1816.6 L1530.6,-1816.8 L1533.6,-1817.9 L1536.6,-1819.7 L1540.5,-1823.6 L1547.4,-1831.8 L1557.2,-1841.1 L1560.6,-1842.7 L1565.8,-1844.0 L1583.3,-1846.0 L1595.3,-1851.0 L1602.1,-1855.8 L1603.9,-1857.6 L1605.4,-1859.4 L1606.5,-1861.5 L1612.1,-1878.4 L1613.5,-1880.2 L1619.7,-1883.6 L1631.8,-1897.1 L1635.3,-1900.0 L1637.4,-1901.0 L1640.7,-1900.8 L1644.8,-1899.0 L1651.8,-1892.9 L1654.4,-1888.6 L1655.5,-1884.8 L1655.2,-1879.0 L1655.6,-1876.4 L1656.5,-1874.0 L1657.8,-1872.1 L1659.4,-1870.5 L1661.3,-1869.1 L1666.1,-1866.7 L1670.2,-1866.3 L1673.8,-1867.3 L1678.1,-1870.7 L1679.8,-1873.8 L1680.5,-1877.0 L1680.8,-1879.9 L1681.7,-1882.2 L1683.0,-1884.0 L1684.6,-1885.6 L1687.1,-1885.7 L1689.3,-1885.5 L1699.3,-1874.5 L1702.5,-1872.0 L1740.8,-1854.7 L1743.6,-1854.4 L1747.2,-1854.4 L1753.1,-1856.1 L1759.7,-1856.7 L1770.4,-1861.4 L1772.8,-1863.4 L1777.2,-1868.5 L1778.9,-1870.1 L1782.1,-1871.1 L1786.7,-1871.6 L1795.5,-1870.7 L1803.7,-1868.9 L1814.1,-1863.4 L1818.0,-1862.7 L1840.5,-1861.4 L1842.1,-1860.8 L1844.4,-1860.3 L1866.8,-1860.8 L1870.6,-1860.2 L1872.9,-1859.3 L1877.1,-1857.0 L1879.8,-1856.5 L1883.0,-1856.7 L1887.1,-1858.4 L1893.0,-1863.8 L1901.7,-1879.0 L1905.4,-1880.6 L1906.9,-1881.6 L1908.6,-1884.2 L1910.6,-1887.8 L1912.3,-1893.5 L1917.3,-1901.7 L1927.3,-1902.3 L1933.2,-1901.5 L1965.4,-1909.8 L1970.3,-1910.2 L1981.9,-1906.4 L1993.2,-1912.3 L2029.1,-1942.2 L2042.8,-1954.6 Z"/><path d="M381.3,1496.2 L385.1,1496.0 L388.1,1495.1 L394.0,1491.0 L398.6,1487.2 L403.1,1482.2 L403.1,1481.1 L402.5,1479.2 L400.7,1477.9 L381.2,1467.7 L372.1,1464.2 L368.7,1463.6 L364.8,1462.5 L344.6,1453.0 L341.1,1450.5 L339.2,1447.8 L339.2,1445.0 L339.7,1442.3 L339.7,1439.6 L338.4,1436.0 L336.2,1434.5 L333.0,1433.8 L329.5,1433.6 L323.9,1431.6 L321.1,1429.9 L319.2,1427.5 L318.5,1425.4 L318.2,1422.9 L318.2,1421.3 L318.7,1416.1 L318.3,1413.0 L317.0,1409.6 L315.4,1407.4 L313.4,1405.7 L292.2,1390.9 L282.6,1393.9 L217.2,1443.2 L171.9,1474.1 L168.6,1477.5 L165.2,1482.5 L163.1,1486.7 L162.2,1489.8 L162.0,1492.8 L162.4,1495.5 L163.0,1498.2 L163.8,1500.7 L163.8,1504.2 L162.9,1509.0 L157.6,1522.4 L156.5,1526.4 L155.0,1538.4 L149.7,1560.2 L149.3,1566.5 L150.4,1587.1 L154.5,1602.2 L154.3,1607.5 L153.5,1614.6 L150.7,1629.2 L150.5,1635.7 L151.4,1639.9 L156.8,1644.7 L157.9,1646.9 L158.2,1649.5 L157.9,1655.5 L157.9,1658.9 L158.6,1662.6 L159.7,1665.2 L161.2,1667.3 L174.4,1680.3 L176.4,1681.8 L178.5,1682.8 L180.8,1683.3 L182.9,1682.6 L184.4,1681.0 L186.5,1676.5 L187.9,1674.5 L189.6,1673.0 L192.1,1672.4 L194.7,1672.5 L196.6,1675.0 L198.0,1679.5 L198.3,1688.9 L201.9,1716.0 L204.5,1726.0 L210.5,1739.4 L213.3,1743.3 L214.9,1744.9 L216.6,1746.4 L220.7,1749.1 L243.9,1756.6 L253.5,1763.2 L255.8,1764.1 L258.4,1764.3 L260.6,1763.5 L262.4,1762.0 L263.7,1760.0 L264.8,1757.7 L267.4,1750.5 L269.8,1746.1 L271.1,1744.1 L272.6,1742.3 L274.4,1740.8 L278.3,1738.1 L280.1,1736.4 L281.2,1734.2 L282.0,1731.7 L283.2,1726.0 L284.0,1720.1 L283.8,1714.3 L280.0,1695.8 L279.5,1690.3 L279.8,1687.6 L283.0,1674.1 L283.2,1666.3 L281.3,1651.8 L276.3,1625.8 L276.0,1616.1 L277.6,1611.2 L280.5,1607.2 L291.9,1602.7 L293.9,1597.8 L293.8,1595.1 L294.7,1591.0 L300.1,1577.2 L301.5,1572.1 L301.9,1568.2 L300.6,1562.9 L299.8,1561.0 L297.9,1557.7 L296.3,1552.0 L296.5,1550.8 L297.3,1548.4 L300.6,1542.4 L300.1,1539.7 L299.4,1537.1 L298.1,1534.3 L298.4,1532.1 L299.6,1530.1 L301.2,1528.5 L303.2,1527.1 L305.5,1524.3 L308.1,1520.4 L314.3,1509.0 L316.0,1506.3 L319.4,1503.5 L321.5,1502.5 L323.9,1502.1 L326.4,1502.5 L332.3,1506.5 L334.5,1507.2 L337.5,1506.0 L339.1,1504.6 L341.0,1499.5 L346.6,1492.6 L349.0,1491.9 L352.3,1491.2 L381.3,1496.2 Z"/></g>
+<path class="r-day4" d="M1124.5,782.7 L987.6,733.9"/><path class="r-day2" d="M987.6,733.9 L765.9,709.0"/><path class="r-day5" d="M1124.5,782.7 L1154.1,263.2"/><circle class="hub" cx="1124.5" cy="782.7" r="16"/><circle class="stop" cx="765.9" cy="709.0" r="10"/><circle class="stop" cx="1154.1" cy="263.2" r="10"/><circle class="stop" cx="987.6" cy="733.9" r="10"/><text class="zh" x="1202" y="768.7" text-anchor="start">雪梨 · 連住</text><text class="en" x="1202" y="798.7" text-anchor="start">SYDNEY</text><text class="zh" x="812" y="800" text-anchor="middle">藍山 · 卡通巴</text><text class="en" x="812" y="830" text-anchor="middle">BLUE MOUNTAINS</text><text class="zh" x="1216" y="253.2" text-anchor="start">獵人谷</text><text class="en" x="1216" y="283.2" text-anchor="start">HUNTER VALLEY</text><text class="zh" x="979.6" y="641.9" text-anchor="middle">費瑟戴爾</text><text class="en" x="979.6" y="671.9" text-anchor="middle">FEATHERDALE</text>
+</svg>
+<div class="dist" style="left:786px;top:606px">105 km<em>1 小時 45 分</em></div>
+<div class="dist" style="left:1000px;top:856px">45 km<em>50 分</em></div>
+<div class="dist" style="left:1139px;top:523px">160 km<em>2 小時</em></div>
+<div class="medal hub m-syd" style="left:1124.5px;top:782.7px"><img data-src="/tour/sydney-7d/img/medal-opera2.webp" alt="雪梨歌劇院徽章"></div><div class="medal m-blue" style="left:765.9px;top:709.0px"><img data-src="/tour/sydney-7d/img/medal-sisters2.webp" alt="藍山三姊妹峰徽章"></div><div class="medal m-feather" style="left:987.6px;top:733.9px"><img data-src="/tour/sydney-7d/img/medal-koala2.webp" alt="費瑟戴爾無尾熊徽章"></div><div class="medal m-hunter" style="left:1154.1px;top:263.2px"><img data-src="/tour/sydney-7d/img/medal-hunter.webp" alt="獵人谷葡萄酒徽章"></div>
+<div class="mapinfo">
+<div class="en">ONE BASE · THREE DIRECTIONS</div>
+<h3>以雪梨為基地<br>三個方向各去一次</h3>
+<p>藍山在西邊、獵人谷在北邊、港灣就在市區。藍山那一晚住山上，其餘晚上都回同一家飯店。圖上標的是各段公里數與車程（一般路況概估）。</p>
+<ul><li><i class="r-day2"></i>DAY 2–3　雪梨 → 藍山住一晚 → 回市區</li><li><i class="r-day4"></i>DAY 4　　市區 → 費瑟戴爾無尾熊 → 港灣遊船</li><li><i class="r-day5"></i>DAY 5　　雪梨 → 獵人谷酒莊 → 回市區晚宴</li></ul>
+</div>
+<div class="folio"><span class="l">ROUTE · NEW SOUTH WALES</span></div>
+</section>
+
+<section class="slide dayhero" data-anim="dayhero" data-i="30" data-trans="zoomin">
+<div class="bg"><img data-src="/tour/sydney-7d/img/syd-skyline.webp" alt=""></div><div class="veil"></div><div class="veil2"></div>
+<div class="num">01</div><div class="plate"><figure><img data-src="/tour/sydney-7d/img/syd-skyline-plate.webp" alt=""><figcaption>雪梨 · 落地就是白天</figcaption></figure></div>
+<div class="body"><div class="en">TAOYUAN TPE → SYDNEY SYD</div>
+<h2><span class="ln"><i>桃園出發</i></span><span class="ln"><i>夜航直飛雪梨</i></span></h2>
+<div class="hi"><span>本日亮點</span><b>上機前先拿到一只自己的袋子</b></div>
+<div class="lead">夜裡從桃園起飛，直飛不轉機。九個多小時後醒來，窗外是南半球的早晨——雪梨比台北快兩到三小時，落地就是白天，當天下午就能開始走行程。</div>
+<div class="chips"><span>直飛不轉機</span><span>約 9 小時</span><span>機上餐・機上過夜</span><span>時差 2–3 小時</span></div></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide dayhero" data-anim="dayhero" data-i="31" data-trans="zoomin">
+<div class="bg"><img data-src="/tour/sydney-7d/img/syd-quay.webp" alt=""></div><div class="veil"></div><div class="veil2"></div>
+<div class="num">02</div><div class="plate"><figure><img data-src="/tour/sydney-7d/img/syd-fishmarket-plate.webp" alt=""><figcaption>雪梨魚市場 · 現點現炸</figcaption></figure></div>
+<div class="body"><div class="en">SYDNEY CITY · FISH MARKET · BLUE MOUNTAINS</div>
+<h2><span class="ln"><i>抵達雪梨</i></span><span class="ln"><i>市區、魚市場，傍晚上山</i></span></h2>
+<div class="hi"><span>本日亮點</span><b>中午在魚市場吃現炸的</b></div>
+<div class="lead">先看市區與港灣，中午轉進雪梨魚市場——南半球最大的漁市，現點現炸的炸魚薯條配一杯冰的。下午往西進藍山，車程約一小時四十五分，晚餐是楓林小館八菜一湯，當晚就住山上，不趕夜路下山。</div>
+<div class="chips"><span>魚市場炸魚薯條 A$30</span><span>楓林小館 8 菜 1 湯 A$45</span><span>宿：藍山・費爾蒙特度假村</span></div></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide hotel" data-anim="hotel" data-i="32" data-trans="wipeup"><div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="hd"><div class="no">04</div><div class="en">WHERE YOU STAY · NIGHT 1</div><h3>Fairmont Resort Blue Mountains</h3>
+<p>藍山那一晚住山上的費爾蒙特度假村。它就蓋在賈米森谷的邊緣，離三姊妹峰與纜車開車不到十分鐘——隔天早上一起床就在景點旁邊，不必再從市區開近兩小時上山。</p></div>
+<div class="hrows"><div class="row"><div class="k">位置</div><div class="v">Leura，賈米森谷崖邊；世界遺產藍山國家公園範圍內，開車到 Scenic World 纜車不到 10 分鐘</div></div><div class="row"><div class="k">房型</div><div class="v">Twin 雙床為主，兩人一室；全館 224 間客房與套房，看得到谷地、球道或花園</div></div><div class="row"><div class="k">餐飲</div><div class="v">館內三間餐廳與威士忌酒吧，另有得過獎的 Ubika Day Spa</div></div><div class="row"><div class="k">設施</div><div class="v">約十公頃腹地、室內與室外泳池、網球場，晚上不必再出門找地方消磨</div></div><div class="row"><div class="k">為什麼選它</div><div class="v">整趟只換這一次飯店，換來的是隔天早上最好的光線與最少的人潮</div></div></div><div class="gal"><figure><img data-src="/tour/sydney-7d/img/fairmont-view.webp" alt=""><figcaption>度假村 · 就在賈米森谷邊上</figcaption></figure><figure><img data-src="/tour/sydney-7d/img/fairmont-lobby.webp" alt=""><figcaption>大廳 · 挑高木構與谷景落地窗</figcaption></figure><figure><img data-src="/tour/sydney-7d/img/fairmont-room.webp" alt=""><figcaption>客房 · Twin 雙床</figcaption></figure><figure><img data-src="/tour/sydney-7d/img/fairmont-dining.webp" alt=""><figcaption>館內餐廳 · 壁爐與整面山谷</figcaption></figure></div>
+<div class="folio"><span class="l">ACCOMMODATION · BLUE MOUNTAINS</span></div></section>
+
+<section class="slide hotel" data-anim="hotel" data-i="33" data-trans="wipeup"><div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="hd"><div class="no">05</div><div class="en">WHERE YOU STAY · NIGHTS 2–4</div><h3>Crowne Plaza Sydney Macquarie Park</h3>
+<p>下山之後的三晚都住這裡，不再換飯店。每天回到同一個房間，行李攤著就好，早上也不必為了退房提早起床。</p></div>
+<div class="hrows"><div class="row"><div class="k">位置</div><div class="v">Macquarie Park，地鐵直達市中心約 20 分鐘；周邊是雪梨的科技與研發聚落</div></div><div class="row"><div class="k">房型</div><div class="v">Twin 雙床為主，兩人一室</div></div><div class="row"><div class="k">餐飲</div><div class="v">每日自助早餐，六點半開始——出發早的日子也吃得到</div></div><div class="row"><div class="k">設施</div><div class="v">健身房、洗衣間；長天數團體最需要的兩樣</div></div><div class="row"><div class="k">為什麼選它</div><div class="v">三晚不換飯店，費瑟戴爾、獵人谷、市區三個方向都從這裡出發、回這裡</div></div></div><div class="gal"><figure><img data-src="/tour/sydney-7d/img/hotel-room.webp" alt=""><figcaption>客房 · Twin 雙床</figcaption></figure><figure><img data-src="/tour/sydney-7d/img/hotel-lobby.webp" alt=""><figcaption>大廳與公共空間</figcaption></figure><figure><img data-src="/tour/sydney-7d/img/hotel-view.webp" alt=""><figcaption>雪梨 · Aria 餐廳景觀（Day 5 晚宴）</figcaption></figure><figure><img data-src="/tour/sydney-7d/img/hotel-dining.webp" alt=""><figcaption>雪梨 · Aria 三道式（Day 5 晚宴）</figcaption></figure></div>
+<div class="folio"><span class="l">ACCOMMODATION · SYDNEY CITY</span></div></section>
+
+<section class="slide dayhero" data-anim="dayhero" data-i="34" data-trans="zoomin">
+<div class="bg"><img data-src="/tour/sydney-7d/img/syd-skyway.webp" alt=""></div><div class="veil"></div><div class="veil2"></div>
+<div class="num">03</div><div class="plate"><figure><img data-src="/tour/sydney-7d/img/syd-sisters-plate.webp" alt=""><figcaption>藍山 · 三姊妹峰</figcaption></figure></div>
+<div class="body"><div class="en">ZIG ZAG RAILWAY · SCENIC WORLD</div>
+<h2><span class="ln"><i>藍山的早晨</i></span><span class="ln"><i>Z 字鐵道與纜車</i></span></h2>
+<div class="hi"><span>本日亮點</span><b>從斷崖上方橫越雨林谷地</b></div>
+<div class="lead">住在山上的好處，早上就領到了：不必趕車，吃完早餐直接出發。先搭 Z 字鐵道，那是十九世紀為了把火車開上藍山而鑿出來的之字形路線，四十五分鐘。接著換纜車——腳下是整片尤加利樹雨林，藍山的名字就是從樹葉揮發出的藍色霧氣來的。</div><div class="chips"><span>Z 字鐵道 45 分鐘</span><span>藍山纜車</span><span>Echo Point 西式兩道式 A$55</span><span>宿：雪梨市區</span></div></div>
+<div class="folio"><span class="l">角落旅行社</span></div></section>
+
+<section class="slide feature" data-anim="feature" data-i="35" data-trans="slidein"><div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="hero"><img data-src="/tour/sydney-7d/img/syd-sisters.webp" alt=""><div class="sh"></div><div class="cap">藍山 · 三姊妹峰</div></div>
+<div class="side"><div class="en">THE THREE SISTERS</div><h3>三塊砂岩<br>站在同一道斷崖上</h3>
+<div class="sub">三姊妹峰是藍山最好認的地標，砂岩經過幾百萬年風化剩下三根石柱。當地原住民的傳說裡，那是被變成石頭的三姊妹。從 Echo Point 觀景台正對著看，天氣好的時候整片谷地會泛藍。</div><div class="rows"><div class="row"><div class="k">看的位置</div><div class="v">Echo Point 觀景台，走幾步就到，不用爬山</div></div><div class="row"><div class="k">最好的時間</div><div class="v">上午光線從側面打過來，稜線最清楚</div></div><div class="row"><div class="k">備一件外套</div><div class="v">山上比市區低好幾度，早晚風大</div></div><div class="row"><div class="k">纜車怎麼搭</div><div class="v">Scenic World 三種：纜車橫越谷地、纜索車下到雨林、<b>全世界最陡的斜坡火車</b>（52 度）</div></div><div class="row"><div class="k">走多久</div><div class="v">觀景台到纜車站步行約 10 分鐘，全程平路</div></div></div></div>
+<div class="folio"><span class="l">角落旅行社</span></div></section>
+
+<section class="slide dayhero" data-anim="dayhero" data-i="36" data-trans="zoomin">
+<div class="bg"><img data-src="/tour/sydney-7d/img/syd-cruise.webp" alt=""></div><div class="veil"></div><div class="veil2"></div>
+<div class="num">04</div><div class="plate"><figure><img data-src="/tour/sydney-7d/img/syd-koala3-plate.webp" alt=""><figcaption>費瑟戴爾 · 無尾熊合影</figcaption></figure></div>
+<div class="body"><div class="en">FEATHERDALE · BIRKENHEAD · HARBOUR CRUISE</div>
+<h2><span class="ln"><i>抱一次無尾熊</i></span><span class="ln"><i>傍晚的港灣</i></span></h2>
+<div class="hi"><span>本日亮點</span><b>白天摸得到動物，晚上在船上吃飯</b></div>
+<div class="lead">費瑟戴爾是少數可以近距離跟無尾熊合影的地方，袋鼠也在同一區可以餵。下午到 Birkenhead Point Outlet 逛街。傍晚上 Showboat 遊船，一邊吃三道式一邊看港灣兩岸把燈打開。</div><div class="chips"><span>無尾熊合影</span><span>Birkenhead Point Outlet</span><span>Showboat 17:00–18:10</span><span>三道式 A$75</span></div></div>
+<div class="folio"><span class="l">角落旅行社</span></div></section>
+
+<section class="slide videoslide" data-anim="feature" data-i="37" data-trans="dissolve">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="vs-stage">
+  <div class="vs-frame" id="sbFrame" data-yt="qjCHgXtxqAA">
+    <img data-src="/tour/sydney-7d/img/syd-showboat.webp" alt="Showboat 雪梨港灣晚宴遊船">
+    <button class="vs-play" aria-label="播放影片"><span></span></button>
+    <div class="vs-cap">Showboat · 雪梨港灣晚宴遊船（官方影片）</div>
+  </div>
+</div>
+<div class="vs-side">
+  <div class="en">DAY 4 · DINNER CRUISE</div>
+  <h3>吃飯的時候<br>窗外的城市正在亮起來</h3>
+  <div class="sub">Showboat 是雪梨港灣上的晚宴遊船。船從環形碼頭出發，繞過歌劇院與港灣大橋，三道式一道一道上，天色從黃昏轉成夜景——這一段不用另外找位置拍照，坐著就是最好的角度。</div>
+  <div class="rows">
+    <div class="row"><div class="k">時段</div><div class="v">17:00 上船，18:10 靠岸——<b>正好卡在日落前後</b></div></div>
+    <div class="row"><div class="k">餐食</div><div class="v">三道式，A$75／人</div></div>
+    <div class="row"><div class="k">看什麼</div><div class="v">歌劇院、港灣大橋、環形碼頭，從水面上看</div></div>
+    <div class="row"><div class="k">要注意</div><div class="v">甲板風大，帶一件外套；船上有室內座位</div></div>
+  </div>
+</div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide feature" data-anim="feature" data-i="38" data-trans="slidein"><div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="hero"><img data-src="/tour/sydney-7d/img/syd-koala2.webp" alt=""><div class="sh"></div><div class="cap">費瑟戴爾 · 無尾熊</div></div>
+<div class="side"><div class="en">MEET A KOALA</div><h3>牠一天睡二十小時<br>醒著的時候剛好給你拍</h3>
+<div class="sub">無尾熊吃的尤加利葉幾乎沒有熱量，所以牠們一天要睡十八到二十二小時。園方安排的合影時段是牠們清醒的那一小段，全程有保育員在旁邊，不會硬把牠抱起來配合。</div><div class="rows"><div class="row"><div class="k">合影方式</div><div class="v">站在旁邊合照，園方規定不抱起、不強迫</div></div><div class="row"><div class="k">同一區還有</div><div class="v">袋鼠、鴯鶓可以近距離餵食</div></div><div class="row"><div class="k">拍照</div><div class="v">可以拍，但不要開閃光燈</div></div><div class="row"><div class="k">為什麼在這裡</div><div class="v">新南威爾斯州法規不開放遊客抱無尾熊，站著合照是這裡能做到的最近距離</div></div><div class="row"><div class="k">停留時間</div><div class="v">園區約 1.5 小時，走完一圈剛好</div></div></div></div>
+<div class="folio"><span class="l">角落旅行社</span></div></section>
+
+<section class="slide dayhero" data-anim="dayhero" data-i="39" data-trans="zoomin">
+<div class="bg"><img data-src="/tour/sydney-7d/img/syd-hunter.webp" alt=""></div><div class="veil"></div><div class="veil2"></div>
+<div class="num">05</div><div class="plate"><figure><img data-src="/tour/sydney-7d/img/syd-hunter-plate.webp" alt=""><figcaption>獵人谷 · 澳洲最老的產區</figcaption></figure></div>
+<div class="body"><div class="en">HUNTER VALLEY · SYDNEY DINNER</div>
+<h2><span class="ln"><i>獵人谷品酒</i></span><span class="ln"><i>晚上回市區吃三道式</i></span></h2>
+<div class="hi"><span>本日亮點</span><b>澳洲最老的產區，配一頓正式晚餐</b></div>
+<div class="lead">獵人谷是澳洲最早開始種葡萄的產區，一八二〇年代就有酒莊。上午在酒莊試飲，午餐是澳式 BBQ 自助。晚上回雪梨吃 Aria 的三道式——這是這趟餐標最高的一餐。</div><div class="chips"><span>酒莊品酒</span><span>AUSSIE BBQ 自助 A$60</span><span>Aria 三道式 A$185</span><span>宿：雪梨市區</span></div></div>
+<div class="folio"><span class="l">角落旅行社</span></div></section>
+
+<section class="slide table-s has-note" data-anim="table" data-i="40" data-trans="wipeup"><div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="hd"><div class="no">06</div><div class="en">DINING SPECIFICATION</div><h3>六天九餐，餐廳與餐標都寫清楚</h3></div>
+<div class="tb"><div class="tr th" style="grid-template-columns:112px 1fr 1fr 150px"><div class="c0">天數</div><div class="c1">午餐</div><div class="c2">晚餐</div><div class="c3">餐標／人</div></div><div class="tr td" style="grid-template-columns:112px 1fr 1fr 150px"><div class="c0">DAY 2</div><div class="c1">魚市場・炸魚薯條套餐</div><div class="c2">楓林小館・中式 8 菜 1 湯</div><div class="c3">A$30／45</div></div><div class="tr td" style="grid-template-columns:112px 1fr 1fr 150px"><div class="c0">DAY 3</div><div class="c1">Echo Point・西式兩道式</div><div class="c2">複合式自助餐</div><div class="c3">A$55／35</div></div><div class="tr td" style="grid-template-columns:112px 1fr 1fr 150px"><div class="c0">DAY 4</div><div class="c1">漢堡套餐＋軟飲</div><div class="c2">Showboat 遊船・三道式</div><div class="c3">A$25／75</div></div><div class="tr td" style="grid-template-columns:112px 1fr 1fr 150px"><div class="c0">DAY 5</div><div class="c1">AUSSIE BBQ 自助</div><div class="c2">Aria・三道式</div><div class="c3">A$60／185</div></div><div class="tr td" style="grid-template-columns:112px 1fr 1fr 150px"><div class="c0">DAY 6</div><div class="c1">義式披薩分享餐</div><div class="c2">雪梨塔・自助餐</div><div class="c3">A$35／98</div></div></div>
+<div class="aside"><b>不寫「風味餐」。</b>每一餐的餐廳、菜色與餐標都列出來，同仁吃到什麼、我們花在哪裡，一眼看得到。</div>
+<div class="folio"><span class="l">MEALS</span></div></section>
+
+<section class="slide dayhero" data-anim="dayhero" data-i="41" data-trans="zoomin">
+<div class="bg"><img data-src="/tour/sydney-7d/img/syd-rocks.webp" alt=""></div><div class="veil"></div><div class="veil2"></div>
+<div class="num">06</div><div class="plate"><figure><img data-src="/tour/sydney-7d/img/syd-rocks-plate.webp" alt=""><figcaption>岩石區 · 砂岩老屋</figcaption></figure></div>
+<div class="body"><div class="en">OPERA HOUSE · THE ROCKS · SYDNEY TOWER</div>
+<h2><span class="ln"><i>歌劇院與岩石區</i></span><span class="ln"><i>走一次雪梨大橋</i></span></h2>
+<div class="hi"><span>本日亮點</span><b>最後一天把城市走完再上飛機</b></div>
+<div class="lead">上午看歌劇院，接著走進岩石區——那是雪梨最早的街區，砂岩老屋現在是酒吧與市集。再走一次雪梨大橋，從橋上回看整座港灣。晚餐在雪梨塔上，吃完直接前往機場。</div><div class="chips"><span>歌劇院</span><span>岩石區</span><span>步行雪梨大橋</span><span>雪梨塔自助餐 A$98</span></div></div>
+<div class="folio"><span class="l">角落旅行社</span></div></section>
+
+<section class="slide feature" data-anim="feature" data-i="42" data-trans="slidein"><div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="hero"><img data-src="/tour/sydney-7d/img/syd-bridge.webp" alt=""><div class="sh"></div><div class="cap">雪梨港灣大橋 · 從橋上回看港灣</div></div>
+<div class="side"><div class="en">WALK THE BRIDGE</div><h3>不用攀橋<br>用走的也看得到</h3>
+<div class="sub">雪梨大橋一九三二年通車，橋面兩側有行人步道，任何人都能走。不必買攀橋行程、不必穿裝備，走上去就是那個明信片角度。</div>
+<div class="rows"><div class="row"><div class="k">走橋</div><div class="v">走的是行人步道，不是攀橋，不需要體力也不用另外裝備</div></div><div class="row"><div class="k">看什麼</div><div class="v">從橋上正對歌劇院與環形碼頭，是明信片那個角度</div></div><div class="row"><div class="k">時間</div><div class="v">約 30 分鐘來回，跟著領隊走，走不動可以在橋頭等</div></div><div class="row"><div class="k">橋有多大</div><div class="v">跨距 503 公尺，1932 年通車時是全世界最寬的大橋</div></div><div class="row"><div class="k">要不要爬橋</div><div class="v">攀橋是另外的付費行程、要換裝備、約 3 小時。這趟走橋面就好</div></div></div></div>
+<div class="folio"><span class="l">角落旅行社</span></div></section>
+
+<section class="slide table-s has-aside" data-anim="table" data-i="43" data-trans="wipeup"><div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="hd"><div class="no">07</div><div class="en">DEPARTURE DATES</div><h3>出發日與當地假期</h3></div>
+<div class="tb"><div class="tr th" style="grid-template-columns:320px 320px 1fr"><div class="c0">出發（週六）</div><div class="c1">返抵（週五）</div><div class="c2">狀態</div></div><div class="tr td" style="grid-template-columns:320px 320px 1fr"><div class="c0">3 / 13</div><div class="c1">3 / 19</div><div class="c2">可排</div></div><div class="tr td hl" style="grid-template-columns:320px 320px 1fr"><div class="c0">3 / 20</div><div class="c1">3 / 26</div><div class="c2"><b class=warn>回程撞上復活節連假，機位與房價會漲</b></div></div><div class="tr td" style="grid-template-columns:320px 320px 1fr"><div class="c0">4 / 10</div><div class="c1">4 / 16</div><div class="c2">可排</div></div><div class="tr td" style="grid-template-columns:320px 320px 1fr"><div class="c0">4 / 17</div><div class="c1">4 / 23</div><div class="c2">可排</div></div><div class="tr td" style="grid-template-columns:320px 320px 1fr"><div class="c0">5 / 15</div><div class="c1">5 / 21</div><div class="c2">可排</div></div></div>
+<div class="aside"><h5>這五個日期都落在雪梨的秋天</h5><div><span>白天氣溫</span><span>約 20 度上下，走一整天也不會流汗</span></div><div><span>藍山山上</span><span>比市區低 5–8 度，早晚要帶外套</span></div><div><span>南半球</span><span>季節與台灣相反——台灣最熱的時候，雪梨在過冬</span></div><div><span>要避開的</span><span>12 月到 1 月中是澳洲人的長假，最擠也最貴</span></div></div>
+<div class="foot">3/20 那一梯的最後兩天正好碰上澳洲復活節（3/28）連假前夕：市區、藍山與獵人谷人潮明顯變多，機位與房價都會往上跳。要走這一梯，建議提早半年卡位。</div>
+<div class="folio"><span class="l">角落旅行社</span></div></section>
+
+<section class="slide feature" data-anim="feature" data-i="44" data-trans="slidein"><div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="hero"><img data-src="/tour/sydney-7d/img/syd-quay.webp" alt=""><div class="sh"></div>
+<div class="cap">環形碼頭 · 每天回飯店都會經過的地方</div></div>
+<div class="side"><div class="no">08</div><div class="en">WHAT THEY TAKE HOME</div>
+<h3>帶回去的<br>除了回憶以外</h3>
+<div class="sub">行程會忘記，袋子不會。一只燙印多聯字樣的黑帆布袋，裡面四樣東西，回台灣之後每一樣都還會被拿出來。</div>
+<div class="rows">
+<div class="row"><div class="k">帆布收納袋</div><div class="v">黑帆布拉鍊袋，燙印多聯字樣；旅程結束後可以繼續當健身袋、電腦配件袋</div></div>
+<div class="row"><div class="k">機上組合</div><div class="v">眼罩、機上襪與盥洗小物，去程就用得到，回程再用一次</div></div>
+<div class="row"><div class="k">澳洲綿羊油</div><div class="v">Careline 綿羊油 100ml，加了葡萄籽油與維他命 E，澳洲製造。台灣入冬手背開始乾的那幾天，它會被從抽屜裡翻出來</div></div>
+<div class="row"><div class="k">無尾熊玩偶</div><div class="v">Day 4 在費瑟戴爾跟真的合照過，這一隻是帶回家的那隻——最後多半不是留在自己手上</div></div>
+<div class="row"><div class="k">企業小卡</div><div class="v">燙金對摺卡，內頁可印董事長或福委致詞——回國後留下來的通常是這張</div></div>
+</div></div>
+<div class="folio"><span class="l">角落旅行社</span></div></section>
+
+<section class="slide grid-s" data-anim="grid" data-i="45" data-trans="wipeup"><div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+<div class="hd"><div class="no">09</div><div class="en">AFTER THE TRIP</div><h3>回國之後</h3>
+<p>清晨抵達桃園，領隊協助確認行李及後續交通。旅行社的服務不會在飛機落地時就結束。</p></div>
+<div class="cells" style="grid-template-columns:repeat(5,1fr)"><div class="cell has-bg"><div class="cbg"><img data-src="/tour/sydney-7d/img/syd-opera-cell.webp" alt=""></div><div class="in"><div class="n">01</div><h4>企業電子相簿</h4><p>整趟照片整理後交付福委，可直接用於內部公告。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/sydney-7d/img/syd-hunter-cell.webp" alt=""></div><div class="in"><div class="n">02</div><h4>團體合照</h4><p>晚宴與各日合照，統一規格輸出。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/sydney-7d/img/syd-rocks-cell.webp" alt=""></div><div class="in"><div class="n">03</div><h4>員工回饋</h4><p>回收問卷，讓下一梯更貼近同仁想要的。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/sydney-7d/img/syd-bluemtn-cell.webp" alt=""></div><div class="in"><div class="n">04</div><h4>行程紀錄</h4><p>實際走過的版本存檔，明年要辦不用從零開始。</p></div></div><div class="cell has-bg"><div class="cbg"><img data-src="/tour/sydney-7d/img/syd-skyline-cell.webp" alt=""></div><div class="in"><div class="n">05</div><h4>下一梯先排</h4><p>檔期先卡位——好的日期通常提前半年就滿。</p></div></div></div>
+<div class="folio"><span class="l">角落旅行社</span></div></section>
+
+<section class="slide table-s" data-anim="table" data-i="46">
+<div class="deco"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+  <div class="hd">
+    <div class="no">09</div>
+    <div class="en">PRICING</div><h3>報價</h3>
+    <p>單人房差與最低成團人數將於確認出發梯次後另行提供。</p>
+  </div>
+  <div class="tb">
+    <div class="tr th" style="grid-template-columns:1fr 460px"><div class="c0">項目</div><div class="c1">金額</div></div>
+    <div class="tr td hl" style="grid-template-columns:1fr 460px"><div class="c0">墨爾本 7 日・每人團費（方案一）</div><div class="c1">NT$79,800</div></div><div class="tr td hl" style="grid-template-columns:1fr 460px"><div class="c0">雪梨 7 日・每人團費（方案二）</div><div class="c1">NT$85,500</div></div><div class="tr td" style="grid-template-columns:1fr 460px"><div class="c0">單人房差</div><div class="c1">待報價</div></div><div class="tr td" style="grid-template-columns:1fr 460px"><div class="c0">最低成團人數</div><div class="c1">待報價</div></div>
+  </div>
+<div class="mast"><span class="lft">報價</span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div>
+</section>
+
+<section class="slide thanks" data-anim="thanks" data-i="47" data-trans="dissolve">
+<div class="bg"><img data-src="/tour/sydney-7d/img/syd-opera.webp" alt=""></div><div class="veil"></div>
+<div class="tk"><h2 id="tkBig"><span>T</span><span>H</span><span>A</span><span>N</span><span>K</span><span class="sp">&nbsp;</span><span>Y</span><span>O</span><span>U</span></h2>
+<div class="zh">期待與多聯科技的同仁，在澳洲見。</div>
+<div class="dash"></div>
+<div class="sign">墨爾本・雪梨員工旅遊雙案提案　·　多聯科技員工旅遊</div>
+<div class="brand">角落旅行社　CORNER TRAVEL</div></div>
+<div class="mast"><span class="lft"></span><span class="r"></span></div>
+<div class="folio"><span class="l">角落旅行社</span></div></section>
+</div>
+<!-- 導覽必須在 #stage 之外：放進去會跟著舞台 transform 一起縮放，
+     手機直向時舞台只有 0.2 倍，52px 的按鈕會變成 11px 點不到（2026-08-12 實測）。 -->
+<div id="nav"><button id="pv" aria-label="上一頁">‹</button><span id="cnt">01 / 48</span><button id="nx" aria-label="下一頁">›</button></div>
+<div id="hint">← 左右滑動翻頁 →　也可點畫面左右側</div>
+
+<script src="/tour/melbourne-7d/vendor/gsap.min.js"></script>
+<script src="/tour/melbourne-7d/vendor/DrawSVGPlugin.min.js"></script>
+<script>
+const stage=document.getElementById('stage');
+/* 手機用 visualViewport：iOS 網址列收合／轉向會改變 innerHeight，
+   直接吃 innerHeight 會讓舞台縮放一直跳（看起來像畫面在閃）。 */
+function fit(){
+  const vv=window.visualViewport;
+  const w=vv?vv.width:innerWidth, h=vv?vv.height:innerHeight;
+  stage.style.transform='translate(-50%,-50%) scale('+Math.min(w/1920,h/1080)+')';
+  stage.classList.add('ready');
+}
+let fitT;
+const refit=()=>{clearTimeout(fitT);fitT=setTimeout(fit,80)};
+addEventListener('resize',refit);
+addEventListener('orientationchange',refit);
+if(window.visualViewport)visualViewport.addEventListener('resize',refit);
+fit();
+
+const slides=[...document.querySelectorAll('.slide')];
+const cnt=document.getElementById('cnt');
+/* 自審鉤子：?still=1 不播動畫看終態；?t=1.2 定格在第 N 秒；?n=5 直接跳第 5 頁 */
+const QS=new URLSearchParams(location.search);
+const still=QS.get('still')==='1';
+const seek=parseFloat(QS.get('t'));
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches||still;
+let cur=0;
+/* ⚠️ 用「頁索引」當 key，不是版型名。
+   preview 版用 data-anim 當 key，結果 6 頁 dayhero 只有第一頁播得到動畫。 */
+const played=new Set();
+
+/* ── 圖片延遲載入／卸載 ────────────────────────────────
+   2026-08-12 William 實機回報「翻到某一頁就卡住、回不來」。
+   量出來的原因：21 頁的照片解碼後常駐約 144MB。iOS Safari 單一分頁大約
+   200~400MB 就會被系統直接砍掉分頁——所以不是某一頁有 bug，是翻到那裡
+   剛好累積爆掉，於是整個頁面失去回應、也「回不來」。
+   對策：只保留目前頁 ±1 的圖，距離超過 2 頁就拿掉 src 釋放記憶體，
+   同時在記憶體裡的只有 3 頁、約 20MB。 */
+/* 2026-08-14：DROP=2 時 d==2 那圈既不載入也不卸載，實際保留是 5 頁不是 3 頁，
+   翻到第 3–5 頁時峰值約 79MB，iOS Safari 會直接砍分頁。改成 DROP=1，保留窗＝3 頁。 */
+const KEEP=1, DROP=1;
+function lazyImages(i){
+  slides.forEach((s,n)=>{
+    const d=Math.abs(n-i);
+    s.querySelectorAll('img[data-src]').forEach(img=>{
+      if(d<=KEEP){ if(!img.getAttribute('src')) img.setAttribute('src',img.dataset.src); }
+      else if(d>DROP){ if(img.getAttribute('src')) img.removeAttribute('src'); }
+    });
+  });
+}
+
+function show(n){
+  const prev=cur;
+  cur=Math.max(0,Math.min(slides.length-1,n));
+  lazyImages(cur);
+  slides.forEach((s,i)=>s.classList.toggle('on',i===cur));
+  const sc=slides[cur];
+  const tn=sc.dataset.trans;
+  if(tn&&prev!==cur&&!reduce){
+    const cl=tn+'-run';
+    sc.classList.remove(cl);void sc.offsetWidth;sc.classList.add(cl);
+    const clear=()=>sc.classList.remove(cl);
+    sc.addEventListener('animationend',clear,{once:true});setTimeout(clear,1600);
+  }
+  cnt.textContent=String(cur+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+  play(sc);
+}
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();show(cur+1)}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(cur-1)}
+  if(e.key==='Home')show(0); if(e.key==='End')show(slides.length-1);
+});
+document.getElementById('nx').onclick=e=>{e.stopPropagation();show(cur+1)};
+document.getElementById('pv').onclick=e=>{e.stopPropagation();show(cur-1)};
+/* ⚠️ 手機翻頁的三個坑（2026-08-12 William 實機回報「一滑就跳回上一頁、點一點會消失」）：
+   1. ghost click：touchend 翻完頁後，瀏覽器還會補送一個 click。往左滑前進時手指
+      落在畫面左半，那個 click 被判成「上一頁」，等於滑一次又被彈回來。
+   2. 誤觸：全畫面左右半點擊翻頁在手機上太敏感，看內容時隨手一碰就跳頁。
+      觸控裝置一律只認滑動與底部按鈕，不認點畫面。
+   3. 連跳：touchend 與 click 同一次動作各翻一次，中間會閃過一頁，看起來像「突然消失」。 */
+const coarse=matchMedia('(pointer:coarse)').matches;
+let noClickUntil=0;
+addEventListener('click',e=>{
+  if(e.target.closest('#nav'))return;
+  if(coarse)return;                 // 手機：只用滑動＋按鈕
+  if(Date.now()<noClickUntil)return; // 桌機觸控螢幕：擋掉 touchend 之後的 ghost click
+  show(e.clientX>innerWidth*0.5?cur+1:cur-1);
+});
+let tx=0,ty=0;
+addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+  noClickUntil=Date.now()+500;
+  /* 只認「橫向為主」的滑動，直向滑動不翻頁（否則想捲動就翻掉了） */
+  if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)show(dx<0?cur+1:cur-1);
+},{passive:true});
+
+/* 封面大字逐字進場：每一行各自拆字母 */
+document.querySelectorAll('#cvTitle .ln').forEach(el=>{
+  el.innerHTML=[...el.textContent].map(ch=>'<span>'+ch+'</span>').join('');
+});
+
+function play(sec){
+  const key=sec.dataset.i;
+  if(played.has(key))return;
+  played.add(key);
+  if(reduce)return;
+  const kind=sec.dataset.anim;
+  const q=s=>sec.querySelectorAll(s);
+  const tl=gsap.timeline({defaults:{ease:'power3.out'}});
+
+  if(kind==='cover'){
+    tl.from(q('#cvTitle span'),{yPercent:118,duration:.9,stagger:.035},0)
+      .from(q('.kick'),{opacity:0,x:-30,duration:.7},.1)
+      .from(q('.zh'),{opacity:0,y:34,duration:.8},.45)
+      .from(q('.strip figure'),{yPercent:14,opacity:0,rotate:2.5,duration:1.05,stagger:.11},.2)
+      .from(q('.meta .chip'),{opacity:0,y:22,duration:.6,stagger:.09},.75)
+      .from(q('.disc'),{scale:.72,opacity:0,duration:1.2,ease:'power2.out'},0)
+      .fromTo(q('.rule'),{scaleX:0,transformOrigin:'left center'},{scaleX:1,duration:1},.5);
+  }
+  if(kind==='quote'||kind==='end'){
+    tl.fromTo(q('.bg img'),{scale:1.12},{scale:1.02,duration:9,ease:'none'},0)
+      .from(q('.tag'),{opacity:0,x:-26,duration:.7},.05)
+      .from(q('.big'),{opacity:0,y:30,duration:1},.15)
+      .fromTo(q('.dash'),{scaleX:0,transformOrigin:'left center'},{scaleX:1,duration:.8},.7)
+      .from(q('.sub,.sign'),{opacity:0,y:22,duration:.8},.85)
+      .from(q('.brand'),{opacity:0,duration:.7},1.1);
+  }
+  if(kind==='dayhero'){
+    tl.fromTo(q('.bg img'),{scale:1.14},{scale:1.02,duration:9,ease:'none'},0)
+      .from(q('.num'),{opacity:0,x:-70,duration:1.1},.1)
+      .from(q('.en'),{opacity:0,y:18,duration:.6},.3)
+      .from(q('h2 .ln i'),{yPercent:112,duration:.95,stagger:.13},.35)
+      .from(q('.lead'),{opacity:0,y:24,duration:.8},.9)
+      .from(q('.hi'),{opacity:0,x:-28,duration:.7},.82)
+      .from(q('.chips span'),{opacity:0,y:20,scale:.94,duration:.55,stagger:.075},1.05)
+      .from(q('.plate figure'),{opacity:0,y:40,rotate:2,duration:.8,stagger:.14},.7)
+      .from(q('.note'),{opacity:0,x:26,duration:.7},1.2);
+  }
+  if(kind==='hotel'){
+    tl.from(q('.hd .en'),{opacity:0,x:-24,duration:.6},0)
+      .from(q('.hd h3'),{opacity:0,y:30,duration:.8},.08)
+      .from(q('.hd p'),{opacity:0,y:22,duration:.7},.2)
+      .from(q('.gal figure'),{opacity:0,y:46,scale:.96,duration:.85,stagger:.1},.3)
+      .from(q('.hrows .row'),{opacity:0,x:24,duration:.55,stagger:.08},.7)
+      .from(q('.foot'),{opacity:0,duration:.6},1.1);
+    q('.gal figure img').forEach((im,i)=>tl.fromTo(im,{scale:1.12},{scale:1.02,duration:9,ease:'none'},.3+i*.1));
+  }
+  if(kind==='thanks'){
+    tl.fromTo(q('.bg img'),{scale:1.12},{scale:1.02,duration:10,ease:'none'},0)
+      .from(q('#tkBig span'),{yPercent:120,opacity:0,duration:.85,stagger:.045,ease:'power4.out'},.1)
+      .from(q('.tk .zh'),{opacity:0,y:26,duration:.8},.7)
+      .fromTo(q('.tk .dash'),{scaleX:0,transformOrigin:'center'},{scaleX:1,duration:.8},.9)
+      .from(q('.tk .sign'),{opacity:0,y:18,duration:.7},1.05)
+      .from(q('.tk .brand'),{opacity:0,duration:.7},1.25);
+  }
+  tl.from(q('.deco i'),{scale:.4,opacity:0,duration:.9,stagger:.09,ease:'back.out(1.5)'},0);
+  if(kind==='grid'){
+    tl.from(q('.hd .en'),{opacity:0,x:-24,duration:.6},0)
+      .from(q('.hd h3'),{opacity:0,y:30,duration:.8},.08)
+      .from(q('.hd .no'),{opacity:0,scale:.7,duration:.8},.1)
+      .from(q('.hd p'),{opacity:0,y:22,duration:.7},.24)
+      .from(q('.cell'),{opacity:0,y:52,scale:.965,duration:.85,stagger:.075},.3)
+      .from(q('.foot'),{opacity:0,duration:.6},1);
+  }
+  if(kind==='spec'||kind==='feature'){
+    tl.fromTo(q('.hero img'),{scale:1.14},{scale:1.03,duration:8,ease:'none'},0)
+      .from(q('.side .no'),{opacity:0,y:-20,duration:.7},.05)
+      .from(q('.side .en'),{opacity:0,x:-22,duration:.6},.1)
+      .from(q('.side h3'),{opacity:0,y:26,duration:.75},.18)
+      .from(q('.side .sub'),{opacity:0,y:20,duration:.7},.3)
+      .from(q('.rows .row'),{opacity:0,x:26,duration:.6,stagger:.09},.45)
+      .from(q('.side .note'),{opacity:0,duration:.6},.9)
+      .from(q('.hero .cap'),{opacity:0,y:18,duration:.6},1);
+  }
+  if(kind==='table'){
+    tl.from(q('.hd .en'),{opacity:0,x:-24,duration:.6},0)
+      .from(q('.hd h3'),{opacity:0,y:28,duration:.8},.08)
+      .from(q('.hd .no'),{opacity:0,scale:.7,duration:.8},.1)
+      .from(q('.hd p'),{opacity:0,y:20,duration:.7},.22)
+      .from(q('.tr.th'),{opacity:0,y:-16,duration:.6},.3)
+      .from(q('.tr.td'),{opacity:0,y:22,duration:.5,stagger:.07},.4)
+      .from(q('.aside'),{opacity:0,x:34,duration:.8},.8)
+      .from(q('.foot'),{opacity:0,duration:.6},1);
+  }
+  if(kind==='routemap'){
+    const draw=(sel,at,dur)=>{
+      if(!window.DrawSVGPlugin)return;
+      gsap.set(sel,{drawSVG:'0%'});
+      tl.to(sel,{drawSVG:'100%',duration:dur,ease:'power1.inOut'},at);
+    };
+    tl.fromTo(q('.mapwrap img'),{scale:1.09},{scale:1.01,duration:11,ease:'none'},0)
+      .from(q('.mapinfo'),{opacity:0,x:-46,duration:.9},.1)
+      .from(q('.mapinfo li'),{opacity:0,x:-18,duration:.5,stagger:.11},.5)
+      .from(q('.pin.hub'),{opacity:0,y:14,duration:.6},.55)
+      .from(q('.compass'),{opacity:0,rotate:-40,duration:1.2},.3);
+    draw('#rd3',1.0,1.8);
+    tl.from(q('.medal.m3'),{scale:0,rotate:-14,duration:.5,ease:'back.out(1.8)'},.8)
+      .from(q('.medal.m4a'),{scale:0,rotate:-14,duration:.5,ease:'back.out(1.8)'},1.0)
+      .from(q('.medal.m4b'),{scale:0,rotate:-14,duration:.5,ease:'back.out(1.8)'},1.2)
+      .from(q('.medal.m5b'),{scale:0,rotate:-14,duration:.5,ease:'back.out(1.8)'},1.4)
+      .from(q('.medal.m-bri'),{scale:0,rotate:-14,duration:.5,ease:'back.out(1.8)'},1.1)
+      .from(q('.medal.hub'),{scale:0,duration:.7,ease:'back.out(1.6)'},.5)
+      .from(q('svg.routes .s3'),{scale:0,transformOrigin:'center',duration:.4,stagger:.1,ease:'back.out(2.2)'},1.9)
+      .from(q('.pin.p3'),{opacity:0,y:12,duration:.45,stagger:.1},2.0);
+    draw('#rd4',2.7,1.1);
+    tl.from(q('.pin.p4'),{opacity:0,y:12,duration:.45,stagger:.12},3.4);
+    draw('#rd5',3.9,.8);
+    tl.from(q('.pin.p5'),{opacity:0,y:12,duration:.45},4.5);
+    tl.to(q('#hubRing'),{attr:{r:96},opacity:0,duration:2.1,repeat:-1,ease:'power1.out'},1.2);
+  }
+  if(Number.isFinite(seek))tl.pause(seek);
+}
+
+/* 提示文字要講實話：手機上點畫面是不翻頁的 */
+{const h=document.getElementById('hint');
+ if(h&&coarse)h.textContent='← 左右滑動翻頁 →　或用右下角按鈕';}
+
+/* 影片：點了才載 YouTube（見樣式裡的說明）
+   用捕獲階段（第三個參數 true）：翻頁的程式會先攔截點擊，
+   用一般的冒泡階段會永遠收不到——2026-08-15 在雪梨那份實測過。 */
+document.addEventListener('click', e => {
+  const b = e.target.closest('.vs-play'); if (!b) return;
+  e.stopPropagation(); e.preventDefault();
+  const f = b.closest('.vs-frame'); const id = f && f.dataset.yt; if (!id) return;
+  const ifr = document.createElement('iframe');
+  ifr.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+  ifr.allow = 'autoplay; encrypted-media; fullscreen';
+  ifr.setAttribute('allowfullscreen','');
+  f.appendChild(ifr);
+  b.remove();
+}, true);
+
+const n=parseInt(QS.get('n'),10);
+show(Number.isFinite(n)?n-1:0);
+setTimeout(()=>{const h=document.getElementById('hint');if(h)h.style.display='none'},5200);
+</script>
+</body>
+</html>

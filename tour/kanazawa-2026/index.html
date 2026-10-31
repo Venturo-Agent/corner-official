@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金澤北陸五日 ｜ 加賀料理・蟹會席・精進料理 ｜ 角落旅行社</title>
+<meta name="description" content="長榮航空直飛小松，金澤連泊三晚。以「餐食」為主秀：加賀料理治部煮（大友樓／大名茶家）、富山灣白蝦鮨、永平寺精進料理、片山津湖畔蟹會席；串起白川鄉五箇山世界遺產、富山岩瀨運河與永平寺禪境，五天北陸美食之旅。">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+/* ============================================================
+   VENTURO 家規・設計 token（角落・北陸美食版：深松綠＋柿橙）
+   ============================================================ */
+:root{
+  --brand:#1B5E63; --brand-press:#123F43; --accent:#E2703F;
+  --bg:#F3EEE3; --surface:#FBF8F1; --ink:#241F1B; --ink-soft:#6B6055; --line:#E3D9C6;
+  --serif:"Noto Serif TC","Songti TC",serif;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --t-0:1.0625rem; --t-1:1.33rem; --t-2:1.66rem; --t-3:2.07rem;
+  --t-4:2.59rem; --t-5:clamp(2.6rem,6vw,4.05rem);
+  --lh-body:1.8; --lh-head:1.22;
+  --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s6:48px; --s8:64px; --s12:96px; --s16:128px;
+  --r-sm:6px; --r-md:12px; --r-full:999px;
+  --sh-sm:0 2px 8px -4px rgba(36,31,27,.30);
+  --sh-md:0 10px 24px -16px rgba(36,31,27,.40);
+  --sh-lg:0 24px 50px -28px rgba(36,31,27,.50);
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+  --d-micro:120ms; --d-state:240ms; --d-enter:600ms;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:106.25%;-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);line-height:var(--lh-body);color:var(--ink);background:var(--bg);
+     font-weight:400;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--serif);line-height:var(--lh-head);letter-spacing:.015em;font-weight:600}
+.num,[data-num]{font-family:var(--mono);font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.wrap{max-width:1120px;margin:0 auto;padding:0 var(--s4)}
+img{display:block;max-width:100%}
+a{color:inherit}
+
+.topbar{position:sticky;top:0;z-index:50;background:rgba(243,238,227,.82);backdrop-filter:blur(10px);
+        border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.brandmark{font-family:var(--serif);font-weight:600;font-size:var(--t-0);letter-spacing:.08em}
+.brandmark small{font-family:var(--sans);font-weight:400;color:var(--ink-soft);letter-spacing:.18em;
+        font-size:.72rem;margin-left:.5em}
+.topbar nav{display:flex;gap:var(--s4);font-size:.86rem;color:var(--ink-soft)}
+.topbar nav a{text-decoration:none;transition:color var(--d-state) var(--ease-out)}
+.topbar nav a:hover{color:var(--brand)}
+@media(max-width:760px){.topbar nav{display:none}}
+
+.hero{padding:var(--s12) 0 var(--s8)}
+.kicker{font-size:.82rem;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;
+        font-weight:500;margin-bottom:var(--s3)}
+.hero h1{font-size:var(--t-5);margin-bottom:var(--s4)}
+.hero .lead{max-width:34em;font-size:var(--t-1);color:var(--ink-soft);line-height:1.7}
+.facts{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s6);margin-top:var(--s6)}
+.fact{display:flex;flex-direction:column;gap:2px}
+.fact b{font-family:var(--mono);font-size:var(--t-3);font-weight:500;color:var(--brand);
+        font-variant-numeric:tabular-nums;line-height:1}
+.fact span{font-size:.84rem;color:var(--ink-soft);letter-spacing:.04em}
+.hero-figure{margin-top:var(--s8);position:relative}
+.hero-figure img{width:100%;height:clamp(280px,46vw,520px);object-fit:cover;border-radius:var(--r-md);
+        box-shadow:var(--sh-lg)}
+.hero-figure figcaption{position:absolute;left:var(--s4);bottom:var(--s4);background:rgba(36,31,27,.66);
+        color:#F3EEE3;padding:8px 16px;border-radius:var(--r-sm);font-size:.82rem;letter-spacing:.04em;
+        backdrop-filter:blur(4px)}
+
+section{padding:var(--s12) 0}
+.sec-head{margin-bottom:var(--s8);max-width:34em}
+.sec-head .kicker{margin-bottom:var(--s2)}
+.sec-head h2{font-size:var(--t-4)}
+.sec-head p{color:var(--ink-soft);margin-top:var(--s3);max-width:36em}
+
+.timeline{position:relative}
+.tl-spine{position:absolute;left:7px;top:10px;bottom:10px;width:2px;background:var(--line)}
+.tl-spine .fill{position:absolute;top:0;left:0;width:100%;height:0;
+        background:linear-gradient(var(--brand),var(--brand-press))}
+.day{position:relative;padding:0 0 var(--s12) var(--s6)}
+.day:last-child{padding-bottom:0}
+.day-node{position:absolute;left:0;top:7px;width:16px;height:16px;border-radius:var(--r-full);
+        background:var(--surface);border:2px solid var(--brand);z-index:2}
+.day-node.free{background:var(--accent);border-color:var(--accent)}
+.day-head{display:flex;align-items:baseline;gap:var(--s2);margin-bottom:var(--s2);flex-wrap:wrap}
+.day-num{font-family:var(--mono);font-weight:500;font-size:.74rem;letter-spacing:.2em;color:var(--accent)}
+.day-date{font-family:var(--serif);font-size:var(--t-1);color:var(--brand);font-weight:600}
+.day h3{font-size:var(--t-2);margin-bottom:var(--s1)}
+.day-route{font-size:.86rem;color:var(--ink-soft);letter-spacing:.02em;margin-bottom:var(--s3);
+        font-family:var(--mono);font-weight:400}
+.day-route b{color:var(--brand);font-weight:500}
+.day-stops{display:flex;flex-direction:column;gap:var(--s4);margin-top:var(--s4)}
+.day-stop{display:grid;grid-template-columns:1fr;gap:var(--s2)}
+@media(min-width:760px){.day-stop.has-img{grid-template-columns:300px 1fr;gap:var(--s4);align-items:start}}
+.day-stop img{width:100%;height:200px;object-fit:cover;border-radius:var(--r-sm);box-shadow:var(--sh-sm)}
+.day-stop .st-k{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:var(--accent)}
+.day-stop h4{font-size:var(--t-1);margin:2px 0 var(--s1)}
+.day-stop p{font-size:.95rem;color:var(--ink-soft);line-height:1.75;max-width:40em}
+.day-caveat{margin-top:var(--s4);padding-left:var(--s3);border-left:2px solid var(--accent);
+        font-size:.88rem;color:var(--ink-soft);line-height:1.7;max-width:46em}
+
+/* ★ 餐食主秀 */
+.meals{background:var(--brand);color:var(--surface);
+       border-top:1px solid var(--brand-press);border-bottom:1px solid var(--brand-press)}
+.meals .sec-head h2,.meals .sec-head p{color:var(--surface)}
+.meals .sec-head .kicker{color:#F2C9A0}
+.meals .sec-head p{opacity:.86}
+.meal-grid{display:flex;flex-direction:column;gap:var(--s8)}
+.meal{position:relative;display:grid;grid-template-columns:1fr;gap:0;
+      border-bottom:1px solid rgba(251,248,241,.14);padding-bottom:var(--s8)}
+.meal:last-child{border-bottom:none;padding-bottom:0}
+.meal>img{width:100%;height:clamp(220px,52vw,320px);object-fit:cover;border-radius:var(--r-md);
+      box-shadow:var(--sh-md)}
+@media(min-width:760px){
+  .meal{grid-template-columns:minmax(0,52%) 1fr;gap:var(--s8);align-items:center}
+  .meal:nth-child(even) .meal-body{order:-1}
+  .meal>img{height:clamp(300px,34vw,420px)}
+  .meal.hero>img{height:clamp(360px,40vw,500px)}
+}
+.meal.no-img{grid-template-columns:1fr;max-width:44em}
+.meal-body{padding:var(--s4) 0 0;display:flex;flex-direction:column;gap:var(--s1)}
+@media(min-width:760px){.meal-body{padding:0}}
+.meal .m-day{font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;color:#F2C9A0}
+.meal h3{font-size:var(--t-3);color:var(--surface);margin:6px 0 2px;line-height:1.25}
+.meal.hero h3{font-size:var(--t-4)}
+.meal .m-en{font-family:var(--mono);font-size:.72rem;letter-spacing:.03em;color:rgba(243,238,227,.66)}
+.meal .m-venue{font-size:.86rem;color:#F2C9A0;font-weight:500;margin-top:2px}
+.meal p{font-size:.96rem;line-height:1.85;color:rgba(243,238,227,.9);margin-top:var(--s1);max-width:46em}
+.meal-tag{position:absolute;margin:var(--s3);background:var(--accent);color:#fff;font-size:.7rem;
+      letter-spacing:.1em;padding:3px 12px;border-radius:var(--r-full)}
+.meal-note{margin-top:var(--s6);font-size:.84rem;color:rgba(243,238,227,.7);line-height:1.7;max-width:52em;
+      padding-left:var(--s3);border-left:2px solid #F2C9A0}
+
+/* 住宿 */
+.stay{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stay-grid{display:grid;grid-template-columns:1fr;gap:var(--s4)}
+@media(min-width:820px){.stay-grid{grid-template-columns:1fr 1fr}}
+.hotel{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--bg);
+       display:flex;flex-direction:column}
+.hotel img{width:100%;height:220px;object-fit:cover}
+.hotel.no-img{border-style:dashed}
+.hotel-body{padding:var(--s4);display:flex;flex-direction:column;gap:var(--s1);flex:1}
+.hotel .h-n{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:var(--accent)}
+.hotel h3{font-size:var(--t-2);margin:2px 0 0}
+.hotel .h-en{font-family:var(--mono);font-size:.72rem;color:var(--ink-soft);letter-spacing:.03em}
+.hotel .h-area{font-size:.84rem;color:var(--brand);font-weight:500}
+.hotel p{font-size:.92rem;color:var(--ink-soft);line-height:1.75}
+.hotel-feat{margin-top:auto;padding-top:var(--s3);display:flex;flex-wrap:wrap;gap:8px}
+.hotel-feat span{font-size:.76rem;color:var(--brand);background:var(--surface);border:1px solid var(--line);
+       border-radius:var(--r-full);padding:4px 12px}
+
+.price{background:var(--bg)}
+.price-grid{display:grid;grid-template-columns:1fr;gap:var(--s4);max-width:760px}
+@media(min-width:640px){.price-grid{grid-template-columns:1fr 1fr}}
+.price-card{border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);
+       padding:var(--s6) var(--s4);text-align:center;box-shadow:var(--sh-sm)}
+.price-card .p-pax{font-family:var(--mono);font-size:.82rem;letter-spacing:.12em;color:var(--accent)}
+.price-card .p-amt{font-family:var(--serif);font-weight:700;color:var(--brand);margin-top:var(--s2);
+       line-height:1;display:flex;align-items:baseline;justify-content:center;gap:6px}
+.price-card .p-amt .cur{font-size:1.1rem;font-weight:500}
+.price-card .p-amt .num{font-size:clamp(2.4rem,7vw,3.2rem);font-variant-numeric:tabular-nums}
+.price-card .p-unit{font-size:.8rem;color:var(--ink-soft);margin-top:var(--s2)}
+.price-note{margin-top:var(--s6);font-size:.84rem;color:var(--ink-soft);line-height:1.7;max-width:52em;
+       padding-left:var(--s3);border-left:2px solid var(--accent)}
+
+.routemap{position:relative}
+#route-map-canvas{width:100%;height:520px;border-radius:var(--r-md);border:1px solid var(--line);
+        box-shadow:var(--sh-md);background:var(--surface)}
+.leaflet-container{background:var(--surface);font-family:var(--sans)}
+.rm-legend{margin-top:var(--s4);display:grid;grid-template-columns:1fr;gap:6px}
+@media(min-width:760px){.rm-legend{grid-template-columns:1fr 1fr}}
+.rm-legend li{list-style:none;display:flex;gap:10px;align-items:baseline;font-size:.88rem}
+.rm-legend .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);flex:none;transform:translateY(1px)}
+.rm-legend .dot.air{background:var(--brand)}
+.rm-legend b{font-weight:500}
+.rm-legend span{color:var(--ink-soft);font-size:.8rem}
+.city-marker{display:flex;flex-direction:column;align-items:center;transform:translateY(-50%)}
+.city-marker .pin{width:14px;height:14px;border-radius:50%;background:var(--accent);
+  border:3px solid var(--surface);box-shadow:0 2px 6px rgba(36,31,27,.4)}
+.city-marker .pin.air{background:var(--brand)}
+.city-marker .lbl{font-family:var(--serif);font-weight:600;font-size:.88rem;margin-top:3px;
+  white-space:nowrap;color:var(--ink);
+  text-shadow:0 0 4px var(--surface),0 0 4px var(--surface),0 0 6px var(--surface)}
+
+.transport{background:var(--bg)}
+.flights{display:grid;grid-template-columns:1fr;gap:var(--s3);margin-bottom:var(--s8)}
+@media(min-width:640px){.flights{grid-template-columns:1fr 1fr}}
+.flight{border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);padding:var(--s4)}
+.flight .fl-k{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:var(--accent);margin-bottom:var(--s2)}
+.flight .fl-no{font-family:var(--serif);font-size:var(--t-2);color:var(--brand)}
+.flight .fl-line{display:flex;align-items:baseline;gap:var(--s2);margin-top:var(--s2);flex-wrap:wrap;
+        font-family:var(--mono);font-size:.95rem}
+.flight .fl-line .ar{color:var(--accent)}
+.flight .fl-time{font-size:.84rem;color:var(--ink-soft);margin-top:6px;font-family:var(--mono)}
+.tips{display:grid;grid-template-columns:1fr;gap:var(--s2)}
+@media(min-width:760px){.tips{grid-template-columns:1fr 1fr}}
+.tip{padding:var(--s3);border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface)}
+.tip b{font-family:var(--serif);font-size:1.02rem}
+.tip p{color:var(--ink-soft);font-size:.88rem;margin-top:6px;line-height:1.75}
+
+.faq{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+.faq-row{padding:var(--s3) 0;border-bottom:1px solid var(--line)}
+.faq-row .q{font-family:var(--serif);font-weight:600;font-size:1.05rem;display:flex;gap:10px}
+.faq-row .q .qi{color:var(--accent);font-family:var(--mono);font-weight:500}
+.faq-row .a{color:var(--ink-soft);font-size:.92rem;margin-top:var(--s1);line-height:1.8}
+
+footer{border-top:1px solid var(--line);padding:var(--s8) 0;color:var(--ink-soft);font-size:.84rem}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--s4)}
+footer .agency-info{font-family:var(--mono);font-size:.76rem;line-height:1.9;text-align:right}
+footer .agency-info b{color:var(--ink);font-family:var(--sans);font-weight:600}
+
+main img{cursor:zoom-in}
+.lightbox{position:fixed;inset:0;z-index:100;background:rgba(15,13,11,.9);display:none;
+        align-items:center;justify-content:center;padding:var(--s4)}
+.lightbox.open{display:flex}
+.lightbox img{max-width:94vw;max-height:90vh;width:auto;height:auto;border-radius:var(--r-sm);
+        box-shadow:var(--sh-lg);cursor:zoom-out}
+.lb-close{position:absolute;top:var(--s3);right:var(--s4);background:none;border:none;color:#F3EEE3;
+        font-size:2.4rem;line-height:1;cursor:pointer;font-family:var(--sans);z-index:2}
+.lb-close:focus-visible,.lb-nav:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(243,238,227,.12);
+        border:none;color:#F3EEE3;font-size:2.2rem;line-height:1;width:54px;height:54px;
+        border-radius:var(--r-full);cursor:pointer;display:flex;align-items:center;justify-content:center;
+        transition:background var(--d-state) var(--ease-out)}
+.lb-nav:hover{background:rgba(243,238,227,.26)}
+.lb-prev{left:var(--s3)} .lb-next{right:var(--s3)}
+.lb-count{position:absolute;bottom:var(--s3);left:50%;transform:translateX(-50%);color:#F3EEE3;
+        font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;background:rgba(15,13,11,.5);
+        padding:4px 14px;border-radius:var(--r-full)}
+@media(max-width:600px){.lb-nav{width:42px;height:42px;font-size:1.7rem}}
+
+.reveal{opacity:0;transform:translateY(18px)}
+.is-in{opacity:1;transform:none;transition:opacity var(--d-enter) var(--ease-out),
+        transform var(--d-enter) var(--ease-out)}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .tl-spine .fill{height:100%!important}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brandmark">角落旅行社<small>CORNER TRAVEL</small></div>
+    <nav>
+      <a href="#meals">餐食</a>
+      <a href="#route-map">路線圖</a>
+      <a href="#days">每日安排</a>
+      <a href="#stay">住宿</a>
+      <a href="#price">費用</a>
+      <a href="#transport">航班・交通</a>
+      <a href="#faq">Q&amp;A</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="kicker reveal">長榮直飛小松 ｜ 5 天 4 晚 ｜ 金澤連泊三晚・以餐食為主秀</p>
+    <h1 class="reveal">金澤北陸五日<br>加賀料理・湖畔蟹會席</h1>
+    <p class="lead reveal">這趟北陸，主角是「吃」。從加賀藩四百年御膳的治部煮、近江町的日本海海鮮丼，到富山灣的白蝦握壽司、永平寺的禪意精進料理，最後在片山津溫泉的湖畔旅館，用一整席蟹づくし會席收尾——白川鄉的雪、富山的運河、永平寺的老杉，都是這場味覺旅程的風景。</p>
+    <div class="facts reveal">
+      <div class="fact"><b data-count="5">0</b><span>天・北陸美食</span></div>
+      <div class="fact"><b data-count="5">0</b><span>道・在地招牌餐食</span></div>
+      <div class="fact"><b data-count="3">0</b><span>晚・金澤連泊</span></div>
+      <div class="fact"><b data-count="2">0</b><span>處・合掌造世界遺產</span></div>
+    </div>
+    <figure class="hero-figure reveal">
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shirakawa-go%2020170202.jpg?width=1600" alt="白川鄉合掌造聚落雪景">
+      <figcaption>白川鄉・合掌造聚落的冬日雪景（DAY 2）</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="meals" class="meals">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">餐食・本團主秀</p>
+      <h2>五天，一路吃遍北陸的四季之味</h2>
+      <p>加賀百萬石的宴席料理、日本海與富山灣的鮮度、禪門的素齋、湖畔溫泉的螃蟹——這趟行程把每一餐都當成重點來安排。</p>
+    </div>
+    <div class="meal-grid" id="meal-grid"></div>
+    <p class="meal-note reveal">＊餐食為本團核心，實際餐廳與菜單以出團通知為準；旬味（螃蟹、寒鰤、白蝦等）依當令漁獲與季節供應，遇天候或漁況調整將以同等級在地食材替換。</p>
+  </div>
+</section>
+
+<section id="route-map" class="routemap">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">路線圖</p>
+      <h2>小松進出，金澤為家，四方輻射</h2>
+      <p>真實地理位置的移動範圍，橙點是行程停留地，藍點是小松機場（進出點）；金澤連泊三晚，白川鄉・富山・永平寺皆一日往返。</p>
+    </div>
+    <div id="route-map-canvas"></div>
+    <ul class="rm-legend" id="rm-legend"></ul>
+  </div>
+</section>
+
+<section id="days">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">每日安排</p>
+      <h2 style="white-space:nowrap">五天，山海古都與一桌桌好菜</h2>
+    </div>
+    <div class="timeline" id="timeline">
+      <div class="tl-spine"><div class="fill"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="stay" class="stay">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">住宿</p>
+      <h2>金澤三晚市中心，最後一晚湖畔溫泉</h2>
+      <p>前三晚落腳金澤鬧區、逛街覓食不用天天換飯店；最後一晚移師片山津溫泉湖畔老舖，泡湯配蟹會席，為旅程畫下句點。</p>
+    </div>
+    <div class="stay-grid" id="stay-grid"></div>
+  </div>
+</section>
+
+<section id="price" class="price">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">費用</p>
+      <h2>團費參考</h2>
+      <p>依成行人數分級，人數越多每人越優惠；含機票、住宿、行程餐食與導遊安排，實際包含項目以正式報價為準。</p>
+    </div>
+    <div class="price-grid reveal" id="price-grid"></div>
+    <p class="price-note reveal" id="price-note"></p>
+  </div>
+</section>
+
+<section id="transport" class="transport">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">航班・交通</p>
+      <h2>直飛小松，午去午回</h2>
+    </div>
+    <div class="flights reveal" id="flights"></div>
+    <div class="tips">
+      <div class="tip reveal"><b>冬季・穿著保暖</b><p>12 月北陸多雪，白川鄉、永平寺、湖畔皆偏冷，請備防水保暖外套與防滑好走的鞋；溫泉旅館內有浴衣可換。</p></div>
+      <div class="tip reveal"><b>螃蟹季・旬味</b><p>11 月至隔年 3 月為加能蟹（松葉蟹）產季，香箱蟹更是限定；本團蟹會席安排於此期間，正是最肥美的時候。</p></div>
+      <div class="tip reveal"><b>富山新幹線</b><p>金澤往富山搭北陸新幹線約 23 分鐘，班次密集、機動性高；DAY 3 以新幹線＋運河遊船串起岩瀨老街最順。</p></div>
+      <div class="tip reveal"><b>付款與交通卡</b><p>建議 iPhone 錢包預先加一張 Suica／ICOCA，車站、巴士、超商皆可嗶卡；另備少量現金供神社、市場小攤使用。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Q&amp;A</p>
+      <h2>常見問題</h2>
+    </div>
+    <div class="faq reveal">
+      <div class="faq-row"><p class="q"><span class="qi">Q1</span>這趟主打的是美食嗎？</p><p class="a">是的，本團以「餐食」為核心來規劃：加賀料理治部煮、近江町海鮮丼、富山灣白蝦鮨、永平寺精進料理，以及片山津溫泉的蟹會席——每一餐都是行程重點，景點與餐食並重。</p></div>
+      <div class="faq-row"><p class="q"><span class="qi">Q2</span>蟹會席一定吃得到螃蟹嗎？</p><p class="a">12 月出發正逢北陸螃蟹季，最後一晚湖畔旅館以蟹づくし會席為主秀。旬味依當令漁獲供應，若遇天候或漁況影響，將以同等級在地食材調整菜色，品質不打折。</p></div>
+      <div class="faq-row"><p class="q"><span class="qi">Q3</span>加賀料理老舖「大友樓」「大名茶家」是哪一餐？</p><p class="a">為 DAY 1 抵達金澤當晚的加賀料理晚餐參考——『大友樓』承襲加賀藩四百年御膳、是日本唯一繼承大名家料理的料亭；『大名茶家』以加賀野菜與旬之魚介會席聞名。實際入座餐廳以出團通知為準。</p></div>
+      <div class="faq-row"><p class="q"><span class="qi">Q4</span>DAY 4 為什麼要繞去永平寺再折回加賀？</p><p class="a">金澤往南到永平寺約 1 小時 15 分，用完精進料理午餐再北上加賀約 45 分，確實多開約 45 分鐘回頭路；但換得午後三點前就進溫泉旅館、後半天完全放假泡湯賞湖，這段值得。時間足、天氣好可再順遊東尋坊斷崖，不足則直接進旅館，不勉強硬排。</p></div>
+      <div class="faq-row"><p class="q"><span class="qi">Q5</span>白川鄉、五箇山冬天路況會不會有問題？</p><p class="a">山區冬季多雪，遊覽車依當日路況與天候調整順序，展望台開放時間亦視情況而定。請務必保暖、穿防滑鞋；若遇封路將改以替代景點或順序，行程安排保有彈性。</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>角落旅行社　金澤北陸五日・加賀美食之旅・行程參考</span>
+    <div class="agency-info">
+      <b>角落旅行社 CORNER TRAVEL</b><br>
+      本行程為參考版本，實際日期、住宿、班機、餐廳與費用<br>
+      以角落旅行社正式出團通知與報價為準。
+    </div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lb" aria-hidden="true">
+  <button class="lb-close" aria-label="關閉">&times;</button>
+  <button class="lb-nav lb-prev" aria-label="上一張">&#8249;</button>
+  <img alt="">
+  <button class="lb-nav lb-next" aria-label="下一張">&#8250;</button>
+  <div class="lb-count"></div>
+</div>
+
+<script src="/tour/kanazawa-2026/data.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+/* ---- 資料驅動渲染：餐食、每日安排、住宿、航班 ---- */
+(function(){
+  const esc = s => String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  // 餐食（主秀）
+  const mg = document.getElementById('meal-grid');
+  (TRIP.meals||[]).forEach(m=>{
+    const el = document.createElement('article');
+    el.className = 'meal reveal' + (m.hero?' hero':'') + (m.img?'':' no-img');
+    el.innerHTML = `
+      ${m.hero?'<span class="meal-tag">主秀</span>':''}
+      ${m.img?`<img loading="lazy" src="${esc(m.img)}" alt="${esc(m.alt||m.name)}">`:''}
+      <div class="meal-body">
+        <div class="m-day">${esc(m.day)}</div>
+        <h3>${esc(m.name)}</h3>
+        <div class="m-en">${esc(m.en||'')}</div>
+        ${m.venue?`<div class="m-venue">${esc(m.venue)}</div>`:''}
+        <p>${esc(m.desc)}</p>
+      </div>`;
+    mg.appendChild(el);
+  });
+
+  // 每日安排
+  const tl = document.getElementById('timeline');
+  TRIP.days.forEach(d=>{
+    const stops = (d.stops||[]).map(s=>{
+      const hasImg = !!s.img;
+      const fig = hasImg ? `<img loading="lazy" src="${esc(s.img)}" alt="${esc(s.alt)}">` : '';
+      return `<div class="day-stop ${hasImg?'has-img':''}">
+          ${fig}
+          <div>
+            <div class="st-k">${esc(s.en||'')}</div>
+            <h4>${esc(s.name)}</h4>
+            <p>${esc(s.note)}</p>
+          </div>
+        </div>`;
+    }).join('');
+    const caveat = d.caveat ? `<p class="day-caveat">${esc(d.caveat)}</p>` : '';
+    const art = document.createElement('article');
+    art.className = 'day reveal';
+    art.innerHTML = `
+      <span class="day-node"></span>
+      <div class="day-head"><span class="day-num">DAY ${String(d.n).padStart(2,'0')}</span>
+        <span class="day-date">${esc(d.label)}</span></div>
+      <h3>${esc(d.title)}</h3>
+      <p class="day-route">${esc(d.route).replace(/→/g,'<b>→</b>')}</p>
+      ${stops?`<div class="day-stops">${stops}</div>`:''}
+      ${caveat}`;
+    tl.appendChild(art);
+  });
+
+  // 住宿
+  const sg = document.getElementById('stay-grid');
+  (TRIP.hotels||[]).forEach(h=>{
+    const hasImg = !!h.img;
+    const el = document.createElement('article');
+    el.className = 'hotel reveal' + (hasImg?'':' no-img');
+    el.innerHTML = `
+      ${hasImg?`<img loading="lazy" src="${esc(h.img)}" alt="${esc(h.name)}・${esc(h.area)}">`:''}
+      <div class="hotel-body">
+        <div class="h-n">${esc(h.nights)}</div>
+        <h3>${esc(h.name)}</h3>
+        <div class="h-en">${esc(h.en||'')}</div>
+        <div class="h-area">${esc(h.area)}</div>
+        <p>${esc(h.desc)}</p>
+        <div class="hotel-feat">${(h.feat||[]).map(f=>`<span>${esc(f)}</span>`).join('')}</div>
+      </div>`;
+    sg.appendChild(el);
+  });
+
+  // 費用
+  const P = TRIP.pricing;
+  if(P){
+    const pg = document.getElementById('price-grid');
+    (P.tiers||[]).forEach(t=>{
+      const el = document.createElement('div');
+      el.className = 'price-card';
+      el.innerHTML = `
+        <div class="p-pax">${esc(t.pax)}</div>
+        <div class="p-amt"><span class="cur">NT$</span><span class="num">${esc(t.price)}</span></div>
+        <div class="p-unit">${esc(P.unit||'每人')}</div>`;
+      pg.appendChild(el);
+    });
+    if(P.note) document.getElementById('price-note').textContent = '＊'+P.note;
+  }
+
+  // 航班
+  const fl = document.getElementById('flights');
+  [['去程 OUTBOUND',TRIP.outbound],['回程 RETURN',TRIP.ret]].forEach(([k,f])=>{
+    if(!f) return;
+    const el = document.createElement('div');
+    el.className = 'flight reveal';
+    el.innerHTML = `
+      <div class="fl-k">${esc(k)}</div>
+      <div class="fl-no">${esc(f.airline)}　${esc(f.flightNumber)}</div>
+      <div class="fl-line"><span>${esc(f.from)}</span><span class="ar">→</span><span>${esc(f.to)}</span></div>
+      <div class="fl-time">${esc(f.dep)} 出發　·　${esc(f.arr)} 抵達</div>`;
+    fl.appendChild(el);
+  });
+})();
+</script>
+<script>
+/* ---- 路線圖 ---- */
+(function(){
+  const R = TRIP.route;
+  const map = L.map('route-map-canvas',{zoomControl:false,attributionControl:false,scrollWheelZoom:false})
+    .setView([36.4,136.8],8);
+  L.control.zoom({position:'bottomright'}).addTo(map);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:18,subdomains:'abcd'}).addTo(map);
+
+  const pts = R.map(r=>r.coords);
+  L.polyline(pts,{color:'#E2703F',weight:3,opacity:.85,dashArray:'1 9',lineCap:'round'}).addTo(map);
+
+  const legend = document.getElementById('rm-legend');
+  R.forEach(r=>{
+    const isAir = r.city.includes('機場');
+    const html = `<div class="city-marker"><div class="pin ${isAir?'air':''}"></div>
+      <div class="lbl">${r.city}</div></div>`;
+    L.marker(r.coords,{icon:L.divIcon({className:'',html,iconSize:[0,0]})}).addTo(map);
+    legend.insertAdjacentHTML('beforeend',
+      `<li><span class="dot ${isAir?'air':''}"></span><b>${r.city}</b>&nbsp;<span>${r.note}</span></li>`);
+  });
+  map.fitBounds(L.latLngBounds(pts).pad(0.28));
+  setTimeout(()=>map.invalidateSize(), 200);
+  window.addEventListener('load', ()=>map.invalidateSize());
+})();
+</script>
+<script>
+/* ---- 燈箱 ---- */
+(function(){
+  const lb=document.getElementById('lb'), lbImg=lb.querySelector('img'),
+        cnt=lb.querySelector('.lb-count');
+  let group=[], idx=0;
+  function show(i){
+    idx=(i+group.length)%group.length;
+    const im=group[idx];
+    lbImg.src=im.currentSrc||im.src; lbImg.alt=im.alt||'';
+    cnt.textContent=group.length>1?(idx+1)+' / '+group.length:'';
+  }
+  document.addEventListener('click',e=>{
+    const img = e.target.closest('main img');
+    if(!img) return;
+    const scope=img.closest('.meal, .meal-grid, .hotel, .day-stop, .day-stops, .stay-grid, .hero-figure');
+    group=scope?Array.from(scope.querySelectorAll('img')):[img];
+    show(group.indexOf(img));
+    lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
+  });
+  function close(){lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbImg.src='';}
+  function prev(e){if(e)e.stopPropagation(); show(idx-1);}
+  function next(e){if(e)e.stopPropagation(); show(idx+1);}
+  lb.addEventListener('click',close);
+  lbImg.addEventListener('click',e=>e.stopPropagation());
+  lb.querySelector('.lb-prev').addEventListener('click',prev);
+  lb.querySelector('.lb-next').addEventListener('click',next);
+  document.addEventListener('keydown',e=>{
+    if(!lb.classList.contains('open'))return;
+    if(e.key==='Escape')close();
+    else if(e.key==='ArrowLeft')prev();
+    else if(e.key==='ArrowRight')next();
+  });
+})();
+
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(window.gsap && !reduce){
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.utils.toArray('.reveal').forEach(el=>{
+    ScrollTrigger.create({trigger:el,start:'top 92%',once:true,
+      onEnter:()=>el.classList.add('is-in')});
+  });
+  document.querySelectorAll('.tl-spine .fill').forEach(fill=>{
+    gsap.to(fill,{height:'100%',ease:'none',
+      scrollTrigger:{trigger:fill.closest('.timeline'),start:'top 60%',end:'bottom 80%',scrub:true}});
+  });
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const end=+el.dataset.count;
+    ScrollTrigger.create({trigger:el,start:'top 92%',once:true,onEnter:()=>{
+      const o={v:0};
+      gsap.to(o,{v:end,duration:1.1,ease:'power1.out',
+        onUpdate:()=>el.textContent=Math.round(o.v)});
+    }});
+  });
+}else{
+  document.querySelectorAll('.reveal').forEach(el=>el.classList.add('is-in'));
+  document.querySelectorAll('[data-count]').forEach(el=>el.textContent=el.dataset.count);
+  document.querySelectorAll('.tl-spine .fill').forEach(fill=>fill.style.height='100%');
+}
+</script>
+</body>
+</html>

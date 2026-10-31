@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>釜山五日 — 角落旅行社</title>
+  <meta name="description" content="3 月出發，台中進出，前兩晚南浦洞、後兩晚海雲台海灘前，三天包車。海景汗蒸幕、甘川文化村韓服、天空膠囊列車、BUSAN X the SKY、Skyline Luge 斜坡滑車、樂天世界 Magic Forest、松島海上纜車、Running Man 體驗館，五天四夜釜山之旅。角落旅行社客製行程。" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            corner: '#FFA500',
+            cornerDark: '#E68A00',
+            ink: '#262626',
+            inkSoft: '#565656',
+            cream: '#FAF7F2',
+          },
+          fontFamily: {
+            display: ['"Josefin Sans"', '"Noto Sans TC"', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            card: '0 8px 28px -10px rgba(38,38,38,0.18)',
+            cardHover: '0 18px 40px -12px rgba(38,38,38,0.28)',
+            search: '0 18px 50px -16px rgba(38,38,38,0.30)',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html, body { font-family: 'Josefin Sans', 'Noto Sans TC', system-ui, sans-serif; color:#262626; }
+    body { background:#FFFFFF; }
+
+    .tracking-explore { letter-spacing:0.30em; }
+    .tracking-wider2  { letter-spacing:0.14em; }
+    .num { font-family:'IBM Plex Mono', ui-monospace, 'Noto Sans TC', monospace; font-variant-numeric:tabular-nums; }
+
+    .hero-headline { font-weight:700; font-size:clamp(36px,7.4vw,100px); line-height:0.98; letter-spacing:0.01em; }
+    .hero-pre { font-weight:300; font-size:clamp(18px,1.4vw,22px); letter-spacing:0.30em; }
+
+    .tour-card { transition:transform .35s ease, box-shadow .35s ease; }
+    .tour-card:hover { transform:translateY(-6px); box-shadow:0 18px 40px -12px rgba(38,38,38,0.28); }
+
+    .nav-link { position:relative; }
+    .nav-link::after{ content:""; position:absolute; left:50%; bottom:-6px; height:2px; width:0; background:#FFA500; transition:width .25s ease, left .25s ease; }
+    .nav-link:hover::after{ left:0; width:100%; }
+
+    .btn-corner { background:#FFA500; color:#fff; border-radius:6px; padding:14px 30px; font-weight:600; letter-spacing:0.08em; transition:background .2s ease, transform .2s ease; display:inline-flex; align-items:center; gap:10px; }
+    .btn-corner:hover { background:#E68A00; transform:translateY(-1px); }
+
+    .field-label { font-size:11px; letter-spacing:0.22em; color:#565656; text-transform:uppercase; }
+    .accent-bar { display:inline-block; width:48px; height:2px; background:#FFA500; }
+
+    .hero-veil { background:linear-gradient(180deg, rgba(38,38,38,0.32) 0%, rgba(38,38,38,0.18) 32%, rgba(38,38,38,0.66) 100%); }
+    .ico { stroke:#FFA500; stroke-width:1.6; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+
+    .tag { display:inline-flex; align-items:center; gap:6px; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; padding:5px 10px; border-radius:999px; background:#FFF4E0; color:#B26A00; font-weight:500; }
+    .tag-hot { background:#FFA500; color:#fff; }
+    .tag-pay { background:#fff; color:#6B6560; border:1px solid rgba(0,0,0,.14); font-weight:400; }
+
+    .num-bubble { width:46px; height:46px; border:1.5px solid #FFA500; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; color:#FFA500; font-weight:600; letter-spacing:0.05em; }
+
+    /* 逐日：圓圈編號 + 連接線 + 時刻列 */
+    .day-rail { position:relative; }
+    .day-rail::before { content:""; position:absolute; left:22px; top:52px; bottom:-28px; width:1.5px; background:#F0E6D6; }
+    .day-block:last-child .day-rail::before { display:none; }
+    .step { display:flex; gap:14px; align-items:flex-start; }
+    .step + .step { margin-top:14px; }
+    .step .t { min-width:50px; text-align:right; color:#E68A00; font-weight:600; font-size:13px; padding-top:2px; }
+    .step .si { width:22px; flex:none; padding-top:1px; }
+    .step .si svg { width:18px; height:18px; }
+
+    .leaflet-container { background:#FAF7F2; font-family:'Noto Sans TC',sans-serif; }
+    .leaflet-tile-pane { filter:grayscale(.72) brightness(1.06) contrast(.94); }
+    .leaflet-control-attribution { font-size:10px; background:rgba(255,255,255,.72); color:#8A8A8A; }
+    .leaflet-control-attribution a { color:#8A8A8A; }
+    .rm-dot { width:9px; height:9px; border-radius:50%; background:#FFA500; display:inline-block; flex:none; }
+    .rm-dot.air { background:#262626; }
+    .city-marker { display:flex; flex-direction:column; align-items:center; transform:translateY(-50%) scale(.5); opacity:0;
+      transition:opacity .4s ease, transform .5s cubic-bezier(.34,1.56,.64,1); }
+    .city-marker.on { opacity:1; transform:translateY(-50%) scale(1); }
+    .city-marker .pin { width:22px; height:22px; border-radius:50%; background:#FFA500; border:2.5px solid #fff; box-shadow:0 2px 7px rgba(38,38,38,.45);
+      display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; line-height:1;
+      font-family:'IBM Plex Mono', ui-monospace, monospace; }
+    .city-marker .pin.air { background:#262626; }
+    .rm-seq { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%;
+      background:#FFA500; color:#fff; font-size:10.5px; font-weight:700; flex:none; font-family:'IBM Plex Mono', ui-monospace, monospace; }
+    .rm-seq.air { background:#262626; }
+    @media (prefers-reduced-motion: reduce) { .city-marker { opacity:1; transform:translateY(-50%); transition:none; } }
+    .city-marker .lbl { font-family:'Josefin Sans','Noto Sans TC',sans-serif; font-weight:600; font-size:.86rem; margin-top:3px; white-space:nowrap; color:#262626;
+      text-shadow:0 0 4px #fff,0 0 4px #fff,0 0 6px #fff; }
+
+    img { cursor: zoom-in; }
+    .lb-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(20,20,20,.92); display: none; align-items: center; justify-content: center; padding: 24px; }
+    .lb-overlay.open { display: flex; }
+    .lb-overlay img { max-width: 94vw; max-height: 90vh; width: auto; height: auto; border-radius: 8px; box-shadow: 0 24px 60px -20px rgba(0,0,0,.6); cursor: zoom-out; }
+    .lb-close { position: absolute; top: 20px; right: 28px; background: none; border: none; color: #fff; font-size: 2.4rem; line-height: 1; cursor: pointer; }
+    .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.12); border: none; color: #fff; font-size: 2rem; width: 52px; height: 52px; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s ease; }
+    .lb-nav:hover { background: rgba(255,255,255,.26); }
+    .lb-prev { left: 20px; } .lb-next { right: 20px; }
+    .lb-count { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: #fff; font-family: 'IBM Plex Mono', monospace; font-size: .8rem; letter-spacing: .1em; background: rgba(0,0,0,.5); padding: 4px 14px; border-radius: 999px; }
+    @media (max-width: 600px) { .lb-nav { width: 42px; height: 42px; font-size: 1.6rem; } }
+  </style>
+</head>
+<body class="font-display antialiased">
+
+  <!-- ====================== NAVBAR ====================== -->
+  <header class="absolute top-0 left-0 right-0 z-30">
+    <div class="max-w-[1440px] mx-auto h-20 px-6 md:px-10 flex items-center justify-between">
+      <a href="#" class="text-white text-[18px] font-semibold tracking-wider2">角落旅行社</a>
+      <nav class="hidden md:flex items-center gap-10 text-[14px] text-white/90 tracking-wider2">
+        <a href="#itinerary" class="nav-link">逐日行程 <span class="opacity-60 ml-1">Days</span></a>
+        <a href="#stay" class="nav-link">住宿 <span class="opacity-60 ml-1">Stay</span></a>
+        <a href="#price" class="nav-link">費用包含 <span class="opacity-60 ml-1">Included</span></a>
+        <a href="#contact" class="nav-link">諮詢 <span class="opacity-60 ml-1">Contact</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ====================== HERO ====================== -->
+  <section class="relative w-full" style="min-height:max(70vh,520px); background:linear-gradient(135deg,#2b2f36,#3d4552);">
+    <img src="/tour/busan-2026-mar/img/hero.jpg" alt="海雲台海岸線與 LCT" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 hero-veil"></div>
+
+    <div class="relative z-10 max-w-[1440px] mx-auto min-h-[max(70vh,520px)] px-6 md:px-10 pt-24 pb-14 xl:pb-24 flex flex-col justify-center text-white">
+      <div class="max-w-[820px]">
+        <div class="flex items-center gap-4 mb-6">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-white/90">角落旅行社 — 3 月出發・台中進出・釜山五日</span>
+        </div>
+        <p class="hero-pre uppercase text-white/95 mb-2">Busan · 海雲台與南浦洞</p>
+        <h1 class="hero-headline">釜山五日</h1>
+        <p class="mt-7 text-white/90 text-[18px] leading-[1.8] max-w-[660px] font-light">
+          海景汗蒸幕、甘川文化村韓服、天空膠囊列車、BUSAN X the SKY、<br/>
+          斜坡滑車與樂天世界 —— 前兩晚南浦洞，後兩晚睡在海雲台海灘前。
+        </p>
+        <p class="mt-4 text-white/75 text-[14px] font-light">三天包車：D1 接機＋甘川、D3 換宿＋海線全日、D5 送機</p>
+        <div class="mt-10 flex items-center gap-6 flex-wrap">
+          <a href="#itinerary" class="btn-corner text-[14px]">
+            看完整行程
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-10 items-center gap-8 md:gap-10 text-white/90 hidden xl:flex">
+        <div><div class="text-[28px] font-semibold leading-none num">5<span class="text-corner">天</span></div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">4 夜</div></div>
+        <div class="h-10 w-px bg-white/30"></div>
+        <div><div class="text-[28px] font-semibold leading-none num">2<span class="text-corner">＋</span>2</div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">南浦洞 ／ 海雲台</div></div>
+        <div class="h-10 w-px bg-white/30"></div>
+        <div><div class="text-[28px] font-semibold leading-none num">3</div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">天包車</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 行程速覽（浮卡）====================== -->
+  <section class="relative z-20 -mt-12">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="bg-white rounded-xl shadow-search px-6 md:px-8 py-6 grid grid-cols-2 md:grid-cols-12 gap-6 items-center">
+        <div class="col-span-2 md:col-span-4 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">路線 · Route</div>
+          <div class="flex items-center gap-2 mt-2 text-[15px] text-ink flex-wrap">
+            <span>台中</span>
+            <svg class="w-4 h-4 ico" viewBox="0 0 24 24"><path d="M3.4 13.5l8-2 5-7 1.6.6L15.5 11l4-1 1 1.5-4 2.6 1 5-1.3.6-3-4.4-3.8 1.1-1 3.2-1.3-.3v-3.3l-3-1z"/></svg>
+            <span class="font-semibold text-cornerDark">釜山</span>
+            <span class="text-inkSoft text-[13px] ml-1">金海機場進出</span>
+          </div>
+        </div>
+        <div class="md:col-span-3 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">出發 · Departure</div>
+          <div class="mt-2 text-[15px] text-ink num">3 月出發</div>
+          <div class="text-[13px] text-inkSoft num mt-0.5">5 天 4 夜 · 週二／五／日出發</div>
+        </div>
+        <div class="md:col-span-3 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">航班 · Flight</div>
+          <div class="mt-2 text-[13px] text-ink num leading-relaxed">
+            <div><span class="text-inkSoft">去程</span> 星宇 JX310 台中 → 釜山</div>
+            <div><span class="text-inkSoft">回程</span> 星宇 JX311 釜山 → 台中</div>
+          </div>
+        </div>
+        <div class="col-span-2 md:col-span-2">
+          <a href="#contact" class="w-full btn-corner justify-center !py-3.5 text-[14px]">諮詢報價</a>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-3 mt-6 text-[13px] text-inkSoft">
+        <span class="tracking-wider2">本趟重點</span>
+        <span class="px-3 py-1 rounded-full bg-corner/10 border border-corner/30 text-cornerDark font-medium">三天包車</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">天空膠囊列車・青沙浦踏石觀景台</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">BUSAN X the SKY 展望台</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">Skyline Luge 斜坡滑車</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">樂天世界 Magic Forest</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">松島海上纜車＋雲端散步路</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">Running Man 體驗館</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">CLUB D OASIS 海景汗蒸幕</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">甘川文化村韓服體驗</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">富平罐頭夜市</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 路線圖 ====================== -->
+  <section id="route-map" class="pt-24 pb-4">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Route Map</span>
+        </div>
+        <h2 class="text-[30px] md:text-[38px] font-semibold leading-tight">西面 → 甘川 → 南浦洞 → 松島 → 青沙浦・海雲台 → 機張</h2>
+        <p class="text-inkSoft mt-3 max-w-[560px] font-light text-[15px] leading-relaxed">真實地理位置的移動路線，<strong class="font-semibold text-ink">依實際天數順序描出來</strong>：第一天從機場先到西面吃午餐，下午上甘川，傍晚入住南浦洞；第二天早上往西到松島，再回西面；中段往東到青沙浦、海雲台與機張；最後一天從海雲台直送機場。深色點是機場，橘點依序為停留景點。</p>
+      </div>
+      <div id="route-map-canvas" class="w-full rounded-2xl border border-black/5 shadow-card" style="height:480px;"></div>
+      <ul id="rm-legend" class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[13px] text-inkSoft"></ul>
+    </div>
+  </section>
+
+  <!-- ====================== 逐日行程 ====================== -->
+  <section id="itinerary" class="pt-24 pb-20">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-14">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Day by Day</span>
+        </div>
+        <h2 class="text-[36px] md:text-[48px] font-semibold leading-tight max-w-[680px]">五天四夜，<br/>南浦洞玩到海雲台</h2>
+        <p class="text-inkSoft mt-4 max-w-[560px] font-light text-[15px] leading-relaxed">
+          第一天抵達後先到西面吃豬肉湯飯，下午拍甘川韓服；第二天早上搭松島海上纜車，下午去西面；第三天搭天空膠囊順路換宿海雲台，下午進海景汗蒸幕；第四天進雙樂園；最後一天早餐後直送機場。
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3 text-[13px]">
+          <span class="px-3 py-1.5 rounded-full bg-corner/10 text-cornerDark font-medium">三天包車 · D1・D3・D5</span>
+        </div>
+      </div>
+
+      <div id="days" class="flex flex-col gap-10"></div>
+    </div>
+  </section>
+
+  <!-- ====================== 住宿 ====================== -->
+  <section id="stay" class="py-24 bg-cream">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="flex items-end justify-between mb-12 flex-wrap gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="accent-bar"></span>
+            <span class="text-[12px] tracking-explore uppercase text-corner">Where You Stay</span>
+          </div>
+          <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">前兩晚南浦洞，<br/>後兩晚睡在海雲台海灘前</h2>
+        </div>
+        <p class="text-inkSoft max-w-[420px] font-light text-[15px] leading-relaxed">
+          前段住南浦洞、後段住海雲台，只換一次房。這樣安排不是為了換風景 —— 是因為兩間飯店的位置，各撐起一個不用包車的自由日。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
+
+        <!-- 南浦洞 -->
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <div class="grid grid-cols-2 gap-px bg-black/5">
+            <img src="/tour/busan-2026-mar/img/gnb1.webp" alt="GNB Hotel 房間" loading="lazy" class="w-full h-44 object-cover" />
+            <img src="/tour/busan-2026-mar/img/gnb2.webp" alt="GNB Hotel 雙床房" loading="lazy" class="w-full h-44 object-cover" />
+          </div>
+          <div class="p-6 md:p-7">
+            <div class="flex items-center gap-2 flex-wrap mb-3">
+              <span class="tag tag-hot">D1–D2 · 2 晚</span>
+              <span class="tag">含早餐</span>
+              <span class="tag">南浦洞</span>
+            </div>
+            <h3 class="text-[22px] font-semibold leading-snug">GNB Hotel</h3>
+            <p class="text-[13px] text-inkSoft font-light mt-1 tracking-wider2">지비앤비 호텔 · 남포동</p>
+            <ul class="mt-4 space-y-2.5 text-[13.5px] text-inkSoft font-light leading-relaxed">
+              <li class="flex gap-2"><span class="rm-dot mt-2"></span><span>近南浦洞站，出門就是<strong class="font-medium text-ink">國際市場、BIFF 廣場、富平罐頭夜市與札嘎其</strong>，晚餐與伴手禮不必再移動</span></li>
+              <li class="flex gap-2"><span class="rm-dot mt-2"></span><span>一號線<strong class="font-medium text-ink">直達西面只要 15 分鐘、不用轉車</strong> —— 第二天靠它</span></li>
+              <li class="flex gap-2"><span class="rm-dot mt-2"></span><span>甘川文化村 20 分鐘車程，松島就在同一側</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 海雲台 -->
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <div class="grid grid-cols-2 gap-px bg-black/5">
+            <img src="/tour/busan-2026-mar/img/kolon2.jpg" alt="柯隆海雲飯店 海雲台海岸線景觀" loading="lazy" class="w-full h-44 object-cover" />
+            <img src="/tour/busan-2026-mar/img/kolon1.jpg" alt="柯隆海雲飯店 頂樓戶外泳池" loading="lazy" class="w-full h-44 object-cover" />
+          </div>
+          <div class="p-6 md:p-7">
+            <div class="flex items-center gap-2 flex-wrap mb-3">
+              <span class="tag tag-hot">D3–D4 · 2 晚</span>
+              <span class="tag">含早餐</span>
+              <span class="tag">海雲台海灘前</span>
+            </div>
+            <h3 class="text-[22px] font-semibold leading-snug">柯隆海雲飯店</h3>
+            <p class="text-[13px] text-inkSoft font-light mt-1 tracking-wider2">코오롱 씨클라우드 호텔 · 해운대해변로 287</p>
+            <ul class="mt-4 space-y-2.5 text-[13.5px] text-inkSoft font-light leading-relaxed">
+              <li class="flex gap-2"><span class="rm-dot mt-2"></span><span><strong class="font-medium text-ink">走出飯店就是海雲台沙灘</strong>，海雲台站步行 5–10 分鐘</span></li>
+              <li class="flex gap-2"><span class="rm-dot mt-2"></span><span>X the SKY、海雲台傳統市場、晚餐<strong class="font-medium text-ink">全在步行圈內</strong>，第三天下午起幾乎都用走的</span></li>
+              <li class="flex gap-2"><span class="rm-dot mt-2"></span><span>房內附小廚房；<strong class="font-medium text-ink">頂樓戶外泳池面海</strong>（季節性開放）</span></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="mt-7 bg-white rounded-2xl shadow-card border border-black/5 p-6 md:p-7 flex flex-col md:flex-row md:items-center gap-5 md:gap-8">
+        <div class="flex items-center gap-3 md:w-[220px] flex-none">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" stroke="#FFA500" fill="none" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+          <h3 class="text-[19px] font-semibold leading-snug">三天包車</h3>
+        </div>
+        <p class="text-inkSoft text-[13.5px] leading-relaxed font-light flex-1">第一天接機與甘川，第三天換宿與海線全日，最後一天直送機場，都由專車接送，行李全程在車上。兩間飯店的位置也是選過的 —— 南浦洞站一號線直達西面只要 15 分鐘，海雲台到 Osiria 叫車 20 分鐘就到。</p>
+      </div>
+
+      <p class="mt-6 text-[12px] text-inkSoft/80 leading-relaxed max-w-[640px] font-light">
+        ＊全程只換一次房：南浦洞 2 晚 ＋ 海雲台 2 晚，<strong class="font-semibold text-ink">四晚早餐皆含</strong>。＊第一天抵達時行李先寄放櫃檯，房間依飯店規定於下午開放，房況允許可提早入住。＊實際房型依出團當時房況與業務確認為準，飯店照片為官方提供之示意。
+      </p>
+    </div>
+  </section>
+
+  <!-- ====================== 費用參考 ====================== -->
+  <section id="price" class="py-24">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Included</span>
+        </div>
+        <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">費用包含什麼，<br/>一次講清楚</h2>
+        <p class="text-inkSoft mt-4 max-w-[560px] font-light text-[15px] leading-relaxed">
+          團費含：<strong class="font-semibold text-ink">住宿四晚（早餐皆含）、三天包車、隨團導遊、機票</strong>。<strong class="font-semibold text-ink">餐廳我們代訂但不代收，用餐現場自付</strong>；第二、四天的市區短程交通由各位自理。
+        </p>
+      </div>
+
+      <!-- 正餐明細 -->
+      <article class="mt-0 bg-white rounded-2xl shadow-card border border-black/5 p-7 md:p-8">
+        <div class="flex items-baseline justify-between flex-wrap gap-3 mb-6">
+          <div class="field-label">正餐 · 代訂不代收</div>
+          <div class="text-[18px] font-semibold text-cornerDark">7 頓正餐<span class="text-[13px] text-inkSoft font-light ml-1">・現場自付</span></div>
+        </div>
+
+        <p class="text-[14px] text-inkSoft font-light leading-relaxed mb-6">
+          <strong class="font-semibold text-ink">餐廳由我們代訂並訂位，熱門店不用現場排隊；餐費不含在報價內，用餐時現場自付。</strong>四頓早餐已含在飯店房價內。下列是各餐的安排。餐點避開生魚片與辣海鮮，主力放在豬肉湯飯、麥麵、烤肉與辣炒雞排。
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3 text-[14px]">
+          <div class="flex justify-between border-b border-black/5 pb-2"><span>D1 西面 雙胞胎豬肉湯飯（午）</span></div>
+          <div class="flex justify-between border-b border-black/5 pb-2"><span>D1 晚餐自理 · 國際市場／富平罐頭夜市</span></div>
+          <div class="flex justify-between border-b border-black/5 pb-2"><span>D2 西面 韓式定食／涮涮鍋（午）</span></div>
+          <div class="flex justify-between border-b border-black/5 pb-2"><span>D2 西面（晚）</span></div>
+          <div class="flex justify-between border-b border-black/5 pb-2"><span>D3 海雲台（午）</span></div>
+          <div class="flex justify-between border-b border-black/5 pb-2"><span>D3 海雲台 韓牛烤排骨（晚・升級餐）</span></div>
+          <div class="flex justify-between border-b border-black/5 pb-2"><span>D4 樂天世界園內（午）</span></div>
+          <div class="flex justify-between border-b border-black/5 pb-2"><span>D4 樂天 Premium Outlet 美食街（晚）</span></div>
+        </div>
+
+        <p class="mt-5 text-[12.5px] text-inkSoft/80 font-light leading-relaxed">＊我們負責訂位，不代收餐費。＊四頓早餐（D2–D5）已含在飯店房價內。＊D1 晚餐留給罐頭夜市自由發揮。＊零食、飲料與下午茶自理。</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ====================== CTA 帶 ====================== -->
+  <section id="contact" class="py-20">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+      <div>
+        <h2 class="text-[28px] md:text-[34px] font-semibold leading-tight">這份行程喜歡的話，<br/>我們幫你把細節談定</h2>
+        <p class="text-inkSoft mt-3 font-light text-[15px]">行程內容都在這一頁，房型與正式報價由業務為你確認。</p>
+      </div>
+      <a href="#" class="btn-corner text-[15px] !px-9 !py-4">諮詢報價
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ====================== FOOTER ====================== -->
+  <footer class="bg-ink text-white pt-20 pb-10">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-14 border-b border-white/10">
+        <div class="md:col-span-5">
+          <div class="text-[20px] font-semibold tracking-wider2 mb-6">角落旅行社</div>
+          <p class="text-white/70 text-[14px] leading-relaxed font-light max-w-[420px]">釜山五日，海雲台玩到甘川文化村。</p>
+        </div>
+        <div class="md:col-span-3">
+          <h4 class="text-[12px] tracking-explore uppercase text-corner mb-5">This Trip</h4>
+          <ul class="space-y-3 text-[14px] text-white/80">
+            <li><a href="#itinerary" class="hover:text-corner transition">逐日行程</a></li>
+            <li><a href="#stay" class="hover:text-corner transition">住宿安排</a></li>
+            <li><a href="#price" class="hover:text-corner transition">費用包含</a></li>
+            <li><a href="#contact" class="hover:text-corner transition">諮詢報價</a></li>
+          </ul>
+        </div>
+        <div class="md:col-span-4">
+          <h4 class="text-[12px] tracking-explore uppercase text-corner mb-5">Contact</h4>
+          <ul class="space-y-4 text-[14px] text-white/80 font-light">
+            <li class="flex gap-3"><svg class="w-4 h-4 mt-1 text-corner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 5h18v14H3z"/><path d="M3 5l9 9 9-9"/></svg>agency@venturo.tw</li>
+            <li class="flex gap-3"><svg class="w-4 h-4 mt-1 text-corner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>客製行程提案 · 釜山五日版（2026-09-03 更新）</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 flex flex-wrap items-center justify-between gap-4 text-[12px] text-white/50 tracking-wider2">
+        <div>© 2026 VENTURO × 角落旅行社. 房型以出發前確認為準。</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====================== 行程資料 + renderer ====================== -->
+  <script>
+    const ICO = {
+      plane:'<path d="M3.4 13.5l8-2 5-7 1.6.6L15.5 11l4-1 1 1.5-4 2.6 1 5-1.3.6-3-4.4-3.8 1.1-1 3.2-1.3-.3v-3.3l-3-1z"/>',
+      meal:'<path d="M6 3v8a2 2 0 0 0 2 2v8M6 3v5M9 3v5M18 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/>',
+      sight:'<path d="M12 21s7-7.5 7-13a7 7 0 1 0-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="8.5" r="2.6"/>',
+      spa:'<path d="M12 21c4-2.5 7-6 7-10a3.5 3.5 0 0 0-7-1 3.5 3.5 0 0 0-7 1c0 4 3 7.5 7 10z"/>',
+      ride:'<circle cx="7" cy="18" r="2.5"/><circle cx="17" cy="18" r="2.5"/><path d="M4 18h1l2-9h8l3 9h1M7 9h8"/>',
+      boat:'<path d="M3 15h18l-2 5H5l-2-5z"/><path d="M5 15V7l7-4 7 4v8"/>',
+      free:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>',
+      self:'<path d="M3 11l18-8-8 18-2-8-8-2z"/>'
+    };
+    const DAYS = [
+      { n:1, title:"甘川韓服・南浦入住", en:"Gamcheon Hanbok & Nampo", date:"", mode:"包車", theme:["抵達即玩","豬肉湯飯","韓服體驗","罐頭夜市"],
+        img:"/tour/busan-2026-mar/img/day5-gamcheon.jpg", cap:"甘川文化村",
+        steps:[
+          {t:"上午", k:"plane", name:"台中機場搭乘星宇航空 JX310", d:"中午前抵達釜山金海機場；實際時刻以訂位為準"},
+          {t:"抵達", k:"ride", name:"專車接機", d:"通關領完行李直接上車，不用扛著行李轉車"},
+          {t:"午餐", k:"meal", name:"西面・雙胞胎豬肉湯飯", d:"機場出發約 40 分鐘；釜山最有名的豬肉湯飯之一，落地第一餐熱湯先暖胃"},
+          {t:"14:30", k:"sight", name:"甘川文化村＋韓服體驗", d:"下午到日落前是彩色山城最好的光線"},
+          {t:"17:30", k:"sight", name:"南浦洞飯店・入住", d:"行李直接進房；晚上回飯店就在夜市旁邊"},
+          {t:"19:30", k:"free", name:"自由活動・國際市場・BIFF・富平罐頭夜市", d:"全部從飯店走路可達；罐頭夜市 19:30 開市，晚餐自理"},
+        ]},
+      { n:2, title:"松島纜車・西面・Running Man 闖關", en:"Songdo & Seomyeon", date:"", mode:"計程車／地鐵", theme:["海上纜車","闖關體驗","田浦咖啡街","西面血拼"],
+        img:"/tour/busan-2026-mar/img/day4-songdo.jpg", cap:"松島雲端散步路",
+        steps:[
+          {t:"08:30", k:"meal", name:"飯店早餐", d:"含在房價內，不用趕"},
+          {t:"09:30", k:"self", name:"前往松島", d:"南浦洞叫車約 20 分鐘"},
+          {t:"10:00", k:"ride", name:"松島海上纜車＋雲端散步路", d:"跨海 1.6 公里的空中纜車，配上玻璃地板的海上步道"},
+          {t:"11:45", k:"self", name:"前往西面", d:"叫車約 35 分鐘；西面三井 TOWER 就在站旁"},
+          {t:"12:30", k:"meal", name:"西面午餐", d:"韓式定食／涮涮鍋／辣炒雞排"},
+          {t:"14:00", k:"ride", name:"Running Man 體驗館", d:"西面三井 TOWER 十樓，60 分鐘闖關任務，全團一起玩"},
+          {t:"15:30", k:"free", name:"田浦咖啡街", d:"西面步行圈，特色咖啡與小店"},
+          {t:"17:00", k:"sight", name:"西面地下街・樂天百貨", d:"釜山最大商圈，全室內，下雨天也不受影響"},
+          {t:"18:15", k:"meal", name:"西面晚餐", d:"吃完搭一號線回南浦洞，約 15 分鐘"},
+          {t:"19:30", k:"free", name:"富平罐頭夜市＋光復路・BIFF 廣場", d:"19:30 剛好開市，就在飯店旁邊，散步走回去"},
+        ]},
+      { n:3, title:"天空膠囊列車・X the SKY・汗蒸幕・換宿海雲台", en:"Sky Capsule & X the SKY", date:"", mode:"包車", feat:true, theme:["天空膠囊列車","青沙浦踏石","X the SKY","海景汗蒸幕"],
+        img:"/tour/busan-2026-mar/img/day2-capsule.jpg", cap:"天空膠囊列車",
+        steps:[
+          {t:"09:00", k:"ride", name:"南浦洞退房・行李上車", d:"之後不再回南浦，行李由專車直送海雲台飯店"},
+          {t:"10:00", k:"ride", name:"天空膠囊列車（尾浦 → 青沙浦）", d:"13 人分四個車廂，貼著海岸線開過去，單程約 30 分鐘"},
+          {t:"10:30", k:"sight", name:"青沙浦踏石觀景台", d:"伸進海裡的玻璃地板觀景台，順路打卡海邊平交道"},
+          {t:"11:35", k:"sight", name:"海雲台飯店・行李送達", d:"飯店就在海雲台海灘前；房間一般 15:00 後才給，行李先寄放櫃檯，下午隨時可以晃回來拿房"},
+          {t:"12:15", k:"meal", name:"海雲台午餐", d:"下午的點全部走路可達，專車在旁待命"},
+          {t:"13:30", k:"sight", name:"BUSAN X the SKY 海雲台展望台", d:"海雲台 LCT 100 樓的觀景台，整片海岸線與市區從腳下攤開"},
+          {t:"15:00", k:"spa", name:"CLUB D OASIS 海景汗蒸幕", d:"同在海雲台 LCT 三到六樓：5F 面海露天湯、6F 汗蒸幕睡眠區；想玩水的可加購通用券上四樓水上樂園（記得帶泳衣）"},
+          {t:"17:00", k:"meal", name:"海雲台韓牛烤排骨（升級餐）", d:"全程唯一一頓高標，包廂先訂好，不用排隊；專車待命，吃完直接送回飯店"},
+          {t:"19:00", k:"ride", name:"專車送回飯店", d:"當日用車到此結束"},
+        ]},
+      { n:4, title:"Osiria 雙樂園・滑車與樂天世界", en:"Skyline Luge & Lotte World", date:"", mode:"計程車", theme:["斜坡滑車","樂天世界","園區一整天","樂天 Outlet"],
+        img:"/tour/busan-2026-mar/img/day3-lotte.jpg", cap:"樂天世界樂園",
+        steps:[
+          {t:"08:00", k:"meal", name:"飯店早餐", d:"含在房價內"},
+          {t:"09:30", k:"self", name:"前往 Osiria 오시리아", d:"海雲台叫車約 20 分鐘，或搭 1001 急行公車直達；出站就是樂天世界與滑車園區"},
+          {t:"10:00", k:"ride", name:"Skyline Luge 斜坡滑車", d:"含空中吊椅纜車，四條賽道共 2.4 公里；身高 85–110cm 需大人共乘"},
+          {t:"12:00", k:"meal", name:"園區／樂天 Outlet 午餐", d:""},
+          {t:"13:00", k:"sight", name:"釜山樂天世界 Magic Forest", d:"衝設施、看城堡遊行，一路玩到 18:00 閉園"},
+          {t:"18:00", k:"meal", name:"樂天 Premium Outlet 美食街", d:"晚餐＋順便把 Outlet 逛完"},
+          {t:"19:40", k:"self", name:"返回海雲台", d:"原路計程車或 1001 公車"},
+        ]},
+      { n:5, title:"海雲台早晨・賦歸", en:"Last Morning & Departure", date:"", mode:"包車", theme:["輕鬆賦歸","直送機場"],
+        steps:[
+          {t:"07:30", k:"meal", name:"飯店早餐・海雲台海邊散步", d:"含在房價內，最後一天的班機在中午，早餐後只走一小段海邊"},
+          {t:"09:00", k:"ride", name:"退房・專車前往金海機場", d:"車程約 50 分鐘，行李全程在車上"},
+          {t:"10:00", k:"free", name:"金海機場報到", d:"辦理登機與退稅，時間充裕"},
+          {t:"中午", k:"plane", name:"金海機場搭乘星宇航空 JX311 返回台中", d:"實際時刻以訂位為準"},
+        ]},
+    ];
+
+    const ic = (k) => '<svg class="ico" viewBox="0 0 24 24">'+(ICO[k]||ICO.sight)+'</svg>';
+    document.getElementById('days').innerHTML = DAYS.map(day => {
+      const steps = day.steps.map(s =>
+        '<div class="step">'+
+          '<div class="t num">'+s.t+'</div>'+
+          '<div class="si">'+ic(s.k)+'</div>'+
+          '<div class="flex-1">'+
+            '<div class="text-[15px] font-semibold text-ink">'+s.name+
+              (s.hot?' <span class="tag '+(s.hot.indexOf('PASS')===0?'tag-hot':'tag-pay')+' align-middle ml-1">'+s.hot+'</span>':'')+'</div>'+
+            (s.d?'<div class="text-[13.5px] text-inkSoft font-light leading-relaxed mt-0.5">'+s.d+'</div>':'')+
+          '</div>'+
+        '</div>'
+      ).join('');
+      const tags = day.theme.map(t=>'<span class="tag">'+t+'</span>').join('');
+      const media = day.img
+        ? '<div class="relative order-1 lg:order-2 h-52 lg:h-auto lg:min-h-full overflow-hidden">'+
+            '<img src="'+day.img+'" alt="'+(day.cap||day.title)+'" loading="lazy" class="w-full h-full object-cover" />'+
+            (day.cap?'<span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">'+day.cap+'</span>':'')+
+          '</div>'
+        : '';
+      const bodyCols = day.img ? 'lg:grid-cols-[1fr_320px]' : '';
+      return (
+        '<div class="day-block">'+
+          '<div class="day-rail grid grid-cols-1 md:grid-cols-[auto_1fr] gap-5 md:gap-8">'+
+            '<div class="num-bubble'+(day.feat?' !bg-corner !text-white':'')+' num">'+String(day.n).padStart(2,'0')+'</div>'+
+            '<div class="bg-white rounded-2xl shadow-card border border-black/5 overflow-hidden grid grid-cols-1 '+bodyCols+'">'+
+              '<div class="p-6 md:p-8 order-2 lg:order-1">'+
+                '<div class="flex items-baseline gap-3 flex-wrap">'+
+                  '<h3 class="text-[24px] md:text-[26px] font-semibold leading-tight">'+day.title+'</h3>'+
+                  '<span class="text-[13px] tracking-wider2 text-inkSoft font-light">'+day.en+'</span>'+
+                  '<span class="ml-auto flex items-baseline gap-3">'+
+                    (day.mode?'<span class="tag'+(day.mode==='包車'?' tag-hot':'')+'">'+day.mode+'</span>':'')+
+                    '<span class="num text-[13px] text-inkSoft">'+(day.date||'')+'</span>'+
+                  '</span>'+
+                '</div>'+
+                '<div class="flex flex-wrap gap-2 mt-3 mb-6">'+tags+'</div>'+
+                steps+
+              '</div>'+
+              media+
+            '</div>'+
+          '</div>'+
+        '</div>'
+      );
+    }).join('');
+  </script>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+  (function(){
+    const ROUTE = [
+      { seq:"✈", city:"釜山金海機場", coords:[35.1795,128.9382], note:"D1 抵達接機", air:true },
+      { seq:"1",  city:"西面",        coords:[35.1578,129.0594], note:"D1 午餐 雙胞胎豬肉湯飯／D2 下午 Running Man・田浦咖啡街" },
+      { seq:"2",  city:"甘川文化村",  coords:[35.0975,129.0107], note:"D1 下午 韓服體驗" },
+      { seq:"3",  city:"南浦洞",      coords:[35.0978,129.0345], note:"D1–D2 住宿・國際市場・富平罐頭夜市" },
+      { seq:"4",  city:"松島",        coords:[35.0757,129.0169], note:"D2 早上 海上纜車・雲端散步路" },
+      { seq:"5",  city:"青沙浦",      coords:[35.1633,129.1932], note:"D3 天空膠囊終點・踏石觀景台" },
+      { seq:"6",  city:"海雲台",      coords:[35.1587,129.1604], note:"D3 X the SKY・CLUB D OASIS 海景汗蒸幕／D3–D4 住宿" },
+      { seq:"7",  city:"機張 Osiria", coords:[35.1934,129.2232], note:"D4 斜坡滑車＋樂天世界" },
+      { seq:"✈", city:"釜山金海機場", coords:[35.1795,128.9382], note:"D5 賦歸", air:true, dup:true },
+    ];    const map = L.map('route-map-canvas',{zoomControl:false,attributionControl:true,scrollWheelZoom:false})
+      .setView([35.16,129.09],10);
+    L.control.zoom({position:'bottomright'}).addTo(map);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap'}).addTo(map);
+
+    const pts = ROUTE.map(r=>r.coords);
+    const line = L.polyline(pts,{color:'#FFA500',weight:3,opacity:.9,lineCap:'round',lineJoin:'round'}).addTo(map);
+
+    const legend = document.getElementById('rm-legend');
+    const markerEls = [];
+    ROUTE.forEach(r=>{
+      if (r.dup) return;                       // 回程機場與去程同一點，不重複放圖釘
+      const html = `<div class="city-marker"><div class="pin ${r.air?'air':''}">${r.seq}</div><div class="lbl">${r.city}</div></div>`;
+      const m = L.marker(r.coords,{icon:L.divIcon({className:'',html,iconSize:[0,0]})}).addTo(map);
+      markerEls.push(m.getElement().querySelector('.city-marker'));
+      legend.insertAdjacentHTML('beforeend',
+        `<li class="flex items-start gap-2"><span class="rm-seq ${r.air?'air':''}">${r.seq}</span><span><b class="text-ink font-medium">${r.city}</b> <span class="text-inkSoft">${r.note}</span></span></li>`);
+    });
+
+    /* 把每一段直線換成微彎的弧線（航線畫法），並記下每個停留點在整條線上的比例 */
+    const nodeFrac = [];
+    function buildCurved(){
+      const BOW = 0.13, N = 26;
+      const lls = [];
+      const cum = [0];
+      let total = 0, prev = null;
+      for (let i=0;i<ROUTE.length-1;i++){
+        const pa = map.latLngToLayerPoint(L.latLng(ROUTE[i].coords));
+        const pb = map.latLngToLayerPoint(L.latLng(ROUTE[i+1].coords));
+        const dx = pb.x-pa.x, dy = pb.y-pa.y;
+        const cx = (pa.x+pb.x)/2 - dy*BOW, cy = (pa.y+pb.y)/2 + dx*BOW;
+        for (let k=(i===0?0:1); k<=N; k++){
+          const t = k/N, u = 1-t;
+          const x = u*u*pa.x + 2*u*t*cx + t*t*pb.x;
+          const y = u*u*pa.y + 2*u*t*cy + t*t*pb.y;
+          const pt = L.point(x,y);
+          if (prev) total += pt.distanceTo(prev);
+          prev = pt;
+          lls.push(map.layerPointToLatLng(pt));
+        }
+        cum.push(total);
+      }
+      nodeFrac.length = 0;
+      ROUTE.forEach((r,i)=>{ if(!r.dup) nodeFrac.push(total ? cum[i]/total : 0); });
+      return lls;
+    }
+
+    /* 路線描繪動畫：地圖定位完成＋捲到才播，只播一次
+       dash 長度在 play 當下才量，避開 fitBounds／setZoom／invalidateSize 重畫路徑造成的失效 */
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const host = document.getElementById('route-map-canvas');
+    let ready = false, seen = false, played = false;
+
+    const showAll = () => {
+      const el = line.getElement();
+      if (el) { el.style.transition='none'; el.style.strokeDasharray='none'; el.style.strokeDashoffset='0'; }
+      markerEls.forEach(el2 => el2 && el2.classList.add('on'));
+    };
+
+    function play(){
+      if (played) return; played = true;
+      const path = line.getElement();
+      if (!path || typeof path.getTotalLength !== 'function') { showAll(); return; }
+      const len = path.getTotalLength();
+      if (!len) { showAll(); return; }
+
+      path.style.transition = 'none';
+      path.style.strokeDasharray = len;
+      path.style.strokeDashoffset = len;
+
+      const DUR = 6200;                                   // 慢一點，看得清楚線走到哪
+      const ease = t => -(Math.cos(Math.PI * t) - 1) / 2;  // 頭尾緩、中段穩定推進
+      const t0 = performance.now();
+      (function frame(now){
+        const t = Math.min(1, (now - t0) / DUR);
+        const p = ease(t);
+        path.style.strokeDashoffset = len * (1 - p);
+        nodeFrac.forEach((f,i)=>{ if (p >= f - 0.002 && markerEls[i]) markerEls[i].classList.add('on'); });
+        if (t < 1) requestAnimationFrame(frame);
+        else showAll();                        // 收尾清掉 dash，之後縮放不會再破線
+      })(performance.now());
+    }
+    const maybePlay = () => { if (ready && seen) play(); };
+
+    map.fitBounds(L.latLngBounds(pts).pad(0.35));
+    map.once('moveend', ()=>{
+      map.setZoom(map.getZoom()+1);
+      map.once('moveend', ()=>{
+        map.invalidateSize();
+        line.setLatLngs(buildCurved());        // 定位穩了才把弧線換上去
+        ready = true;
+        if (reduce) { showAll(); } else { maybePlay(); }
+      });
+    });
+    setTimeout(()=>map.invalidateSize(), 200);
+
+    if ('IntersectionObserver' in window && host) {
+      const io = new IntersectionObserver(es=>{
+        es.forEach(e=>{ if (e.isIntersecting) { io.disconnect(); seen = true; maybePlay(); } });
+      }, {threshold:.2});
+      io.observe(host);
+    } else { seen = true; maybePlay(); }
+
+    setTimeout(()=>{ if(!played){ seen = true; maybePlay(); } }, 6000);   // 保險：真的沒觸發就直接播
+  })();
+  </script>
+
+  <div class="lb-overlay" id="lb" aria-hidden="true">
+    <button class="lb-close" aria-label="關閉">&times;</button>
+    <button class="lb-nav lb-prev" aria-label="上一張">&#8249;</button>
+    <img alt="" />
+    <button class="lb-nav lb-next" aria-label="下一張">&#8250;</button>
+    <div class="lb-count"></div>
+  </div>
+  <script>
+  (function(){
+    const lb=document.getElementById('lb'), lbImg=lb.querySelector('img'), cnt=lb.querySelector('.lb-count');
+    let group=[], idx=0;
+    function show(i){
+      idx=(i+group.length)%group.length;
+      const im=group[idx];
+      lbImg.src=im.currentSrc||im.src; lbImg.alt=im.alt||'';
+      cnt.textContent=group.length>1?(idx+1)+' / '+group.length:'';
+    }
+    document.addEventListener('click', e=>{
+      const img = e.target.closest('img');
+      if(!img) return;
+      const scope = img.closest('.day-block, .tour-card, section') || img.parentElement;
+      group = Array.from(scope.querySelectorAll('img'));
+      if(!group.length) group=[img];
+      show(group.indexOf(img));
+      lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
+    });
+    function close(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbImg.src=''; }
+    function prev(e){ if(e) e.stopPropagation(); show(idx-1); }
+    function next(e){ if(e) e.stopPropagation(); show(idx+1); }
+    lb.addEventListener('click', close);
+    lbImg.addEventListener('click', e=>e.stopPropagation());
+    lb.querySelector('.lb-prev').addEventListener('click', prev);
+    lb.querySelector('.lb-next').addEventListener('click', next);
+    document.addEventListener('keydown', e=>{
+      if(!lb.classList.contains('open')) return;
+      if(e.key==='Escape') close();
+      else if(e.key==='ArrowLeft') prev();
+      else if(e.key==='ArrowRight') next();
+    });
+  })();
+  </script>
+</body>
+</html>

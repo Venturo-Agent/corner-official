@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>灰階×彩色斜帶｜青森五日</title>
+<style>
+:root{
+  --paper:#E9E3D5; --ink:#232B22; --moss:#607058;
+  --serif:"Noto Serif CJK TC",serif; --serif-ja:"Noto Serif CJK JP",serif;
+  --sans:"Noto Sans CJK TC",sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --IN:.9s;                 /* 進場 */
+  --OUT:.55s;               /* 離場 */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#0b0e09;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:50% 50%}
+.slide{position:absolute;inset:0;overflow:hidden;background:#0b0e09;
+  color:#F2EEE2;font-family:var(--serif);display:none}
+.slide.on{display:block}
+
+/* ── 一、灰階底圖 ───────────────────────── */
+.bg{position:absolute;inset:0;overflow:hidden;z-index:1}
+.bg img{width:100%;height:100%;object-fit:cover;display:block}
+.veil{position:absolute;inset:0;z-index:2;
+  background:linear-gradient(100deg,rgba(11,14,9,.86) 0%,rgba(11,14,9,.62) 34%,
+    rgba(11,14,9,.12) 62%,rgba(11,14,9,.55) 100%)}
+
+/* ── 二、彩色斜帶：同一張圖、同一個位置 ───
+   外層做斜形與位移，內層圖片反向位移抵消，
+   所以彩色的部分永遠對得回灰階底圖，像一道光掃過去。 */
+.band{position:absolute;inset:0;z-index:3;
+  clip-path:polygon(var(--a) 0, var(--b) 0, calc(var(--b) - 13%) 100%, calc(var(--a) - 13%) 100%);
+  transform:translateX(-46%)}
+.band .in{position:absolute;inset:0;transform:translateX(46%)}
+.band .in img{width:100%;height:100%;object-fit:cover;display:block}
+.slide.on .band{animation:bandIn var(--IN) var(--ease) both}
+.slide.on .band .in{animation:bandInner var(--IN) var(--ease) both}
+@keyframes bandIn{to{transform:translateX(0)}}
+@keyframes bandInner{to{transform:translateX(0)}}
+/* 翻頁：整條繼續往右掃出去，把畫面帶走 */
+.slide.leaving .band{animation:bandOut var(--OUT) cubic-bezier(.5,0,.75,0) both}
+.slide.leaving .band .in{animation:bandOutIn var(--OUT) cubic-bezier(.5,0,.75,0) both}
+@keyframes bandOut{from{transform:translateX(0)}to{transform:translateX(52%)}}
+@keyframes bandOutIn{from{transform:translateX(0)}to{transform:translateX(-52%)}}
+.slide.leaving .bg,.slide.leaving .veil,.slide.leaving .txt,
+.slide.leaving .tag,.slide.leaving .tate,.slide.leaving .folio{animation:out var(--OUT) ease both}
+@keyframes out{to{opacity:0}}
+
+/* 斜帶兩側各一道細線，像刀口 */
+.edge{position:absolute;inset:0;z-index:4;pointer-events:none;
+  clip-path:polygon(var(--a) 0, calc(var(--a) + .16%) 0, calc(var(--a) - 12.84%) 100%, calc(var(--a) - 13%) 100%);
+  background:rgba(242,238,226,.5);transform:translateX(-46%)}
+.slide.on .edge{animation:bandIn var(--IN) var(--ease) both}
+.slide.leaving .edge{animation:bandOut var(--OUT) cubic-bezier(.5,0,.75,0) both}
+
+/* ── 文字 ─────────────────────────────── */
+.txt{position:absolute;z-index:6;left:170px;bottom:196px;max-width:840px}
+.eyebrow{font-family:var(--serif-ja);font-size:20px;letter-spacing:.5em;
+  color:#BFCBB4;margin-bottom:24px;opacity:0}
+.slide.on .eyebrow{animation:fade .5s ease .12s both}
+h2{font-size:100px;font-weight:600;letter-spacing:.1em;line-height:1.26}
+.reveal{display:block;overflow:hidden}
+.reveal > i{display:block;font-style:normal;transform:translateY(108%)}
+.slide.on .reveal > i{animation:up .62s var(--ease) both}
+@keyframes up{to{transform:none}}
+.r1 > i{animation-delay:.18s !important}.r2 > i{animation-delay:.26s !important}
+.sub{margin-top:26px;font-family:var(--sans);font-size:22px;line-height:1.95;
+  letter-spacing:.05em;color:rgba(242,238,226,.85);max-width:760px;opacity:0}
+.slide.on .sub{animation:fade .6s var(--ease) .38s both}
+@keyframes fade{to{opacity:1}}
+
+.tate{position:absolute;right:44px;top:130px;z-index:6;writing-mode:vertical-rl;
+  font-family:var(--serif-ja);font-size:21px;letter-spacing:.34em;color:#F2EEE2;opacity:0}
+.slide.on .tate{animation:fade .6s ease .46s both}
+.folio{position:absolute;left:100px;bottom:44px;z-index:6;font-size:18px;
+  letter-spacing:.3em;color:#F2EEE2;opacity:0}
+.slide.on .folio{animation:fade .6s ease .5s both}
+.folio em{font-style:normal;color:#C9705C}
+
+/* 右下：圖示＋直排小字 */
+.tag{position:absolute;right:148px;bottom:200px;z-index:6;display:flex;
+  align-items:center;gap:18px;color:#F2EEE2;opacity:0}
+.slide.on .tag{animation:fade .6s ease .52s both}
+.tag img{width:84px;height:84px;object-fit:contain;
+  filter:brightness(0) saturate(100%) invert(93%) sepia(9%) saturate(240%) hue-rotate(15deg)}
+.tag span{writing-mode:vertical-rl;font-family:var(--serif-ja);font-size:26px;letter-spacing:.32em}
+
+@media (prefers-reduced-motion:reduce){
+  .slide.on *,.slide.leaving *{animation:none !important}
+  .band,.edge{transform:none}.band .in{transform:none}
+  .reveal > i{transform:none}
+  .eyebrow,.sub,.tate,.folio,.tag{opacity:1}
+}
+
+#nav{position:fixed;right:26px;bottom:22px;display:flex;gap:14px;align-items:center;
+  font-family:var(--sans);font-size:15px;color:#BDB6A4;letter-spacing:.15em;z-index:9}
+#nav button{background:none;border:1px solid rgba(255,255,255,.28);color:#CFC8B6;
+  width:38px;height:38px;cursor:pointer}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<section class="slide on" style="--a:58%;--b:82%">
+  <div class="bg"><img data-src="/tour/aomori-5d/img/f-kabushima-g.jpg" alt=""></div>
+  <div class="veil"></div>
+  <div class="band"><div class="in"><img data-src="/tour/aomori-5d/img/f-kabushima.jpg" alt=""></div></div>
+  <div class="edge"></div>
+  <div class="tate">第三日　蕪嶋　うみねこ</div>
+  <div class="txt">
+    <div class="eyebrow">其之三　蕪島</div>
+    <h2><span class="reveal r1"><i>三萬隻海貓</i></span><span class="reveal r2"><i>在你頭上三公尺</i></span></h2>
+    <div class="sub">國家天然紀念物的繁殖地。五月正是育雛期，牠們就落在參道兩旁——一年只有這幾週。</div>
+  </div>
+  <div class="tag"><img src="/tour/aomori-5d/img/ico-gull.png" alt=""><span>海猫</span></div>
+  <div class="folio">其之 <em>一</em></div>
+</section>
+
+<section class="slide" style="--a:54%;--b:80%">
+  <div class="bg"><img data-src="/tour/aomori-5d/img/f-nebuta-g.jpg" alt=""></div>
+  <div class="veil"></div>
+  <div class="band"><div class="in"><img data-src="/tour/aomori-5d/img/f-nebuta.jpg" alt=""></div></div>
+  <div class="edge"></div>
+  <div class="tate">第四日　ねぶたの家</div>
+  <div class="txt">
+    <div class="eyebrow">其之四　睡魔</div>
+    <h2><span class="reveal r1"><i>退役的睡魔</i></span><span class="reveal r2"><i>停在館內讓你走近看</i></span></h2>
+    <div class="sub">每年八月上街的大型燈籠，得獎的那幾座退役後停進館裡。伸手就碰得到骨架。</div>
+  </div>
+  <div class="tag"><img src="/tour/aomori-5d/img/ico-nebuta.png" alt=""><span>ねぶた</span></div>
+  <div class="folio">其之 <em>二</em></div>
+</section>
+
+<section class="slide" style="--a:56%;--b:84%">
+  <div class="bg"><img data-src="/tour/aomori-5d/img/f-oirase-g.jpg" alt=""></div>
+  <div class="veil"></div>
+  <div class="band"><div class="in"><img data-src="/tour/aomori-5d/img/f-oirase.jpg" alt=""></div></div>
+  <div class="edge"></div>
+  <div class="tate">第二日　奥入瀬渓流</div>
+  <div class="txt">
+    <div class="eyebrow">其之二　奧入瀨</div>
+    <h2><span class="reveal r1"><i>水面靜得像鏡子</i></span><span class="reveal r2"><i>然後走進十四公里</i></span></h2>
+    <div class="sub">十和田湖是雙重破火山口湖，清晨幾乎無風。奧入瀨十四公里，整段是國家特別名勝。</div>
+  </div>
+  <div class="tag"><img src="/tour/aomori-5d/img/ico-stream.png" alt=""><span>奥入瀬</span></div>
+  <div class="folio">其之 <em>三</em></div>
+</section>
+
+</div>
+
+<div id="nav"><button id="pv">‹</button><span id="cnt">1 / 3</span><button id="nx">›</button></div>
+
+<script>
+const S=[...document.querySelectorAll('.slide')];let i=0,busy=false;
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);
+  stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+addEventListener('resize',fit);fit();
+
+const KEEP=1,DROP=1;
+function lazyImages(cur){
+  S.forEach((s,n)=>{const d=Math.abs(n-cur);
+    s.querySelectorAll('img[data-src]').forEach(img=>{
+      if(d<=KEEP){if(!img.getAttribute('src'))img.setAttribute('src',img.dataset.src)}
+      else if(d>DROP){if(img.getAttribute('src'))img.removeAttribute('src')}})});
+}
+lazyImages(0);
+
+function show(n){
+  if(busy)return; n=(n+S.length)%S.length; if(n===i)return;
+  busy=true; lazyImages(n);
+  const prev=S[i], next=S[n];
+  prev.classList.add('leaving');
+  setTimeout(()=>{
+    next.classList.remove('on'); void next.offsetWidth; next.classList.add('on');
+    prev.classList.remove('on','leaving');
+    i=n; document.getElementById('cnt').textContent=`${i+1} / ${S.length}`;
+    setTimeout(()=>busy=false,420);
+  },330);
+}
+document.getElementById('nx').onclick=()=>show(i+1);
+document.getElementById('pv').onclick=()=>show(i-1);
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')show(i+1);if(e.key==='ArrowLeft')show(i-1)});
+addEventListener('click',e=>{if(e.target.closest('#nav'))return;
+  show(e.clientX>innerWidth/2?i+1:i-1)});
+const q=new URLSearchParams(location.search);
+if(q.get('n')){const t=+q.get('n')-1;S.forEach((s,k)=>s.classList.toggle('on',k===t));i=t;lazyImages(i);
+  document.getElementById('cnt').textContent=`${i+1} / ${S.length}`}
+if(q.get('still')==='1'){
+  document.querySelectorAll('*').forEach(e=>e.style.animation='none');
+  document.querySelectorAll('.band,.edge').forEach(e=>e.style.transform='none');
+  document.querySelectorAll('.band .in').forEach(e=>e.style.transform='none');
+  document.querySelectorAll('.reveal > i').forEach(e=>e.style.transform='none');
+  document.querySelectorAll('.eyebrow,.sub,.tate,.folio,.tag').forEach(e=>e.style.opacity='1');
+}
+</script>
+</body>
+</html>

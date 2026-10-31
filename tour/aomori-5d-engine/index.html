@@ -1,0 +1,1133 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>青森五日・勤業二信提案｜角落旅行社</title>
+<style>
+/* ─────────────────────────────────────────────
+   青森五日  設計系統 v2
+   紙・墨・苔　三色　＋　滿版畫面與動態
+   ───────────────────────────────────────────── */
+:root{
+  --paper:#E9E3D5; --paper-2:#DED6C4;
+  --ink:#232B22; --ink-2:#4A5247;
+  --moss:#607058; --moss-d:#3E4B3C;
+  --vermilion:#9C3B27;
+  --rule:rgba(35,43,34,.22);
+  --serif:"Noto Serif CJK TC","Noto Serif TC",serif;
+  --serif-ja:"Noto Serif CJK JP",serif;
+  --sans:"Noto Sans CJK TC","Noto Sans TC",sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#12160f;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:50% 50%}
+
+.slide{position:absolute;inset:0;background:var(--paper);display:none;
+  color:var(--ink);font-family:var(--serif);overflow:hidden}
+.slide.on{display:block}
+
+/* ── 轉場：障子拉門 ─────────────────────
+   用一片紙色門板 transform 滑開，不要動 clip-path——
+   clip-path 每幀都要主執行緒重畫整頁，那才是「不滑順」的來源。 */
+.slide.on::before{content:"";position:absolute;inset:0;z-index:20;
+  background:var(--paper);pointer-events:none;
+  animation:door .45s cubic-bezier(.65,0,.35,1) both}
+.chapter.on::before,.end.on::before{background:#12160f}
+@keyframes door{from{transform:translateX(0)}to{transform:translateX(100.5%)}}
+
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:multiply;z-index:6}
+.frame{position:absolute;left:96px;right:96px;top:72px;bottom:72px;
+  border:1px solid var(--rule);pointer-events:none;z-index:5}
+.frame::before,.frame::after{content:"";position:absolute;background:var(--ink);opacity:.5}
+.frame::before{left:-1px;top:-1px;width:42px;height:1px}
+.frame::after{left:-1px;top:-1px;width:1px;height:42px}
+
+.tate{position:absolute;right:38px;top:120px;writing-mode:vertical-rl;z-index:5;
+  font-family:var(--serif-ja);font-size:21px;letter-spacing:.34em;color:var(--ink);opacity:.42}
+.folio{position:absolute;left:96px;bottom:34px;font-size:18px;letter-spacing:.3em;
+  color:var(--ink);opacity:.45;z-index:5}
+.folio em{font-style:normal;color:var(--vermilion);opacity:.85}
+.seal{position:absolute;width:88px;height:88px;border:2px solid var(--vermilion);
+  color:var(--vermilion);font-family:var(--serif-ja);display:grid;place-items:center;
+  line-height:1.15;text-align:center;font-size:23px;letter-spacing:.06em;z-index:5}
+.ico{width:76px;height:76px;object-fit:contain;flex:none}
+.ico.sm{width:52px;height:52px}
+
+/* ── 動態：只在 .on 播一次 ───────────────── */
+.slide .rise{opacity:0;transform:translateY(26px)}
+.slide.on .rise{animation:rise .5s var(--ease) both}
+@keyframes rise{to{opacity:1;transform:none}}
+.slide .fade{opacity:0}
+.slide.on .fade{animation:fadein .6s var(--ease) both}
+@keyframes fadein{to{opacity:1}}
+.slide .grow{width:0 !important}
+.slide.on .grow{animation:grow .55s var(--ease) both}
+@keyframes grow{to{width:196px !important}}
+.slide .stamp{opacity:0;transform:scale(1.5) rotate(-14deg)}
+.slide.on .stamp{animation:stamp .45s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes stamp{to{opacity:.92;transform:scale(1) rotate(-2deg)}}
+/* 照片推鏡 */
+.slide.on .kb{animation:kb 11s linear both}
+@keyframes kb{from{transform:scale(1.085)}to{transform:scale(1)}}
+/* 揭圖：由下往上（遮罩板 transform 滑走，不用 clip-path） */
+.slide .wipe{position:relative}
+.slide .wipe::after{content:"";position:absolute;inset:0;z-index:4;
+  background:var(--paper);pointer-events:none}
+.slide.on .wipe::after{animation:unveil .5s var(--ease) both}
+@keyframes unveil{from{transform:translateY(0)}to{transform:translateY(-100.5%)}}
+
+.d1{animation-delay:.04s !important}.d2{animation-delay:.10s !important}
+.d3{animation-delay:.16s !important}.d4{animation-delay:.22s !important}
+.d5{animation-delay:.28s !important}.d6{animation-delay:.34s !important}
+.d7{animation-delay:.40s !important}.d8{animation-delay:.46s !important}
+
+@media (prefers-reduced-motion:reduce){
+  .slide.on,.slide.on *{animation:none !important}
+  .slide .rise,.slide .fade,.slide .stamp{opacity:1;transform:none}
+  .slide .wipe::after,.slide.on::before{display:none}.slide .grow{width:196px !important}
+}
+
+/* ── 封面 ───────────────────────────────── */
+.cover .art{position:absolute;right:0;top:0;width:53%;height:100%;overflow:hidden}
+.cover .art img{width:100%;height:100%;object-fit:cover;display:block}
+.cover .art::after{content:"";position:absolute;inset:0;z-index:2;
+  background:linear-gradient(90deg,var(--paper) 0%,rgba(233,227,213,.55) 26%,rgba(233,227,213,0) 62%)}
+.cover .body{position:absolute;left:150px;top:214px;width:820px;z-index:3}
+.cover .kana{font-family:var(--serif-ja);font-size:20px;letter-spacing:.52em;
+  color:var(--moss-d);margin-bottom:34px}
+.cover h1{font-size:132px;font-weight:600;letter-spacing:.14em;line-height:1.08}
+.cover h1 small{display:block;font-size:40px;font-weight:400;letter-spacing:.3em;
+  color:var(--ink-2);margin-top:26px}
+.cover .line{width:196px;height:1px;background:var(--ink);opacity:.35;margin:44px 0 38px}
+.cover .meta{font-size:25px;line-height:2.15;letter-spacing:.09em;color:var(--ink-2)}
+.cover .meta b{font-weight:600;color:var(--ink)}
+.cover .who{position:absolute;left:150px;bottom:140px;font-size:21px;
+  letter-spacing:.2em;color:var(--ink-2);z-index:3}
+.cover .seal{right:150px;bottom:130px}
+
+/* ── 滿版章節頁 ─────────────────────────── */
+.chapter{background:#12160f}
+.chapter .bg{position:absolute;inset:0;overflow:hidden}
+.chapter .bg img{width:100%;height:100%;object-fit:cover;display:block}
+.chapter .veil{position:absolute;inset:0;z-index:2;
+  background:
+    linear-gradient(103deg,rgba(18,22,15,.88) 0%,rgba(18,22,15,.66) 30%,
+      rgba(18,22,15,.10) 56%,rgba(18,22,15,.08) 78%,rgba(18,22,15,.42) 100%),
+    linear-gradient(180deg,rgba(18,22,15,.30) 0%,rgba(18,22,15,0) 30%,
+      rgba(18,22,15,0) 62%,rgba(18,22,15,.55) 100%)}
+.chapter .frame{border-color:rgba(233,227,213,.32)}
+.chapter .frame::before,.chapter .frame::after{background:#E9E3D5;opacity:.6}
+.chapter .tate{color:#E9E3D5;opacity:.6}
+.chapter .folio{color:#E9E3D5;opacity:.6}
+.chapter .body{position:absolute;left:150px;bottom:178px;z-index:3;color:#F0EBDD}
+.chapter .no{font-family:var(--serif-ja);font-size:20px;letter-spacing:.5em;
+  color:#C9D3BE;margin-bottom:24px}
+.chapter h2{font-size:102px;font-weight:600;letter-spacing:.12em;line-height:1.24;
+  text-shadow:0 2px 34px rgba(0,0,0,.42)}
+.chapter h2 .ln{display:block;overflow:hidden}
+.chapter h2 .ln i{display:block;font-style:normal}
+.chapter .sub{margin-top:30px;font-family:var(--sans);font-size:23px;line-height:1.95;
+  letter-spacing:.06em;color:rgba(240,235,221,.86);max-width:900px}
+.chapter .tag{position:absolute;right:150px;bottom:184px;z-index:3;display:flex;
+  align-items:center;gap:18px;color:#E9E3D5}
+.chapter .tag img{width:88px;height:88px;object-fit:contain;
+  filter:brightness(0) saturate(100%) invert(93%) sepia(9%) saturate(240%) hue-rotate(15deg)}
+.chapter .tag span{writing-mode:vertical-rl;font-family:var(--serif-ja);
+  font-size:26px;letter-spacing:.32em}
+
+
+/* ── 灰階底圖 × 彩色斜帶（同一張圖、同一個位置）──────
+   外層做斜形與位移，內層圖片反向位移抵消，
+   所以彩色的部分永遠對得回灰階底圖，像一道光掃過去。 */
+.chapter .band{position:absolute;inset:0;z-index:2;
+  clip-path:polygon(var(--a) 0, var(--b) 0, calc(var(--b) - 13%) 100%, calc(var(--a) - 13%) 100%);
+  transform:translateX(-46%)}
+.chapter .band .in{position:absolute;inset:0;transform:translateX(46%)}
+.chapter .band .in img{width:100%;height:100%;object-fit:cover;display:block}
+.chapter.on .band{animation:bandIn .9s var(--ease) both}
+.chapter.on .band .in{animation:bandIn .9s var(--ease) both}
+@keyframes bandIn{to{transform:translateX(0)}}
+.chapter .edge{position:absolute;inset:0;z-index:3;pointer-events:none;
+  clip-path:polygon(var(--a) 0, calc(var(--a) + .16%) 0, calc(var(--a) - 12.84%) 100%, calc(var(--a) - 13%) 100%);
+  background:rgba(242,238,226,.5);transform:translateX(-46%)}
+.chapter.on .edge{animation:bandIn .9s var(--ease) both}
+.chapter .veil{z-index:4}
+.chapter .body,.chapter .tag{z-index:6}
+
+/* ── 每日頁 ─────────────────────────────── */
+.day .left{position:absolute;left:150px;top:150px;bottom:150px;width:790px;z-index:3;
+  display:flex;flex-direction:column;justify-content:space-between}
+.day .daynum{display:flex;align-items:baseline;gap:20px;margin-bottom:26px}
+.day .daynum .n{font-family:var(--serif-ja);font-size:86px;font-weight:600;
+  line-height:1;color:var(--moss-d)}
+.day .daynum .d{font-size:19px;letter-spacing:.32em;color:var(--ink-2);padding-bottom:10px}
+.day h2{font-size:59px;font-weight:600;letter-spacing:.1em;line-height:1.42}
+.day h2 .mk{color:var(--moss-d)}
+.day .lead{margin-top:30px;font-size:23px;line-height:2.1;letter-spacing:.045em;
+  color:var(--ink-2);font-family:var(--sans);max-width:700px}
+.day .items{width:100%;display:flex;flex-direction:column}
+.day .it{display:flex;align-items:center;gap:26px;padding:20px 0;border-top:1px solid var(--rule)}
+.day .it:last-child{border-bottom:1px solid var(--rule)}
+.day .it .tx{font-size:23px;letter-spacing:.05em}
+.day .it .tx i{display:block;font-style:normal;font-family:var(--sans);
+  font-size:17px;letter-spacing:.04em;color:var(--ink-2);margin-top:7px}
+.day .plates{position:absolute;right:150px;top:150px;bottom:150px;width:700px;z-index:3;
+  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:22px}
+.day .plates figure{position:relative;overflow:hidden;background:var(--paper-2)}
+.day .plates figure:first-child{grid-column:1/3}
+.day .plates img{width:100%;height:100%;object-fit:cover;display:block}
+.day .plates figcaption{position:absolute;left:0;bottom:0;right:0;z-index:2;
+  background:rgba(35,43,34,.72);color:#EFEADC;font-size:15px;letter-spacing:.07em;
+  padding:9px 14px;font-family:var(--sans)}
+
+/* ── 特色頁 ─────────────────────────────── */
+.feat .head{position:absolute;left:150px;top:140px;width:1620px;z-index:3}
+.feat .en{font-family:var(--serif-ja);font-size:19px;letter-spacing:.42em;
+  color:var(--moss-d);margin-bottom:22px}
+.feat h2{font-size:64px;font-weight:600;letter-spacing:.11em}
+.feat .grid{position:absolute;left:150px;right:150px;top:330px;z-index:3;
+  display:grid;grid-template-columns:repeat(3,1fr)}
+.feat .cell{padding:40px 44px 40px 0;border-top:1px solid var(--rule)}
+.feat .cell:nth-child(n+4){border-bottom:1px solid var(--rule)}
+.feat .cell h4{font-size:29px;font-weight:600;letter-spacing:.07em;
+  margin:22px 0 14px;display:flex;align-items:center;gap:14px}
+.feat .cell p{font-family:var(--sans);font-size:18px;line-height:1.95;
+  letter-spacing:.03em;color:var(--ink-2);max-width:430px}
+.feat .cell .no{font-family:var(--serif-ja);font-size:16px;letter-spacing:.3em;color:var(--moss)}
+
+
+/* 標題逐行揭開：字從下方被推出來 */
+.reveal{display:block;overflow:hidden}
+.reveal > i{display:block;font-style:normal;transform:translateY(106%)}
+.slide.on .reveal > i{animation:revealUp .6s var(--ease) both}
+@keyframes revealUp{to{transform:none}}
+.r1 > i{animation-delay:.10s !important}.r2 > i{animation-delay:.18s !important}
+.r3 > i{animation-delay:.26s !important}
+
+/* 純文字章節頁（沒有照片時用） */
+.mark{background:var(--paper)}
+.mark .body{position:absolute;left:150px;top:50%;transform:translateY(-50%);z-index:3;width:1200px}
+.mark .no{font-family:var(--serif-ja);font-size:21px;letter-spacing:.5em;color:var(--moss);margin-bottom:30px}
+.mark h2{font-size:104px;font-weight:600;letter-spacing:.12em;line-height:1.26}
+.mark h2 em{font-style:normal;color:var(--moss-d)}
+.mark .sub{margin-top:34px;font-family:var(--sans);font-size:23px;line-height:2;
+  letter-spacing:.05em;color:var(--ink-2);max-width:880px}
+.mark .big{position:absolute;right:120px;top:50%;transform:translateY(-50%);
+  width:400px;height:400px;object-fit:contain;opacity:.16;z-index:2}
+
+/* 表格 */
+.tbl .head{position:absolute;left:150px;top:132px;z-index:3}
+.tbl .en{font-family:var(--serif-ja);font-size:19px;letter-spacing:.42em;color:var(--moss-d);margin-bottom:20px}
+.tbl h2{font-size:58px;font-weight:600;letter-spacing:.1em}
+.tbl .tb{position:absolute;left:150px;right:150px;top:300px;bottom:130px;z-index:3;
+  display:flex;flex-direction:column;justify-content:space-evenly}
+.tbl .tr{display:grid;align-items:center;gap:26px;padding:16px 0;border-top:1px solid var(--rule)}
+.tbl .tr:last-child{border-bottom:1px solid var(--rule)}
+.tbl .tr.th{border-top:2px solid var(--ink);font-family:var(--sans);font-size:16px;
+  letter-spacing:.2em;color:var(--ink-2);padding:12px 0}
+.tbl .c0{font-family:var(--serif-ja);font-size:29px;font-weight:600;color:var(--moss-d)}
+.tbl .c1{font-size:21px;letter-spacing:.04em;line-height:1.7}
+.tbl .c2,.tbl .c3{font-family:var(--sans);font-size:17px;line-height:1.75;color:var(--ink-2)}
+.tbl .tr.th .c0,.tbl .tr.th .c1,.tbl .tr.th .c2,.tbl .tr.th .c3{
+  font-family:var(--sans);font-size:16px;font-weight:400;color:var(--ink-2)}
+
+/* 飯店頁 */
+.hotel .head{position:absolute;left:150px;top:140px;width:820px;z-index:3}
+.hotel .en{font-family:var(--serif-ja);font-size:18px;letter-spacing:.42em;color:var(--moss-d);margin-bottom:18px}
+.hotel h3{font-size:52px;font-weight:600;letter-spacing:.06em;line-height:1.3}
+.hotel h3 small{display:block;font-size:24px;font-weight:400;letter-spacing:.14em;
+  color:var(--ink-2);margin-top:14px}
+.hotel .p{margin-top:24px;font-family:var(--sans);font-size:20px;line-height:1.95;
+  color:var(--ink-2);letter-spacing:.03em}
+.hotel .rows{position:absolute;left:150px;top:520px;bottom:130px;width:820px;z-index:3;
+  display:flex;flex-direction:column;justify-content:space-evenly}
+.hotel .row{display:grid;grid-template-columns:132px 1fr;gap:24px;align-items:start;
+  padding:15px 0;border-top:1px solid var(--rule)}
+.hotel .row:last-child{border-bottom:1px solid var(--rule)}
+.hotel .row .k{font-size:20px;font-weight:600;color:var(--moss-d);letter-spacing:.08em}
+.hotel .row .v{font-family:var(--sans);font-size:18px;line-height:1.85;color:var(--ink-2)}
+.hotel .gal{position:absolute;right:150px;top:150px;bottom:130px;width:690px;z-index:3;
+  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:20px}
+.hotel .gal figure{position:relative;overflow:hidden;background:var(--paper-2)}
+.hotel .gal img{width:100%;height:100%;object-fit:cover;display:block}
+.hotel .gal figcaption{position:absolute;left:0;right:0;bottom:0;z-index:2;
+  background:rgba(35,43,34,.72);color:#EFEADC;font-size:14px;letter-spacing:.06em;
+  padding:8px 13px;font-family:var(--sans)}
+.hotel .gal.solo{grid-template-columns:1fr;grid-template-rows:1fr}
+
+/* 結尾 */
+.end{background:#12160f}
+.end .bg{position:absolute;inset:0;overflow:hidden}
+.end .bg img{width:100%;height:100%;object-fit:cover;display:block;opacity:.5}
+.end .veil{position:absolute;inset:0;z-index:2;background:rgba(18,22,15,.55)}
+.end .body{position:absolute;inset:0;z-index:3;display:grid;place-items:center;text-align:center;color:#F0EBDD}
+.end h2{font-size:92px;font-weight:600;letter-spacing:.3em;line-height:1.4}
+.end .sub{margin-top:34px;font-family:var(--sans);font-size:22px;letter-spacing:.14em;
+  color:rgba(240,235,221,.8);line-height:2}
+.end .dash{width:180px;height:1px;background:rgba(240,235,221,.5);margin:40px auto}
+.end .frame{border-color:rgba(233,227,213,.3)}
+.end .frame::before,.end .frame::after{background:#E9E3D5;opacity:.6}
+.end .folio{color:#E9E3D5;opacity:.55}
+
+#nav{position:fixed;right:26px;bottom:22px;display:flex;align-items:center;gap:14px;
+  font-family:var(--sans);font-size:15px;color:#BDB6A4;letter-spacing:.15em;z-index:9}
+#nav button{background:none;border:1px solid rgba(255,255,255,.28);color:#CFC8B6;
+  width:38px;height:38px;cursor:pointer;font-size:16px}
+
+/* ═══════════════════════════════════════════════════════════
+   2026-09-28　封面 A 與目次併入正式檔
+   這兩頁 9/18 定案時是各自獨立的樣張檔（cover.html／toc.html），
+   正式檔一直用的是舊封面、也沒有目次頁。
+   併進來時整套換了前綴（.cvA／.toc2／.x-*），因為正式檔已經有
+   全域的 .seal、.who、.head、.rise、.fade，同名會互相蓋掉。
+   ═══════════════════════════════════════════════════════════ */
+:root{ --deep:#101509; --sun:#C9A227; }
+
+.x-mask{display:inline-block;overflow:hidden;vertical-align:bottom}
+.x-mask>i{display:inline-block;font-style:normal;transform:translateY(105%)}
+.slide.on .x-mask>i{animation:xUp .78s var(--ease) both}
+@keyframes xUp{to{transform:none}}
+.x-blk{transform:scaleX(0);transform-origin:left center}
+.slide.on .x-blk{animation:xWx .72s var(--ease) both}
+@keyframes xWx{to{transform:scaleX(1)}}
+.x-blkY{transform:scaleY(0);transform-origin:top center}
+.slide.on .x-blkY{animation:xWy .72s var(--ease) both}
+@keyframes xWy{to{transform:scaleY(1)}}
+.x-fade{opacity:0}.slide.on .x-fade{animation:xFd .7s var(--ease) both}
+@keyframes xFd{to{opacity:1}}
+.x-rise{opacity:0;transform:translateY(24px)}
+.slide.on .x-rise{animation:xRs .7s var(--ease) both}
+@keyframes xRs{to{opacity:1;transform:none}}
+.x-stamp{opacity:0;transform:scale(1.42) rotate(-11deg)}
+.slide.on .x-stamp{animation:xSt .55s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes xSt{to{opacity:1;transform:scale(1) rotate(-2.5deg)}}
+.x-zoom{transform:scale(1.12)}
+.slide.on .x-zoom{animation:xZm 9s linear both}
+@keyframes xZm{to{transform:scale(1)}}
+.x-t1{animation-delay:.06s!important}.x-t2{animation-delay:.16s!important}
+.x-t3{animation-delay:.26s!important}.x-t4{animation-delay:.36s!important}
+.x-t5{animation-delay:.48s!important}.x-t6{animation-delay:.60s!important}
+.x-t7{animation-delay:.72s!important}.x-t8{animation-delay:.86s!important}
+.x-t9{animation-delay:.98s!important}
+@media (prefers-reduced-motion:reduce){
+  .x-mask>i,.x-blk,.x-blkY,.x-zoom,.x-stamp{transform:none!important}
+  .x-fade,.x-rise,.x-stamp{opacity:1!important}}
+
+.dc{position:absolute;pointer-events:none;z-index:3}
+.dc img{display:block;width:100%;height:auto}
+.dc.d-wave{left:-50px;bottom:34px;width:300px;opacity:.055;
+  -webkit-mask-image:radial-gradient(96% 96% at 0% 100%,#000 22%,transparent 64%);
+          mask-image:radial-gradient(96% 96% at 0% 100%,#000 22%,transparent 64%)}
+
+/* ── 封面 A：色塊構成 ── */
+.cvA{background:var(--paper)}
+.cvA.on::before{background:var(--deep)}
+.cvA .photo{position:absolute;right:0;top:0;width:56%;height:100%;overflow:hidden}
+.cvA .photo img{width:100%;height:100%;object-fit:cover;display:block}
+.cvA .photo::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(258deg,rgba(16,21,9,.42) 0%,rgba(16,21,9,.05) 34%,rgba(16,21,9,.34) 100%)}
+.cvA .slab{position:absolute;left:0;top:0;width:44%;height:100%;background:var(--deep);z-index:2}
+.cvA .slab2{position:absolute;left:44%;top:0;width:78px;height:100%;background:var(--moss-d);z-index:3}
+.cvA .gold{position:absolute;left:calc(44% + 78px);top:180px;bottom:180px;width:7px;background:var(--sun);z-index:4}
+.cvA .body{position:absolute;left:112px;top:196px;z-index:5;color:#F1ECDE;width:640px}
+.cvA .kicker{display:flex;align-items:center;gap:15px;font-family:var(--sans);
+  font-size:15px;letter-spacing:.42em;color:var(--sun);margin-bottom:30px}
+.cvA .kicker .bar{display:block;width:52px;height:1px;background:var(--sun)}
+.cvA .no{position:absolute;left:112px;top:132px;z-index:5;font-family:var(--sans);
+  font-size:14px;letter-spacing:.34em;color:rgba(241,236,222,.42)}
+.cvA h1{font-size:152px;font-weight:600;letter-spacing:.08em;line-height:1;position:relative}
+.cvA h1::before{content:"";position:absolute;left:-34px;top:12px;bottom:12px;width:2px;
+  background:linear-gradient(180deg,var(--sun),rgba(201,162,39,.12))}
+.cvA .sub{font-size:31px;letter-spacing:.32em;color:rgba(241,236,222,.8);margin-top:28px}
+.cvA .en{font-family:var(--sans);font-size:15px;letter-spacing:.5em;color:rgba(241,236,222,.42);margin-top:20px}
+.cvA .hr{height:1px;background:rgba(241,236,222,.24);margin:46px 0 32px;width:440px}
+.cvA .meta{font-family:var(--sans);font-size:18px;line-height:2.3;letter-spacing:.05em;color:rgba(241,236,222,.7)}
+.cvA .meta b{color:#F1ECDE;font-weight:500}
+.cvA .meta .sep{color:var(--sun);margin:0 12px}
+.cvA .who{position:absolute;left:112px;bottom:78px;z-index:5;font-family:var(--sans);
+  font-size:16px;letter-spacing:.2em;color:rgba(241,236,222,.55)}
+.cvA .yearbox{position:absolute;right:76px;bottom:96px;z-index:5;text-align:right;
+  padding:18px 26px 20px;background:linear-gradient(120deg,rgba(16,21,9,0),rgba(16,21,9,.62))}
+.cvA .yearbox .yr{font-family:var(--serif-ja);font-size:86px;font-weight:600;line-height:.92;color:#F6F2E6;letter-spacing:.02em}
+.cvA .yearbox .mo{font-family:var(--sans);font-size:15px;letter-spacing:.42em;color:rgba(246,242,230,.78);margin-top:10px}
+.cvA .vtitle{position:absolute;right:76px;top:150px;z-index:5;writing-mode:vertical-rl;
+  font-family:var(--serif-ja);font-size:30px;letter-spacing:.5em;color:rgba(255,255,255,.92);
+  text-shadow:0 2px 26px rgba(0,0,0,.5)}
+.cvA .dc.d-mt{right:238px;top:104px;width:196px;opacity:.3;z-index:5}
+.cvA .dc.d-seal{left:112px;bottom:150px;width:124px;z-index:6}
+
+/* ── 目次：左 30% 深色，右邊清單是主角 ── */
+.toc2{background:var(--paper)}
+.toc2 .slab{position:absolute;left:0;top:0;width:30%;height:100%;background:var(--deep);z-index:2}
+.toc2 .slab2{position:absolute;left:30%;top:0;width:52px;height:100%;background:var(--moss-d);z-index:3}
+.toc2 .gold{position:absolute;left:calc(30% + 52px);top:210px;bottom:210px;width:5px;background:var(--sun);z-index:4}
+.toc2 .dc.d-wave{left:-46px;bottom:26px;width:262px}
+.toc2 .sl{position:absolute;left:96px;bottom:150px;width:112px;z-index:6}
+.toc2 .sl img{width:100%;display:block}
+.toc2 .hd{position:absolute;left:96px;top:196px;z-index:5;color:#F1ECDE;width:380px}
+.toc2 .hd .kana{font-family:var(--serif-ja);font-size:15px;letter-spacing:.5em;color:var(--sun);margin-bottom:26px}
+.toc2 .hd h2{font-size:104px;font-weight:600;letter-spacing:.14em;line-height:1;position:relative}
+.toc2 .hd h2::before{content:"";position:absolute;left:-28px;top:10px;bottom:10px;width:2px;
+  background:linear-gradient(180deg,var(--sun),rgba(201,162,39,.12))}
+.toc2 .hd .en{font-family:var(--sans);font-size:14px;letter-spacing:.46em;color:rgba(241,236,222,.42);margin-top:24px}
+.toc2 .hd .cnt{margin-top:46px;font-family:var(--sans);font-size:16px;line-height:2.1;letter-spacing:.06em;color:rgba(241,236,222,.62)}
+.toc2 .hd .cnt b{color:#F1ECDE;font-weight:500}
+.toc2 .who{position:absolute;left:96px;bottom:78px;z-index:5;font-family:var(--sans);
+  font-size:15px;letter-spacing:.18em;color:rgba(241,236,222,.5)}
+.toc2 .list{position:absolute;left:calc(30% + 168px);right:110px;top:150px;bottom:130px;z-index:5;
+  display:flex;flex-direction:column;justify-content:space-evenly}
+.toc2 .row{display:grid;grid-template-columns:118px 1fr 210px;align-items:center;gap:26px;
+  padding:19px 0;border-top:1px solid rgba(27,33,26,.16);position:relative}
+.toc2 .row:last-child{border-bottom:1px solid rgba(27,33,26,.16)}
+.toc2 .row::before{content:"";position:absolute;left:-26px;top:50%;width:0;height:1px;background:var(--sun);transform:translateY(-50%)}
+.toc2 .row.day::before{width:16px}
+.toc2 .row .n{font-family:var(--serif-ja);font-size:58px;font-weight:600;line-height:1;color:var(--moss-d);letter-spacing:.02em}
+.toc2 .row.etc .n{font-size:34px;color:rgba(27,33,26,.4)}
+.toc2 .row .tx h3{font-size:31px;font-weight:600;letter-spacing:.06em;color:var(--ink)}
+.toc2 .row .tx p{font-family:var(--sans);font-size:16px;letter-spacing:.04em;color:var(--ink-2);margin-top:8px}
+.toc2 .row .ja{font-family:var(--serif-ja);font-size:17px;letter-spacing:.22em;color:rgba(27,33,26,.42);text-align:right}
+.toc2 .row .pg{position:absolute;right:-72px;font-family:var(--sans);font-size:14px;letter-spacing:.2em;color:rgba(27,33,26,.3)}
+
+/* 飯店只有兩張官方照時：上下兩張，不拿別的景點照片湊第三張（版面第六條） */
+.hotel .gal.duo{grid-template-columns:1fr;grid-template-rows:1.25fr 1fr}
+.hotel .gal.duo figure:first-child{grid-column:auto;grid-row:auto}
+
+/* 飯店相簿三張時：第一張橫跨上排，下面兩張並排——原本三張排在 2×2 裡，右下永遠空一格 */
+.hotel .gal:not(.duo):not(.solo) figure:first-child{grid-column:1 / 3}
+/* 「六件事」那一頁：格子撐到底，不要停在一半（版面第十一條） */
+.feat .grid{bottom:132px;grid-template-rows:1fr 1fr}
+
+/* ═══ 2026-09-28 第二輪：畫面不夠豐富（William 八點）═══════════════ */
+
+/* (1) 目次：數字改壹貳參肆伍，縮小、換成跟標題同一套明體；標題放大 */
+.toc2 .row{grid-template-columns:92px 1fr 210px}
+.toc2 .row .n{font-family:var(--serif);font-size:40px;font-weight:600}
+.toc2 .row.etc .n{font-family:var(--serif);font-size:26px}
+.toc2 .row .tx h3{font-size:38px}
+.toc2 .row .tx p{font-size:17px}
+
+/* (3) 版畫小元素：白色去背的 Lovart 版畫，壓成墨色、極淡，當紙上的底紋 */
+.orn{position:absolute;pointer-events:none;z-index:1}
+.orn img{width:100%;display:block;filter:brightness(0);opacity:.075}
+.orn.o-wave{right:-40px;bottom:-40px;width:560px}
+.orn.o-water{left:-70px;bottom:-50px;width:460px}
+.orn.o-mt{right:130px;top:92px;width:280px}
+.orn.o-mt img{opacity:.1}
+.orn.o-asa{right:-60px;top:-60px;width:330px}
+.orn.o-brush{left:-40px;bottom:-30px;width:520px}
+
+/* (2) 總覽：每一列放當天的照片 */
+.tbl .cx{height:86px;overflow:hidden;background:var(--paper-2)}
+.tbl .cx img{width:100%;height:100%;object-fit:cover;display:block}
+.tbl .tr.th .cx{height:auto;background:none}
+.tbl .rows-in .c0{font-family:var(--sans);font-size:15px;letter-spacing:.24em;color:var(--moss);font-weight:600}
+
+/* (4) 每日頁：只留 DAY 1，數字放大 */
+.day .daynum .n{display:none}
+.day .daynum .d{font-family:var(--sans);font-size:18px;letter-spacing:.36em;color:var(--moss);padding-bottom:0}
+.day .daynum .d b{font-family:var(--serif-ja);font-size:84px;font-weight:600;letter-spacing:0;
+  color:var(--moss-d);margin-left:14px;vertical-align:-10px}
+
+/* (5) 每日頁底下三列：字放大，說明那一行不要小到看不見 */
+.day .it .tx{font-size:25px}
+.day .it .tx i{font-size:19px;margin-top:8px;line-height:1.6}
+.day .it .ico{width:64px;height:64px}
+
+/* (6) 動態：不要每一頁都從同一個方向進來 */
+@keyframes unveilX{from{transform:translateX(0)}to{transform:translateX(100.5%)}}
+@keyframes unveilXL{from{transform:translateX(0)}to{transform:translateX(-100.5%)}}
+.day.alt.on .wipe::after{animation-name:unveilX}
+.day.alt .rise{transform:translateX(34px)}
+.day:not(.alt) .items .rise{transform:translateX(-30px)}
+.chapter.rev .band{transform:translateX(46%)}
+.chapter.rev .band .in{transform:translateX(-46%)}
+.chapter.rev .edge{transform:translateX(46%)}
+.tbl .tr.rise{transform:translateX(-36px)}
+@keyframes galIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:none}}
+.hotel.on .gal figure{animation:galIn .8s var(--ease) both}
+.hotel.on .gal figure:nth-child(2){animation-delay:.14s}
+.hotel.on .gal figure:nth-child(3){animation-delay:.26s}
+.dine.on .wipe::after{animation-name:unveilXL}
+
+/* (7) 四晚住宿：四張直式照片錯落排開 */
+.stay{background:var(--paper)}
+.stay .head{position:absolute;left:150px;top:132px;z-index:3}
+.stay .en{font-family:var(--serif-ja);font-size:19px;letter-spacing:.42em;color:var(--moss-d);margin-bottom:20px}
+.stay h2{font-size:58px;font-weight:600;letter-spacing:.1em}
+.stay .cards{position:absolute;left:150px;right:150px;top:300px;bottom:130px;z-index:3;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:44px;align-items:start}
+.stay .sc{position:relative;display:flex;flex-direction:column}
+.stay .sc2,.stay .sc4{margin-top:84px}
+.stay .sc figure{position:relative;overflow:hidden;height:372px;background:var(--paper-2)}
+.stay .sc figure img{width:100%;height:100%;object-fit:cover;display:block}
+.stay .nn{position:absolute;left:-18px;top:-40px;z-index:4;font-family:var(--serif);
+  font-size:78px;font-weight:600;color:var(--moss-d);line-height:1;
+  text-shadow:0 0 0 var(--paper),3px 3px 0 var(--paper),-3px -3px 0 var(--paper)}
+.stay .sc h4{font-size:27px;font-weight:600;letter-spacing:.06em;margin-top:22px}
+.stay .sc .en2{font-family:var(--sans);font-size:14px;letter-spacing:.2em;color:var(--moss);margin-top:8px}
+.stay .sc p{font-family:var(--sans);font-size:17px;line-height:1.85;color:var(--ink-2);margin-top:12px}
+
+/* (8) 餐食：一大四小的照片拼貼 */
+.dine{background:var(--paper)}
+.dine .head{position:absolute;left:150px;top:140px;width:560px;z-index:3}
+.dine .en{font-family:var(--serif-ja);font-size:19px;letter-spacing:.42em;color:var(--moss-d);margin-bottom:20px}
+.dine h2{font-size:58px;font-weight:600;letter-spacing:.1em;line-height:1.3}
+.dine .p{margin-top:30px;font-family:var(--sans);font-size:20px;line-height:2;color:var(--ink-2)}
+.dine .mosaic{position:absolute;left:760px;right:150px;top:150px;bottom:130px;z-index:3;
+  display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:18px}
+.dine .dc2{position:relative;overflow:hidden;background:var(--paper-2)}
+.dine .dc2.big{grid-row:1 / 3}
+.dine .dc2 img{width:100%;height:100%;object-fit:cover;display:block}
+.dine .dc2 figcaption{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:40px 18px 16px;
+  background:linear-gradient(to top,rgba(20,24,18,.86),rgba(20,24,18,0));color:#F2EEE2;font-family:var(--sans)}
+.dine .dc2 .dd{display:block;font-size:12px;letter-spacing:.24em;color:#E6CF86}
+.dine .dc2 b{display:block;font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:.06em;margin-top:6px}
+.dine .dc2 i{display:block;font-style:normal;font-size:14px;color:rgba(242,238,226,.8);margin-top:4px}
+.dine .dc2.big b{font-size:30px}
+.stay .cards{top:344px}
+.dine .head{bottom:130px;display:flex;flex-direction:column}
+.dine .ml{margin-top:auto;border-top:2px solid var(--ink)}
+.dine .ml .m{display:flex;align-items:baseline;gap:14px;padding:13px 0;border-bottom:1px solid var(--rule);
+  font-family:var(--sans);font-size:18px;color:var(--ink-2)}
+.dine .ml .m b{font-family:var(--serif-ja);font-size:18px;color:var(--moss-d);width:78px;flex:none}
+.dine .ml .m span{font-size:13px;letter-spacing:.2em;color:#fff;background:var(--moss);padding:2px 8px;border-radius:2px}
+
+/* ═══ 第三輪 ═════════════════════════════════════════
+   和紙：整頁一層。花紋×低頻雜訊遮罩×邊緣權重×纖維，事先烤成透明 PNG——
+   不用 CSS 濾鏡或 mix-blend-mode（版面第七條：大圖掛濾鏡，手機會被砍分頁）。
+   四周濃、中間淡，每一頁的濃淡位置不同（五張輪用、再做鏡像）。 */
+.washi{position:absolute;inset:0;z-index:1;pointer-events:none}
+.washi img{width:100%;height:100%;display:block}
+.washi.fx img{transform:scaleX(-1)}
+.washi.fy img{transform:scaleY(-1)}
+.washi.fx.fy img{transform:scale(-1,-1)}
+.slide.on .washi{animation:fadein 1.8s ease both}
+.orn{display:none}
+
+/* 每日頁：照片縮短，下面放當天時刻軸與午／晚／宿 */
+.day .plates{bottom:350px}
+.day .dayinfo{position:absolute;right:150px;width:700px;bottom:150px;height:176px;z-index:3;
+  display:flex;flex-direction:column;justify-content:space-between}
+.day .tl{position:relative;display:flex;justify-content:space-between;padding-top:6px}
+.day .tl::before{content:"";position:absolute;left:8px;right:8px;top:13px;height:1px;background:var(--moss);opacity:.5}
+.day .tl .pt{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;flex:1;min-width:0}
+.day .tl .pt i{width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--moss-d);z-index:1}
+.day .tl .pt:first-child i,.day .tl .pt:last-child i{background:var(--moss-d)}
+.day .tl .pt b{font-family:var(--serif-ja);font-size:20px;font-weight:600;color:var(--moss-d);margin-top:12px}
+.day .tl .pt span{font-family:var(--sans);font-size:15px;color:var(--ink-2);margin-top:4px;letter-spacing:.03em}
+.day .chips{display:flex;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.day .chips span{flex:1;padding:13px 0;font-family:var(--sans);font-size:16px;color:var(--ink);
+  display:flex;align-items:center;gap:10px;justify-content:center;border-right:1px solid var(--rule)}
+.day .chips span:last-child{border-right:none}
+.day .chips em{font-style:normal;font-family:var(--serif-ja);font-size:13px;color:#F2EEE2;
+  background:var(--moss-d);width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center}
+/* 每日頁左欄收緊：上一輪字放大後最後一列超出版心 105px，跑進頁碼區 */
+.day .lead{font-size:21px;line-height:1.95;margin-top:24px}
+.day .daynum{margin-bottom:14px}
+.day .it{padding:12px 0;gap:22px}
+.day .it .ico{width:52px;height:52px}
+.day .it .tx{font-size:23px}
+.day .it .tx i{font-size:17px;margin-top:5px}
+.toc2 .row{padding:12px 0}
+.toc2 .row .tx h3{font-size:34px}
+.toc2 .row .tx p{margin-top:5px}
+
+/* 六件事：每一件配一張照片。照片在和紙紋路「底下」——這一頁把和紙層抬到照片之上，
+   紋路淡淡壓在照片邊緣（和紙本來就是中間淡、四周濃，所以不會蓋掉主體） */
+.feat.withph .washi{z-index:5}
+.feat.withph .head,.feat.withph .frame,.feat.withph .tate,.feat.withph .folio{z-index:6}
+.feat.withph .grid{top:300px;gap:0 40px}
+.feat.withph .cell{display:flex;gap:26px;padding:24px 0;align-items:stretch}
+.feat.withph .cell .fp{flex:0 0 210px;overflow:hidden;background:var(--paper-2);margin:0}
+.feat.withph .cell .fp img{width:100%;height:100%;object-fit:cover;display:block}
+.feat.withph .cell .ft{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.feat.withph .cell h4{font-size:27px;margin-top:10px}
+.feat.withph .cell p{font-size:17px;line-height:1.85;margin-top:10px}
+
+/* ═══ 六件事：整頁滿版斜切 ══════════════════════════════
+   六塊平行四邊形並排，上緣往右偏、下緣往左偏 65px——跟章節頁那道斜光同一個角度。
+   和紙改用淺色版壓在照片上（墨色紋路在深色照片上看不見）。 */
+.six{background:#12160f}
+.six.on::before{background:#12160f}
+.six .panes{position:absolute;inset:0;z-index:1}
+.six .pn{position:absolute;top:0;bottom:0;width:452px;overflow:hidden;
+  clip-path:polygon(132px 0,452px 0,320px 100%,0 100%)}
+.six .pn1{left:-66px}.six .pn2{left:254px}.six .pn3{left:574px}
+.six .pn4{left:894px}.six .pn5{left:1214px}.six .pn6{left:1534px}
+.six .pn img{width:100%;height:100%;object-fit:cover;display:block}
+.six .pv{position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,13,8,.9) 0%,rgba(10,13,8,.55) 26%,rgba(10,13,8,0) 50%)}
+/* 每塊之間一道細的紙色縫，像章節頁斜帶的亮邊 */
+.six .pn::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent 0 calc(100% - 3px),rgba(240,234,220,.5) calc(100% - 3px));
+  clip-path:polygon(449px 0,452px 0,320px 100%,317px 100%)}
+.six .pt{position:absolute;left:44px;width:262px;bottom:150px;color:#F2EEE2;z-index:2}
+.six .pt .no{font-family:var(--serif-ja);font-size:15px;letter-spacing:.34em;color:#E3CB82}
+.six .pt h4{font-size:30px;font-weight:600;letter-spacing:.06em;margin-top:10px;line-height:1.3}
+.six .pt p{font-family:var(--sans);font-size:16px;line-height:1.8;color:rgba(242,238,226,.84);margin-top:10px}
+.six .topveil{position:absolute;left:0;right:0;top:0;height:330px;z-index:2;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(10,13,8,.78),rgba(10,13,8,0))}
+.six .washiL{position:absolute;inset:0;z-index:3;pointer-events:none}
+.six .washiL img{width:100%;height:100%;display:block}
+.six .grain{z-index:3}
+.six .head{position:absolute;left:150px;top:118px;z-index:5;color:#F2EEE2}
+.six .head .en{font-family:var(--serif-ja);font-size:19px;letter-spacing:.42em;color:#E3CB82;margin-bottom:18px}
+.six .head h2{font-size:64px;font-weight:600;letter-spacing:.11em}
+.six .tate{color:#E9E3D5;opacity:.6;z-index:5}
+.six .folio{color:#E9E3D5;opacity:.6;z-index:5}
+/* 進場：單數塊從上、雙數塊從下，一塊接一塊 */
+@keyframes pnDown{from{transform:translateY(-70px);opacity:0}to{transform:none;opacity:1}}
+@keyframes pnUp{from{transform:translateY(70px);opacity:0}to{transform:none;opacity:1}}
+.six.on .pn:nth-child(odd){animation:pnDown .9s var(--ease) both}
+.six.on .pn:nth-child(even){animation:pnUp .9s var(--ease) both}
+.six.on .pn2{animation-delay:.08s!important}.six.on .pn3{animation-delay:.16s!important}
+.six.on .pn4{animation-delay:.24s!important}.six.on .pn5{animation-delay:.32s!important}
+.six.on .pn6{animation-delay:.40s!important}
+.six .pn1 .pt{left:112px;width:230px}
+.six .washiL img{opacity:.72}
+
+
+/* ═══ 2026-09-28 收進引擎後補：小字不壓在雜亂的照片上（deck_lint 第十一條）═══
+   章節頁右側的直排頁眉與圖示標籤、餐食照片上的小標，原本直接疊在照片上。
+   做法不是給字加陰影（量尺量的是字底下那塊背景，陰影騙不過它，也騙不過眼睛），
+   是在字的那一側把照片壓暗、壓平，讓字底下真的變成一塊乾淨區。 */
+.chapter .veil::after{content:"";position:absolute;top:0;right:0;bottom:0;width:420px;
+  background:linear-gradient(to left,rgba(12,15,10,.94) 0%,rgba(12,15,10,.8) 40%,rgba(12,15,10,0) 100%)}
+.dine .dc2 figcaption{padding:70px 18px 16px;
+  background:linear-gradient(to top,rgba(18,21,15,.94) 0%,rgba(18,21,15,.82) 55%,rgba(18,21,15,0) 100%)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="paperGrain">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" seed="7"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.14"/></feComponentTransfer>
+  </filter>
+</svg>
+
+<div id="stage">
+<section class="slide cvA cover-a on">
+  <div class="photo"><img class="x-zoom" data-src="/tour/aomori-5d/img/f-oirase.jpg" alt="奧入瀨溪流"></div>
+  <div class="slab x-blk x-t1"></div>
+  <div class="slab2 x-blkY x-t3"></div>
+  <div class="gold x-blkY x-t6"></div>
+  <div class="dc d-wave x-fade x-t7"><img src="/tour/aomori-5d/img/deco-seigaiha.png" alt=""></div>
+  <div class="dc d-mt x-fade x-t7"><img src="/tour/aomori-5d/img/deco-mountain.png" alt=""></div>
+  <div class="dc d-seal x-stamp x-t8"><img src="/tour/aomori-5d/img/seal-aomori.png" alt=""></div>
+  <div class="no x-fade x-t2">PROPOSAL ・ 001</div>
+  <div class="body">
+    <div class="kicker x-fade x-t3"><span class="bar"></span>CORPORATE TRAVEL 2027</div>
+    <h1><span class="x-mask x-t4"><i>青</i></span><span class="x-mask x-t5"><i>森</i></span></h1>
+    <div class="sub x-rise x-t6">五日　新綠與溫泉</div>
+    <div class="en x-fade x-t7">AOMORI ・ FIVE DAYS</div>
+    <div class="hr x-blk x-t7"></div>
+    <div class="meta x-rise x-t7"><b>5 / 14</b><span class="sep">／</span><b>5 / 21</b><span class="sep">／</span><b>6 / 04</b>　三梯次<br> 每梯 <b>30 人</b>　桃園 — 青森　直飛不轉機</div>
+  </div>
+  <div class="who x-fade x-t8">勤業二信　員工旅遊提案　│　角落旅行社</div>
+  <div class="yearbox x-rise x-t7"><div class="yr">2027</div><div class="mo">MAY — JUNE</div></div>
+  <div class="vtitle x-fade x-t6">新緑の五日間</div>
+</section>
+<section class="slide toc2">
+  <div class="slab x-blk x-t1"></div>
+  <div class="slab2 x-blkY x-t2"></div>
+  <div class="gold x-blkY x-t5"></div>
+  <div class="dc d-wave x-fade x-t7"><img src="/tour/aomori-5d/img/deco-seigaiha.png" alt=""></div>
+  <div class="hd">
+    <div class="kana x-fade x-t2">もくじ</div>
+    <h2><span class="x-mask x-t3"><i>目次</i></span></h2>
+    <div class="en x-fade x-t5">CONTENTS</div>
+    <div class="cnt x-rise x-t6">五天的行程，<b>五個章節</b><br>加上行程之外的<b>兩件事</b></div>
+  </div>
+  <div class="sl x-stamp x-t9"><img src="/tour/aomori-5d/img/seal-aomori.png" alt=""></div>
+  <div class="who x-fade x-t9">勤業二信　員工旅遊提案</div>
+  <div class="list">
+    <div class="row day x-rise x-t3"><div class="n">壹</div><div class="tx"><h3>落地就進城</h3><p>弘前城　·　南田蘋果溫泉</p></div><div class="ja">弘前・南田</div><div class="pg">04</div></div>
+    <div class="row day x-rise x-t4"><div class="n">貳</div><div class="tx"><h3>水面靜得像鏡子</h3><p>十和田湖獨木舟　·　奧入瀨十四公里</p></div><div class="ja">十和田湖・奥入瀬</div><div class="pg">06</div></div>
+    <div class="row day x-rise x-t5"><div class="n">參</div><div class="tx"><h3>三萬隻海貓</h3><p>蕪嶋神社　·　八戶酒造試飲</p></div><div class="ja">蕪嶋・八戸</div><div class="pg">08</div></div>
+    <div class="row day x-rise x-t6"><div class="n">肆</div><div class="tx"><h3>退役的睡魔</h3><p>睡魔之家　·　淺蟲溫泉</p></div><div class="ja">ねぶた・浅虫</div><div class="pg">10</div></div>
+    <div class="row day x-rise x-t7"><div class="n">伍</div><div class="tx"><h3>留給青森自己的畫</h3><p>青森縣立美術館　·　返程</p></div><div class="ja">県立美術館</div><div class="pg">12</div></div>
+    <div class="row etc x-rise x-t8"><div class="n">其六</div><div class="tx"><h3>住哪裡　吃什麼</h3><p>四晚住宿　·　五天餐食</p></div><div class="ja">宿と食事</div><div class="pg">15</div></div>
+    <div class="row etc x-rise x-t9"><div class="n">其七</div><div class="tx"><h3>三個梯次</h3><p>出發日與人數</p></div><div class="ja">出発日</div><div class="pg">22</div></div>
+  </div>
+</section>
+<section class="slide tbl">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi"><img src="/tour/aomori-5d/img/washi-1.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">五日間の行程</div>
+  <div class="head">
+    <div class="en rise d1">いつどこへ</div>
+    <h2><span class="reveal r1"><i>五日，這樣走</i></span></h2>
+  </div>
+  <div class="tb rows-in">
+    <div class="tr th" style="grid-template-columns:150px 96px 1fr 400px 290px"><div class="cx"></div><div class="c0">天數</div><div class="c1">行程重點</div><div class="c2">餐食</div><div class="c3">住宿</div></div>
+    <div class="tr rise d2" style="grid-template-columns:150px 96px 1fr 400px 290px"><div class="cx"><img data-src="/tour/aomori-5d/img/p-hirosaki.jpg" alt=""></div><div class="c0">DAY 1</div><div class="c1">桃園 BR122 09:55 起飛　·　青森 14:20 抵達　·　<b>弘前城</b>　·　超市採買</div><div class="c2">午：機上　晚：燒肉吃到飽</div><div class="c3">南田蘋果溫泉</div></div>
+    <div class="tr rise d3" style="grid-template-columns:150px 96px 1fr 400px 290px"><div class="cx"><img data-src="/tour/aomori-5d/img/p-towada.jpg" alt=""></div><div class="c0">DAY 2</div><div class="c1"><b>十和田湖獨木舟</b>　·　奧入瀨溪流健走</div><div class="c2">午：八食中心（代金 ¥3,000）　晚：飯店內</div><div class="c3">星野　奧入瀨溪流飯店</div></div>
+    <div class="tr rise d4" style="grid-template-columns:150px 96px 1fr 400px 290px"><div class="cx"><img data-src="/tour/aomori-5d/img/y-kabushima-stairs.jpg" alt=""></div><div class="c0">DAY 3</div><div class="c1">奧入瀨散策　·　石窯披薩　·　<b>蕪嶋神社</b>　·　八戶酒造試飲</div><div class="c2">午：石窯 Ortolana　晚：飯店內</div><div class="c3">星野　青森屋</div></div>
+    <div class="tr rise d5" style="grid-template-columns:150px 96px 1fr 400px 290px"><div class="cx"><img data-src="/tour/aomori-5d/img/x-nebuta-hall2.jpg" alt=""></div><div class="c0">DAY 4</div><div class="c1">七戶　·　<b>睡魔之家 WA RASSE</b>　·　A-Factory　·　LOVINA</div><div class="c2">午：溫野菜涮涮鍋　晚：會席料理</div><div class="c3">南部屋・海扇閣</div></div>
+    <div class="tr rise d6" style="grid-template-columns:150px 96px 1fr 400px 290px"><div class="cx"><img data-src="/tour/aomori-5d/img/y-museum-wall.jpg" alt=""></div><div class="c0">DAY 5</div><div class="c1"><b>青森縣立美術館</b>　·　青森機場 BR121 15:20　·　18:40 抵台</div><div class="c2">午：日式定食　晚：機上</div><div class="c3">—</div></div>
+  </div>
+  <div class="folio fade d8">其之 <em>三</em></div>
+</section>
+<section class="slide chapter" style="--a:54%;--b:86%">
+  <div class="bg"><img data-src="/tour/aomori-5d/img/f-nanda-g.jpg" alt=""></div>
+  <div class="band"><div class="in"><img data-src="/tour/aomori-5d/img/f-nanda.jpg" alt="南田溫泉的蘋果湯"></div></div>
+  <div class="edge"></div><div class="veil"></div>
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="frame"></div>
+  <div class="tate fade d6">第一日　弘前　南田</div>
+  <div class="body">
+    <div class="no rise d1">第一日　弘前　南田</div>
+    <h2><span class="reveal r1"><i>落地就進城</i></span><span class="reveal r2"><i>晚上泡在蘋果園裡</i></span></h2>
+    <div class="sub rise d5">青森 14:20 落地，直接前往弘前城——東北現存唯一的天守。<br>當晚住南田溫泉，湯池裡浮著整顆的蘋果；青森的蘋果約占全日本六成。</div>
+  </div>
+  <div class="tag fade d6"><img src="/tour/aomori-5d/img/ico-apple.png" alt=""><span>りんご</span></div>
+  <div class="folio fade d8">其之 <em>四</em></div>
+</section>
+<section class="slide day">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi fx"><img src="/tour/aomori-5d/img/washi-2.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">第一日　桃園より弘前へ</div>
+  <div class="left">
+    <div class="head">
+      <div class="daynum rise d1"><span class="d">DAY <b>1</b></span></div>
+      <h2><span class="reveal r1"><i>落地的第一個下午</i></span><span class="reveal r2"><i class="mk">給了弘前城</i></span></h2>
+      <div class="lead rise d3">桃園九點五十五起飛，中午在機上。青森下午兩點二十落地，車程約一小時進弘前。弘前城的天守是一六一一年築的，東北只剩這一座；五月的公園是整片新綠，遊人比櫻花季少得多。傍晚進超市採買，晚餐是燒肉吃到飽。</div>
+    </div>
+    <div class="items">
+      <div class="it rise d4"><img class="ico" src="/tour/aomori-5d/img/ico-castle.png" alt=""><span class="tx">弘前城　·　東北現存唯一天守<i>一六一一年築城，五月是新綠</i></span></div>
+      <div class="it rise d5"><img class="ico" src="/tour/aomori-5d/img/ico-apple.png" alt=""><span class="tx">南田蘋果溫泉<i>果園包圍的湯屋，當晚住這裡</i></span></div>
+      <div class="it rise d6"><img class="ico" src="/tour/aomori-5d/img/ico-apple.png" alt=""><span class="tx">當地超市採買<i>蘋果、蘋果汁與津輕的地方零食，可作伴手禮</i></span></div>
+    </div>
+  </div>
+  <div class="plates">
+    <figure class="wipe d2"><img class="kb" data-src="/tour/aomori-5d/img/p-hirosaki.jpg" alt="弘前城　·　東北現存唯一的天守"><figcaption>弘前城　·　東北現存唯一的天守</figcaption></figure>
+    <figure class="wipe d3"><img data-src="/tour/aomori-5d/img/h-nanda-apple.jpg" alt="南田溫泉　·　蘋果湯"><figcaption>南田溫泉　·　蘋果湯</figcaption></figure>
+    <figure class="wipe d4"><img data-src="/tour/aomori-5d/img/h-nanda-wood.jpg" alt="南田溫泉　·　檜木浴池"><figcaption>南田溫泉　·　檜木浴池</figcaption></figure>
+  </div>
+  <div class="dayinfo rise d6"><div class="tl"><div class="pt"><i></i><b>09:55</b><span>桃園起飛</span></div><div class="pt"><i></i><b>14:20</b><span>青森機場</span></div><div class="pt"><i></i><b>下午</b><span>弘前城</span></div><div class="pt"><i></i><b>傍晚</b><span>超市採買</span></div><div class="pt"><i></i><b>晚上</b><span>南田溫泉</span></div></div><div class="chips"><span><em>午</em>機上</span><span><em>晚</em>燒肉吃到飽</span><span><em>宿</em>南田溫泉</span></div></div>
+  <div class="folio fade d8">其之 <em>五</em></div>
+</section>
+<section class="slide chapter rev" style="--a:56%;--b:84%">
+  <div class="bg"><img data-src="/tour/aomori-5d/img/f-oirase-g.jpg" alt=""></div>
+  <div class="band"><div class="in"><img data-src="/tour/aomori-5d/img/f-oirase.jpg" alt=""></div></div>
+  <div class="edge"></div><div class="veil"></div>
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="frame"></div>
+  <div class="tate fade d6">第二日　十和田湖</div>
+  <div class="body">
+    <div class="no rise d1">第二日　十和田湖</div>
+    <h2><span class="reveal r1"><i>水面靜得像鏡子</i></span><span class="reveal r2"><i>然後走進十四公里</i></span></h2>
+    <div class="sub rise d5">十和田湖是雙重破火山口湖，清晨幾乎無風。<br>奧入瀨從子之口到燒山十四公里，整段是國家特別名勝與天然紀念物。</div>
+  </div>
+  <div class="tag fade d6"><img src="/tour/aomori-5d/img/ico-canoe.png" alt=""><span>奥入瀬</span></div>
+  <div class="folio fade d8">其之 <em>六</em></div>
+</section>
+<section class="slide day alt">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi fy"><img src="/tour/aomori-5d/img/washi-3.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">第二日　十和田湖より奥入瀬へ</div>
+  <div class="left">
+    <div class="head">
+      <div class="daynum rise d1"><span class="d">DAY <b>2</b></span></div>
+      <h2><span class="reveal r1"><i>早上在湖面上划一趟</i></span><span class="reveal r2"><i class="mk">下午走進十四公里的溪流</i></span></h2>
+      <div class="lead rise d3">獨木舟從岸邊出發，貼著水走，看得到湖底的石頭。下午轉進奧入瀨——十四公里的溪流沿路都是平路，距離依體力調整。當晚住星野的奧入瀨溪流飯店，房間外面就是溪聲。</div>
+    </div>
+    <div class="items">
+      <div class="it rise d4"><img class="ico" src="/tour/aomori-5d/img/ico-canoe.png" alt=""><span class="tx">十和田湖　獨木舟<i>湖面海拔 400 公尺，清晨幾乎無風</i></span></div>
+      <div class="it rise d5"><img class="ico" src="/tour/aomori-5d/img/ico-stream.png" alt=""><span class="tx">奧入瀨溪流　健走<i>沿溪平路，距離依體力調整</i></span></div>
+      <div class="it rise d6"><img class="ico" src="/tour/aomori-5d/img/ico-onsen.png" alt=""><span class="tx">星野　奧入瀨溪流飯店<i>十六時入住，當晚不再移動</i></span></div>
+    </div>
+  </div>
+  <div class="plates">
+    <figure class="wipe d2"><img class="kb" data-src="/tour/aomori-5d/img/p-towada.jpg" alt="十和田湖"><figcaption>十和田湖</figcaption></figure>
+    <figure class="wipe d3"><img data-src="/tour/aomori-5d/img/p-oirase-v.jpg" alt="奧入瀨溪流"><figcaption>奧入瀨溪流</figcaption></figure>
+    <figure class="wipe d4"><img data-src="/tour/aomori-5d/img/y-oirase-terrace.jpg" alt="星野　奧入瀨溪流飯店"><figcaption>星野　奧入瀨溪流飯店</figcaption></figure>
+  </div>
+  <div class="dayinfo rise d6"><div class="tl"><div class="pt"><i></i><b>上午</b><span>十和田湖獨木舟</span></div><div class="pt"><i></i><b>中午</b><span>奧入瀨溪流健走</span></div><div class="pt"><i></i><b>16:00</b><span>星野　入住</span></div></div><div class="chips"><span><em>午</em>八食中心</span><span><em>晚</em>飯店內</span><span><em>宿</em>星野　奧入瀨溪流</span></div></div>
+  <div class="folio fade d8">其之 <em>七</em></div>
+</section>
+<section class="slide chapter" style="--a:58%;--b:82%">
+  <div class="bg"><img data-src="/tour/aomori-5d/img/f-kabushima2-g.jpg" alt=""></div>
+  <div class="band"><div class="in"><img data-src="/tour/aomori-5d/img/f-kabushima2.jpg" alt=""></div></div>
+  <div class="edge"></div><div class="veil"></div>
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="frame"></div>
+  <div class="tate fade d6">第三日　蕪島</div>
+  <div class="body">
+    <div class="no rise d1">第三日　蕪島</div>
+    <h2><span class="reveal r1"><i>三萬隻海貓</i></span><span class="reveal r2"><i>在頭頂三公尺</i></span></h2>
+    <div class="sub rise d5">國家天然紀念物的繁殖地。五月正是育雛期，牠們就落在參道兩旁——<br>一年只有這幾週。</div>
+  </div>
+  <div class="tag fade d6"><img src="/tour/aomori-5d/img/ico-gull.png" alt=""><span>海猫</span></div>
+  <div class="folio fade d8">其之 <em>八</em></div>
+</section>
+<section class="slide day">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi fx fy"><img src="/tour/aomori-5d/img/washi-4.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">第三日　奥入瀬より八戸へ</div>
+  <div class="left">
+    <div class="head">
+      <div class="daynum rise d1"><span class="d">DAY <b>3</b></span></div>
+      <h2><span class="reveal r1"><i>早上再走一次溪流</i></span><span class="reveal r2"><i class="mk">下午去看海貓與酒藏</i></span></h2>
+      <div class="lead rise d3">十點四十退房前，再走一段奧入瀨。中午在溪邊的石窯披薩店吃飯。下午轉往八戶：蕪嶋神社在海邊的小丘上，五月滿山都是育雛的海貓；接著到八戶酒造，陸奧男山與陸奧八仙的釀造元，走進百年木造酒藏試飲。</div>
+    </div>
+    <div class="items">
+      <div class="it rise d4"><img class="ico" src="/tour/aomori-5d/img/ico-stream.png" alt=""><span class="tx">奧入瀨　晨間散策<i>十點四十退房，走完再上車</i></span></div>
+      <div class="it rise d5"><img class="ico" src="/tour/aomori-5d/img/ico-gull.png" alt=""><span class="tx">蕪嶋神社　海貓繁殖地<i>國家天然紀念物，五月是育雛期</i></span></div>
+      <div class="it rise d6"><img class="ico" src="/tour/aomori-5d/img/ico-sake.png" alt=""><span class="tx">八戶酒造　陸奧男山<i>百年木造酒藏，當場試飲</i></span></div>
+    </div>
+  </div>
+  <div class="plates">
+    <figure class="wipe d2"><img class="kb" data-src="/tour/aomori-5d/img/y-kabushima-torii.jpg" alt="蕪島　·　海貓繁殖地"><figcaption>蕪島　·　海貓繁殖地</figcaption></figure>
+    <figure class="wipe d3"><img data-src="/tour/aomori-5d/img/p-shuzo.jpg" alt="八戶酒造　·　木造酒藏"><figcaption>八戶酒造　·　木造酒藏</figcaption></figure>
+    <figure class="wipe d4"><img data-src="/tour/aomori-5d/img/y-aomoriya-room.jpg" alt="星野　青森屋"><figcaption>星野　青森屋</figcaption></figure>
+  </div>
+  <div class="dayinfo rise d6"><div class="tl"><div class="pt"><i></i><b>上午</b><span>奧入瀨散策</span></div><div class="pt"><i></i><b>11:00</b><span>石窯披薩</span></div><div class="pt"><i></i><b>下午</b><span>蕪嶋神社</span></div><div class="pt"><i></i><b>傍晚</b><span>八戶酒造</span></div><div class="pt"><i></i><b>16:00</b><span>青森屋</span></div></div><div class="chips"><span><em>午</em>石窯 Ortolana</span><span><em>晚</em>飯店內</span><span><em>宿</em>星野　青森屋</span></div></div>
+  <div class="folio fade d8">其之 <em>九</em></div>
+</section>
+<section class="slide chapter rev" style="--a:54%;--b:80%">
+  <div class="bg"><img data-src="/tour/aomori-5d/img/f-nebuta2-g.jpg" alt=""></div>
+  <div class="band"><div class="in"><img data-src="/tour/aomori-5d/img/f-nebuta2.jpg" alt=""></div></div>
+  <div class="edge"></div><div class="veil"></div>
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="frame"></div>
+  <div class="tate fade d6">第四日　ねぶた</div>
+  <div class="body">
+    <div class="no rise d1">第四日　ねぶた</div>
+    <h2><span class="reveal r1"><i>退役的睡魔</i></span><span class="reveal r2"><i>停在館內，可以走近看</i></span></h2>
+    <div class="sub rise d5">每年八月上街的大型睡魔燈籠，得獎的那幾座退役後停進館裡。<br>平常只能在遊行隊伍外看的東西，這裡伸手就碰得到骨架。</div>
+  </div>
+  <div class="tag fade d6"><img src="/tour/aomori-5d/img/ico-nebuta.png" alt=""><span>ねぶた</span></div>
+  <div class="folio fade d8">其之 <em>十</em></div>
+</section>
+<section class="slide day alt">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi"><img src="/tour/aomori-5d/img/washi-5.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">第四日　七戸より青森市へ</div>
+  <div class="left">
+    <div class="head">
+      <div class="daynum rise d1"><span class="d">DAY <b>4</b></span></div>
+      <h2><span class="reveal r1"><i>看一次真正的睡魔</i></span><span class="reveal r2"><i class="mk">傍晚把自己泡進海邊的湯</i></span></h2>
+      <div class="lead rise d3">從七戶往青森市，先進睡魔之家 WA RASSE。館內停著歷年得獎的大型睡魔，走近看得到骨架、紙的接縫與筆觸。之後到海邊的 A-Factory（蘋果酒工坊與物產市場）與青森站大樓 LOVINA。當晚住淺蟲溫泉的南部屋・海扇閣，晚餐是會席料理。</div>
+    </div>
+    <div class="items">
+      <div class="it rise d4"><img class="ico" src="/tour/aomori-5d/img/ico-nebuta.png" alt=""><span class="tx">睡魔之家 WA RASSE<i>歷年得獎睡魔，走近看骨架</i></span></div>
+      <div class="it rise d5"><img class="ico" src="/tour/aomori-5d/img/ico-apple.png" alt=""><span class="tx">A-Factory　·　LOVINA<i>蘋果酒工坊、物產市場與青森站大樓</i></span></div>
+      <div class="it rise d6"><img class="ico" src="/tour/aomori-5d/img/ico-onsen.png" alt=""><span class="tx">南部屋・海扇閣<i>淺蟲溫泉，晚餐會席料理</i></span></div>
+    </div>
+  </div>
+  <div class="plates">
+    <figure class="wipe d2"><img class="kb" data-src="/tour/aomori-5d/img/x-nebuta-hall2.jpg" alt="睡魔之家 WA RASSE"><figcaption>睡魔之家 WA RASSE</figcaption></figure>
+    <figure class="wipe d3"><img data-src="/tour/aomori-5d/img/p-afactory.jpg" alt="A-Factory"><figcaption>A-Factory</figcaption></figure>
+    <figure class="wipe d4"><img data-src="/tour/aomori-5d/img/y-kaisen-sunset-bath.jpg" alt="海扇閣　·　夕照大浴場"><figcaption>海扇閣　·　夕照大浴場</figcaption></figure>
+  </div>
+  <div class="dayinfo rise d6"><div class="tl"><div class="pt"><i></i><b>上午</b><span>睡魔之家</span></div><div class="pt"><i></i><b>中午</b><span>A-Factory</span></div><div class="pt"><i></i><b>下午</b><span>LOVINA</span></div><div class="pt"><i></i><b>16:30</b><span>海扇閣</span></div></div><div class="chips"><span><em>午</em>溫野菜涮涮鍋</span><span><em>晚</em>會席料理</span><span><em>宿</em>南部屋・海扇閣</span></div></div>
+  <div class="folio fade d8">其之 <em>十一</em></div>
+</section>
+<section class="slide chapter" style="--a:57%;--b:83%">
+  <div class="bg"><img data-src="/tour/aomori-5d/img/f-museum2-g.jpg" alt=""></div>
+  <div class="band"><div class="in"><img data-src="/tour/aomori-5d/img/f-museum2.jpg" alt=""></div></div>
+  <div class="edge"></div><div class="veil"></div>
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="frame"></div>
+  <div class="tate fade d6">第五日　県立美術館</div>
+  <div class="body">
+    <div class="no rise d1">第五日　県立美術館</div>
+    <h2><span class="reveal r1"><i>最後一站</i></span><span class="reveal r2"><i>留給青森自己的畫</i></span></h2>
+    <div class="sub rise d5">棟方志功生在青森市，紀念館閉館後館藏全數移交這裡；奈良美智也是青森人，八點五公尺高的青森犬就站在戶外。<br>這一趟看的綠、走的溪、聽的海貓，在這裡變成畫。</div>
+  </div>
+  <div class="tag fade d6"><img src="/tour/aomori-5d/img/ico-torii.png" alt=""><span>美術館</span></div>
+  <div class="folio fade d8">其之 <em>十二</em></div>
+</section>
+<section class="slide day">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi fx"><img src="/tour/aomori-5d/img/washi-1.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">第五日　青森県立美術館</div>
+  <div class="left">
+    <div class="head">
+      <div class="daynum rise d1"><span class="d">DAY <b>5</b></span></div>
+      <h2><span class="reveal r1"><i>最後一個早上</i></span><span class="reveal r2"><i class="mk">站在棟方志功的板畫前面</i></span></h2>
+      <div class="lead rise d3">青森縣立美術館就在三內丸山遺跡旁邊，白色的建築本身就是作品。棟方志功生於青森市，是青森最重要的板畫家；奈良美智的青森犬高八點五公尺，站在下沉的中庭裡。中午在機場旁吃定食，BR121 十五點二十起飛，當晚十八點四十回到桃園。</div>
+    </div>
+    <div class="items">
+      <div class="it rise d4"><img class="ico" src="/tour/aomori-5d/img/ico-torii.png" alt=""><span class="tx">青森縣立美術館<i>棟方志功板畫・奈良美智青森犬</i></span></div>
+      <div class="it rise d5"><img class="ico" src="/tour/aomori-5d/img/ico-apple.png" alt=""><span class="tx">機場前　日式定食<i>最後一餐，不趕</i></span></div>
+      <div class="it rise d6"><img class="ico" src="/tour/aomori-5d/img/ico-canoe.png" alt=""><span class="tx">BR121 15:20 → 18:40<i>直飛回桃園，當天到家</i></span></div>
+    </div>
+  </div>
+  <div class="plates">
+    <figure class="wipe d2"><img class="kb" data-src="/tour/aomori-5d/img/y-museum-sky.jpg" alt="青森縣立美術館"><figcaption>青森縣立美術館</figcaption></figure>
+    <figure class="wipe d3"><img data-src="/tour/aomori-5d/img/y-museum-wall.jpg" alt="白色的建築"><figcaption>白色的建築</figcaption></figure>
+    <figure class="wipe d4"><img data-src="/tour/aomori-5d/img/p-asamushi.jpg" alt="淺蟲溫泉　·　陸奧灣"><figcaption>淺蟲溫泉　·　陸奧灣</figcaption></figure>
+  </div>
+  <div class="dayinfo rise d6"><div class="tl"><div class="pt"><i></i><b>上午</b><span>縣立美術館</span></div><div class="pt"><i></i><b>中午</b><span>日式定食</span></div><div class="pt"><i></i><b>15:20</b><span>BR121 起飛</span></div><div class="pt"><i></i><b>18:40</b><span>抵達桃園</span></div></div><div class="chips"><span><em>午</em>日式定食</span><span><em>晚</em>機上</span><span><em>宿</em>—　返抵桃園</span></div></div>
+  <div class="folio fade d8">其之 <em>十三</em></div>
+</section>
+<section class="slide six">
+  <div class="panes">
+    <div class="pn pn1"><img data-src="/tour/aomori-5d/img/y-aomoriya-apple-room.jpg" alt="星野兩晚連住" style="object-position:58% 50%"><div class="pv"></div><div class="pt"><span class="no">其一</span><h4>星野兩晚連住</h4><p>奧入瀨溪流飯店與青森屋，連續兩晚均為星野集團的旅館。</p></div></div>
+    <div class="pn pn2"><img data-src="/tour/aomori-5d/img/p-towada.jpg" alt="湖上獨木舟" style="object-position:42% 50%"><div class="pv"></div><div class="pt"><span class="no">其二</span><h4>湖上獨木舟</h4><p>十和田湖清晨無風。獨木舟自岸邊出發，貼著水面划行。</p></div></div>
+    <div class="pn pn3"><img data-src="/tour/aomori-5d/img/y-kabushima-gulls.jpg" alt="蕪島的海貓" style="object-position:30% 50%"><div class="pv"></div><div class="pt"><span class="no">其三</span><h4>蕪島的海貓</h4><p>國家天然紀念物的繁殖地。五月育雛，三萬隻在頭頂飛。</p></div></div>
+    <div class="pn pn4"><img data-src="/tour/aomori-5d/img/x-shuzo-sign.jpg" alt="八戶酒造試飲" style="object-position:56% 50%"><div class="pv"></div><div class="pt"><span class="no">其四</span><h4>八戶酒造試飲</h4><p>陸奧男山與陸奧八仙的釀造元，百年木造酒藏內試飲。</p></div></div>
+    <div class="pn pn5"><img data-src="/tour/aomori-5d/img/x-nebuta-face.jpg" alt="睡魔之家" style="object-position:30% 50%"><div class="pv"></div><div class="pt"><span class="no">其五</span><h4>睡魔之家</h4><p>得獎的大型睡魔退役後停在館內，走近看得到筆觸。</p></div></div>
+    <div class="pn pn6"><img data-src="/tour/aomori-5d/img/x-apple-bucket.jpg" alt="蘋果鄉的湯" style="object-position:50% 60%"><div class="pv"></div><div class="pt"><span class="no">其六</span><h4>蘋果鄉的湯</h4><p>第一晚住南田溫泉，湯池邊整桶的蘋果、池裡浮著蘋果。</p></div></div>
+    </div>
+  <div class="topveil"></div>
+  <div class="washiL"><img src="/tour/aomori-5d/img/washi-L.png" alt=""></div>
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="tate fade d6">この旅の六つ</div>
+  <div class="head">
+    <div class="en rise d1">六つのこと</div>
+    <h2><span class="reveal r1"><i>這趟旅程的六件事</i></span></h2>
+  </div>
+  <div class="folio fade d8">其之 <em>十四</em></div>
+</section>
+<section class="slide stay">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi fy"><img src="/tour/aomori-5d/img/washi-2.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">四つの宿</div>
+  <div class="head">
+    <div class="en rise d1">どこに泊まるか</div>
+    <h2><span class="reveal r1"><i>四晚，四種住法</i></span></h2>
+  </div>
+  <div class="cards">
+    <div class="sc sc1 rise d2"><div class="nn">壹</div><figure class="wipe d2"><img data-src="/tour/aomori-5d/img/x-apple-bath.jpg" alt="南田溫泉"></figure><h4>南田溫泉</h4><div class="en2">第一晚　·　平川市</div><p>果園之中的溫泉旅館，湯池裡浮著整顆的蘋果。</p></div>
+    <div class="sc sc2 rise d3"><div class="nn">貳</div><figure class="wipe d3"><img data-src="/tour/aomori-5d/img/y-oirase-valley.jpg" alt="星野　奧入瀨溪流飯店"></figure><h4>星野　奧入瀨溪流飯店</h4><div class="en2">第二晚　·　奧入瀨</div><p>溪流沿線唯一的飯店，白天走過的溪在窗外。</p></div>
+    <div class="sc sc3 rise d4"><div class="nn">參</div><figure class="wipe d4"><img data-src="/tour/aomori-5d/img/h-aomoriya-1.jpg" alt="星野　青森屋"></figure><h4>星野　青森屋</h4><div class="en2">第三晚　·　三澤市</div><p>祭典、民藝與鄉土料理都在館內，晚上不必外出。</p></div>
+    <div class="sc sc4 rise d5"><div class="nn">肆</div><figure class="wipe d5"><img data-src="/tour/aomori-5d/img/h-kaisen-bath.jpg" alt="南部屋・海扇閣"></figure><h4>南部屋・海扇閣</h4><div class="en2">第四晚　·　淺蟲溫泉</div><p>面向陸奧灣的大浴場，晚餐是會席料理。</p></div>
+    </div>
+  <div class="folio fade d8">其之 <em>十五</em></div>
+</section>
+<section class="slide hotel">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi fx fy"><img src="/tour/aomori-5d/img/washi-3.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">第一日の宿　南田温泉</div>
+  <div class="head">
+    <div class="en rise d1">第一日の宿</div>
+    <h3 class="rise d2">南田溫泉　蘋果樂園飯店<small>Minamida Onsen Hotel Apple Land</small></h3>
+    <div class="p rise d3">位於津輕地方中央的平川市，東望八甲田山、西望岩木山。館內的蘋果湯把整顆蘋果放進湯池，是這裡的招牌。</div>
+  </div>
+  <div class="rows">
+    <div class="row rise d4"><div class="k">位置</div><div class="v">平川市南田溫泉，與弘前城同屬津輕地方</div></div>
+    <div class="row rise d4"><div class="k">房型</div><div class="v">和室、洋室與和洋室，兩人一室</div></div>
+    <div class="row rise d5"><div class="k">溫泉</div><div class="v">弱鹼性溫泉，設蘋果湯、檜木浴池與露天風呂</div></div>
+    <div class="row rise d5"><div class="k">入住</div><div class="v">弘前城與超市行程之後入住，當晚不再移動</div></div>
+    <div class="row rise d6"><div class="k">為什麼選它</div><div class="v">青森的蘋果約占全日本六成，第一晚住在產地之中</div></div>
+  </div>
+  <div class="gal duo">
+    <figure class="wipe d2"><img class="kb" data-src="/tour/aomori-5d/img/h-nanda-apple.jpg" alt="蘋果湯"><figcaption>蘋果湯</figcaption></figure>
+    <figure class="wipe d3"><img data-src="/tour/aomori-5d/img/h-nanda-wood.jpg" alt="檜木浴池"><figcaption>檜木浴池</figcaption></figure>
+  </div>
+  <div class="folio fade d8">其之 <em>十六</em></div>
+</section>
+<section class="slide hotel">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi"><img src="/tour/aomori-5d/img/washi-4.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">第二日の宿　奥入瀬渓流ホテル</div>
+  <div class="head">
+    <div class="en rise d1">第二日の宿</div>
+    <h3 class="rise d2">星野集團　奧入瀨溪流飯店<small>Oirase Keiryu Hotel by Hoshino Resorts</small></h3>
+    <div class="p rise d3">奧入瀨十四公里的溪流沿線，唯一開在溪畔的飯店。白天走過的溪，夜裡在窗外。</div>
+  </div>
+  <div class="rows">
+    <div class="row rise d4"><div class="k">位置</div><div class="v">奧入瀨溪流沿線，位於十和田八幡平國立公園範圍內</div></div>
+    <div class="row rise d4"><div class="k">房型</div><div class="v">西式與和洋室，兩人一室</div></div>
+    <div class="row rise d5"><div class="k">溫泉</div><div class="v">館內溫泉；另有西式大浴場</div></div>
+    <div class="row rise d5"><div class="k">入住</div><div class="v">十六時至十六時三十分，當晚不再移動</div></div>
+    <div class="row rise d6"><div class="k">為什麼選它</div><div class="v">奧入瀨沿線唯一的飯店，健走結束後不需再乘車移動</div></div>
+  </div>
+  <div class="gal">
+    <figure class="wipe d2"><img class="kb" data-src="/tour/aomori-5d/img/y-oirase-valley.jpg" alt="溪谷中的飯店"><figcaption>溪谷中的飯店</figcaption></figure>
+    <figure class="wipe d3"><img data-src="/tour/aomori-5d/img/y-oirase-terrace.jpg" alt="溪畔露台"><figcaption>溪畔露台</figcaption></figure>
+    <figure class="wipe d4"><img data-src="/tour/aomori-5d/img/y-oirase-dining.jpg" alt="館內餐廳"><figcaption>館內餐廳</figcaption></figure>
+  </div>
+  <div class="folio fade d8">其之 <em>十七</em></div>
+</section>
+<section class="slide hotel">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi fx"><img src="/tour/aomori-5d/img/washi-5.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">第三日の宿　青森屋</div>
+  <div class="head">
+    <div class="en rise d1">第三日の宿</div>
+    <h3 class="rise d2">星野集團　青森屋<small>Aomoriya by Hoshino Resorts</small></h3>
+    <div class="p rise d3">位於三澤市，把青森的祭典、民藝與鄉土料理放進同一座旅館。每晚在「みちのく祭りや」上演青森四大祭典的表演。</div>
+  </div>
+  <div class="rows">
+    <div class="row rise d4"><div class="k">位置</div><div class="v">三澤市古牧溫泉，池塘庭園環繞館舍</div></div>
+    <div class="row rise d4"><div class="k">房型</div><div class="v">兩人一室</div></div>
+    <div class="row rise d5"><div class="k">溫泉</div><div class="v">露天風呂「浮湯」建在池面上</div></div>
+    <div class="row rise d5"><div class="k">入住</div><div class="v">十六時至十六時三十分</div></div>
+    <div class="row rise d6"><div class="k">為什麼選它</div><div class="v">祭典表演、民藝與晚餐都在館內，當晚不需外出</div></div>
+  </div>
+  <div class="gal">
+    <figure class="wipe d2"><img class="kb" data-src="/tour/aomori-5d/img/y-aomoriya-nebuta-room.jpg" alt="客房　·　睡魔彩繪"><figcaption>客房　·　睡魔彩繪</figcaption></figure>
+    <figure class="wipe d3"><img data-src="/tour/aomori-5d/img/y-aomoriya-apple-room.jpg" alt="客房　·　蘋果圓窗"><figcaption>客房　·　蘋果圓窗</figcaption></figure>
+    <figure class="wipe d4"><img data-src="/tour/aomori-5d/img/h-aomoriya-1.jpg" alt="みちのく祭りや　·　祭典表演"><figcaption>みちのく祭りや　·　祭典表演</figcaption></figure>
+  </div>
+  <div class="folio fade d8">其之 <em>十八</em></div>
+</section>
+<section class="slide hotel">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi fy"><img src="/tour/aomori-5d/img/washi-1.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">第四日の宿　海扇閣</div>
+  <div class="head">
+    <div class="en rise d1">第四日の宿</div>
+    <h3 class="rise d2">南部屋・海扇閣<small>Nambuya Kaisenkaku</small></h3>
+    <div class="p rise d3">淺蟲溫泉的海濱旅館，客房與大浴場面向陸奧灣。灣上的湯之島，泡湯時就在正前方。</div>
+  </div>
+  <div class="rows">
+    <div class="row rise d4"><div class="k">位置</div><div class="v">青森市淺蟲溫泉，面向陸奧灣</div></div>
+    <div class="row rise d4"><div class="k">房型</div><div class="v">海景客房，兩人一室</div></div>
+    <div class="row rise d5"><div class="k">溫泉</div><div class="v">面海大浴場，可望見湯之島</div></div>
+    <div class="row rise d5"><div class="k">入住</div><div class="v">十六時三十分至十七時，晚餐為館內會席料理</div></div>
+    <div class="row rise d6"><div class="k">為什麼選它</div><div class="v">最後一晚住在海邊，隔天上午前往美術館與機場，車程短</div></div>
+  </div>
+  <div class="gal">
+    <figure class="wipe d2"><img class="kb" data-src="/tour/aomori-5d/img/h-kaisen-bath.jpg" alt="面海大浴場"><figcaption>面海大浴場</figcaption></figure>
+    <figure class="wipe d3"><img data-src="/tour/aomori-5d/img/h-kaisen-room.jpg" alt="海景客房"><figcaption>海景客房</figcaption></figure>
+    <figure class="wipe d4"><img data-src="/tour/aomori-5d/img/h-kaisen-sunset.jpg" alt="陸奧灣的夕照"><figcaption>陸奧灣的夕照</figcaption></figure>
+  </div>
+  <div class="folio fade d8">其之 <em>十九</em></div>
+</section>
+<section class="slide dine">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi fx fy"><img src="/tour/aomori-5d/img/washi-2.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">食事のこと</div>
+  <div class="head">
+    <div class="en rise d1">なにを食べるか</div>
+    <h2><span class="reveal r1"><i>青森的五天</i></span><span class="reveal r2"><i>吃什麼</i></span></h2>
+    <div class="p rise d3">八戶的魚市場、陸奧灣的海。<br>最後一晚在海扇閣，晚餐為會席料理。</div>
+    <div class="ml">
+      <div class="m rise d4"><b>第一日</b><span>晚</span>燒肉吃到飽</div>
+      <div class="m rise d4"><b>第二日</b><span>午</span>八食中心　代金 ¥3,000</div>
+      <div class="m rise d5"><b>第三日</b><span>午</span>石窯披薩 Ortolana</div>
+      <div class="m rise d5"><b>第四日</b><span>午</span>涮涮鍋<span>晚</span>海扇閣會席</div>
+      <div class="m rise d6"><b>第五日</b><span>午</span>日式定食</div>
+    </div>
+  </div>
+  <div class="mosaic">
+    <figure class="dc2 big wipe"><img data-src="/tour/aomori-5d/img/m-kaisen-sashimi.jpg" alt="海扇閣　會席料理"><figcaption><span class="dd">第四日　·　晚餐</span><b>海扇閣　會席料理</b><i>陸奧灣當日的魚</i></figcaption></figure>
+    <figure class="dc2  wipe"><img data-src="/tour/aomori-5d/img/m-hasshoku.jpg" alt="八食中心"><figcaption><span class="dd">第二日　·　午餐</span><b>八食中心</b><i>八戶的魚市場，代金 ¥3,000 自選</i></figcaption></figure>
+    <figure class="dc2  wipe"><img data-src="/tour/aomori-5d/img/m-yakiniku.jpg" alt="燒肉"><figcaption><span class="dd">第一日　·　晚餐</span><b>燒肉</b><i>落地第一晚，吃到飽</i></figcaption></figure>
+    <figure class="dc2  wipe"><img data-src="/tour/aomori-5d/img/m-kaisen-beef.jpg" alt="海扇閣　和牛"><figcaption><span class="dd">第四日　·　晚餐</span><b>海扇閣　和牛</b><i>會席的主菜</i></figcaption></figure>
+    <figure class="dc2  wipe"><img data-src="/tour/aomori-5d/img/m-shabu.jpg" alt="涮涮鍋"><figcaption><span class="dd">第四日　·　午餐</span><b>涮涮鍋</b><i>溫野菜，蔬菜與肉片</i></figcaption></figure>
+  </div>
+  <div class="folio fade d8">其之 <em>二十</em></div>
+</section>
+<section class="slide tbl">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi"><img src="/tour/aomori-5d/img/washi-3.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">食事のこと</div>
+  <div class="head">
+    <div class="en rise d1">なにを食べるか</div>
+    <h2><span class="reveal r1"><i>五天的餐食</i></span></h2>
+  </div>
+  <div class="tb">
+    <div class="tr th" style="grid-template-columns:96px 1fr 1fr"><div class="c0">日</div><div class="c1">午餐</div><div class="c2">晚餐</div></div>
+    <div class="tr rise d2" style="grid-template-columns:96px 1fr 1fr"><div class="c0">一</div><div class="c1">機上餐</div><div class="c2">燒肉吃到飽</div></div>
+    <div class="tr rise d3" style="grid-template-columns:96px 1fr 1fr"><div class="c0">二</div><div class="c1">八食中心　代金 ¥3,000（自選）</div><div class="c2">飯店內</div></div>
+    <div class="tr rise d4" style="grid-template-columns:96px 1fr 1fr"><div class="c0">三</div><div class="c1">石窯披薩 Ortolana</div><div class="c2">飯店內</div></div>
+    <div class="tr rise d5" style="grid-template-columns:96px 1fr 1fr"><div class="c0">四</div><div class="c1">溫野菜　涮涮鍋</div><div class="c2">會席料理</div></div>
+    <div class="tr rise d6" style="grid-template-columns:96px 1fr 1fr"><div class="c0">五</div><div class="c1">日式定食</div><div class="c2">機上餐</div></div>
+  </div>
+  <div class="folio fade d8">其之 <em>二十一</em></div>
+</section>
+<section class="slide tbl">
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="washi fx"><img src="/tour/aomori-5d/img/washi-4.png" alt=""></div>
+  <div class="frame"></div>
+  <div class="tate fade d6">出発日</div>
+  <div class="head">
+    <div class="en rise d1">いつ出発するか</div>
+    <h2><span class="reveal r1"><i>三個梯次，五月至六月初</i></span></h2>
+  </div>
+  <div class="tb">
+    <div class="tr th" style="grid-template-columns:96px 340px 340px 1fr"><div class="c0">梯</div><div class="c1">出發</div><div class="c2">返抵</div><div class="c3">這個時間的青森</div></div>
+    <div class="tr rise d2" style="grid-template-columns:96px 340px 340px 1fr"><div class="c0">一</div><div class="c1">2027 / 05 / 14</div><div class="c2">2027 / 05 / 18</div><div class="c3">奧入瀨新綠最濃的一段，蕪島正在育雛</div></div>
+    <div class="tr rise d3" style="grid-template-columns:96px 340px 340px 1fr"><div class="c0">二</div><div class="c1">2027 / 05 / 21</div><div class="c2">2027 / 05 / 25</div><div class="c3">同上，白天更長，溪畔的光更好</div></div>
+    <div class="tr rise d4" style="grid-template-columns:96px 340px 340px 1fr"><div class="c0">三</div><div class="c1">2027 / 06 / 04</div><div class="c2">2027 / 06 / 08</div><div class="c3">綠轉深，遊客回落，湖面最安靜</div></div>
+    <div class="tr rise d5" style="grid-template-columns:96px 340px 340px 1fr"><div class="c0">—</div><div class="c1">每梯人數</div><div class="c2">三十人</div><div class="c3">桃園直飛青森，去回程都不轉機</div></div>
+  </div>
+  <div class="folio fade d8">其之 <em>二十二</em></div>
+</section>
+<section class="slide end">
+  <div class="bg"><img class="kb" data-src="/tour/aomori-5d/img/f-oirase.jpg" alt=""></div><div class="veil"></div>
+  <svg class="grain"><rect width="100%" height="100%" filter="url(#paperGrain)"/></svg>
+  <div class="frame"></div>
+  <div class="body"><div>
+    <h2><span class="reveal r1"><i>青森で</i></span></h2>
+    <div class="dash"></div>
+    <div class="sub rise d5">勤業二信　員工旅遊　二〇二七年五月<br>角落旅行社　CORNER TRAVEL</div>
+  </div></div>
+  <div class="folio fade d8">其之 <em>二十三</em></div>
+</section>
+</div>
+
+<div id="nav"><button id="pv">‹</button><span id="cnt">1 / 23</span><button id="nx">›</button></div>
+
+<script>
+const S=[...document.querySelectorAll('.slide')];let i=0;
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);
+  stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+function show(n){
+  i=(n+S.length)%S.length;
+  lazyImages(i);
+  S.forEach((s,k)=>{
+    if(k===i){ s.classList.remove('on'); void s.offsetWidth; s.classList.add('on'); }
+    else s.classList.remove('on');
+  });
+  document.getElementById('cnt').textContent=`${i+1} / ${S.length}`;
+}
+addEventListener('resize',fit);fit();
+
+/* ── 圖片延遲載入／卸載（2026-09-17 補）────────────────
+   原本 50 張圖全部用 src，開頁就把 22MB 一次載完、全部解碼常駐，
+   手機上就是「很卡」。照雪梨那份的作法，只留目前頁 ±1。 */
+const KEEP=1, DROP=1;
+function lazyImages(cur){
+  S.forEach((s,n)=>{
+    const d=Math.abs(n-cur);
+    s.querySelectorAll('img[data-src]').forEach(img=>{
+      if(d<=KEEP){ if(!img.getAttribute('src')) img.setAttribute('src',img.dataset.src); }
+      else if(d>DROP){ if(img.getAttribute('src')) img.removeAttribute('src'); }
+    });
+  });
+}
+lazyImages(0);
+
+const q=new URLSearchParams(location.search);
+if(q.get('n'))show(+q.get('n')-1);
+if(q.get('still')==='1'){document.documentElement.style.setProperty('--noanim','1');
+  document.querySelectorAll('*').forEach(e=>e.style.animation='none');
+  document.querySelectorAll('.rise,.fade,.stamp').forEach(e=>{e.style.opacity='1';e.style.transform='none'});
+  const st=document.createElement('style');
+  st.textContent='.slide.on::before,.slide .wipe::after{display:none !important}';
+  document.head.appendChild(st);
+  document.querySelectorAll('.reveal > i').forEach(e=>e.style.transform='none');
+  document.querySelectorAll('.band,.edge,.band .in').forEach(e=>e.style.transform='none');
+  document.querySelectorAll('.grow').forEach(e=>e.style.width='196px');
+  document.querySelectorAll('.x-mask>i,.x-blk,.x-blkY,.x-stamp,.x-zoom').forEach(e=>e.style.transform='none');
+  document.querySelectorAll('.x-fade,.x-rise,.x-stamp').forEach(e=>{e.style.opacity='1';e.style.transform='none'});}
+document.getElementById('nx').onclick=()=>show(i+1);
+document.getElementById('pv').onclick=()=>show(i-1);
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')show(i+1);if(e.key==='ArrowLeft')show(i-1)});
+</script>
+</body>
+</html>

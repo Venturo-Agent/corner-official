@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MELBOURNE COFFEE WALK · 咖啡漫遊護照</title>
+<!--
+  ============================================================
+  墨爾本咖啡漫遊護照 — 一張明信片尺寸的集章卡（正反面）
+
+  William 2026-08-15 定的：
+    · 一張卡，不是一疊（第一版做成四張卡＋支線，他說太複雜）
+    · 明信片尺寸 10×15 cm
+    · 印章我們自己準備給店家 → 所以四個圈可以統一大小
+    · 風格：復古文青，巴黎／摩登咖啡館的氛圍
+
+  設計語言（刻意不做成遊樂園集點卡）：
+    奶油色紙、細襯線字、大量留白、細線分隔、咖啡漬痕跡、
+    徽章是古董版畫風（LOVART 生成，跟墨爾本地圖那組同一套）
+
+  ⚠️ 不要在這裡加 will-change / 大圖濾鏡——
+     墨爾本簡報就是死在那上面（見該檔檔頭）。這頁是要印的，更不需要。
+  ============================================================
+-->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Noto+Serif+TC:wght@300;400;600&display=swap');
+
+:root{
+  --paper:#F2EBDD;      /* 奶油紙 */
+  --paper2:#EBE2D0;
+  --ink:#2E2620;
+  --sub:#7A6A5A;
+  --rule:#CBBCA4;
+  --crema:#A9713C;      /* 咖啡油脂的顏色 */
+  --stain:rgba(150,105,60,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#DDD3C2;padding:30px 16px 70px;
+  font-family:"Noto Serif TC","Cormorant Garamond",serif;color:var(--ink)}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ── 操作說明（不印）───────────────────────── */
+.note{background:#fff;border:1px solid var(--rule);border-radius:4px;
+  padding:20px 24px;margin-bottom:26px;font-size:14.5px;line-height:1.9;color:var(--sub)}
+.note b{color:var(--ink)}
+.note h1{font-family:"Cormorant Garamond",serif;font-size:26px;color:var(--ink);
+  letter-spacing:.04em;margin-bottom:8px}
+.pbtn{margin-top:14px;display:inline-block;background:var(--ink);color:var(--paper);
+  border:0;padding:11px 26px;font-size:14px;letter-spacing:.1em;cursor:pointer;
+  font-family:inherit;border-radius:2px}
+
+/* ── 卡片本體：10 × 15 cm ─────────────────── */
+.cards{display:flex;gap:24px;flex-wrap:wrap;justify-content:center}
+.card{width:150mm;height:100mm;background:var(--paper);position:relative;
+  overflow:hidden;box-shadow:0 10px 30px rgba(60,45,30,.18);
+  page-break-inside:avoid;break-inside:avoid;flex:none}
+/* 紙的質地：極淡的斜紋 + 兩處咖啡漬 */
+.card::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(38mm 30mm at 12% 88%,var(--stain),transparent 70%),
+    radial-gradient(22mm 18mm at 92% 14%,var(--stain),transparent 72%),
+    repeating-linear-gradient(46deg,rgba(120,95,65,.030) 0 1px,transparent 1px 6px)}
+.card .inner{position:relative;height:100%;padding:9mm 10mm;display:flex;flex-direction:column}
+
+/* 正面 */
+.hd{display:flex;justify-content:space-between;align-items:flex-start;
+  border-bottom:1px solid var(--rule);padding-bottom:4mm}
+.hd .t .en{font-family:"Cormorant Garamond",serif;font-size:9.5pt;letter-spacing:.34em;
+  color:var(--crema);text-transform:uppercase}
+.hd .t h2{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:22pt;
+  letter-spacing:.03em;line-height:1.1;margin-top:1mm}
+.hd .t .zh{font-size:9.5pt;letter-spacing:.28em;color:var(--sub);margin-top:1.5mm}
+.hd .seal{width:17mm;height:17mm;border:1px solid var(--crema);border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:"Cormorant Garamond",serif;color:var(--crema);flex:none;line-height:1.05}
+.hd .seal i{font-style:normal;font-size:12pt;letter-spacing:.04em}
+.hd .seal em{font-style:normal;font-size:5.4pt;letter-spacing:.2em}
+
+.lede{font-size:8.4pt;line-height:1.7;color:var(--sub);margin:3mm 0 0;max-width:104mm}
+.lede b{color:var(--ink);font-weight:600}
+
+/* 四個蓋章格 */
+.stamps{display:grid;grid-template-columns:repeat(6,1fr);gap:3mm;margin-top:auto;margin-bottom:1mm}
+.st{text-align:center}
+/* 印章由我們準備，尺寸統一，圈開 20mm 綽綽有餘 */
+.st .ring{width:17mm;height:17mm;margin:0 auto;border:1px dashed var(--crema);
+  border-radius:50%;position:relative;background:rgba(255,255,255,.42)}
+.st .ring img{position:absolute;inset:2mm;width:calc(100% - 4mm);height:calc(100% - 4mm);
+  object-fit:contain;opacity:.30}
+.st .n{font-family:"Cormorant Garamond",serif;font-size:8pt;letter-spacing:.2em;
+  color:var(--crema);margin-bottom:1.5mm}
+/* 店名由同仁自己寫——路線上不只四家，不該替他們挑 */
+.st .wl{height:.4mm;background:var(--rule);margin:2.5mm 1.5mm 0}
+
+
+.foot{display:flex;justify-content:space-between;align-items:flex-end;
+  border-top:1px solid var(--rule);margin-top:4mm;padding-top:2.5mm;
+  font-size:7pt;letter-spacing:.16em;color:var(--sub)}
+
+/* 背面：地圖 + 沿途 */
+.back .inner{padding:8mm 9mm}
+.back .row{display:flex;gap:6mm;flex:1;min-height:0}
+.map{flex:1.25;position:relative;background:#EAE2D2;border:1px solid var(--rule)}
+/* 2026-08-15：手繪格線圖換成 LOVART 的插畫鳥瞰地圖。
+   William：『雖然你說是真的，反而更像假的』——沒有街景的方格只是裝飾。 */
+.map .mapimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.side{flex:1;display:flex;flex-direction:column}
+.side .en{font-family:"Cormorant Garamond",serif;font-size:8.5pt;letter-spacing:.3em;
+  color:var(--crema);text-transform:uppercase}
+.side h3{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:15pt;
+  margin:1mm 0 2.5mm;letter-spacing:.02em}
+.side ol{list-style:none;counter-reset:s}
+.side li{counter-increment:s;font-size:7.8pt;line-height:1.55;color:var(--sub);
+  padding:1.5mm 0;border-bottom:1px solid rgba(203,188,164,.5);display:flex;gap:2.5mm}
+.side li::before{content:counter(s);font-family:"Cormorant Garamond",serif;
+  color:var(--crema);font-size:8pt;min-width:3.5mm}
+.side li b{color:var(--ink);font-weight:600}
+.back .foot{margin-top:3mm}
+
+@media print{
+  @page{size:A4;margin:9mm}
+  body{background:#fff;padding:0}
+  .note,.pbtn{display:none}
+  .cards{gap:8mm}
+  .card{box-shadow:none;outline:.3mm dashed #BBA;page-break-after:always}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="note">
+    <h1>Melbourne Coffee Walk — 咖啡漫遊護照</h1>
+    一張明信片尺寸（<b>15 × 10 公分</b>）的集章卡，<b>正反兩面</b>。
+    正面是六個蓋章格（店家自己挑），背面是路線圖與沿途六處。
+    印章由我們準備給店家，所以四個圈是統一大小。<br>
+    列印：A4 直印，一頁一面，剪下後背對背貼合即可。
+    <button class="pbtn" onclick="window.print()">列印</button>
+  </div>
+
+  <div class="cards">
+
+    <!-- ── 正面 ───────────────────────────── -->
+    <div class="card front">
+      <div class="inner">
+        <div class="hd">
+          <div class="t">
+            <div class="en">A Walking Passport</div>
+            <h2>Coffee Walk</h2>
+            <div class="zh">墨爾本 · 咖啡漫遊</div>
+          </div>
+          <div class="seal"><i>M</i><em>1 KM</em></div>
+        </div>
+
+        <div class="lede">
+          這一區的巷子裡藏著幾十家咖啡館。<b>挑六家你自己想喝的</b>，<br>每家點一杯，喝完請店家蓋章，在線上寫下店名。
+        </div>
+
+        <div class="stamps">
+          <div class="st">
+            <div class="n">I</div>
+            <div class="ring"><img src="/tour/coffee-walk/img/medal-roaster.webp" alt=""></div>
+            <div class="wl"></div>
+          </div>
+          <div class="st">
+            <div class="n">II</div>
+            <div class="ring"><img src="/tour/coffee-walk/img/medal-machine.webp" alt=""></div>
+            <div class="wl"></div>
+          </div>
+          <div class="st">
+            <div class="n">III</div>
+            <div class="ring"><img src="/tour/coffee-walk/img/medal-laneway.webp" alt=""></div>
+            <div class="wl"></div>
+          </div>
+          <div class="st">
+            <div class="n">IV</div>
+            <div class="ring"><img src="/tour/coffee-walk/img/medal-market.webp" alt=""></div>
+            <div class="wl"></div>
+          </div>
+          <div class="st">
+            <div class="n">V</div>
+            <div class="ring"><img src="/tour/coffee-walk/img/medal-roaster.webp" alt=""></div>
+            <div class="wl"></div>
+          </div>
+          <div class="st">
+            <div class="n">VI</div>
+            <div class="ring"><img src="/tour/coffee-walk/img/medal-machine.webp" alt=""></div>
+            <div class="wl"></div>
+          </div>
+</div>
+
+        <div class="foot">
+          <span>CORNER TRAVEL · MELBOURNE</span>
+          <span>NAME ／ 姓名 ______________</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 背面 ───────────────────────────── -->
+    <div class="card back">
+      <div class="inner">
+        <div class="hd" style="padding-bottom:3mm">
+          <div class="t">
+            <div class="en">The Route</div>
+            <h2 style="font-size:17pt">Laneways &amp; Arcades</h2>
+          </div>
+          <div class="seal" style="width:14mm;height:14mm"><i style="font-size:9pt">CBD</i></div>
+        </div>
+
+        <div class="row">
+          <!-- 路線圖：墨爾本 CBD 的街廓骨架（Hoddle Grid 是真實的方格街道） -->
+          <div class="map">
+            <img class="mapimg" src="/tour/coffee-walk/img/walk-map.webp" alt="墨爾本 CBD 咖啡區手繪鳥瞰地圖">
+          </div>
+
+          <div class="side">
+            <div class="en">Along the way</div>
+            <h3>沿途六處</h3>
+            <ol>
+              <li><div><b>咖啡小街</b>　Centre Place／Degraves St</div></li>
+              <li><div><b>布洛克拱廊</b>　1891，馬賽克與玻璃頂</div></li>
+              <li><div><b>皇家拱廊</b>　1870，澳洲最老</div></li>
+              <li><div><b>郵政總局 GPO</b>　鐘樓與台階</div></li>
+              <li><div><b>伯克步行街</b>　行人與電車共用</div></li>
+              <li><div><b>女王市場</b>　1878，南半球最大</div></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="foot">
+          <span>1 KM · 15 MIN WALK · 6 STOPS</span>
+          <span>角落旅行社</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

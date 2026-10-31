@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>目次｜青森五日</title>
+<style>
+:root{
+  --paper:#EAE4D6; --ink:#1B211A; --ink-2:#4A5247;
+  --moss:#5C6E54; --moss-d:#38452F; --deep:#101509;
+  --sun:#C9A227; --vermilion:#A63B26;
+  --serif:"Noto Serif CJK TC",serif; --serif-ja:"Noto Serif CJK JP",serif;
+  --sans:"Noto Sans CJK TC",sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#0a0d07;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:50% 50%}
+.slide{position:absolute;inset:0;overflow:hidden;display:none;font-family:var(--serif);
+  background:var(--paper)}
+.slide.on{display:block}
+
+/* 動態（沿用封面那一套，不另立門戶） */
+.mask{display:inline-block;overflow:hidden;vertical-align:bottom}
+.mask>i{display:inline-block;font-style:normal;transform:translateY(105%)}
+.slide.on .mask>i{animation:up .78s var(--ease) both}
+@keyframes up{to{transform:none}}
+.blk{transform:scaleX(0);transform-origin:left center}
+.slide.on .blk{animation:wx .72s var(--ease) both}
+@keyframes wx{to{transform:scaleX(1)}}
+.blkY{transform:scaleY(0);transform-origin:top center}
+.slide.on .blkY{animation:wy .72s var(--ease) both}
+@keyframes wy{to{transform:scaleY(1)}}
+.fade{opacity:0}.slide.on .fade{animation:fd .7s var(--ease) both}
+@keyframes fd{to{opacity:1}}
+.rise{opacity:0;transform:translateY(22px)}
+.slide.on .rise{animation:rs .62s var(--ease) both}
+@keyframes rs{to{opacity:1;transform:none}}
+.stampin{opacity:0;transform:scale(1.4) rotate(-10deg)}
+.slide.on .stampin{animation:st .55s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes st{to{opacity:1;transform:scale(1) rotate(-2.5deg)}}
+.t1{animation-delay:.06s!important}.t2{animation-delay:.14s!important}
+.t3{animation-delay:.22s!important}.t4{animation-delay:.30s!important}
+.t5{animation-delay:.38s!important}.t6{animation-delay:.46s!important}
+.t7{animation-delay:.54s!important}.t8{animation-delay:.64s!important}
+.t9{animation-delay:.74s!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}
+  .mask>i,.blk,.blkY,.stampin{transform:none}.fade,.rise,.stampin{opacity:1}}
+
+/* ── 左側：跟封面同一塊深色，但只佔 30%，因為主角是清單 ── */
+.slab{position:absolute;left:0;top:0;width:30%;height:100%;background:var(--deep);z-index:2}
+.slab2{position:absolute;left:30%;top:0;width:52px;height:100%;background:var(--moss-d);z-index:3}
+.gold{position:absolute;left:calc(30% + 52px);top:210px;bottom:210px;width:5px;
+  background:var(--sun);z-index:4}
+.d-wave{position:absolute;left:-46px;bottom:26px;width:262px;opacity:.055;z-index:3;
+  pointer-events:none;
+  -webkit-mask-image:radial-gradient(96% 96% at 0% 100%,#000 22%,transparent 64%);
+          mask-image:radial-gradient(96% 96% at 0% 100%,#000 22%,transparent 64%)}
+.d-wave img{width:100%;display:block}
+.seal{position:absolute;left:96px;bottom:150px;width:112px;z-index:6}
+.seal img{width:100%;display:block}
+
+.head{position:absolute;left:96px;top:196px;z-index:5;color:#F1ECDE;width:380px}
+.head .kana{font-family:var(--serif-ja);font-size:15px;letter-spacing:.5em;
+  color:var(--sun);margin-bottom:26px}
+.head h2{font-size:104px;font-weight:600;letter-spacing:.14em;line-height:1;position:relative}
+.head h2::before{content:"";position:absolute;left:-28px;top:10px;bottom:10px;width:2px;
+  background:linear-gradient(180deg,var(--sun),rgba(201,162,39,.12))}
+.head .en{font-family:var(--sans);font-size:14px;letter-spacing:.46em;
+  color:rgba(241,236,222,.42);margin-top:24px}
+.head .cnt{margin-top:46px;font-family:var(--sans);font-size:16px;line-height:2.1;
+  letter-spacing:.06em;color:rgba(241,236,222,.62)}
+.head .cnt b{color:#F1ECDE;font-weight:500}
+.who{position:absolute;left:96px;bottom:78px;z-index:5;font-family:var(--sans);
+  font-size:15px;letter-spacing:.18em;color:rgba(241,236,222,.5)}
+
+/* ── 右側：清單才是主角 ── */
+.list{position:absolute;left:calc(30% + 168px);right:110px;top:150px;bottom:130px;z-index:5;
+  display:flex;flex-direction:column;justify-content:space-evenly}
+.row{display:grid;grid-template-columns:118px 1fr 210px;align-items:center;gap:26px;
+  padding:19px 0;border-top:1px solid rgba(27,33,26,.16);position:relative}
+.row:last-child{border-bottom:1px solid rgba(27,33,26,.16)}
+/* 前五條是行程，最後兩條是行程之外——用左邊那道短線區分，不用另一種顏色 */
+.row::before{content:"";position:absolute;left:-26px;top:50%;width:0;height:1px;
+  background:var(--sun);transform:translateY(-50%)}
+.row.day::before{width:16px}
+.row .n{font-family:var(--serif-ja);font-size:58px;font-weight:600;line-height:1;
+  color:var(--moss-d);letter-spacing:.02em}
+.row.etc .n{font-size:34px;color:rgba(27,33,26,.4)}
+.row .tx h3{font-size:31px;font-weight:600;letter-spacing:.06em;color:var(--ink)}
+.row .tx p{font-family:var(--sans);font-size:16px;letter-spacing:.04em;
+  color:var(--ink-2);margin-top:8px}
+.row .ja{font-family:var(--serif-ja);font-size:17px;letter-spacing:.22em;
+  color:rgba(27,33,26,.42);text-align:right}
+.row .pg{position:absolute;right:-72px;font-family:var(--sans);font-size:14px;
+  letter-spacing:.2em;color:rgba(27,33,26,.3)}
+
+#nav{position:fixed;right:26px;bottom:22px;font-family:var(--sans);font-size:14px;
+  color:#8C8778;letter-spacing:.14em;z-index:9}
+</style>
+</head>
+<body>
+<div id="stage">
+<section class="slide on">
+  <div class="slab blk t1"></div>
+  <div class="slab2 blkY t2"></div>
+  <div class="gold blkY t5"></div>
+  <div class="d-wave fade t7"><img src="/tour/aomori-5d/img/deco-seigaiha.png" alt=""></div>
+
+  <div class="head">
+    <div class="kana fade t2">もくじ</div>
+    <h2><span class="mask t3"><i>目次</i></span></h2>
+    <div class="en fade t5">CONTENTS</div>
+    <div class="cnt rise t6">五天的行程，<b>五個章節</b><br>加上行程之外的<b>兩件事</b></div>
+  </div>
+  <div class="seal stampin t9"><img src="/tour/aomori-5d/img/seal-aomori.png" alt=""></div>
+  <div class="who fade t9">勤業保經・台中二信　員工旅遊提案</div>
+
+  <div class="list">
+    <div class="row day rise t3">
+      <div class="n">一</div>
+      <div class="tx"><h3>落地就進城</h3><p>弘前城　·　南田蘋果溫泉</p></div>
+      <div class="ja">弘前・南田</div><div class="pg">03</div></div>
+
+    <div class="row day rise t4">
+      <div class="n">二</div>
+      <div class="tx"><h3>水面靜得像鏡子</h3><p>十和田湖獨木舟　·　奧入瀨十四公里</p></div>
+      <div class="ja">十和田湖・奥入瀬</div><div class="pg">05</div></div>
+
+    <div class="row day rise t5">
+      <div class="n">三</div>
+      <div class="tx"><h3>三萬隻海貓</h3><p>蕪嶋神社　·　八戶酒造試飲</p></div>
+      <div class="ja">蕪嶋・八戸</div><div class="pg">07</div></div>
+
+    <div class="row day rise t6">
+      <div class="n">四</div>
+      <div class="tx"><h3>退役的睡魔</h3><p>睡魔之家　·　淺蟲溫泉</p></div>
+      <div class="ja">ねぶた・浅虫</div><div class="pg">09</div></div>
+
+    <div class="row day rise t7">
+      <div class="n">五</div>
+      <div class="tx"><h3>留給青森自己的畫</h3><p>青森縣立美術館　·　返程</p></div>
+      <div class="ja">県立美術館</div><div class="pg">11</div></div>
+
+    <div class="row etc rise t8">
+      <div class="n">其六</div>
+      <div class="tx"><h3>住哪裡　吃什麼</h3><p>四晚住宿　·　六天九餐</p></div>
+      <div class="ja">宿と食事</div><div class="pg">13</div></div>
+
+    <div class="row etc rise t9">
+      <div class="n">其七</div>
+      <div class="tx"><h3>三個梯次</h3><p>出發日與人數</p></div>
+      <div class="ja">出発日</div><div class="pg">17</div></div>
+  </div>
+</section>
+</div>
+<div id="nav">目次　·　TOC</div>
+<script>
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);
+  stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+addEventListener('resize',fit);fit();
+const q=new URLSearchParams(location.search);
+if(q.get('still')==='1'){document.querySelectorAll('*').forEach(e=>e.style.animation='none');
+  document.querySelectorAll('.mask>i,.blk,.blkY,.stampin').forEach(e=>e.style.transform='none');
+  document.querySelectorAll('.fade,.rise,.stampin').forEach(e=>{e.style.opacity='1';e.style.transform='none'})}
+</script>
+</body>
+</html>

@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>福岡五日．三場球 — 角落旅行社</title>
+  <meta name="description" content="10/12–10/16 福岡打球團，長榮直飛早去晚回。下場的打三場（10/13 セントラル福岡、10/15 西戸崎海濱、10/16 福岡國際 中山IN）；10/14 全團 18 位一起去大分由布院（金鱗湖、亀の井別荘、山莊無量塔）；太太組 10/13 走博多舊市街的手作調香與八女茶茶席、10/15 去佐賀鹿島（祐德稻荷、肥前浜宿酒藏）。前兩晚住天神 THE GATE HOTEL、後兩晚住糸島 seven x seven。角落旅行社客製行程。" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            corner: '#FFA500',
+            cornerDark: '#E68A00',
+            ink: '#262626',
+            inkSoft: '#565656',
+            cream: '#FAF7F2',
+            turf: '#1F5D3A',
+            turfSoft: '#3C7C57',
+            lady: '#6B7B8B',
+          },
+          fontFamily: {
+            display: ['"Josefin Sans"', '"Noto Sans TC"', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            card: '0 8px 28px -10px rgba(38,38,38,0.18)',
+            cardHover: '0 18px 40px -12px rgba(38,38,38,0.28)',
+            search: '0 18px 50px -16px rgba(38,38,38,0.30)',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html, body { font-family: 'Josefin Sans', 'Noto Sans TC', system-ui, sans-serif; color:#262626; }
+    body { background:#FFFFFF; }
+
+    .tracking-explore { letter-spacing:0.30em; }
+    .tracking-wider2  { letter-spacing:0.14em; }
+    .num { font-family:'IBM Plex Mono', ui-monospace, 'Noto Sans TC', monospace; font-variant-numeric:tabular-nums; }
+
+    .hero-headline { font-weight:700; font-size:clamp(26px,5.4vw,62px); line-height:1.08; letter-spacing:0.01em; text-wrap:balance; }
+    .hero-pre { font-weight:300; font-size:clamp(18px,1.4vw,22px); letter-spacing:0.30em; }
+
+    .tour-card { transition:transform .35s ease, box-shadow .35s ease; }
+    .tour-card:hover { transform:translateY(-6px); box-shadow:0 18px 40px -12px rgba(38,38,38,0.28); }
+
+    .nav-link { position:relative; }
+    .nav-link::after{ content:""; position:absolute; left:50%; bottom:-6px; height:2px; width:0; background:#FFA500; transition:width .25s ease, left .25s ease; }
+    .nav-link:hover::after{ left:0; width:100%; }
+
+    .btn-corner { background:#FFA500; color:#fff; border-radius:6px; padding:14px 30px; font-weight:600; letter-spacing:0.08em; transition:background .2s ease, transform .2s ease; display:inline-flex; align-items:center; gap:10px; }
+    .btn-corner:hover { background:#E68A00; transform:translateY(-1px); }
+
+    .field-label { font-size:11px; letter-spacing:0.22em; color:#565656; text-transform:uppercase; }
+    .accent-bar { display:inline-block; width:48px; height:2px; background:#FFA500; }
+
+    /* 封面是亮色空拍圖，只靠上下漸層壓不住白字，再疊一道左側暗角 */
+    .hero-veil {
+      background:
+        linear-gradient(90deg, rgba(15,32,24,0.78) 0%, rgba(15,32,24,0.50) 44%, rgba(15,32,24,0.10) 74%, rgba(15,32,24,0) 100%),
+        linear-gradient(180deg, rgba(38,38,38,0.34) 0%, rgba(38,38,38,0.14) 34%, rgba(38,38,38,0.60) 100%);
+    }
+    .ico { stroke:#FFA500; stroke-width:1.6; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    .ico-g { stroke:#1F5D3A; }
+    .ico-l { stroke:#6B7B8B; }
+
+    .tag { display:inline-flex; align-items:center; gap:6px; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; padding:5px 10px; border-radius:999px; background:#FFF4E0; color:#B26A00; font-weight:500; }
+    .tag-hot { background:#FFA500; color:#fff; }
+    .tag-pay { background:#fff; color:#6B6560; border:1px solid rgba(0,0,0,.14); font-weight:400; }
+    .tag-golf { background:#1F5D3A; color:#fff; }
+    .tag-lady { background:#6B7B8B; color:#fff; }
+
+    .num-bubble { width:46px; height:46px; border:1.5px solid #FFA500; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; color:#FFA500; font-weight:600; letter-spacing:0.05em; }
+
+    /* 逐日：圓圈編號 + 連接線 + 時刻列 */
+    .day-rail { position:relative; }
+    .day-rail::before { content:""; position:absolute; left:22px; top:52px; bottom:-28px; width:1.5px; background:#F0E6D6; }
+    .day-block:last-child .day-rail::before { display:none; }
+    .step { display:flex; gap:14px; align-items:flex-start; }
+    .step + .step { margin-top:13px; }
+    .step .t { min-width:50px; text-align:right; color:#E68A00; font-weight:600; font-size:13px; padding-top:2px; }
+    .step .si { width:22px; flex:none; padding-top:1px; }
+    .step .si svg { width:18px; height:18px; }
+    .track-head { display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+    .track-head i { width:3px; height:20px; display:inline-block; flex:none; }
+    .track-head span { font-size:11px; letter-spacing:.2em; text-transform:uppercase; font-weight:600; }
+
+    /* 球資表 */
+    .gtable { width:100%; border-collapse:collapse; }
+    .gtable th { font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#565656; font-weight:500; text-align:left; padding:0 0 12px; border-bottom:1.5px solid rgba(0,0,0,.12); }
+    .gtable th.r, .gtable td.r { text-align:right; }
+    .gtable td { padding:16px 0; border-bottom:1px solid rgba(0,0,0,.06); font-size:14.5px; vertical-align:top; }
+    .gtable tr:last-child td { border-bottom:none; }
+    .gname { font-weight:600; font-size:15.5px; }
+    .gmeta { font-size:12.5px; color:#565656; font-weight:300; margin-top:4px; line-height:1.6; }
+    .gyen { font-weight:600; font-size:16px; }
+    .gnt  { font-size:12.5px; color:#565656; font-weight:300; margin-top:2px; }
+    /* 窄螢幕：三欄表格會把球場名擠成一個字一行，改成一場一張直式卡片 */
+    @media (max-width:820px){
+      .gtable, .gtable tbody, .gtable tr, .gtable td { display:block; width:100%; }
+      .gtable thead { display:none; }
+      .gtable .hide-sm { display:none; }
+      .gtable tr { padding:20px 0; border-bottom:1px solid rgba(0,0,0,.08); }
+      .gtable tr:last-child { border-bottom:none; padding-bottom:0; }
+      .gtable tr:first-child { padding-top:0; }
+      .gtable td { border-bottom:none; padding:0; }
+      .gtable td + td { margin-top:12px; }
+      .gtable td.d { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px; }
+      .gtable td.d > div { margin:0 !important; }
+      .gtable td.r { display:flex; align-items:baseline; gap:10px; text-align:left; }
+      .gtable td.r .gnt { margin-top:0; }
+    }
+
+    .rm-dot { width:9px; height:9px; border-radius:50%; background:#FFA500; display:inline-block; flex:none; }
+    .rm-dot.golf { background:#1F5D3A; }
+    .rm-dot.air { background:#262626; }
+    .city-marker { display:flex; flex-direction:column; align-items:center; transform:translateY(-50%) scale(.5); opacity:0;
+      transition:opacity .4s ease, transform .5s cubic-bezier(.34,1.56,.64,1); }
+    .city-marker.on { opacity:1; transform:translateY(-50%) scale(1); }
+    .city-marker .pin { width:22px; height:22px; border-radius:50%; background:#FFA500; border:2.5px solid #fff; box-shadow:0 2px 7px rgba(38,38,38,.45);
+      display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; line-height:1;
+      font-family:'IBM Plex Mono', ui-monospace, monospace; }
+    .city-marker .pin.golf { background:#1F5D3A; }
+    .city-marker .pin.air { background:#262626; }
+    .rm-seq { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%;
+      background:#FFA500; color:#fff; font-size:10.5px; font-weight:700; flex:none; font-family:'IBM Plex Mono', ui-monospace, monospace; }
+    .rm-seq.golf { background:#1F5D3A; }
+    .rm-seq.air { background:#262626; }
+    @media (prefers-reduced-motion: reduce) { .city-marker { opacity:1; transform:translateY(-50%); transition:none; } }
+    .city-marker .lbl { font-family:'Josefin Sans','Noto Sans TC',sans-serif; font-weight:600; font-size:.86rem; margin-top:3px; white-space:nowrap; color:#262626;
+      text-shadow:0 0 4px #fff,0 0 4px #fff,0 0 6px #fff; }
+
+    img { cursor: zoom-in; }
+    .lb-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(20,20,20,.92); display: none; align-items: center; justify-content: center; padding: 24px; }
+    .lb-overlay.open { display: flex; }
+    .lb-overlay img { max-width: 94vw; max-height: 90vh; width: auto; height: auto; border-radius: 8px; box-shadow: 0 24px 60px -20px rgba(0,0,0,.6); cursor: zoom-out; }
+    .lb-close { position: absolute; top: 20px; right: 28px; background: none; border: none; color: #fff; font-size: 2.4rem; line-height: 1; cursor: pointer; }
+    .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.12); border: none; color: #fff; font-size: 2rem; width: 52px; height: 52px; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s ease; }
+    .lb-nav:hover { background: rgba(255,255,255,.26); }
+    .lb-prev { left: 20px; } .lb-next { right: 20px; }
+    .lb-count { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: #fff; font-family: 'IBM Plex Mono', monospace; font-size: .8rem; letter-spacing: .1em; background: rgba(0,0,0,.5); padding: 4px 14px; border-radius: 999px; }
+    @media (max-width: 600px) { .lb-nav { width: 42px; height: 42px; font-size: 1.6rem; } }
+  </style>
+</head>
+<body class="font-display antialiased">
+
+  <!-- ====================== NAVBAR ====================== -->
+  <header class="absolute top-0 left-0 right-0 z-30">
+    <div class="max-w-[1440px] mx-auto h-20 px-6 md:px-10 flex items-center justify-between">
+      <a href="#" class="text-white text-[18px] font-semibold tracking-wider2">角落旅行社</a>
+      <nav class="hidden md:flex items-center gap-8 text-[14px] text-white/90 tracking-wider2">
+        <a href="#golf" class="nav-link">三場球 <span class="opacity-60 ml-1">Golf</span></a>
+        <a href="#route-map" class="nav-link">路線圖 <span class="opacity-60 ml-1">Map</span></a>
+        <a href="#itinerary" class="nav-link">逐日行程 <span class="opacity-60 ml-1">Days</span></a>
+        <a href="#stay" class="nav-link">住宿 <span class="opacity-60 ml-1">Stay</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ====================== HERO ====================== -->
+  <section class="relative w-full" style="min-height:max(70vh,520px); background:linear-gradient(135deg,#12343B,#1F5D3A);">
+    <img src="/tour/fukuoka-golf-1012/img/golf-saitozaki.jpg" alt="西戸崎海濱鄉村俱樂部空拍，球場緊鄰玄界灘沙灘" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 hero-veil"></div>
+
+    <div class="relative z-10 max-w-[1440px] mx-auto min-h-[max(70vh,520px)] px-6 md:px-10 pt-24 pb-14 xl:pb-24 flex flex-col justify-center text-white">
+      <div class="max-w-[820px]">
+        <div class="flex items-center gap-4 mb-6">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-white/90">16 人分兩組</span>
+        </div>
+        <h1 class="hero-headline">角落旅行社<br/>10 月 12 出發・福岡五日<br/>FUKUOKA</h1>
+        <p class="mt-7 text-white/90 text-[18px] leading-[1.8] max-w-[680px] font-light">
+          先生打三場：<strong class="font-medium text-white">中央福岡、西戸崎海濱、福岡國際中山</strong> ——<br/>
+          一座內陸丘陵、一座海邊沙洲、一座在宗像的 36 洞球場。<br/>
+          中間空出一整天，全團一起跨縣進大分由布院 —— 金鱗湖、御三家的午餐與空間。<br/>太太組玩太太的：親手調香、在茶的起點喝八女茶，另一天去佐賀的祐德稻荷與酒藏老街。
+        </p>
+        <p class="mt-4 text-white/75 text-[14px] font-light">早班機去、晚班機回 —— 落地當天中午就在天神吃飯，最後一天打完球再從容去機場</p>
+      </div>
+
+      <div class="mt-10 items-center gap-8 md:gap-10 text-white/90 hidden xl:flex">
+        <div><div class="text-[28px] font-semibold leading-none num">5<span class="text-corner">天</span></div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">4 夜</div></div>
+        <div class="h-10 w-px bg-white/30"></div>
+        <div><div class="text-[28px] font-semibold leading-none num">3</div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">場球・已訂位</div></div>
+        <div class="h-10 w-px bg-white/30"></div>
+        <div><div class="text-[28px] font-semibold leading-none num">3<span class="text-corner">組</span></div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">每場連續開出</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 行程速覽（浮卡）====================== -->
+  <section class="relative z-20 -mt-12">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="bg-white rounded-xl shadow-search px-6 md:px-8 py-6 grid grid-cols-2 md:grid-cols-12 gap-6 items-center">
+        <div class="col-span-2 md:col-span-4 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">路線 · Route</div>
+          <div class="flex items-center gap-2 mt-2 text-[15px] text-ink flex-wrap">
+            <span>台北</span>
+            <svg class="w-4 h-4 ico" viewBox="0 0 24 24"><path d="M3.4 13.5l8-2 5-7 1.6.6L15.5 11l4-1 1 1.5-4 2.6 1 5-1.3.6-3-4.4-3.8 1.1-1 3.2-1.3-.3v-3.3l-3-1z"/></svg>
+            <span class="font-semibold text-cornerDark">福岡</span>
+            <span class="text-inkSoft text-[13px] ml-1">福岡機場進出</span>
+          </div>
+        </div>
+        <div class="md:col-span-3 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">出發 · Departure</div>
+          <div class="mt-2 text-[15px] text-ink num">10/12 <span class="text-inkSoft text-[13px]">（一）</span></div>
+          <div class="text-[13px] text-inkSoft num mt-0.5">5 天 4 夜 · 10/12–10/16</div>
+        </div>
+        <div class="md:col-span-3 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">航班 · Flight</div>
+          <div class="mt-2 text-[13px] text-ink num leading-relaxed">
+            <div><span class="text-inkSoft">去程</span> BR106 08:00/11:20</div>
+            <div><span class="text-inkSoft">回程</span> BR101 19:20/20:45</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 三場球 ====================== -->
+  <section id="golf" class="pt-24 pb-4">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar" style="background:#1F5D3A"></span>
+          <span class="text-[12px] tracking-explore uppercase text-turf">Golf</span>
+        </div>
+        <h2 class="text-[36px] md:text-[48px] font-semibold leading-tight">三個球場</h2>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-card border border-black/5 p-6 md:p-8">
+        <table class="gtable">
+          <thead>
+            <tr>
+              <th style="width:150px">日期 / 開球</th>
+              <th>球場</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="d">
+                <div class="num text-[16px] font-semibold text-ink">10/13</div>
+                <div class="text-[12.5px] text-inkSoft font-light">（二）</div>
+                <div class="num text-[13px] text-turf font-semibold mt-2">10:04 起</div>
+                <div class="text-[12px] text-inkSoft font-light">連續 3 組</div>
+              </td>
+              <td>
+                <div class="gname">セントラル福岡ゴルフ倶楽部</div>
+                <div class="gmeta">中央福岡・福岡縣筑紫野市大字山家上西山<br/>九州自動車道 筑紫野 IC 約 15 公里</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="d">
+                <div class="num text-[16px] font-semibold text-ink">10/15</div>
+                <div class="text-[12.5px] text-inkSoft font-light">（四）</div>
+                <div class="num text-[13px] text-turf font-semibold mt-2">09:59 起</div>
+                <div class="text-[12px] text-inkSoft font-light">連續 3 組</div>
+              </td>
+              <td>
+                <div class="gname">西戸崎シーサイドカントリークラブ</div>
+                <div class="gmeta">西戸崎海濱・福岡市東區「海之中道」沙洲上<br/>從天神出發 19 公里約 19 分，球道一側就是玄界灘</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="d">
+                <div class="num text-[16px] font-semibold text-ink">10/16</div>
+                <div class="text-[12.5px] text-inkSoft font-light">（五）</div>
+                <div class="num text-[13px] text-turf font-semibold mt-2">10:27 起</div>
+                <div class="text-[12px] text-inkSoft font-light">連續 3 組</div>
+              </td>
+              <td>
+                <div class="gname">福岡國際カントリークラブ　中山 IN</div>
+                <div class="gmeta">福岡縣宗像市朝町 1470-1・36 洞（七又／中山）<br/>福岡市、北九州市皆在 30 分鐘圈內</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+
+
+      <p class="mt-6 text-[12px] text-inkSoft/80 leading-relaxed max-w-[760px] font-light">
+        ＊「連續 3 組」是球場為我們保留的連號時段，一組四人、最多 12 位下場。
+      </p>
+    </div>
+  </section>
+
+  <!-- ====================== 路線圖 ====================== -->
+  <section id="route-map" class="pt-24 pb-4">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-8">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Route Map</span>
+        </div>
+        <h2 class="text-[30px] md:text-[38px] font-semibold leading-tight">路線圖</h2>
+      </div>
+      <figure class="rounded-2xl overflow-hidden border border-black/5 shadow-card bg-white">
+        <img src="/tour/fukuoka-golf-1012/img/map-route.jpg" alt="北九州手繪路線圖：福岡機場、天神、糸島、西戸崎、中央福岡、福岡國際、佐賀鹿島與大分由布院的行程動線" class="w-full h-auto" />
+        <figcaption class="px-5 py-3.5 text-[12.5px] text-inkSoft font-light border-t border-black/5">
+          北九州路線示意 —— 福岡、佐賀、大分三縣。金色線為每日專車動線：10/14 全團往大分由布院，10/15 高球組往西戸崎、太太組往佐賀鹿島。＊示意圖，非實際比例尺。
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ====================== 逐日行程 ====================== -->
+  <section id="itinerary" class="pt-24 pb-20">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-8">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Day by Day</span>
+        </div>
+        <h2 class="text-[30px] md:text-[38px] font-semibold leading-tight">逐日行程</h2>
+      </div>
+
+      <div class="mb-12 grid grid-cols-1 md:grid-cols-2 gap-7">
+        <figure class="rounded-2xl overflow-hidden shadow-card border border-black/5 bg-white">
+          <img src="/tour/fukuoka-golf-1012/img/yutoku-stage.jpg" alt="祐德稻荷神社懸空舞台下方的朱紅木造支柱群" loading="lazy" class="w-full h-64 object-cover" />
+          <figcaption class="px-5 py-3 text-[12.5px] text-inkSoft font-light">10/15　太太組・祐德稻荷・撐起懸空本殿的朱紅支柱</figcaption>
+        </figure>
+        <figure class="rounded-2xl overflow-hidden shadow-card border border-black/5 bg-white">
+          <img src="/tour/fukuoka-golf-1012/img/hamashuku-sake.jpg" alt="佐賀縣鹿島市肥前浜宿的傳統酒藏建築，木格窗與黑瓦屋頂" loading="lazy" class="w-full h-64 object-cover" />
+          <figcaption class="px-5 py-3 text-[12.5px] text-inkSoft font-light">10/15　太太組・肥前浜宿酒藏通 —— 國家指定重要傳統建造物群保存地區</figcaption>
+        </figure>
+      </div>
+
+      <div id="days" class="flex flex-col gap-10"></div>
+    </div>
+  </section>
+
+  <!-- ====================== 住宿 ====================== -->
+  <section id="stay" class="py-24 bg-cream">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="flex items-end justify-between mb-12 flex-wrap gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="accent-bar"></span>
+            <span class="text-[12px] tracking-explore uppercase text-corner">Where You Stay</span>
+          </div>
+          <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">前兩晚在天神站樓上，<br/>後兩晚在海的正前面</h2>
+        </div>
+        <p class="text-inkSoft max-w-[420px] font-light text-[15px] leading-relaxed">
+          兩間性質完全相反的房子，<strong class="font-medium text-ink">各住兩晚</strong>：先在天神最中間、出電梯就是地下街；後兩晚換到糸島海岸，房間外面就是玄界灘的夕陽。一趟走兩種住法，行李只搬一次，而且<strong class="font-medium text-ink">以海邊收尾</strong>。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/fukuoka-golf-1012/img/hotel-fukuoka-ext.jpg" alt="THE GATE HOTEL 福岡黃昏時的深色塔樓外觀" loading="lazy" class="w-full h-56 object-cover" />
+          <div class="p-6 md:p-7">
+          <div class="flex items-center gap-2 flex-wrap mb-3">
+            <span class="tag tag-golf">第 1・2 晚</span>
+            <span class="tag tag-hot">天神・市區</span>
+            <span class="tag">車站直結</span>
+          </div>
+          <h3 class="text-[22px] font-semibold leading-snug">THE GATE HOTEL 福岡 by HULIC</h3>
+          <p class="text-[13px] text-inkSoft font-light mt-1 tracking-wider2">ザ・ゲートホテル福岡 · 地下鐵機場線 天神站直結 · 10/12–10/13 兩晚</p>
+          <ul class="mt-4 space-y-2.5 text-[13.5px] text-inkSoft font-light leading-relaxed">
+            <li class="flex gap-2"><span class="rm-dot mt-2"></span><span><strong class="font-medium text-ink">2025 年 4 月才開的新飯店</strong>，19 層、171 間房，頂樓看得到博多灣與市區夜景</span></li>
+            <li class="flex gap-2"><span class="rm-dot mt-2"></span><span><strong class="font-medium text-ink">直接連著天神站</strong>，下雨天不用撐傘；天神地下街步行 5 分鐘</span></li>
+            <li class="flex gap-2"><span class="rm-dot mt-2"></span><span>中午的博多舊市街、夜裡的中洲，<strong class="font-medium text-ink">都在飯店這一側</strong> —— 一天不必為了移動切成兩半</span></li>
+            <li class="flex gap-2"><span class="rm-dot mt-2"></span><span>第一場球與去由布院那天都從這裡出發，<strong class="font-medium text-ink">早上從容出發</strong>，不必為了趕開球摸黑起床</span></li>
+          </ul>
+          </div>
+        </article>
+
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/fukuoka-golf-1012/img/futamigaura.jpg" alt="糸島二見浦海岸，海中的夫婦岩以注連繩相連，沙灘上立著白色鳥居" loading="lazy" class="w-full h-56 object-cover" />
+          <div class="p-6 md:p-7">
+          <div class="flex items-center gap-2 flex-wrap mb-3">
+            <span class="tag tag-golf">第 3・4 晚</span>
+            <span class="tag tag-hot">糸島・海邊</span>
+            <span class="tag">全室海景</span>
+            <span class="tag">泳池・三溫暖</span>
+          </div>
+          <h3 class="text-[22px] font-semibold leading-snug">seven x seven 糸島</h3>
+          <p class="text-[13px] text-inkSoft font-light mt-1 tracking-wider2">セブンバイセブン糸島 · 福岡市西區西浦 266・櫻井二見浦 · 10/14–10/15 兩晚</p>
+          <ul class="mt-4 space-y-2.5 text-[13.5px] text-inkSoft font-light leading-relaxed">
+            <li class="flex gap-2"><span class="rm-dot mt-2"></span><span>47 間房<strong class="font-medium text-ink">全部帶露台、全部看得到海</strong>，是這一帶第一家有規模的海濱飯店</span></li>
+            <li class="flex gap-2"><span class="rm-dot mt-2"></span><span><strong class="font-medium text-ink">2026 年 4 月剛改裝完</strong>，主題是「Sunset Beach Club」，新蓋了泳池與三溫暖</span></li>
+            <li class="flex gap-2"><span class="rm-dot mt-2"></span><span>房型有頂樓露台房、按摩浴缸房，也有附廚房的房型 —— 買糸島的海鮮回來自己弄</span></li>
+            <li class="flex gap-2"><span class="rm-dot mt-2"></span><span>門口就是二見浦夫婦岩，<strong class="font-medium text-ink">看夕陽不用移動</strong></span></li>
+            <li class="flex gap-2"><span class="rm-dot mt-2"></span><span><strong class="font-medium text-ink">這兩晚是全團窩在一起的兩晚</strong> —— 四周沒有街可以逛，反而人都留在飯店，吃完飯接著酒與麻將</span></li>
+          </ul>
+          </div>
+        </article>
+      </div>
+
+
+      <div class="mt-7 grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <figure class="rounded-2xl overflow-hidden shadow-card border border-black/5 bg-white">
+          <img src="/tour/fukuoka-golf-1012/img/hotel-fukuoka-room.jpg" alt="THE GATE HOTEL 福岡客房內部" loading="lazy" class="w-full h-44 object-cover" />
+          <figcaption class="px-4 py-2.5 text-[12.5px] text-inkSoft font-light">THE GATE HOTEL・客房</figcaption>
+        </figure>
+        <figure class="rounded-2xl overflow-hidden shadow-card border border-black/5 bg-white">
+          <img src="/tour/fukuoka-golf-1012/img/hotel-fukuoka-lounge.jpg" alt="THE GATE HOTEL 福岡的空中酒廊" loading="lazy" class="w-full h-44 object-cover" />
+          <figcaption class="px-4 py-2.5 text-[12.5px] text-inkSoft font-light">THE GATE HOTEL・空中酒廊</figcaption>
+        </figure>
+        <figure class="rounded-2xl overflow-hidden shadow-card border border-black/5 bg-white">
+          <img src="/tour/fukuoka-golf-1012/img/hotel-fukuoka-terrace.jpg" alt="THE GATE HOTEL 福岡露臺的夕陽景色" loading="lazy" class="w-full h-44 object-cover" />
+          <figcaption class="px-4 py-2.5 text-[12.5px] text-inkSoft font-light">THE GATE HOTEL・露臺夕陽</figcaption>
+        </figure>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ====================== FOOTER ====================== -->
+  <footer class="bg-ink text-white pt-20 pb-10">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-14 border-b border-white/10">
+        <div class="md:col-span-5">
+          <div class="text-[20px] font-semibold tracking-wider2 mb-6">角落旅行社</div>
+          <p class="text-white/70 text-[14px] leading-relaxed font-light max-w-[420px]">福岡五日，三場球與一段女子旅。</p>
+        </div>
+        <div class="md:col-span-3">
+          <h4 class="text-[12px] tracking-explore uppercase text-corner mb-5">This Trip</h4>
+          <ul class="space-y-3 text-[14px] text-white/80">
+            <li><a href="#golf" class="hover:text-corner transition">三場球</a></li>
+            <li><a href="#route-map" class="hover:text-corner transition">路線圖</a></li>
+            <li><a href="#itinerary" class="hover:text-corner transition">逐日行程</a></li>
+            <li><a href="#stay" class="hover:text-corner transition">住宿安排</a></li>
+          </ul>
+        </div>
+        <div class="md:col-span-4">
+          <h4 class="text-[12px] tracking-explore uppercase text-corner mb-5">Contact</h4>
+          <ul class="space-y-4 text-[14px] text-white/80 font-light">
+            <li class="flex gap-3"><svg class="w-4 h-4 mt-1 text-corner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 5h18v14H3z"/><path d="M3 5l9 9 9-9"/></svg>agency@venturo.tw</li>
+            <li class="flex gap-3"><svg class="w-4 h-4 mt-1 text-corner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>客製行程提案 · 福岡打球團（2026-09-20 更新）</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 flex flex-wrap items-center justify-between gap-4 text-[12px] text-white/50 tracking-wider2">
+        <div>© 2026 VENTURO × 角落旅行社.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====================== 行程資料 + renderer ====================== -->
+  <script>
+    const ICO = {
+      plane:'<path d="M3.4 13.5l8-2 5-7 1.6.6L15.5 11l4-1 1 1.5-4 2.6 1 5-1.3.6-3-4.4-3.8 1.1-1 3.2-1.3-.3v-3.3l-3-1z"/>',
+      meal:'<path d="M6 3v8a2 2 0 0 0 2 2v8M6 3v5M9 3v5M18 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/>',
+      sight:'<path d="M12 21s7-7.5 7-13a7 7 0 1 0-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="8.5" r="2.6"/>',
+      spa:'<path d="M12 21c4-2.5 7-6 7-10a3.5 3.5 0 0 0-7-1 3.5 3.5 0 0 0-7 1c0 4 3 7.5 7 10z"/>',
+      ride:'<circle cx="7" cy="18" r="2.5"/><circle cx="17" cy="18" r="2.5"/><path d="M4 18h1l2-9h8l3 9h1M7 9h8"/>',
+      boat:'<path d="M3 15h18l-2 5H5l-2-5z"/><path d="M5 15V7l7-4 7 4v8"/>',
+      free:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>',
+      golf:'<path d="M11 21V4l7 3.5-7 3.5"/><circle cx="8.5" cy="19.5" r="2.2"/>'
+    };
+
+    const DAYS = [
+      { n:1, date:"10/12（一）", title:"抵達福岡・櫛田神社旁的會席午宴・入住天神", en:"Arrival",
+        theme:["早班機","中午就到","櫛田神社旁","Viridis 晚宴"],
+        img:"/tour/fukuoka-golf-1012/img/kushida.jpg", cap:"櫛田神社・本殿",
+        single:[
+          {t:"08:00", k:"plane", name:"桃園出發・長榮航空 BR106", d:"11:20 抵達福岡機場，落地就是中午"},
+          {t:"12:10", k:"ride", name:"專車接機・前往博多舊市街", d:"福岡是日本少數把國際機場留在市區旁的城市 —— 出關即上車，直接往櫛田神社那一帶"},
+          {t:"13:00", k:"meal", name:"午宴・宮前迎賓館 燈明殿（櫛田神社旁）", d:"2023 年落成的和食迎賓館，蓋在守了博多一千兩百年的櫛田神社旁 —— 從前這裡就是港口，博多是從這塊地開始的。掌廚的是平常做婚宴的板前，會席用九州當季食材，盛在博多曲物的漆盒裡端上桌。獨立會場，十八個人自己一間，不跟別人擠"},
+          {t:"14:30", k:"sight", name:"入住 THE GATE HOTEL 福岡", d:"天神 2-8-49。吃完一頓好的直接進房，下午留給各自"},
+          {t:"—", k:"free", name:"下午・天神自由活動", d:"出電梯就是天神地下街，下雨不用撐傘"},
+          {t:"18:00", k:"meal", name:"全團晚餐・Viridis（ザ・リッツ・カールトン福岡）", d:"麗思卡爾頓福岡的全日餐廳，大濠公園旁，用九州食材的現代西餐"},
+        ]},
+
+      { n:2, date:"10/13（二）", title:"第一場・中央福岡｜夫人們的品味一天", en:"Round 1 · Central Fukuoka", feat:true,
+        theme:["10:04 開球","連續 3 組","手作調香","八女茶茶席","晚餐 IMURI"],
+        golf:[
+          {t:"08:15", k:"ride", name:"天神出發・前往筑紫野", d:"セントラル福岡ゴルフ倶楽部，筑紫野市山家；走都市高速接九州自動車道，筑紫野 IC 下再約 15 公里。24 公里、含早上車流抓 40–45 分鐘"},
+          {t:"09:30", k:"golf", name:"報到・練習果嶺", d:"開球前先推兩顆，熟悉果嶺速度"},
+          {t:"10:04", k:"golf", name:"第一組開球", d:"連續三組開出，最後一組約 10:20 左右上場"},
+          {t:"12:30", k:"meal", name:"場內午餐", d:"在會館餐廳休息用餐，下午續打"},
+          {t:"16:00", k:"ride", name:"打完・專車回天神", d:"依實際完賽時間出發"},
+        ],
+        ladies:[
+          {t:"10:00", k:"sight", name:"TSUTSUMU・親手調自己的香", d:"博多駅前的調香工房。把白檀等天然香料憑感覺調成只屬於自己的味道，做成線香或隨身香袋，裝進木盒帶回家（木盒可刻字）。約 60 分鐘，博多站步行 10 分"},
+          {t:"12:00", k:"meal", name:"博多舊市街午餐", d:"走得到的範圍內安排，不必為了吃飯再上車"},
+          {t:"14:00", k:"sight", name:"聖福寺・承天寺散步", d:"從茶房走出來就是。聖福寺是榮西創建的日本第一座禪寺 —— 榮西正是把茶帶回日本的人，被稱為「茶祖」。承天寺則相傳把饅頭與羊羹的做法傳進日本。這一天的茶，是在茶的起點喝的"},
+          {t:"15:00", k:"meal", name:"SABOE HAKATA・八女茶與季節和菓子", d:"博多舊市街的日本茶專門店，一樓賣茶、二樓是茶房。店裡備有抹茶與八女茶等約二十種茶葉。茶房可選「茶與菓子」套組或「一服一煎の小茶會」全套；也有茶調的酒"},
+          {t:"18:00", k:"meal", name:"兩組會合・全團晚餐・日本料理 IMURI", d:"觀山莊集團的餐廳，和食與洋食兼有、看得到福岡夜景。最大可容 60 人。會用上鐘崎甘鯛、豐前鮭、天草大王雞與佐賀牛；也有有田牛 —— 拿過 World Steak Challenge 2025 世界第一"},
+        ],
+        dinner:"18:00　兩組會合・全團晚餐・日本料理 IMURI（福岡夜景・最大 60 人）"},
+
+      { n:3, date:"10/14（三）", title:"全團 18 位・大分由布院｜今天換住海邊", en:"Yufuin, Oita",
+        theme:["這天沒有球","跨縣進大分","金鱗湖","亀の井別荘","今天換飯店"],
+        img:"/tour/fukuoka-golf-1012/img/kinrinko.jpg", cap:"由布院・金鱗湖",
+        note:"這天沒有球，全團 18 位一起往東南進大分縣 —— 天神到由布院 127 公里、約 1 小時 43 分。御三家的午餐與空間、金鱗湖、由布岳下的那條街，一天走完。早上退房、行李由車直送糸島，傍晚從由布院直接進海邊的飯店，人不必再繞回市區。",
+        single:[
+          {t:"08:00", k:"ride", name:"天神退房・行李直送糸島", d:"今晚起住糸島，行李不跟人跑，人直接往大分"},
+          {t:"08:30", k:"ride", name:"天神出發・專車往由布院（18 位）", d:"127 公里、約 1 小時 43 分。今天走的是客人自己不太會去的大分縣"},
+          {t:"10:15", k:"sight", name:"抵達由布院・金鱗湖散步", d:"由布岳就在正前方。清晨的湖面會冒煙，白天則是安靜的一圈 —— 不趕行程，慢慢走"},
+          {t:"11:40", k:"meal", name:"亀の井別荘・山家料理 湯の岳庵", d:"由布院「御三家」之一的老牌別莊，餐廳與茶房對非住宿客開放。金鱗湖畔、大茅草屋頂。午間限定鰻魚飯、和牛排套餐、炙烤地雞套餐"},
+          {t:"13:15", k:"sight", name:"山莊無量塔一帶・喝東西看空間", d:"由布院御三家的另一家，附設的咖啡與店舖對非住宿客開放。不上課、不做手作 —— 就是坐下來喝東西、看空間、買東西"},
+          {t:"14:30", k:"free", name:"由布院自由活動", d:"由布岳在正前方的那條主街，回車上之前各自逛"},
+          {t:"15:30", k:"ride", name:"離開由布院・前往糸島", d:"153 公里、約 2 小時 02 分，中途休息一次。今天車程較長，所以晚餐安排在飯店，回來不必再上車"},
+          {t:"17:45", k:"sight", name:"入住 seven x seven 糸島", d:"47 間房全部帶露台、全部看得到海；2026 年 4 月才改裝完的 Sunset Beach Club。行李一早就送到了，進房就能休息"},
+          {t:"18:30", k:"meal", name:"全團晚餐・seven x seven 飯店", d:"跑了一天大分，晚餐就在飯店 —— 吃完接著酒與麻將"},
+        ]},
+
+      { n:4, date:"10/15（四）", title:"第二場・西戸崎海濱｜太太組去佐賀稻荷", en:"Round 2 · Saitozaki / Kashima", feat:true,
+        theme:["09:59 開球","日本三大稻荷","肥前浜宿酒藏"],
+        img:"/tour/fukuoka-golf-1012/img/yutoku-inari.jpg", cap:"祐德稻荷神社・本殿",
+        note:"今天兩組走得最開：球隊往東北的海之中道，球道一側就是玄界灘；太太組往西南進佐賀縣鹿島 —— 日本三大稻荷之一的祐德稻荷，加上保存下來的酒藏老街肥前浜宿。行李都在飯店，兩組傍晚回同一個地方會合。",
+        golf:[
+          {t:"08:15", k:"ride", name:"糸島出發・前往海之中道", d:"福岡市東區西戸崎，44 公里、約 39 分鐘，橫過博多灣往東"},
+          {t:"09:20", k:"golf", name:"報到", d:"整理裝備、換鞋，準備上場"},
+          {t:"09:59", k:"golf", name:"第一組開球", d:"連續三組開出。球場在海之中道的沙洲上，球道一側就是玄界灘 —— 福岡市區最近的海景球場"},
+          {t:"12:30", k:"meal", name:"場內午餐", d:"在會館餐廳休息用餐，下午續打"},
+          {t:"16:00", k:"ride", name:"打完・回糸島", d:"44 公里、約 39 分鐘，傍晚回到海邊"},
+        ],
+        ladies:[
+          {t:"09:00", k:"ride", name:"糸島出發・前往佐賀鹿島", d:"往西南 87 公里、約 1 小時 10 分。方向與糸島同一側，不必繞回福岡市區"},
+          {t:"10:15", k:"sight", name:"祐德稻荷神社", d:"與京都伏見稻荷、茨城笠間稻荷並稱日本三大稻荷，一年三百萬人參拜。本殿架在懸空的朱紅支柱上，另有日本庭園與祐德博物館"},
+          {t:"12:15", k:"meal", name:"鹿島地方午餐", d:"有明海的魚介與鹿島的地方料理，就在神社附近"},
+          {t:"14:00", k:"sight", name:"肥前浜宿・酒藏通", d:"國家指定的重要傳統建造物群保存地區，白牆酒藏一條街，10:00–17:00。安排進一間酒藏試飲鹿島地酒 —— 下午喝的酒，晚上餐桌上會再出現"},
+          {t:"16:00", k:"ride", name:"離開鹿島・返回糸島", d:"約 1 小時 10 分，回到飯店剛好趕上二見浦的夕陽"},
+          {t:"17:15", k:"sight", name:"回到 seven x seven 糸島", d:"門口就是二見浦夫婦岩，看夕陽不用移動"},
+        ],
+        dinner:"18:30　兩組會合・seven x seven 飯店晚餐 → 酒與麻將（明天要打球，別太晚）"},
+
+      { n:5, date:"10/16（五）", title:"第三場・福岡國際 中山 IN", en:"Round 3 · Fukuoka Kokusai", feat:true,
+        theme:["10:27 開球","連續 3 組","晚班機回"],
+        warn:"最後一天照樣打滿 18 洞：10:27 開球、約下午四點半打完，宗像到福岡機場 35 公里約 39 分鐘，回程 BR101 是晚上 7:20 的班機 —— 時間綽綽有餘，不必趕。",
+        golf:[
+          {t:"08:15", k:"ride", name:"退房・行李上車", d:"行李全程在車上，打完直接去機場"},
+          {t:"08:30", k:"ride", name:"糸島出發・前往宗像", d:"福岡國際カントリークラブ，宗像市朝町 1470-1。58 公里、含車流抓 60 分鐘"},
+          {t:"09:50", k:"golf", name:"報到", d:"最後一場，整理裝備準備上場"},
+          {t:"10:27", k:"golf", name:"第一組開球・中山 IN", d:"連續三組開出，起伏的上下坡連著來"},
+          {t:"12:50", k:"meal", name:"場內午餐", d:"自費"},
+          {t:"16:30", k:"ride", name:"打完・前往機場", d:"行李一早就在車上，宗像到福岡機場約 39 分鐘"},
+          {t:"17:15", k:"ride", name:"抵達福岡機場・辦理登機", d:"退稅與免稅店還有時間慢慢逛"},
+          {t:"19:20", k:"plane", name:"長榮航空 BR101 返台", d:"20:45 抵達桃園機場"},
+        ],
+        ladies:[
+          {t:"—", k:"free", name:"上午・糸島最後一次看海", d:"退房後行李上車，不必跟著到宗像"},
+          {t:"15:00", k:"ride", name:"專車前往福岡機場", d:"糸島到機場 32 公里、約 38 分鐘。這一段要另備一台車（球隊的車在宗像）"},
+          {t:"17:15", k:"ride", name:"機場會合", d:"與高球組在福岡機場會合，一起搭 19:20 的班機回台北"},
+        ]},
+    ];
+
+    const ic = (k, cls) => '<svg class="ico'+(cls?' '+cls:'')+'" viewBox="0 0 24 24">'+(ICO[k]||ICO.sight)+'</svg>';
+
+    const renderSteps = (steps, cls) => steps.map(s =>
+      '<div class="step">'+
+        '<div class="t num">'+s.t+'</div>'+
+        '<div class="si">'+ic(s.k, cls)+'</div>'+
+        '<div class="flex-1">'+
+          '<div class="text-[15px] font-semibold text-ink">'+s.name+
+            '</div>'+
+          (s.d?'<div class="text-[13.5px] text-inkSoft font-light leading-relaxed mt-0.5">'+s.d+'</div>':'')+
+        '</div>'+
+      '</div>'
+    ).join('');
+
+    document.getElementById('days').innerHTML = DAYS.map(day => {
+      let body = '';
+
+      if (day.note) {
+        body += '<div class="mb-6 rounded-xl bg-cream border border-black/5 px-5 py-4 text-[13.5px] text-inkSoft font-light leading-relaxed">'+day.note+'</div>';
+      }
+      if (day.warn) {
+        body += '<div class="mb-6 rounded-xl border border-corner/50 bg-corner/5 px-5 py-4 text-[13.5px] text-ink font-light leading-relaxed">'+day.warn+'</div>';
+      }
+
+      if (day.single) {
+        body += renderSteps(day.single);
+      } else {
+        body +=
+          '<div class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-10">'+
+            '<div>'+
+              '<div class="track-head"><i style="background:#1F5D3A"></i><span style="color:#1F5D3A">Golf Group · 高球組</span></div>'+
+              renderSteps(day.golf, 'ico-g')+
+            '</div>'+
+            '<div>'+
+              '<div class="track-head"><i style="background:#6B7B8B"></i><span style="color:#6B7B8B">Ladies Group · 太太組</span></div>'+
+              renderSteps(day.ladies, 'ico-l')+
+            '</div>'+
+          '</div>';
+        if (day.dinner) {
+          body += '<div class="mt-8 pt-5 border-t border-black/5 flex items-center gap-3 text-[14px] text-inkSoft font-light">'+
+            '<svg class="ico w-[18px] h-[18px]" viewBox="0 0 24 24">'+ICO.meal+'</svg>'+day.dinner+
+            '</div>';
+        }
+      }
+
+      const tags = day.theme.map(t=>'<span class="tag">'+t+'</span>').join('');
+      const media = day.img
+        ? '<div class="relative order-1 lg:order-2 h-52 lg:h-auto lg:min-h-full overflow-hidden">'+
+            '<img src="'+day.img+'" alt="'+(day.cap||day.title)+'" loading="lazy" class="w-full h-full object-cover" />'+
+            (day.cap?'<span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">'+day.cap+'</span>':'')+
+          '</div>'
+        : '';
+      const bodyCols = day.img ? 'lg:grid-cols-[1fr_300px]' : '';
+
+      return (
+        '<div class="day-block">'+
+          '<div class="day-rail grid grid-cols-1 md:grid-cols-[auto_1fr] gap-5 md:gap-8">'+
+            '<div class="num-bubble'+(day.feat?' !bg-turf !text-white !border-turf':'')+' num">'+String(day.n).padStart(2,'0')+'</div>'+
+            '<div class="bg-white rounded-2xl shadow-card border border-black/5 overflow-hidden grid grid-cols-1 '+bodyCols+'">'+
+              '<div class="p-6 md:p-8 order-2 lg:order-1">'+
+                '<div class="flex items-baseline gap-3 flex-wrap">'+
+                  '<h3 class="text-[24px] md:text-[26px] font-semibold leading-tight">'+
+                    day.title.split('｜')[0]+
+                    (day.title.includes('｜')?'<br/><span class="block mt-1 text-[17px] md:text-[19px] font-medium text-inkSoft">'+day.title.split('｜')[1]+'</span>':'')+
+                  '</h3>'+
+                  '<span class="text-[13px] tracking-wider2 text-inkSoft font-light">'+day.en+'</span>'+
+                  '<span class="ml-auto num text-[13px] text-inkSoft">'+day.date+'</span>'+
+                '</div>'+
+                '<div class="flex flex-wrap gap-2 mt-3 mb-6">'+tags+'</div>'+
+                body+
+              '</div>'+
+              media+
+            '</div>'+
+          '</div>'+
+        '</div>'
+      );
+    }).join('');
+  </script>
+
+
+
+  <div class="lb-overlay" id="lb" aria-hidden="true">
+    <button class="lb-close" aria-label="關閉">&times;</button>
+    <button class="lb-nav lb-prev" aria-label="上一張">&#8249;</button>
+    <img alt="" />
+    <button class="lb-nav lb-next" aria-label="下一張">&#8250;</button>
+    <div class="lb-count"></div>
+  </div>
+  <script>
+  (function(){
+    const lb=document.getElementById('lb'), lbImg=lb.querySelector('img'), cnt=lb.querySelector('.lb-count');
+    let group=[], idx=0;
+    function show(i){
+      idx=(i+group.length)%group.length;
+      const im=group[idx];
+      lbImg.src=im.currentSrc||im.src; lbImg.alt=im.alt||'';
+      cnt.textContent=group.length>1?(idx+1)+' / '+group.length:'';
+    }
+    document.addEventListener('click', e=>{
+      const img = e.target.closest('img');
+      if(!img) return;
+      const scope = img.closest('.day-block, .tour-card, figure, section') || img.parentElement;
+      group = Array.from(scope.querySelectorAll('img'));
+      if(!group.length) group=[img];
+      show(group.indexOf(img));
+      lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
+    });
+    function close(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbImg.src=''; }
+    function prev(e){ if(e) e.stopPropagation(); show(idx-1); }
+    function next(e){ if(e) e.stopPropagation(); show(idx+1); }
+    lb.addEventListener('click', close);
+    lbImg.addEventListener('click', e=>e.stopPropagation());
+    lb.querySelector('.lb-prev').addEventListener('click', prev);
+    lb.querySelector('.lb-next').addEventListener('click', next);
+    document.addEventListener('keydown', e=>{
+      if(!lb.classList.contains('open')) return;
+      if(e.key==='Escape') close();
+      else if(e.key==='ArrowLeft') prev();
+      else if(e.key==='ArrowRight') next();
+    });
+  })();
+  </script>
+</body>
+</html>

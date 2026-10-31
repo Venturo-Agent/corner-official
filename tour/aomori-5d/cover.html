@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>封面三案｜青森五日</title>
+<style>
+:root{
+  --paper:#EAE4D6; --ink:#1B211A; --ink-2:#4A5247;
+  --moss:#5C6E54; --moss-d:#38452F; --deep:#101509;
+  --sun:#C9A227; --vermilion:#A63B26;
+  --serif:"Noto Serif CJK TC",serif; --serif-ja:"Noto Serif CJK JP",serif;
+  --sans:"Noto Sans CJK TC",sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#0a0d07;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:50% 50%}
+.slide{position:absolute;inset:0;overflow:hidden;display:none;font-family:var(--serif)}
+.slide.on{display:block}
+
+/* ── 共用：標題逐字揭開 ───────────────── */
+.mask{display:inline-block;overflow:hidden;vertical-align:bottom}
+.mask > i{display:inline-block;font-style:normal;transform:translateY(105%)}
+.slide.on .mask > i{animation:up .78s var(--ease) both}
+@keyframes up{to{transform:none}}
+.blk{transform:scaleX(0);transform-origin:left center}
+.slide.on .blk{animation:wipeX .72s var(--ease) both}
+@keyframes wipeX{to{transform:scaleX(1)}}
+.blkY{transform:scaleY(0);transform-origin:top center}
+.slide.on .blkY{animation:wipeY .72s var(--ease) both}
+@keyframes wipeY{to{transform:scaleY(1)}}
+.fade{opacity:0}
+.slide.on .fade{animation:fd .7s var(--ease) both}
+@keyframes fd{to{opacity:1}}
+.rise{opacity:0;transform:translateY(24px)}
+.slide.on .rise{animation:rs .7s var(--ease) both}
+@keyframes rs{to{opacity:1;transform:none}}
+.stampin{opacity:0;transform:scale(1.42) rotate(-11deg)}
+.slide.on .stampin{animation:stmp .55s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes stmp{to{opacity:1;transform:scale(1) rotate(-2.5deg)}}
+.zoom{transform:scale(1.12)}
+.slide.on .zoom{animation:zm 9s linear both}
+@keyframes zm{to{transform:scale(1)}}
+.t1{animation-delay:.06s !important}.t2{animation-delay:.16s !important}
+.t3{animation-delay:.26s !important}.t4{animation-delay:.36s !important}
+.t5{animation-delay:.48s !important}.t6{animation-delay:.60s !important}
+.t7{animation-delay:.72s !important}.t8{animation-delay:.86s !important}
+@media (prefers-reduced-motion:reduce){*{animation:none !important}
+  .mask>i,.blk,.blkY,.zoom,.stampin{transform:none}.fade,.rise,.stampin{opacity:1}}
+
+/* ═══ A：色塊構成（v2）═══════════════════ */
+.A{background:var(--paper)}
+.A .photo{position:absolute;right:0;top:0;width:56%;height:100%;overflow:hidden}
+.A .photo img{width:100%;height:100%;object-fit:cover;display:block}
+/* 照片上壓一層極淡的暖色，跟左邊色塊同一個世界 */
+.A .photo::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(258deg,rgba(16,21,9,.42) 0%,rgba(16,21,9,.05) 34%,rgba(16,21,9,.34) 100%)}
+.A .slab{position:absolute;left:0;top:0;width:44%;height:100%;background:var(--deep);z-index:2}
+/* 苔綠窄條壓在交界上，並且比色塊高一點、露出上下 */
+.A .slab2{position:absolute;left:44%;top:0;width:78px;height:100%;background:var(--moss-d);z-index:3}
+/* 金色細柱：打破直線分割，壓進照片 */
+.A .gold{position:absolute;left:calc(44% + 78px);top:180px;bottom:180px;width:7px;
+  background:var(--sun);z-index:4}
+
+.A .body{position:absolute;left:112px;top:196px;z-index:5;color:#F1ECDE;width:640px}
+.A .kicker{display:flex;align-items:center;gap:15px;font-family:var(--sans);
+  font-size:15px;letter-spacing:.42em;color:var(--sun);margin-bottom:30px}
+.A .kicker span.bar{display:block;width:52px;height:1px;background:var(--sun)}
+.A .no{position:absolute;left:112px;top:132px;z-index:5;font-family:var(--sans);
+  font-size:14px;letter-spacing:.34em;color:rgba(241,236,222,.42)}
+.A h1{font-size:152px;font-weight:600;letter-spacing:.08em;line-height:1;position:relative}
+/* 標題左邊一道細金線，像引號 */
+.A h1::before{content:"";position:absolute;left:-34px;top:12px;bottom:12px;width:2px;
+  background:linear-gradient(180deg,var(--sun),rgba(201,162,39,.12))}
+.A .sub{font-size:31px;letter-spacing:.32em;color:rgba(241,236,222,.8);margin-top:28px}
+.A .en{font-family:var(--sans);font-size:15px;letter-spacing:.5em;
+  color:rgba(241,236,222,.42);margin-top:20px}
+.A .rule{height:1px;background:rgba(241,236,222,.24);margin:46px 0 32px;width:440px}
+.A .meta{font-family:var(--sans);font-size:18px;line-height:2.3;letter-spacing:.05em;
+  color:rgba(241,236,222,.7)}
+.A .meta b{color:#F1ECDE;font-weight:500}
+.A .meta .sep{color:var(--sun);margin:0 12px}
+.A .who{position:absolute;left:112px;bottom:78px;z-index:5;font-family:var(--sans);
+  font-size:16px;letter-spacing:.2em;color:rgba(241,236,222,.55)}
+/* 年份：回到右下角，照片上；靠一小片深色襯底保證讀得到 */
+.A .yearbox{position:absolute;right:76px;bottom:96px;z-index:5;text-align:right;
+  padding:18px 26px 20px;background:linear-gradient(120deg,rgba(16,21,9,0),rgba(16,21,9,.62))}
+.A .yearbox .yr{font-family:var(--serif-ja);font-size:86px;font-weight:600;line-height:.92;
+  color:#F6F2E6;letter-spacing:.02em}
+.A .yearbox .mo{font-family:var(--sans);font-size:15px;letter-spacing:.42em;
+  color:rgba(246,242,230,.78);margin-top:10px}
+/* 照片上的直排題箋 */
+.A .vtitle{position:absolute;right:76px;top:150px;z-index:5;writing-mode:vertical-rl;
+  font-family:var(--serif-ja);font-size:30px;letter-spacing:.5em;color:rgba(255,255,255,.92);
+  text-shadow:0 2px 26px rgba(0,0,0,.5)}
+
+
+/* ── Lovart 生的版畫裝飾元素 ─────────────────
+   白色去背 PNG，用 opacity 與 filter 上色。
+   克制：整張只用兩個——左下的底紋、右側的落款印。 */
+.A .deco{position:absolute;pointer-events:none;z-index:3}
+.A .deco img{display:block;width:100%;height:auto}
+/* 青海波：貼著左下角，極淡，只是讓那片深色不要死板 */
+.A .d-wave{left:-50px;bottom:34px;width:300px;opacity:.055;
+  -webkit-mask-image:radial-gradient(96% 96% at 0% 100%,#000 22%,transparent 64%);
+          mask-image:radial-gradient(96% 96% at 0% 100%,#000 22%,transparent 64%)}
+/* 山形：淡淡浮在照片左上，呼應岩木山 */
+.A .d-mt{right:238px;top:104px;width:196px;opacity:.3;z-index:5}
+/* 落款印：左下角——傳統上印就蓋在這裡，不是塞在標題旁邊。
+   它同時接手原本那塊朱紅色塊的任務：整張唯一的暖點。 */
+.A .d-seal{left:112px;bottom:150px;width:124px;z-index:6}
+
+/* ═══ B：滿版底圖＋壓字色塊 ══════════════ */
+.B{background:var(--deep)}
+.B .photo{position:absolute;inset:0;overflow:hidden}
+.B .photo img{width:100%;height:100%;object-fit:cover;display:block}
+.B .grad{position:absolute;inset:0;z-index:2;
+  background:linear-gradient(94deg,rgba(10,13,7,.93) 0%,rgba(10,13,7,.78) 30%,
+    rgba(10,13,7,.28) 58%,rgba(10,13,7,.55) 100%)}
+.B .panel{position:absolute;left:112px;top:180px;width:824px;z-index:3;
+  background:rgba(16,21,9,.78);border-left:5px solid var(--sun);padding:62px 66px 68px}
+.B .kicker{font-family:var(--sans);font-size:17px;letter-spacing:.44em;color:var(--sun);margin-bottom:30px}
+.B h1{font-size:132px;font-weight:600;letter-spacing:.12em;line-height:1.04;color:#F4F0E4}
+.B .sub{font-size:30px;letter-spacing:.28em;color:rgba(244,240,228,.8);margin-top:24px}
+.B .rule{height:1px;background:rgba(244,240,228,.28);margin:38px 0 30px}
+.B .meta{font-family:var(--sans);font-size:19px;line-height:2.2;letter-spacing:.05em;
+  color:rgba(244,240,228,.74)}
+.B .meta b{color:#F4F0E4;font-weight:500}
+.B .tags{position:absolute;left:112px;bottom:96px;z-index:3;display:flex;gap:14px}
+.B .tags span{font-family:var(--sans);font-size:17px;letter-spacing:.14em;color:#F4F0E4;
+  border:1px solid rgba(244,240,228,.4);padding:11px 24px}
+.B .vtitle{position:absolute;right:104px;top:150px;z-index:3;writing-mode:vertical-rl;
+  font-family:var(--serif-ja);font-size:34px;letter-spacing:.56em;color:rgba(244,240,228,.9)}
+.B .who{position:absolute;right:104px;bottom:96px;z-index:3;font-family:var(--sans);
+  font-size:17px;letter-spacing:.2em;color:rgba(244,240,228,.62)}
+
+/* ═══ C：拼貼構成 ═══════════════════════ */
+.C{background:var(--paper)}
+.C .p1{position:absolute;left:0;top:0;width:34%;height:64%;overflow:hidden;z-index:2}
+.C .p2{position:absolute;right:0;top:0;width:40%;height:100%;overflow:hidden;z-index:2}
+.C .p3{position:absolute;left:8%;bottom:0;width:26%;height:30%;overflow:hidden;z-index:2}
+.C .p1 img,.C .p2 img,.C .p3 img{width:100%;height:100%;object-fit:cover;display:block}
+.C .band{position:absolute;left:0;top:64%;width:34%;height:6%;background:var(--vermilion);z-index:3}
+.C .sq{position:absolute;right:40%;top:0;width:190px;height:190px;background:var(--sun);z-index:3}
+.C .mossbar{position:absolute;left:34%;top:0;width:26%;height:100%;background:var(--moss-d);z-index:1}
+.C .body{position:absolute;left:36%;top:238px;width:640px;z-index:4;color:#F1ECDE}
+.C .kicker{font-family:var(--sans);font-size:16px;letter-spacing:.44em;color:var(--sun);margin-bottom:28px}
+.C h1{font-size:118px;font-weight:600;letter-spacing:.1em;line-height:1.06}
+.C h1 em{font-style:normal;color:var(--sun)}
+.C .sub{font-size:26px;letter-spacing:.26em;color:rgba(241,236,222,.78);margin-top:22px}
+.C .meta{font-family:var(--sans);font-size:18px;line-height:2.1;letter-spacing:.05em;
+  color:rgba(241,236,222,.72);margin-top:40px}
+.C .meta b{color:#F1ECDE;font-weight:500}
+.C .ghost{position:absolute;left:36%;bottom:70px;z-index:4;font-family:var(--sans);
+  font-size:124px;font-weight:700;letter-spacing:.04em;color:rgba(241,236,222,.16);line-height:1}
+.C .who{position:absolute;right:56px;bottom:46px;z-index:4;font-family:var(--sans);
+  font-size:16px;letter-spacing:.2em;color:var(--ink-2)}
+
+#nav{position:fixed;right:26px;bottom:22px;display:flex;gap:14px;align-items:center;
+  font-family:var(--sans);font-size:15px;color:#BDB6A4;letter-spacing:.14em;z-index:9}
+#nav button{background:none;border:1px solid rgba(255,255,255,.28);color:#CFC8B6;
+  width:38px;height:38px;cursor:pointer}
+#tag{position:fixed;left:150px;bottom:26px;font-family:var(--sans);font-size:14px;
+  color:#8C8778;letter-spacing:.1em;z-index:9}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- ═══ A ═══ -->
+<section class="slide A on">
+  <div class="photo"><img class="zoom" src="/tour/aomori-5d/img/f-oirase.jpg" alt=""></div>
+  <div class="slab blk t1"></div>
+  <div class="slab2 blkY t3"></div>
+  <div class="gold blkY t6"></div>
+  <div class="deco d-wave fade t7"><img src="/tour/aomori-5d/img/deco-seigaiha.png" alt=""></div>
+  <div class="deco d-mt fade t7"><img src="/tour/aomori-5d/img/deco-mountain.png" alt=""></div>
+  <div class="deco d-seal stampin t8"><img src="/tour/aomori-5d/img/seal-aomori.png" alt=""></div>
+
+  <div class="no fade t2">PROPOSAL ・ 001</div>
+  <div class="body">
+    <div class="kicker fade t3"><span class="bar"></span>CORPORATE TRAVEL 2027</div>
+    <h1><span class="mask t4"><i>青</i></span><span class="mask t5"><i>森</i></span></h1>
+    <div class="sub rise t6">五日　新綠與溫泉</div>
+    <div class="en fade t7">AOMORI ・ FIVE DAYS</div>
+    <div class="rule blk t7"></div>
+    <div class="meta rise t7">
+      <b>5 / 14</b><span class="sep">／</span><b>5 / 21</b><span class="sep">／</span><b>6 / 04</b>　三梯次<br>
+      每梯 <b>30 人</b>　桃園 — 青森　直飛不轉機
+    </div>
+  </div>
+  <div class="who fade t8">勤業保經・台中二信　員工旅遊提案　│　角落旅行社</div>
+  <div class="yearbox rise t7"><div class="yr">2027</div><div class="mo">MAY — JUNE</div></div>
+  <div class="vtitle fade t6">新緑の五日間</div>
+</section>
+
+<!-- ═══ B ═══ -->
+<section class="slide B">
+  <div class="photo"><img class="zoom" src="/tour/aomori-5d/img/f-kabushima.jpg" alt=""></div>
+  <div class="grad"></div>
+  <div class="panel rise t2">
+    <div class="kicker fade t3">AOMORI ・ 5 DAYS</div>
+    <h1><span class="mask t3"><i>青</i></span><span class="mask t4"><i>森</i></span></h1>
+    <div class="sub rise t5">五日　新綠與溫泉</div>
+    <div class="rule blk t5"></div>
+    <div class="meta rise t6">
+      二〇二七年　<b>5 / 14</b>　<b>5 / 21</b>　<b>6 / 04</b><br>
+      三梯次　每梯 <b>30 人</b>　桃園直飛青森
+    </div>
+  </div>
+  <div class="vtitle fade t7">新緑の五日間</div>
+  <div class="tags fade t7"><span>星野　兩晚</span><span>獨木舟</span><span>蕪島的海貓</span></div>
+  <div class="who fade t8">勤業保經・台中二信 × 角落旅行社</div>
+</section>
+
+<!-- ═══ C ═══ -->
+<section class="slide C">
+  <div class="mossbar blkY t1"></div>
+  <div class="p1"><img class="zoom" src="/tour/aomori-5d/img/p-oirase.jpg" alt=""></div>
+  <div class="p2"><img class="zoom" src="/tour/aomori-5d/img/f-kabushima.jpg" alt=""></div>
+  <div class="p3"><img class="zoom" src="/tour/aomori-5d/img/p-towada.jpg" alt=""></div>
+  <div class="band blk t5"></div>
+  <div class="sq blkY t4"></div>
+  <div class="body">
+    <div class="kicker fade t4">AOMORI 2027</div>
+    <h1><span class="mask t4"><i>青</i></span><span class="mask t5"><i>森</i></span><em><span class="mask t6"><i>五日</i></span></em></h1>
+    <div class="sub rise t6">新綠與溫泉</div>
+    <div class="meta rise t7">
+      5 / 14　5 / 21　6 / 04　三梯次<br>
+      每梯 30 人　桃園直飛青森
+    </div>
+  </div>
+  <div class="deco d-wave fade t7"><img src="/tour/aomori-5d/img/deco-seigaiha.png" alt=""></div>
+  <div class="deco d-mt fade t7"><img src="/tour/aomori-5d/img/deco-mountain.png" alt=""></div>
+  <div class="deco d-seal stampin t8"><img src="/tour/aomori-5d/img/seal-aomori.png" alt=""></div>
+  <div class="who fade t8">勤業保經・台中二信　│　角落旅行社</div>
+</section>
+
+</div>
+
+<div id="tag">A 色塊構成　·　B 滿版壓字　·　C 拼貼構成　—　左右鍵切換</div>
+<div id="nav"><button id="pv">‹</button><span id="cnt">A</span><button id="nx">›</button></div>
+
+<script>
+const S=[...document.querySelectorAll('.slide')], N=['A','B','C'];let i=0;
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);
+  stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+addEventListener('resize',fit);fit();
+function show(n){i=(n+S.length)%S.length;
+  S.forEach((s,k)=>{if(k===i){s.classList.remove('on');void s.offsetWidth;s.classList.add('on')}
+    else s.classList.remove('on')});
+  document.getElementById('cnt').textContent=N[i]}
+document.getElementById('nx').onclick=()=>show(i+1);
+document.getElementById('pv').onclick=()=>show(i-1);
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')show(i+1);if(e.key==='ArrowLeft')show(i-1)});
+addEventListener('click',e=>{if(e.target.closest('#nav'))return;show(e.clientX>innerWidth/2?i+1:i-1)});
+const q=new URLSearchParams(location.search);
+if(q.get('n'))show(+q.get('n')-1);
+if(q.get('still')==='1'){document.querySelectorAll('*').forEach(e=>{e.style.animation='none'});
+  document.querySelectorAll('.mask>i,.blk,.blkY,.zoom,.stampin').forEach(e=>e.style.transform='none');
+  document.querySelectorAll('.stampin').forEach(e=>e.style.opacity='1');
+  document.querySelectorAll('.fade,.rise').forEach(e=>{e.style.opacity='1';e.style.transform='none'})}
+</script>
+</body>
+</html>

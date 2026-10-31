@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>沖繩四日．打球 — 出團確認 — 角落旅行社</title>
+  <meta name="description" content="09/24–09/27　台灣虎航 IT232／IT233。三場 18 洞：9/25 那霸 GC 07:21、9/26 The Southern Links 13:00（下午場）、9/27 沖繩鄉村 07:07。住 LACER 沖繩那霸泊碼頭三晚。班機、開球時間、球場地址與注意事項。" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: { corner:'#FFA500', cornerDark:'#E68A00', ink:'#262626', inkSoft:'#565656', cream:'#FAF7F2', turf:'#1F5D3A' },
+        fontFamily: { display: ['"Josefin Sans"', '"Noto Sans TC"', 'system-ui', 'sans-serif'] },
+        boxShadow: { card:'0 8px 28px -10px rgba(38,38,38,0.18)', search:'0 18px 50px -16px rgba(38,38,38,0.30)' },
+      } }
+    }
+  </script>
+
+  <style>
+    html, body { font-family: 'Josefin Sans', 'Noto Sans TC', system-ui, sans-serif; color:#262626; }
+    body { background:#FFFFFF; }
+    .tracking-explore { letter-spacing:0.30em; }
+    .tracking-wider2  { letter-spacing:0.14em; }
+    .num { font-family:'IBM Plex Mono', ui-monospace, 'Noto Sans TC', monospace; font-variant-numeric:tabular-nums; }
+    .hero-headline { font-weight:700; font-size:clamp(56px,7.4vw,100px); line-height:0.98; letter-spacing:0.01em; }
+    .hero-pre { font-weight:300; font-size:clamp(18px,1.4vw,22px); letter-spacing:0.30em; }
+    .tour-card { transition:transform .35s ease, box-shadow .35s ease; }
+    .tour-card:hover { transform:translateY(-6px); box-shadow:0 18px 40px -12px rgba(38,38,38,0.28); }
+    .nav-link { position:relative; }
+    .nav-link::after{ content:""; position:absolute; left:50%; bottom:-6px; height:2px; width:0; background:#FFA500; transition:width .25s ease, left .25s ease; }
+    .nav-link:hover::after{ left:0; width:100%; }
+    .btn-corner { background:#FFA500; color:#fff; border-radius:6px; padding:14px 30px; font-weight:600; letter-spacing:0.08em; transition:background .2s ease, transform .2s ease; display:inline-flex; align-items:center; gap:10px; }
+    .btn-corner:hover { background:#E68A00; transform:translateY(-1px); }
+    .field-label { font-size:11px; letter-spacing:0.22em; color:#565656; text-transform:uppercase; }
+    .accent-bar { display:inline-block; width:48px; height:2px; background:#FFA500; }
+    /* 封面若是亮色空拍圖，只靠上下漸層壓不住白字，再疊一道左側暗角 */
+    .hero-veil {
+      background:
+        linear-gradient(90deg, rgba(18,26,24,0.72) 0%, rgba(18,26,24,0.46) 42%, rgba(18,26,24,0.08) 72%, rgba(18,26,24,0) 100%),
+        linear-gradient(180deg, rgba(38,38,38,0.38) 0%, rgba(38,38,38,0.16) 34%, rgba(38,38,38,0.62) 100%);
+    }
+    .ico { stroke:#FFA500; stroke-width:1.6; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    .tag { display:inline-flex; align-items:center; gap:6px; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; padding:5px 10px; border-radius:999px; background:#FFF4E0; color:#B26A00; font-weight:500; }
+    .tag-hot { background:#FFA500; color:#fff; }
+    .tag-pay { background:#fff; color:#6B6560; border:1px solid rgba(0,0,0,.14); font-weight:400; }
+    .tag-golf { background:#1F5D3A; color:#fff; }
+    .num-bubble { width:46px; height:46px; border:1.5px solid #FFA500; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; color:#FFA500; font-weight:600; letter-spacing:0.05em; }
+    .day-rail { position:relative; }
+    .day-rail::before { content:""; position:absolute; left:22px; top:52px; bottom:-28px; width:1.5px; background:#F0E6D6; }
+    .day-block:last-child .day-rail::before { display:none; }
+    .step { display:flex; gap:14px; align-items:flex-start; }
+    .step + .step { margin-top:14px; }
+    .step .t { min-width:50px; text-align:right; color:#E68A00; font-weight:600; font-size:13px; padding-top:2px; }
+    .step .si { width:22px; flex:none; padding-top:1px; }
+    .step .si svg { width:18px; height:18px; }
+    .leaflet-container { background:#FAF7F2; font-family:'Noto Sans TC',sans-serif; }
+    .rm-dot { width:9px; height:9px; border-radius:50%; background:#FFA500; display:inline-block; flex:none; }
+    .rm-dot.air { background:#262626; }
+    .rm-dot.golf { background:#1F5D3A; }
+    .city-marker { display:flex; flex-direction:column; align-items:center; transform:translateY(-50%); }
+    .city-marker .pin { width:14px; height:14px; border-radius:50%; background:#FFA500; border:3px solid #fff; box-shadow:0 2px 6px rgba(38,38,38,.4); }
+    .city-marker .pin.air { background:#262626; }
+    .city-marker .pin.golf { background:#1F5D3A; }
+    .city-marker .lbl { font-family:'Josefin Sans','Noto Sans TC',sans-serif; font-weight:600; font-size:.86rem; margin-top:3px; white-space:nowrap; color:#262626;
+      text-shadow:0 0 4px #fff,0 0 4px #fff,0 0 6px #fff; }
+    .plan-card { border:1px solid rgba(0,0,0,.08); border-radius:16px; background:#fff; }
+    .plan-card.pick { border-color:#FFA500; box-shadow:0 12px 36px -14px rgba(255,165,0,.55); }
+    .plan-badge { position:absolute; top:-13px; left:28px; background:#FFA500; color:#fff; font-size:11px; letter-spacing:.18em; padding:5px 14px; border-radius:999px; font-weight:600; }
+    .row { display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px dashed rgba(0,0,0,.09); font-size:14px; }
+    .row:last-child { border-bottom:none; }
+    .row .k { color:#565656; font-weight:300; }
+    .gtable { width:100%; border-collapse:collapse; }
+    .gtable th { font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#565656; font-weight:500; text-align:left; padding:0 0 12px; border-bottom:1.5px solid rgba(0,0,0,.12); }
+    .gtable th:last-child, .gtable td:last-child { text-align:right; }
+    .gtable td { padding:14px 0; border-bottom:1px solid rgba(0,0,0,.06); font-size:14.5px; vertical-align:top; }
+    .gtable tr.tier td { padding-top:26px; border-bottom:none; }
+    .gtable tr.tier:first-child td { padding-top:4px; }
+    .tier-label { display:inline-flex; align-items:center; gap:9px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; }
+    .tier-label i { width:26px; height:2px; display:inline-block; }
+    /* 地址＋一鍵導航：手機上點了直接開地圖／直接撥號，所以整塊要夠大好按（>=40px） */
+    .place { margin-top:18px; padding-top:15px; border-top:1px solid rgba(0,0,0,.08); }
+    .place .addr { font-size:12.5px; color:#565656; font-weight:300; line-height:1.65; }
+    .place .acts { display:flex; flex-wrap:wrap; gap:8px; margin-top:11px; }
+    .pill-link { display:inline-flex; align-items:center; gap:6px; font-size:12.5px; line-height:1; padding:11px 14px; border-radius:999px; border:1px solid rgba(0,0,0,.14); color:#565656; text-decoration:none; transition:background .2s ease, border-color .2s ease, color .2s ease; }
+    .pill-link:hover { border-color:#FFA500; color:#B26A00; background:#FFF4E0; }
+    .pill-link svg { width:14px; height:14px; stroke:currentColor; stroke-width:1.7; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    .pill-link.go { background:#FFA500; border-color:#FFA500; color:#fff; font-weight:600; }
+    .pill-link.go:hover { background:#E68A00; border-color:#E68A00; color:#fff; }
+    .gname { font-weight:600; }
+    .gmeta { font-size:12.5px; color:#565656; font-weight:300; margin-top:3px; }
+    .gyen { font-size:12.5px; color:#565656; font-weight:300; }
+    .gnt { font-weight:600; }
+    @media (max-width:700px){ .gtable .hide-sm { display:none; } }
+    img { cursor: zoom-in; }
+    .lb-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(20,20,20,.92); display: none; align-items: center; justify-content: center; padding: 24px; }
+    .lb-overlay.open { display: flex; }
+    .lb-overlay img { max-width: 94vw; max-height: 90vh; width: auto; height: auto; border-radius: 8px; cursor: zoom-out; }
+    .lb-close { position: absolute; top: 20px; right: 28px; background: none; border: none; color: #fff; font-size: 2.4rem; line-height: 1; cursor: pointer; }
+    .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.12); border: none; color: #fff; font-size: 2rem; width: 52px; height: 52px; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s ease; }
+    .lb-nav:hover { background: rgba(255,255,255,.26); }
+    .lb-prev { left: 20px; } .lb-next { right: 20px; }
+    .lb-count { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: #fff; font-family: 'IBM Plex Mono', monospace; font-size: .8rem; letter-spacing: .1em; background: rgba(0,0,0,.5); padding: 4px 14px; border-radius: 999px; }
+    @media (max-width: 600px) { .lb-nav { width: 42px; height: 42px; font-size: 1.6rem; } }</style>
+</head>
+<body class="font-display antialiased">
+
+  <header class="absolute top-0 left-0 right-0 z-30">
+    <div class="max-w-[1440px] mx-auto h-20 px-6 md:px-10 flex items-center justify-between">
+      <a href="#" class="text-white text-[18px] font-semibold tracking-wider2">角落旅行社</a>
+      <nav class="hidden md:flex items-center gap-8 text-[14px] text-white/90 tracking-wider2">
+        <a href="#plans" class="nav-link">班機 <span class="opacity-60 ml-1">Flights</span></a>
+        <a href="#golf" class="nav-link">球場場次 <span class="opacity-60 ml-1">Tee Times</span></a>
+        <a href="#itinerary" class="nav-link">行程 <span class="opacity-60 ml-1">Days</span></a>
+        <a href="#stay" class="nav-link">住宿 <span class="opacity-60 ml-1">Stay</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="relative w-full" style="min-height:max(70vh,520px); background:linear-gradient(135deg,#12343B,#1F5D3A);">
+    <img src="/tour/okinawa-golf-2026/img/hero.jpg" alt="沖繩海岸線與翡翠色淺灘" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 hero-veil"></div>
+    <div class="relative z-10 max-w-[1440px] mx-auto min-h-[max(70vh,520px)] px-6 md:px-10 pt-24 pb-14 flex flex-col justify-center text-white">
+      <div class="max-w-[820px]">
+        <div class="flex items-center gap-4 mb-6">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-white/90">角落旅行社 — 出團確認</span>
+        </div>
+        <p class="hero-pre uppercase text-white/95 mb-2">Okinawa · 沖繩四日打球</p>
+        <h1 class="hero-headline">沖繩四日．打球</h1>
+        <p class="mt-7 text-white/90 text-[18px] leading-[1.8] max-w-[680px] font-light">09/24（四）– 09/27（日）．3 人<br/>
+          台灣虎航直飛那霸．三場 18 洞．住那霸泊碼頭三晚．首場專人接送</p>
+        <div class="mt-8 flex flex-wrap items-center gap-x-10 gap-y-4">
+        </div>
+        <div class="mt-8 flex items-center gap-6 flex-wrap">
+          <a href="#itinerary" class="btn-corner text-[14px]">看逐日行程<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative z-20 -mt-12">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="bg-white rounded-xl shadow-search px-6 md:px-8 py-6 grid grid-cols-2 md:grid-cols-12 gap-6 items-center">
+        <div class="col-span-2 md:col-span-4 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">路線 · Route</div>
+          <div class="flex items-center gap-2 mt-2 text-[15px] text-ink flex-wrap">
+            <span>桃園</span>
+            <svg class="w-4 h-4 ico" viewBox="0 0 24 24"><path d="M3.4 13.5l8-2 5-7 1.6.6L15.5 11l4-1 1 1.5-4 2.6 1 5-1.3.6-3-4.4-3.8 1.1-1 3.2-1.3-.3v-3.3l-3-1z"/></svg>
+            <span class="font-semibold text-cornerDark">那霸</span>
+            <span class="text-inkSoft text-[13px] ml-1">虎航直飛 1 小時 30 分</span>
+          </div>
+        </div>
+        <div class="md:col-span-3 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">日期 · Date</div>
+          <div class="mt-2 text-[15px] text-ink num">09/24 <span class="text-inkSoft text-[13px]">（四）</span> — 09/27 <span class="text-inkSoft text-[13px]">（日）</span></div>
+          <div class="text-[13px] text-inkSoft mt-0.5">4 天 3 夜</div>
+        </div>
+        <div class="md:col-span-3 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">人數 · Pax</div>
+          <div class="mt-2 text-[15px] text-ink">3 人 1 房</div>
+          <div class="text-[13px] text-inkSoft mt-0.5">家庭客房 4 床</div>
+        </div>
+        <div class="col-span-2 md:col-span-2">
+          <a href="#contact" class="w-full btn-corner justify-center !py-3.5 text-[14px]">聯絡我們</a>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-3 mt-6 text-[13px] text-inkSoft">
+        <span class="tracking-wider2">本趟重點</span>
+        <span class="px-3 py-1 rounded-full bg-corner/10 border border-corner/30 text-cornerDark font-medium">9/25 那霸 GC　07:21 開球</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">9/26 Southern Links　13:00 開球</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">9/27 沖繩鄉村　07:07 開球</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">住泊碼頭三晚．不換宿</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">9/25 首場專人接送．其餘自理</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">機票已開票．球袋費已含</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="plans" class="pt-24 pb-4">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Flights</span>
+        </div>
+        <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">班機</h2>
+      </div>
+      <div class="grid grid-cols-1  gap-7">
+        <article class="plan-card pick relative p-7 md:p-8">
+          <span class="text-[13px] tracking-explore uppercase text-inkSoft">Tigerair Taiwan</span>
+          <h3 class="text-[26px] font-semibold leading-tight mt-1">台灣虎航．桃園 ⇄ 那霸</h3>
+          <p class="text-inkSoft text-[13.5px] font-light mt-2 leading-relaxed"></p>
+          <div class="mt-6">
+            <div class="row"><span class="k">去程</span><span class="num">IT232　09/24（四）18:30 桃園 → 20:50 那霸</span></div>
+            <div class="row"><span class="k">回程</span><span class="num text-turf font-semibold">IT233　09/27（日）18:40 那霸 → 19:15 桃園</span></div>
+            <div class="row"><span class="k">時差</span><span class="num">沖繩比台灣快 1 小時</span></div>
+            <div class="row"><span class="k">託運行李</span><span class="num">25 公斤</span></div>
+            <div class="row"><span class="k">機上餐</span><span class="num">自費加購</span></div>
+            <div class="row"><span class="k">球袋大件手續費</span><span class="num text-turf font-semibold">已含．去回都不用再付</span></div>
+          </div>
+        </article>
+      </div>
+      <p class="mt-6 text-[12.5px] text-inkSoft/80 leading-relaxed max-w-[880px] font-light">＊虎航票種為不可退款，更改費用另計。
+        ＊球袋的大件行李手續費（NT$550／件／趟）已包含在內，去程回程都不必在機場再付。
+        ＊沖繩時間比台灣快 1 小時，上表為當地時間。</p>
+    </div>
+  </section>
+
+  <section id="golf" class="py-24 bg-cream mt-20">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="flex items-end justify-between mb-12 flex-wrap gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="accent-bar"></span>
+            <span class="text-[12px] tracking-explore uppercase text-corner">Green Fee</span>
+          </div>
+          <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">球場場次</h2>
+        </div>
+        <p class="text-inkSoft max-w-[440px] font-light text-[15px] leading-relaxed">三場皆已收到球場確認書。下列為確認書上的開球時間、金額與打法；每張卡附球場日文地址與電話，點「導航」可直接開地圖。</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-7 mb-14">
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border-2 border-turf/40">
+          <div class="relative">
+            <img src="/tour/okinawa-golf-2026/img/golf-naha-aerial.jpg" alt="那霸高爾夫俱樂部（八重瀨）空拍" class="w-full h-48 object-cover" loading="lazy" />
+            <span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">那霸 GC 空拍</span>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3"><span class="tag tag-golf">D2 · 9/25（五）07:21 開球</span></div>
+            <h3 class="text-[20px] font-semibold leading-snug">那霸高爾夫俱樂部</h3>
+            <div class="text-[12.5px] text-inkSoft font-light mt-1">八重瀨・車程 35 分・本島第一座球場</div>
+            <div class="num text-[24px] font-semibold text-turf mt-4">¥37,200<span class="text-[13px] text-inkSoft font-light ml-1">/人</span></div>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">確認書載明：1 組 3 名、7 分間隔。プレースタイル 為スループレー／キャディ乗用カート付（セルフ不可）。¥37,200 為 3B 價，已含桿弟與球車。</p>
+
+            <div class="place">
+              <div class="addr"><span class="text-ink font-medium">那覇ゴルフ倶楽部</span><br/>〒901-0402 沖縄県島尻郡八重瀬町字富盛2270</div>
+              <div class="acts">
+                <a class="pill-link go" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%82%A3%E8%A6%87%E3%82%B4%E3%83%AB%E3%83%95%E5%80%B6%E6%A5%BD%E9%83%A8%20%E3%80%92901-0402%20%E6%B2%96%E7%B8%84%E7%9C%8C%E5%B3%B6%E5%B0%BB%E9%83%A1%E5%85%AB%E9%87%8D%E7%80%AC%E7%94%BA%E5%AD%97%E5%AF%8C%E7%9B%9B2270" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>導航</a>
+                <a class="pill-link" href="tel:+81989983311"><svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a12 12 0 006 6L16 13l5 2v4a2 2 0 01-2 2A16 16 0 013 5a2 2 0 012-2z"/></svg>098-998-3311</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border border-black/8">
+          <div class="h-48 bg-cream border-b border-black/8 flex flex-col items-center justify-center">
+            <div class="num text-[40px] font-semibold text-ink leading-none">13:00<span class="text-[16px] text-inkSoft font-light ml-1"></span></div>
+            <div class="text-[12px] tracking-explore uppercase text-inkSoft mt-3">下午開球．IN 場出發</div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3"><span class="tag tag-golf">D3 · 9/26（六）13:00 開球</span></div>
+            <h3 class="text-[20px] font-semibold leading-snug">The Southern Links</h3>
+            <div class="text-[12.5px] text-inkSoft font-light mt-1">八重瀨玻名城・車程 45 分・島南端海岸</div>
+            <div class="num text-[24px] font-semibold text-ink mt-4">¥22,490<span class="text-[13px] text-inkSoft font-light ml-1">/人</span></div>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">確認書申込番号 260926-095A-21814257-5396。IN 場出發、3 名。方案為【Cool Cart】沖縄AG・PGMロンググランコンペ・ボール付プラン。</p>
+
+            <div class="place">
+              <div class="addr"><span class="text-ink font-medium">ザ・サザンリンクスゴルフクラブ</span><br/>〒901-0513 沖縄県島尻郡八重瀬町字玻名城697</div>
+              <div class="acts">
+                <a class="pill-link go" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B6%E3%83%BB%E3%82%B5%E3%82%B6%E3%83%B3%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%B9%E3%82%B4%E3%83%AB%E3%83%95%E3%82%AF%E3%83%A9%E3%83%96%20%E3%80%92901-0513%20%E6%B2%96%E7%B8%84%E7%9C%8C%E5%B3%B6%E5%B0%BB%E9%83%A1%E5%85%AB%E9%87%8D%E7%80%AC%E7%94%BA%E5%AD%97%E7%8E%BB%E5%90%8D%E5%9F%8E697" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>導航</a>
+                <a class="pill-link" href="tel:+81989987001"><svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a12 12 0 006 6L16 13l5 2v4a2 2 0 01-2 2A16 16 0 013 5a2 2 0 012-2z"/></svg>098-998-7001</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border-2 border-corner/40">
+          <div class="h-48 bg-ink flex flex-col items-center justify-center">
+            <div class="num text-[40px] font-semibold text-corner leading-none">07:07<span class="text-[16px] text-white/70 font-light ml-1"></span></div>
+            <div class="text-[12px] tracking-explore uppercase text-white/70 mt-3">開球．當天 18:40 返台</div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3"><span class="tag tag-hot">D4 · 9/27（日）07:07 開球</span></div>
+            <h3 class="text-[20px] font-semibold leading-snug">沖繩鄉村俱樂部</h3>
+            <div class="text-[12.5px] text-inkSoft font-light mt-1">西原・車程 30 分・三場裡離飯店最近</div>
+            <div class="num text-[24px] font-semibold text-cornerDark mt-4">¥14,590<span class="text-[13px] text-inkSoft font-light ml-1">/人</span></div>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">確認書申込番号 260927-373I-21814257-6389。IN 場出發、3 名。方案為【得トク】【Cool Cart】土日祝・セルフ・スループレー 3B以上。</p>
+
+            <div class="place">
+              <div class="addr"><span class="text-ink font-medium">沖縄カントリークラブ</span><br/>〒903-0114 沖縄県中頭郡西原町桃原109</div>
+              <div class="acts">
+                <a class="pill-link go" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B2%96%E7%B8%84%E3%82%AB%E3%83%B3%E3%83%88%E3%83%AA%E3%83%BC%E3%82%AF%E3%83%A9%E3%83%96%20%E3%80%92903-0114%20%E6%B2%96%E7%B8%84%E7%9C%8C%E4%B8%AD%E9%A0%AD%E9%83%A1%E8%A5%BF%E5%8E%9F%E7%94%BA%E6%A1%83%E5%8E%9F109" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>導航</a>
+                <a class="pill-link" href="tel:+81989453371"><svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a12 12 0 006 6L16 13l5 2v4a2 2 0 01-2 2A16 16 0 013 5a2 2 0 012-2z"/></svg>098-945-3371</a>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+      <article class="bg-white rounded-2xl shadow-card border border-black/5 p-7 md:p-9">
+        <div class="flex items-baseline justify-between flex-wrap gap-3 mb-7">
+          <div class="field-label">已訂場次 · 每人每場 18 洞</div>
+          <div class="text-[12.5px] text-inkSoft font-light num">匯率 ¥1 ≈ NT$0.22</div>
+        </div>
+        <table class="gtable">
+          <thead><tr><th>日期・時段</th><th>球場</th><th class="hide-sm">牌價／加價</th><th>實收</th></tr></thead>
+          <tbody>
+            <tr><td><div class="gname num">9/25（五）07:21</div><div class="gmeta">D2・平日</div></td><td><div class="gname">那霸高爾夫俱樂部</div><div class="gmeta">八重瀨・車程 35 分・附桿弟</div></td><td class="hide-sm gyen num">¥37,200　含桿弟</td><td class="gnt num">¥37,200</td></tr>
+            <tr><td><div class="gname num">9/26（六）13:00</div><div class="gmeta">D3・週六</div></td><td><div class="gname">The Southern Links</div><div class="gmeta">八重瀨玻名城・車程 45 分・自己開球車</div></td><td class="hide-sm gyen num">¥20,490 ＋¥2,000</td><td class="gnt num">¥22,490</td></tr>
+            <tr><td><div class="gname num">9/27（日）07:07</div><div class="gmeta">D4・週日</div></td><td><div class="gname">沖繩鄉村俱樂部</div><div class="gmeta">西原・車程 30 分・自己開球車</div></td><td class="hide-sm gyen num">¥13,490 ＋¥1,100</td><td class="gnt num">¥14,590</td></tr>
+            <tr class="tier"><td colspan="2"><span class="tier-label text-turf"><i style="background:#1F5D3A"></i>三場合計</span></td><td class="hide-sm gyen num">含 3 人成組加價 ¥3,100</td><td class="gnt num text-turf font-semibold">¥74,280　≈ NT$16,300</td></tr>
+          </tbody>
+        </table>
+        <p class="mt-8 text-[12.5px] text-inkSoft/80 font-light leading-relaxed">＊確認書另列「割増料金」一欄，依同組人數分 1B／2B／3B。本團 3 名適用 <strong class="text-ink font-semibold">3B</strong>：The Southern Links ¥2,000、沖繩鄉村 ¥1,100，平日與週六、週日、假日金額相同。上表實收已計入。那霸 GC 未另列該欄，其 ¥37,200 即為 3B 價。
+          ＊那霸 GC 確認書載明：<strong class="text-ink font-semibold">スループレー／キャディ乗用カート付、セルフ不可</strong>；另兩場為セルフ（自己開球車）。
+          ＊那霸 GC 確認書載明服裝規定：會館內著外套（4 月～10 月為任意）；<strong class="text-ink font-semibold">T 恤、牛仔褲、涼鞋謝絕入場</strong>；<strong class="text-ink font-semibold">有刺青者謝絕入場</strong>。
+          ＊那霸 GC 租用球具 ¥5,500／套，須事前預約。
+          ＊三場皆不含餐。
+          ＊車程為從那霸泊碼頭出發估算，實際依當日路況。</p>
+      </article>
+      <div class="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-7 mt-7">
+        <article class="rounded-2xl border-2 border-turf/30 bg-turf/5 p-7">
+          <div class="field-label mb-4">三場球資合計 · 每人</div>
+          <div class="num text-[38px] font-semibold text-turf leading-none">¥74,280</div>
+          <div class="text-[13px] text-inkSoft font-light mt-2">約 NT$16,300／人（¥1 ≈ NT$0.22）</div>
+          <div class="row"><span class="k">3 人合計</span><span class="num">¥222,840</span></div>
+          <div class="row"><span class="k">9/25 那霸 GC</span><span class="num">¥37,200</span></div>
+          <div class="row"><span class="k">9/26 Southern Links</span><span class="num">¥22,490</span></div>
+          <div class="row"><span class="k">9/27 沖繩鄉村</span><span class="num">¥14,590</span></div>
+          <p class="text-[13px] mt-5 pt-4 border-t border-turf/20 leading-relaxed"><strong class="text-ink font-semibold">球場費用由三位貴賓於各球場現場自行支付</strong>，不經由本公司代收。金額為確認書上的實收價，已含果嶺費、球車與 3 人一組加價。</p>
+        </article>
+        <article class="rounded-2xl border border-black/8 bg-white p-7">
+          <div class="field-label mb-5">訂單編號 · 報到時出示</div>
+          <div class="mb-5 last:mb-0">
+            <div class="text-[14px] font-semibold text-ink">那霸高爾夫俱樂部　9/25（五）07:21</div>
+            <div class="num text-[15px] text-cornerDark mt-1 break-all">確認書未編號</div>
+            <div class="text-[12.5px] text-inkSoft font-light mt-1">該場為傳真「予約確認書」，以代表人姓名報到：<span class="num">CHIEN, SHENG CHIEH</span> 様 御一行（1 組 3 名）。</div>
+          </div>
+          <div class="mb-5 last:mb-0">
+            <div class="text-[14px] font-semibold text-ink">The Southern Links　9/26（六）13:00</div>
+            <div class="num text-[15px] text-cornerDark mt-1 break-all">260926-095A-21814257-5396</div>
+            <div class="text-[12.5px] text-inkSoft font-light mt-1">アコーディアWeb 申込番号</div>
+          </div>
+          <div class="mb-5 last:mb-0">
+            <div class="text-[14px] font-semibold text-ink">沖繩鄉村俱樂部　9/27（日）07:07</div>
+            <div class="num text-[15px] text-cornerDark mt-1 break-all">260927-373I-21814257-6389</div>
+            <div class="text-[12.5px] text-inkSoft font-light mt-1">アコーディアWeb 申込番号</div>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="route-map" class="pt-24 pb-4">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Route Map</span>
+        </div>
+        <h2 class="text-[30px] md:text-[38px] font-semibold leading-tight">泊碼頭 → 八重瀨 → 玻名城 → 西原</h2>
+        <p class="text-inkSoft mt-3 max-w-[640px] font-light text-[15px] leading-relaxed">深綠點是三座球場，深色點是那霸機場，橘點是住宿。住宿三晚固定在泊碼頭，往返球場搭車單程 30～45 分鐘。</p>
+      </div>
+      <div id="route-map-canvas" class="w-full rounded-2xl border border-black/5 shadow-card" style="height:480px;"></div>
+      <ul id="rm-legend" class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[13px] text-inkSoft"></ul>
+    </div>
+  </section>
+
+  <section id="itinerary" class="pt-24 pb-20">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-14">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Day by Day</span>
+        </div>
+        <h2 class="text-[36px] md:text-[48px] font-semibold leading-tight max-w-[720px]">逐日行程</h2>
+        <p class="text-inkSoft mt-4 max-w-[660px] font-light text-[15px] leading-relaxed">9/24 晚上 20:50 落地，當天不排行程。9/25、9/26、9/27 各一場 18 洞。9/25、9/27 為上午開球，<strong class="text-ink font-semibold">9/26 改為下午 13:00 開球</strong>，當天上午自由。9/27 打完球後前往機場，搭 18:40 IT233 返台。</p>
+        <div class="mt-6 flex flex-wrap gap-3 text-[13px]">
+          <span class="px-3 py-1.5 rounded-full bg-turf/10 text-turf font-medium">9/25・9/26・9/27 打球日</span>
+          <span class="px-3 py-1.5 rounded-full border border-black/10 text-inkSoft">9/25・9/27 上午開球．9/26 下午 13:00</span>
+          <span class="px-3 py-1.5 rounded-full border border-black/10 text-inkSoft">9/25 首場專人接送．9/26、9/27 自理</span>
+        </div>
+        <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-[13px] text-inkSoft font-light">
+          <span class="flex items-center gap-2"><span class="tag tag-golf">下場</span>18 洞一次打完（スループレー），含果嶺與球車</span>
+          <span class="flex items-center gap-2"><span class="tag tag-pay">另外付費</span>球場費用於現場自付，不經本公司代收</span>
+        </div>
+      </div>
+      <div id="days" class="flex flex-col gap-10"></div>
+      <div class="mt-12 rounded-2xl border border-corner/30 bg-corner/5 p-7 md:p-8">
+        <div class="flex items-center gap-2 mb-3"><span class="tag tag-hot">最後一天動線</span></div>
+        <h3 class="text-[21px] font-semibold leading-snug">9/27 打完球到搭機</h3>
+        <p class="text-[14px] text-inkSoft font-light leading-relaxed mt-3 max-w-[820px]">沖繩鄉村 <span class="num">07:07</span> 開球，スループレー 18 洞約 4 個半小時，約中午前結束。西原到那霸機場搭車約 30 分鐘，班機 18:40 起飛，時間充裕。<strong class="text-ink font-semibold">當天要留意的是行李</strong>——飯店退房後不提供寄放，行李要一路帶著；建議當天直接包一台大型車整天，行李放車上，打完球再一起進機場。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="stay" class="py-24 bg-cream">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="flex items-end justify-between mb-12 flex-wrap gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="accent-bar"></span>
+            <span class="text-[12px] tracking-explore uppercase text-corner">Where You Stay</span>
+          </div>
+          <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">LACER 沖繩那霸泊碼頭<br/>三晚不換宿</h2>
+        </div>
+        <p class="text-inkSoft max-w-[440px] font-light text-[15px] leading-relaxed">9/24、9/25、9/26 連住三晚。家庭客房 4 床、28 平方公尺，3 位成人同房。無人櫃檯。</p>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-7 items-stretch">
+        <div class="relative rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/okinawa-golf-2026/img/hotel-room.jpg" alt="LACER 沖繩那霸泊碼頭 家庭客房，兩張下鋪雙人床加上鋪單人床" class="w-full h-full min-h-[300px] object-cover" loading="lazy" />
+          <span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">家庭客房 4 床．28 平方公尺</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <article class="tour-card bg-white rounded-2xl shadow-card border border-black/5 p-6">
+            <div class="flex items-center gap-2 mb-3 text-[13px] text-inkSoft">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="#FFA500" fill="none" stroke-width="1.8"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              位置
+            </div>
+            <h3 class="text-[19px] font-semibold leading-snug">泊碼頭旁</h3>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">走 3 分鐘到泊港（とまりん）。走到國際通 1.2 公里，那霸市區 720 公尺。</p>
+          </article>
+          <article class="tour-card bg-white rounded-2xl shadow-card border border-black/5 p-6">
+            <div class="flex items-center gap-2 mb-3 text-[13px] text-inkSoft">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="#FFA500" fill="none" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+              房型
+            </div>
+            <h3 class="text-[19px] font-semibold leading-snug">家庭房 4 床</h3>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">2 張單人床＋2 張雙人床，28 平方公尺有窗、全館禁菸、免費 Wi-Fi。房內附投影機與布幕。館內有自助洗衣。</p>
+          </article>
+          <article class="tour-card bg-white rounded-2xl shadow-card border border-black/5 p-6">
+            <div class="flex items-center gap-2 mb-3 text-[13px] text-inkSoft">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="#FFA500" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+              入住方式
+            </div>
+            <h3 class="text-[19px] font-semibold leading-snug">無人櫃檯</h3>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light"><strong class="text-ink font-semibold">現場沒有真人櫃檯</strong>。入住前 3 天到前 1 天會收到大門密碼與入住說明，行前我們會附上中文步驟。也可以先線上報到，到場最快 30 秒進房。</p>
+          </article>
+          <article class="tour-card bg-white rounded-2xl shadow-card border border-black/5 p-6">
+            <div class="flex items-center gap-2 mb-3 text-[13px] text-inkSoft">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="#FFA500" fill="none" stroke-width="1.8"><path d="M4 12h16M4 7h16M4 17h10"/></svg>
+              周邊
+            </div>
+            <h3 class="text-[19px] font-semibold leading-snug">生活機能</h3>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">館內有自助洗衣，打完球的衣服當晚就能洗。走 3 分鐘到泊港，走到國際通 1.2 公里。</p>
+          </article>
+        </div>
+      </div>
+      <div class="mt-7 rounded-2xl border border-black/8 bg-white p-6 md:p-7">
+        <div class="place" style="margin-top:0;padding-top:0;border-top:none">
+          <div class="addr"><span class="text-ink font-medium">レイサー沖縄那覇泊ふ頭</span><br/>〒900-0016 沖縄県那覇市前島2-22-12<br/><span class="num text-cornerDark">参照番号 3300</span><br/><span class="text-inkSoft/70">這支是東京的訂房中心，不是飯店櫃檯（現場無人）</span></div>
+          <div class="acts">
+            <a class="pill-link go" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%AC%E3%82%A4%E3%82%B5%E3%83%BC%E6%B2%96%E7%B8%84%E9%82%A3%E8%A6%87%E6%B3%8A%E3%81%B5%E9%A0%AD%20%E3%80%92900-0016%20%E6%B2%96%E7%B8%84%E7%9C%8C%E9%82%A3%E8%A6%87%E5%B8%82%E5%89%8D%E5%B3%B62-22-12" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>導航到飯店</a>
+            <a class="pill-link" href="tel:+81369102908"><svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a12 12 0 006 6L16 13l5 2v4a2 2 0 01-2 2A16 16 0 013 5a2 2 0 012-2z"/></svg>03-6910-2908</a>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mt-7">
+        <figure class="relative rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/okinawa-golf-2026/img/hotel-exterior.jpg" alt="LACER 沖繩那霸泊碼頭 外觀與招牌" class="w-full h-52 object-cover" loading="lazy" />
+          <figcaption class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">飯店外觀</figcaption>
+        </figure>
+        <figure class="relative rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/okinawa-golf-2026/img/hotel-projector.jpg" alt="客房內的投影機與投影布幕" class="w-full h-52 object-cover" loading="lazy" />
+          <figcaption class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">房內投影機</figcaption>
+        </figure>
+        <figure class="relative rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/okinawa-golf-2026/img/hotel-laundry.jpg" alt="飯店自助洗衣區，洗衣機與烘衣機" class="w-full h-52 object-cover" loading="lazy" />
+          <figcaption class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">自助洗衣</figcaption>
+        </figure>
+        <figure class="relative rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/okinawa-golf-2026/img/tomari.jpg" alt="那霸泊港，飯店步行 3 分鐘" class="w-full h-52 object-cover" loading="lazy" />
+          <figcaption class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">泊港．步行 3 分</figcaption>
+        </figure>
+      </div>
+      <p class="mt-6 text-[12px] text-inkSoft/80 leading-relaxed max-w-[820px] font-light">＊住宿期間<strong class="text-ink font-semibold">不提供房間清潔</strong>；館內有自助洗衣，打完球的衣服當晚就能洗。
+        ＊<strong class="text-ink font-semibold">入住前與退房後都不提供行李寄放</strong>——9/27 早上退房後，行李需隨行。
+        ＊旅客評價提到最多的是「環境非常乾淨整潔、洗衣服務便捷」。</p>
+    </div>
+  </section>
+
+
+
+  <section class="pb-24">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="flex items-center gap-3 mb-8">
+        <span class="accent-bar"></span>
+        <span class="text-[12px] tracking-explore uppercase text-corner">Before You Go</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="rounded-2xl border border-black/8 p-6">
+          <h3 class="text-[17px] font-semibold leading-snug mb-3">那霸 GC 一定要用桿弟</h3>
+          <p class="text-[13.5px] text-inkSoft font-light leading-relaxed">三場裡只有那霸 GC 是<strong class="text-ink font-semibold">附桿弟、而且不接受自己背桿</strong>。桿弟費（3 人一組 ¥6,320）已經含在 ¥37,200 裡，不必另外準備。另外兩場是自己開球車，沒有桿弟。</p>
+        </div>
+        <div class="rounded-2xl border border-black/8 p-6">
+          <h3 class="text-[17px] font-semibold leading-snug mb-3">那霸 GC 的服裝規定較嚴</h3>
+          <p class="text-[13.5px] text-inkSoft font-light leading-relaxed"><strong class="text-ink font-semibold">禁 T 恤、牛仔褲、涼鞋</strong>；會館內原則要穿外套（4 到 10 月可免）。另外球場明訂<strong class="text-ink font-semibold">有刺青者謝絕入場</strong>，這點務必先跟同行的人確認。</p>
+        </div>
+        <div class="rounded-2xl border border-black/8 p-6">
+          <h3 class="text-[17px] font-semibold leading-snug mb-3">三場都是一次打完 18 洞</h3>
+          <p class="text-[13.5px] text-inkSoft font-light leading-relaxed">日文叫「スループレー」——不像台灣打完九洞停下來吃飯，而是<strong class="text-ink font-semibold">中間不休息連續打完</strong>，約四個半小時。所以早餐要吃飽、水與行動糧前一晚買好，午餐是下場後才吃。<strong class="text-ink font-semibold">9/26 改成下午 13:00 開球後，這天要反過來——午餐在開球前吃完，晚餐才是下場後。</strong></p>
+        </div>
+        <div class="rounded-2xl border border-black/8 p-6">
+          <h3 class="text-[17px] font-semibold leading-snug mb-3">第一場有專人接送，後面兩場要自己叫車</h3>
+          <p class="text-[13.5px] text-inkSoft font-light leading-relaxed"><strong class="text-ink font-semibold">9/25 第一場由我們安排專人到飯店接送到球場</strong>，這一趟不必自己處理。<strong class="text-ink font-semibold">9/26、9/27 兩場的車則由各位自理</strong>。Uber、DiDi、GO 在沖繩都叫得到車，三座球場都在服務範圍內，24 小時可叫、可刷卡。<strong class="text-ink font-semibold">9/27 最需要注意</strong>——開球 07:07，出發落在清晨五點半到六點，那個時段現叫不一定馬上有車，飯店又是無人櫃檯、沒有人能幫忙，所以<strong class="text-ink font-semibold">前一晚先用 App 預約</strong>（DiDi 在沖繩覆蓋最廣、預約免費；GO 在沖繩不能預約）。<strong class="text-ink font-semibold">9/26 改成下午 13:00 開球</strong>，上午十一點出發，這個時段叫車比清晨好處理很多，但保險起見一樣建議前一晚先約。另外<strong class="text-ink font-semibold">三人加三套球具，小型車裝不下</strong>，三趟都要指定大型車。<strong class="text-ink font-semibold">打完球的回程</strong>請球場櫃檯協助叫車，或自己用手機叫；球場有人在，比早上好處理。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-20 bg-cream">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+      <div>
+        <h2 class="text-[28px] md:text-[34px] font-semibold leading-tight">行前有任何問題<br/>隨時找我們</h2>
+        <p class="text-inkSoft mt-3 font-light text-[15px]">大門密碼與入住說明會在入住前 3 天到前 1 天由飯店寄出，我們會附上中文步驟。</p>
+      </div>
+      <a href="#" class="btn-corner text-[15px] !px-9 !py-4">聯絡我們<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </section>
+
+  <footer class="bg-ink text-white pt-20 pb-10">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-14 border-b border-white/10">
+        <div class="md:col-span-5">
+          <div class="text-[20px] font-semibold tracking-wider2 mb-6">角落旅行社</div>
+          <p class="text-white/70 text-[14px] leading-relaxed font-light max-w-[420px]">沖繩四日打球．出團確認資料。</p>
+        </div>
+        <div class="md:col-span-3">
+          <h4 class="text-[12px] tracking-explore uppercase text-corner mb-5">This Trip</h4>
+          <ul class="space-y-3 text-[14px] text-white/80">
+            <li><a href="#plans" class="hover:text-corner transition">班機</a></li>
+            <li><a href="#golf" class="hover:text-corner transition">球場場次</a></li>
+            <li><a href="#itinerary" class="hover:text-corner transition">逐日行程</a></li>
+            <li><a href="#stay" class="hover:text-corner transition">住宿</a></li>
+          </ul>
+        </div>
+        <div class="md:col-span-4">
+          <h4 class="text-[12px] tracking-explore uppercase text-corner mb-5">Contact</h4>
+          <ul class="space-y-4 text-[14px] text-white/80 font-light">
+            <li class="flex gap-3"><svg class="w-4 h-4 mt-1 text-corner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 5h18v14H3z"/><path d="M3 5l9 9 9-9"/></svg>agency@venturo.tw</li>
+            <li class="flex gap-3"><svg class="w-4 h-4 mt-1 text-corner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>出團確認 · 沖繩四日打球</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 flex flex-wrap items-center justify-between gap-4 text-[12px] text-white/50 tracking-wider2">
+        <div>© 2026 VENTURO × 角落旅行社. 機位、房型與開球時段以出發前確認為準。</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const ICO = {
+      plane:'<path d="M3.4 13.5l8-2 5-7 1.6.6L15.5 11l4-1 1 1.5-4 2.6 1 5-1.3.6-3-4.4-3.8 1.1-1 3.2-1.3-.3v-3.3l-3-1z"/>',
+      meal:'<path d="M6 3v8a2 2 0 0 0 2 2v8M6 3v5M9 3v5M18 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/>',
+      sight:'<path d="M12 21s7-7.5 7-13a7 7 0 1 0-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="8.5" r="2.6"/>',
+      golf:'<path d="M9 20h6M12 20V4l7 3.5-7 3.5"/><circle cx="8" cy="19" r="1.6"/>',
+      car:'<path d="M4 16v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2M16 16v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2"/><path d="M3 16h18v-4l-2-5H5L3 12z"/><circle cx="7" cy="14" r="1"/><circle cx="17" cy="14" r="1"/>',
+      shop:'<path d="M4 8h16l-1.2 11.2a1 1 0 0 1-1 .8H6.2a1 1 0 0 1-1-.8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+      hotel:'<path d="M3 20V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v14M14 20V11h6a1 1 0 0 1 1 1v8M3 20h18"/><path d="M6.5 9h3M6.5 13h3"/>',
+      bath:'<path d="M4 14c2-2 5-2 7 0s5 2 7 0M4 18c2-2 5-2 7 0s5 2 7 0M12 3v6"/>'
+    };
+    const DAYS = [
+      {
+        "n": 1,
+        "title": "抵達那霸．進飯店",
+        "en": "Arrive Naha",
+        "date": "09/24（四）",
+        "mode": "抵達日",
+        "theme": [
+          "晚班機",
+          "純報到"
+        ],
+        "img": "/tour/okinawa-golf-2026/img/hotel-exterior.jpg",
+        "cap": "LACER 那霸泊碼頭",
+        "steps": [
+          {
+            "t": "18:30",
+            "k": "plane",
+            "name": "桃園機場起飛",
+            "d": "台灣虎航 IT232，飛行約 1 小時 30 分"
+          },
+          {
+            "t": "20:50",
+            "k": "plane",
+            "name": "抵達那霸機場",
+            "d": "沖繩時間比台灣快 1 小時。行李含球袋一起領"
+          },
+          {
+            "t": "21:10",
+            "k": "car",
+            "name": "搭車前往飯店",
+            "d": "那霸機場到泊碼頭約 15 分鐘，機場排班計程車或 Uber／DiDi 都可以。球袋較長，上車前先確認放得進去"
+          }
+        ]
+      },
+      {
+        "n": 2,
+        "title": "那霸 GC．07:21 開球",
+        "en": "Round 1 · Naha GC",
+        "date": "09/25（五）",
+        "mode": "打球日",
+        "feat": true,
+        "theme": [
+          "18 洞",
+          "八重瀨",
+          "附桿弟",
+          "下午自由"
+        ],
+        "img": "/tour/okinawa-golf-2026/img/golf-naha-aerial.jpg",
+        "cap": "那霸 GC 空拍",
+        "steps": [
+          {
+            "t": "05:45",
+            "k": "car",
+            "name": "專人接送前往球場",
+            "d": "第一場由我們安排專人到飯店接、直接送到那霸 GC，車程約 35 分鐘。這一趟不必自己叫車；後面兩場才需要前一晚先用 App 預約"
+          },
+          {
+            "t": "06:25",
+            "k": "golf",
+            "name": "球場報到、換裝、練習果嶺",
+            "hot": "下場",
+            "d": "會館內有服裝規定，禁 T 恤、牛仔褲與涼鞋。租球具要前一天先確認"
+          },
+          {
+            "t": "07:21",
+            "k": "golf",
+            "name": "那霸 GC 開球（1 組 3 人）",
+            "hot": "下場",
+            "d": "本島第一座球場，附桿弟與乘用球車。一次打完 18 洞，中間不休息"
+          },
+          {
+            "t": "11:45",
+            "k": "meal",
+            "name": "球場餐廳午餐",
+            "d": "自理。日式定食為主，多半只收現金或日本國內卡"
+          },
+          {
+            "t": "14:00",
+            "k": "car",
+            "name": "搭車回飯店",
+            "d": "請球場櫃檯協助叫車，或自己用手機叫，車程約 35 分鐘。下午在飯店休息，或步行逛泊港、國際通一帶"
+          },
+          {
+            "t": "18:30",
+            "k": "meal",
+            "name": "那霸市區晚餐",
+            "d": "自理。國際通與泊碼頭都在飯店步行圈"
+          }
+        ]
+      },
+      {
+        "n": 3,
+        "title": "Southern Links．13:00 開球",
+        "en": "Round 2 · The Southern Links",
+        "date": "09/26（六）",
+        "mode": "打球日",
+        "feat": true,
+        "theme": [
+          "18 洞",
+          "八重瀨玻名城",
+          "面海球道",
+          "上午自由"
+        ],
+        "img": "/tour/okinawa-golf-2026/img/golf-fairway.jpg",
+        "cap": "球道實景",
+        "steps": [
+          {
+            "t": "09:00",
+            "k": "shop",
+            "name": "上午自由",
+            "d": "今天改為下午場，早上不必早起。飯店休息，或步行逛泊港、國際通一帶。下場前記得先補水與行動糧"
+          },
+          {
+            "t": "11:00",
+            "k": "car",
+            "name": "搭車前往球場",
+            "d": "車程約 45 分鐘。這個時段叫車比清晨好處理，但三人加三套球具要指定大型車，仍建議前一晚先用 App 預約"
+          },
+          {
+            "t": "11:50",
+            "k": "meal",
+            "name": "球場報到、先吃午餐",
+            "d": "今天是下午場，18 洞中間不休息，午餐要在開球前吃完。會館有服裝規定，禁 T 恤、牛仔褲與涼鞋"
+          },
+          {
+            "t": "12:40",
+            "k": "golf",
+            "name": "練習果嶺",
+            "hot": "下場",
+            "d": "週六下午場次，開球時段已卡位"
+          },
+          {
+            "t": "13:00",
+            "k": "golf",
+            "name": "Southern Links 開球（IN 場）",
+            "hot": "下場",
+            "d": "島南端的海岸球場。自己開球車，附冷氣球車與球。一次打完 18 洞"
+          },
+          {
+            "t": "17:30",
+            "k": "golf",
+            "name": "結束 18 洞",
+            "d": "スループレー 約 4 個半小時。當天日落約 18:25，正常節奏打得完，但前組慢就會吃到天色"
+          },
+          {
+            "t": "17:50",
+            "k": "car",
+            "name": "搭車回飯店",
+            "d": "請球場櫃檯協助叫車，或自己用手機叫，車程約 45 分鐘"
+          },
+          {
+            "t": "19:00",
+            "k": "meal",
+            "name": "國際通．晚餐與採買",
+            "d": "自理。今晚先把行李收好，明天退房後不再回飯店"
+          }
+        ]
+      },
+      {
+        "n": 4,
+        "title": "沖繩鄉村．07:07 開球．賦歸",
+        "en": "Round 3 & Departure",
+        "date": "09/27（日）",
+        "mode": "打球日",
+        "feat": true,
+        "theme": [
+          "18 洞",
+          "西原",
+          "行李隨行",
+          "晚班機返台"
+        ],
+        "img": "/tour/okinawa-golf-2026/img/kokusai.jpg",
+        "cap": "國際通．最後採買",
+        "steps": [
+          {
+            "t": "05:30",
+            "k": "hotel",
+            "name": "退房、行李帶著",
+            "d": "打完球不再回飯店，飯店也不收退房後的寄放行李，所以行李今天要一路帶著"
+          },
+          {
+            "t": "05:50",
+            "k": "car",
+            "name": "搭車前往沖繩鄉村",
+            "d": "西原，車程約 30 分鐘。Uber／DiDi 都叫得到，但這班建議前一晚先預約——飯店無人櫃檯，現場沒有人可以幫忙叫車。行李與球具都要上車，需大型車"
+          },
+          {
+            "t": "06:20",
+            "k": "golf",
+            "name": "球場報到、練習果嶺",
+            "hot": "下場",
+            "d": "三場裡最早的開球時間，前一晚要早睡"
+          },
+          {
+            "t": "07:07",
+            "k": "golf",
+            "name": "沖繩鄉村 開球（IN 場）",
+            "hot": "下場",
+            "d": "自己開球車。一次打完 18 洞，約中午前結束"
+          },
+          {
+            "t": "11:40",
+            "k": "meal",
+            "name": "午餐",
+            "d": "自理。球場餐廳或回那霸市區都可以"
+          },
+          {
+            "t": "14:00",
+            "k": "shop",
+            "name": "國際通．最後採買",
+            "d": "藥妝與伴手禮的最後機會"
+          },
+          {
+            "t": "16:00",
+            "k": "car",
+            "name": "前往那霸機場",
+            "d": "西原／那霸市區到機場約 30 分鐘。請球場櫃檯協助叫車，或自己用手機叫（Uber／DiDi）"
+          },
+          {
+            "t": "16:40",
+            "k": "plane",
+            "name": "那霸機場報到",
+            "d": "球袋走大件行李，櫃檯另辦"
+          },
+          {
+            "t": "18:40",
+            "k": "plane",
+            "name": "IT233 那霸起飛",
+            "d": "19:15 抵達桃園機場。這是當天最後一班回台灣的班機"
+          }
+        ]
+      }
+    ];
+
+    const ic = (k) => '<svg class="ico" viewBox="0 0 24 24">'+(ICO[k]||ICO.sight)+'</svg>';
+    document.getElementById('days').innerHTML = DAYS.map(day => {
+      const steps = day.steps.map(s =>
+        '<div class="step">'+
+          '<div class="t num">'+s.t+'</div>'+
+          '<div class="si">'+ic(s.k)+'</div>'+
+          '<div class="flex-1">'+
+            '<div class="text-[15px] font-semibold text-ink">'+s.name+
+              (s.hot?' <span class="tag '+(s.hot==='下場'?'tag-golf':'tag-pay')+' align-middle ml-1">'+s.hot+'</span>':'')+'</div>'+
+            (s.d?'<div class="text-[13.5px] text-inkSoft font-light leading-relaxed mt-0.5">'+s.d+'</div>':'')+
+          '</div>'+
+        '</div>'
+      ).join('');
+      const tags = day.theme.map(t=>'<span class="tag">'+t+'</span>').join('');
+      const media = day.img
+        ? '<div class="relative order-1 lg:order-2 h-52 lg:h-auto lg:min-h-full overflow-hidden">'+
+            '<img src="'+day.img+'" alt="'+(day.cap||day.title)+'" loading="lazy" class="w-full h-full object-cover" />'+
+            (day.cap?'<span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">'+day.cap+'</span>':'')+
+          '</div>'
+        : '';
+      const bodyCols = day.img ? 'lg:grid-cols-[1fr_320px]' : '';
+      return (
+        '<div class="day-block">'+
+          '<div class="day-rail grid grid-cols-1 md:grid-cols-[auto_1fr] gap-5 md:gap-8">'+
+            '<div class="num-bubble'+(day.feat?' !bg-turf !text-white !border-turf':'')+' num">'+String(day.n).padStart(2,'0')+'</div>'+
+            '<div class="bg-white rounded-2xl shadow-card border border-black/5 overflow-hidden grid grid-cols-1 '+bodyCols+'">'+
+              '<div class="p-6 md:p-8 order-2 lg:order-1">'+
+                '<div class="flex items-baseline gap-3 flex-wrap">'+
+                  '<h3 class="text-[24px] md:text-[26px] font-semibold leading-tight">'+day.title+'</h3>'+
+                  '<span class="text-[13px] tracking-wider2 text-inkSoft font-light">'+day.en+'</span>'+
+                  '<span class="ml-auto flex items-baseline gap-3">'+
+                    (day.mode?'<span class="tag'+(day.mode==='打球日'?' tag-golf':'')+'">'+day.mode+'</span>':'')+
+                    '<span class="num text-[13px] text-inkSoft">'+(day.date||'')+'</span>'+
+                  '</span>'+
+                '</div>'+
+                '<div class="flex flex-wrap gap-2 mt-3 mb-6">'+tags+'</div>'+
+                steps+
+              '</div>'+
+              media+
+            '</div>'+
+          '</div>'+
+        '</div>'
+      );
+    }).join('');
+  </script>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+  (function(){
+    const ROUTE = [
+      {
+        "city": "那霸機場",
+        "en": "Naha Airport",
+        "coords": [
+          26.1958,
+          127.6459
+        ],
+        "note": "D1 20:50 抵達／D4 18:40 賦歸",
+        "air": true
+      },
+      {
+        "city": "泊碼頭",
+        "en": "Tomari Port",
+        "coords": [
+          26.2264,
+          127.6795
+        ],
+        "note": "三晚住宿・LACER 沖繩那霸泊碼頭"
+      },
+      {
+        "city": "那霸 GC",
+        "en": "Naha GC",
+        "coords": [
+          26.1243,
+          127.7211
+        ],
+        "note": "D2 9/25（五）07:21 開球・八重瀨・車程 35 分",
+        "golf": true
+      },
+      {
+        "city": "Southern Links",
+        "en": "The Southern Links",
+        "coords": [
+          26.1141,
+          127.7391
+        ],
+        "note": "D3 9/26（六）13:00 開球・八重瀨玻名城・車程 45 分",
+        "golf": true
+      },
+      {
+        "city": "沖繩鄉村",
+        "en": "Okinawa CC",
+        "coords": [
+          26.2138,
+          127.7495
+        ],
+        "note": "D4 9/27（日）07:07 開球・西原・離飯店最近",
+        "golf": true
+      }
+    ];
+    const map = L.map('route-map-canvas',{zoomControl:false,attributionControl:false,scrollWheelZoom:false})
+      .setView([26.17,127.71],10);
+    L.control.zoom({position:'bottomright'}).addTo(map);
+    // ⚠ 不要用 CartoDB（basemaps.cartocdn.com）——已改成需要 API key，會回一張印著
+    // 「API KEY REQUIRED」的浮水印圖，而且 HTTP 仍然是 200，光驗網址驗不出來。
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {maxZoom:18, attribution:'&copy; OpenStreetMap'}).addTo(map);
+
+    const pts = ROUTE.map(r=>r.coords);
+    L.polyline(pts,{color:'#FFA500',weight:3,opacity:.85,dashArray:'1 9',lineCap:'round'}).addTo(map);
+
+    const legend = document.getElementById('rm-legend');
+    const cls = r => r.air ? 'air' : (r.golf ? 'golf' : '');
+    ROUTE.forEach(r=>{
+      const html = '<div class="city-marker"><div class="pin '+cls(r)+'"></div><div class="lbl">'+r.city+'</div></div>';
+      L.marker(r.coords,{icon:L.divIcon({className:'',html,iconSize:[0,0]})}).addTo(map);
+      legend.insertAdjacentHTML('beforeend',
+        '<li class="flex items-center gap-2"><span class="rm-dot '+cls(r)+'"></span><b class="text-ink font-medium">'+r.city+'</b><span>'+r.note+'</span></li>');
+    });
+    // ⚠ 先 invalidateSize 再 fitBounds，否則容器尺寸還沒量到，地圖會縮太遠、標籤全疊在一起
+    const bounds = L.latLngBounds(pts);
+    function fit(){ map.invalidateSize(); map.fitBounds(bounds, { padding:[56,56], maxZoom:13 }); }
+    setTimeout(fit, 250);
+    window.addEventListener('load', ()=>setTimeout(fit, 120));
+  })();
+  </script>
+
+  <div class="lb-overlay" id="lb" aria-hidden="true">
+    <button class="lb-close" aria-label="關閉">&times;</button>
+    <button class="lb-nav lb-prev" aria-label="上一張">&#8249;</button>
+    <img alt="" />
+    <button class="lb-nav lb-next" aria-label="下一張">&#8250;</button>
+    <div class="lb-count"></div>
+  </div>
+  <script>
+  (function(){
+    const lb=document.getElementById('lb'), lbImg=lb.querySelector('img'), cnt=lb.querySelector('.lb-count');
+    let group=[], idx=0;
+    function show(i){
+      idx=(i+group.length)%group.length;
+      const im=group[idx];
+      lbImg.src=im.currentSrc||im.src; lbImg.alt=im.alt||'';
+      cnt.textContent=group.length>1?(idx+1)+' / '+group.length:'';
+    }
+    document.addEventListener('click', e=>{
+      const img = e.target.closest('img');
+      if(!img) return;
+      const scope = img.closest('.day-block, .tour-card, figure, section') || img.parentElement;
+      group = Array.from(scope.querySelectorAll('img'));
+      if(!group.length) group=[img];
+      show(group.indexOf(img));
+      lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
+    });
+    function close(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbImg.src=''; }
+    function prev(e){ if(e) e.stopPropagation(); show(idx-1); }
+    function next(e){ if(e) e.stopPropagation(); show(idx+1); }
+    lb.addEventListener('click', close);
+    lbImg.addEventListener('click', e=>e.stopPropagation());
+    lb.querySelector('.lb-prev').addEventListener('click', prev);
+    lb.querySelector('.lb-next').addEventListener('click', next);
+    document.addEventListener('keydown', e=>{
+      if(!lb.classList.contains('open')) return;
+      if(e.key==='Escape') close();
+      else if(e.key==='ArrowLeft') prev();
+      else if(e.key==='ArrowRight') next();
+    });
+  })();
+  </script>
+</body>
+</html>

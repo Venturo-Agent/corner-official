@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>跨頁延續（FLIP）＋版型輪替｜青森五日</title>
+<style>
+:root{
+  --paper:#E9E3D5; --paper-2:#DED6C4; --ink:#232B22; --ink-2:#4A5247;
+  --moss:#607058; --moss-d:#3E4B3C; --vermilion:#9C3B27;
+  --rule:rgba(35,43,34,.22);
+  --serif:"Noto Serif CJK TC",serif; --serif-ja:"Noto Serif CJK JP",serif;
+  --sans:"Noto Sans CJK TC",sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#12160f;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:50% 50%}
+.slide{position:absolute;inset:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);overflow:hidden;display:none}
+.slide.on{display:block}
+.frame{position:absolute;left:96px;right:96px;top:72px;bottom:72px;
+  border:1px solid var(--rule);pointer-events:none;z-index:5}
+.folio{position:absolute;left:96px;bottom:34px;font-size:18px;letter-spacing:.3em;
+  color:var(--ink);opacity:.45;z-index:6}
+.folio em{font-style:normal;color:var(--vermilion)}
+
+/* 跨頁延續的元素：位置由各頁自己決定，補間由 JS 算 */
+[data-flip]{position:absolute;z-index:4}
+.ttl{font-weight:600;letter-spacing:.12em;line-height:1;white-space:nowrap}
+.ph{overflow:hidden;background:var(--paper-2)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* 一般元素的進場 */
+.in{opacity:0;transform:translateY(20px)}
+.slide.on .in{animation:rise .5s var(--ease) both}
+@keyframes rise{to{opacity:1;transform:none}}
+.i1{animation-delay:.34s !important}.i2{animation-delay:.42s !important}
+.i3{animation-delay:.50s !important}.i4{animation-delay:.58s !important}
+
+/* ── 版型一：封面（大字置中偏左＋大圖右） ── */
+.s1 .kana{position:absolute;left:150px;top:300px;font-family:var(--serif-ja);
+  font-size:20px;letter-spacing:.5em;color:var(--moss-d);z-index:4}
+.s1 .meta{position:absolute;left:150px;top:600px;font-size:24px;line-height:2.1;
+  letter-spacing:.08em;color:var(--ink-2);z-index:4}
+.s1 .who{position:absolute;left:150px;bottom:130px;font-size:20px;
+  letter-spacing:.2em;color:var(--ink-2);z-index:4}
+
+/* ── 版型二：破框（照片衝出版心＋直排標題） ── */
+.s2{background:#141811}
+.s2 .frame{border-color:rgba(233,227,213,.26)}
+.s2 .folio{color:#E9E3D5;opacity:.5}
+.s2 .shade{position:absolute;left:0;top:0;width:76%;height:100%;z-index:5;pointer-events:none;
+  background:linear-gradient(15deg,rgba(15,18,12,.94) 0%,rgba(15,18,12,.72) 28%,
+    rgba(15,18,12,.18) 52%,rgba(15,18,12,0) 72%)}
+.s2 .cap{position:absolute;right:150px;bottom:150px;writing-mode:vertical-rl;
+  font-family:var(--serif-ja);font-size:24px;letter-spacing:.3em;
+  color:rgba(242,238,226,.8);z-index:6}
+.s2 .num{position:absolute;left:150px;top:140px;font-family:var(--serif-ja);
+  font-size:150px;font-weight:600;color:rgba(242,238,226,.14);z-index:4;line-height:1}
+.s2 .body{position:absolute;left:150px;bottom:190px;width:620px;z-index:6;color:#F2EEE2}
+.s2 .body p{font-family:var(--sans);font-size:20px;line-height:2;
+  color:rgba(242,238,226,.82);margin-top:22px}
+
+/* ── 版型三：鏤空排版（文字繞著照片走） ── */
+.s3 .lead{position:absolute;left:150px;top:300px;width:560px;font-family:var(--sans);
+  font-size:21px;line-height:2.05;color:var(--ink-2);z-index:4}
+.s3 .rows{position:absolute;left:150px;bottom:150px;width:560px;z-index:4}
+.s3 .row{display:flex;gap:20px;padding:15px 0;border-top:1px solid var(--rule);
+  font-size:20px;align-items:baseline}
+.s3 .row:last-child{border-bottom:1px solid var(--rule)}
+.s3 .row b{font-weight:600;color:var(--moss-d);min-width:86px}
+.s3 .side{position:absolute;right:150px;top:150px;bottom:150px;width:560px;z-index:4;
+  display:grid;grid-template-rows:1.3fr 1fr;gap:20px}
+.s3 .side .ph{position:relative}
+.s3 .side figcaption{position:absolute;left:0;right:0;bottom:0;
+  background:rgba(35,43,34,.72);color:#EFEADC;font-size:14px;padding:8px 13px;
+  font-family:var(--sans);letter-spacing:.06em}
+
+#nav{position:fixed;right:26px;bottom:22px;display:flex;gap:14px;align-items:center;
+  font-family:var(--sans);font-size:15px;color:#BDB6A4;letter-spacing:.15em;z-index:9}
+#nav button{background:none;border:1px solid rgba(255,255,255,.28);color:#CFC8B6;
+  width:38px;height:38px;cursor:pointer}
+#hint{position:fixed;left:26px;bottom:26px;font-family:var(--sans);font-size:14px;
+  color:#8C8778;letter-spacing:.1em;z-index:9}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- 一・封面 -->
+<section class="slide s1 on">
+  <div class="frame"></div>
+  <div class="kana in i1">あおもり</div>
+  <div class="ttl" data-flip="title" style="left:150px;top:350px;font-size:150px">青森</div>
+  <div class="ph" data-flip="hero" style="right:0;top:0;width:52%;height:100%">
+    <img src="/tour/aomori-5d/img/f-oirase.jpg" alt="">
+  </div>
+  <div class="meta in i2">二〇二七年　五月十四日／五月二十一日／六月四日<br>三梯次　每梯三十人　桃園直飛青森</div>
+  <div class="who in i3">勤業保經・台中二信　員工旅遊提案　│　角落旅行社</div>
+  <div class="folio">其之 <em>一</em></div>
+</section>
+
+<!-- 二・破框 -->
+<section class="slide s2">
+  <div class="ph" data-flip="hero" style="left:0;top:-8%;width:74%;height:116%">
+    <img src="/tour/aomori-5d/img/f-oirase.jpg" alt="">
+  </div>
+  <div class="shade"></div>
+  <div class="num in i1">二</div>
+  <div class="frame"></div>
+  <div class="ttl" data-flip="title" style="left:150px;top:120px;font-size:44px;color:#F2EEE2">青森</div>
+  <div class="body">
+    <div class="ttl in i2" style="position:static;font-size:64px">奧入瀨　十四公里</div>
+    <p class="in i3">從子之口到燒山，整段是國家特別名勝與天然紀念物。沿溪都是平路，走多走少自己決定。</p>
+  </div>
+  <div class="cap in i4">第二日　奥入瀬渓流</div>
+  <div class="folio">其之 <em>二</em></div>
+</section>
+
+<!-- 三・鏤空排版 -->
+<section class="slide s3">
+  <div class="frame"></div>
+  <div class="ttl" data-flip="title" style="left:150px;top:150px;font-size:44px">青森</div>
+  <div class="ttl in i1" style="position:absolute;left:150px;top:214px;font-size:58px">這一天怎麼走</div>
+  <div class="lead in i2">早上在十和田湖上划一趟獨木舟，湖面海拔四百公尺，清晨幾乎無風。下午轉進奧入瀨，傍晚住進溪流旁的飯店。</div>
+  <div class="rows in i3">
+    <div class="row"><b>上午</b><span>十和田湖　獨木舟</span></div>
+    <div class="row"><b>下午</b><span>奧入瀨溪流　健走</span></div>
+    <div class="row"><b>住宿</b><span>星野　奧入瀨溪流飯店</span></div>
+  </div>
+  <div class="side">
+    <figure class="ph" data-flip="hero"><img src="/tour/aomori-5d/img/f-oirase.jpg" alt=""><figcaption>奧入瀨溪流　·　五月的新綠</figcaption></figure>
+    <figure class="ph in i4"><img src="/tour/aomori-5d/img/p-towada.jpg" alt=""><figcaption>十和田湖</figcaption></figure>
+  </div>
+  <div class="folio">其之 <em>三</em></div>
+</section>
+
+</div>
+
+<div id="hint">← 左右鍵翻頁　·　注意「青森」兩個字跟那張照片沒有消失，是飛過去的</div>
+<div id="nav"><button id="pv">‹</button><span id="cnt">1 / 3</span><button id="nx">›</button></div>
+
+<script>
+const S=[...document.querySelectorAll('.slide')];let i=0,busy=false;
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);
+  stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+addEventListener('resize',fit);fit();
+
+/* ── 跨頁延續（FLIP）────────────────────────────────
+   reveal.js 叫它 Auto-Animate。做法：
+   1. First  翻頁前，量下舊頁每個 data-flip 元素的位置與大小
+   2. Last   切到新頁，量下同名元素的新位置
+   3. Invert 用 transform 把新元素「推回」舊位置
+   4. Play   放掉 transform，瀏覽器就補出中間的移動
+   全程只動 transform，走 GPU。 */
+const DUR=720, EASE='cubic-bezier(.22,1,.36,1)';
+function snapshot(slide){
+  const m={};
+  slide.querySelectorAll('[data-flip]').forEach(el=>{
+    m[el.dataset.flip]=el.getBoundingClientRect();
+  });
+  return m;
+}
+function flip(from, to){
+  const a=snapshot(from);
+  to.querySelectorAll('[data-flip]').forEach(el=>{
+    const prev=a[el.dataset.flip]; if(!prev) return;
+    const now=el.getBoundingClientRect();
+    const dx=prev.left-now.left, dy=prev.top-now.top;
+    const sx=prev.width/now.width, sy=prev.height/now.height;
+    if(Math.abs(dx)<1&&Math.abs(dy)<1&&Math.abs(sx-1)<.01&&Math.abs(sy-1)<.01) return;
+    // 圖片用 scale 會變形，改成同時反縮內層
+    const inner=el.querySelector('img');
+    el.animate(
+      [{transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`},{transform:'none'}],
+      {duration:DUR, easing:EASE, fill:'both'});
+    if(inner) inner.animate(
+      [{transform:`scale(${1/sx},${1/sy})`},{transform:'none'}],
+      {duration:DUR, easing:EASE, fill:'both'});
+  });
+}
+
+function show(n){
+  if(busy) return; n=(n+S.length)%S.length; if(n===i) return;
+  busy=true;
+  const from=S[i], to=S[n];
+  // 先讓新頁存在但不可見，才量得到位置
+  to.style.visibility='hidden'; to.classList.add('on');
+  flip(from, to);
+  to.style.visibility='';
+  from.classList.remove('on');
+  i=n; document.getElementById('cnt').textContent=`${i+1} / ${S.length}`;
+  setTimeout(()=>busy=false, DUR*0.6);
+}
+document.getElementById('nx').onclick=()=>show(i+1);
+document.getElementById('pv').onclick=()=>show(i-1);
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')show(i+1);if(e.key==='ArrowLeft')show(i-1)});
+addEventListener('click',e=>{if(e.target.closest('#nav'))return;
+  show(e.clientX>innerWidth/2?i+1:i-1)});
+const q=new URLSearchParams(location.search);
+if(q.get('n')){const t=+q.get('n')-1;S.forEach((s,k)=>s.classList.toggle('on',k===t));i=t;
+  document.getElementById('cnt').textContent=`${i+1} / ${S.length}`}
+if(q.get('still')==='1'){document.querySelectorAll('.in').forEach(e=>{e.style.opacity='1';e.style.transform='none';e.style.animation='none'})}
+</script>
+</body>
+</html>

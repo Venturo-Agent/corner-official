@@ -1,0 +1,1060 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>福岡四日．打球 — 角落旅行社</title>
+  <meta name="description" content="09/24–09/27 桃園直飛福岡，三晚都住三井花園飯店福岡中洲。機加酒兩案：虎航＋長榮 NT$36,000／華航 NT$48,100。球場費用另計，福岡 56 座球場價目表。角落旅行社客製報價。" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: { corner:'#FFA500', cornerDark:'#E68A00', ink:'#262626', inkSoft:'#565656', cream:'#FAF7F2', turf:'#1F5D3A' },
+        fontFamily: { display: ['"Josefin Sans"', '"Noto Sans TC"', 'system-ui', 'sans-serif'] },
+        boxShadow: { card:'0 8px 28px -10px rgba(38,38,38,0.18)', search:'0 18px 50px -16px rgba(38,38,38,0.30)' },
+      } }
+    }
+  </script>
+
+  <style>
+    html, body { font-family: 'Josefin Sans', 'Noto Sans TC', system-ui, sans-serif; color:#262626; }
+    body { background:#FFFFFF; }
+    .tracking-explore { letter-spacing:0.30em; }
+    .tracking-wider2  { letter-spacing:0.14em; }
+    .num { font-family:'IBM Plex Mono', ui-monospace, 'Noto Sans TC', monospace; font-variant-numeric:tabular-nums; }
+    .hero-headline { font-weight:700; font-size:clamp(36px,7.4vw,100px); line-height:0.98; letter-spacing:0.01em; }
+    .hero-pre { font-weight:300; font-size:clamp(18px,1.4vw,22px); letter-spacing:0.30em; }
+    .tour-card { transition:transform .35s ease, box-shadow .35s ease; }
+    .tour-card:hover { transform:translateY(-6px); box-shadow:0 18px 40px -12px rgba(38,38,38,0.28); }
+    .nav-link { position:relative; }
+    .nav-link::after{ content:""; position:absolute; left:50%; bottom:-6px; height:2px; width:0; background:#FFA500; transition:width .25s ease, left .25s ease; }
+    .nav-link:hover::after{ left:0; width:100%; }
+    .btn-corner { background:#FFA500; color:#fff; border-radius:6px; padding:14px 30px; font-weight:600; letter-spacing:0.08em; transition:background .2s ease, transform .2s ease; display:inline-flex; align-items:center; gap:10px; }
+    .btn-corner:hover { background:#E68A00; transform:translateY(-1px); }
+    .field-label { font-size:11px; letter-spacing:0.22em; color:#565656; text-transform:uppercase; }
+    .accent-bar { display:inline-block; width:48px; height:2px; background:#FFA500; }
+    /* 封面若是亮色空拍圖，只靠上下漸層壓不住白字，再疊一道左側暗角 */
+    .hero-veil {
+      background:
+        linear-gradient(90deg, rgba(18,26,24,0.72) 0%, rgba(18,26,24,0.46) 42%, rgba(18,26,24,0.08) 72%, rgba(18,26,24,0) 100%),
+        linear-gradient(180deg, rgba(38,38,38,0.38) 0%, rgba(38,38,38,0.16) 34%, rgba(38,38,38,0.62) 100%);
+    }
+    .ico { stroke:#FFA500; stroke-width:1.6; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    .tag { display:inline-flex; align-items:center; gap:6px; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; padding:5px 10px; border-radius:999px; background:#FFF4E0; color:#B26A00; font-weight:500; }
+    .tag-hot { background:#FFA500; color:#fff; }
+    .tag-pay { background:#fff; color:#6B6560; border:1px solid rgba(0,0,0,.14); font-weight:400; }
+    .tag-golf { background:#1F5D3A; color:#fff; }
+    .num-bubble { width:46px; height:46px; border:1.5px solid #FFA500; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; color:#FFA500; font-weight:600; letter-spacing:0.05em; }
+    .day-rail { position:relative; }
+    .day-rail::before { content:""; position:absolute; left:22px; top:52px; bottom:-28px; width:1.5px; background:#F0E6D6; }
+    .day-block:last-child .day-rail::before { display:none; }
+    .step { display:flex; gap:14px; align-items:flex-start; }
+    .step + .step { margin-top:14px; }
+    .step .t { min-width:50px; text-align:right; color:#E68A00; font-weight:600; font-size:13px; padding-top:2px; }
+    .step .si { width:22px; flex:none; padding-top:1px; }
+    .step .si svg { width:18px; height:18px; }
+    .leaflet-container { background:#FAF7F2; font-family:'Noto Sans TC',sans-serif; }
+    .rm-dot { width:9px; height:9px; border-radius:50%; background:#FFA500; display:inline-block; flex:none; }
+    .rm-dot.air { background:#262626; }
+    .rm-dot.golf { background:#1F5D3A; }
+    .city-marker { display:flex; flex-direction:column; align-items:center; transform:translateY(-50%); }
+    .city-marker .pin { width:14px; height:14px; border-radius:50%; background:#FFA500; border:3px solid #fff; box-shadow:0 2px 6px rgba(38,38,38,.4); }
+    .city-marker .pin.air { background:#262626; }
+    .city-marker .pin.golf { background:#1F5D3A; }
+    .city-marker .lbl { font-family:'Josefin Sans','Noto Sans TC',sans-serif; font-weight:600; font-size:.86rem; margin-top:3px; white-space:nowrap; color:#262626;
+      text-shadow:0 0 4px #fff,0 0 4px #fff,0 0 6px #fff; }
+    .plan-card { border:1px solid rgba(0,0,0,.08); border-radius:16px; background:#fff; }
+    .plan-card.pick { border-color:#FFA500; box-shadow:0 12px 36px -14px rgba(255,165,0,.55); }
+    .plan-badge { position:absolute; top:-13px; left:28px; background:#FFA500; color:#fff; font-size:11px; letter-spacing:.18em; padding:5px 14px; border-radius:999px; font-weight:600; }
+    .row { display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px dashed rgba(0,0,0,.09); font-size:14px; }
+    .row:last-child { border-bottom:none; }
+    .row .k { color:#565656; font-weight:300; }
+    .gtable { width:100%; border-collapse:collapse; }
+    .gtable th { font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#565656; font-weight:500; text-align:left; padding:0 0 12px; border-bottom:1.5px solid rgba(0,0,0,.12); }
+    .gtable th:last-child, .gtable td:last-child { text-align:right; }
+    .gtable td { padding:14px 0; border-bottom:1px solid rgba(0,0,0,.06); font-size:14.5px; vertical-align:top; }
+    .gtable tr.tier td { padding-top:26px; border-bottom:none; }
+    .gtable tr.tier:first-child td { padding-top:4px; }
+    .tier-label { display:inline-flex; align-items:center; gap:9px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; }
+    .tier-label i { width:26px; height:2px; display:inline-block; }
+    .gname { font-weight:600; }
+    .gmeta { font-size:12.5px; color:#565656; font-weight:300; margin-top:3px; }
+    .gyen { font-size:12.5px; color:#565656; font-weight:300; }
+    .gnt { font-weight:600; }
+    @media (max-width:700px){ .gtable .hide-sm { display:none; } }
+    img { cursor: zoom-in; }
+    .lb-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(20,20,20,.92); display: none; align-items: center; justify-content: center; padding: 24px; }
+    .lb-overlay.open { display: flex; }
+    .lb-overlay img { max-width: 94vw; max-height: 90vh; width: auto; height: auto; border-radius: 8px; cursor: zoom-out; }
+    .lb-close { position: absolute; top: 20px; right: 28px; background: none; border: none; color: #fff; font-size: 2.4rem; line-height: 1; cursor: pointer; }
+    .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.12); border: none; color: #fff; font-size: 2rem; width: 52px; height: 52px; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s ease; }
+    .lb-nav:hover { background: rgba(255,255,255,.26); }
+    .lb-prev { left: 20px; } .lb-next { right: 20px; }
+    .lb-count { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: #fff; font-family: 'IBM Plex Mono', monospace; font-size: .8rem; letter-spacing: .1em; background: rgba(0,0,0,.5); padding: 4px 14px; border-radius: 999px; }
+    @media (max-width: 600px) { .lb-nav { width: 42px; height: 42px; font-size: 1.6rem; } }</style>
+</head>
+<body class="font-display antialiased">
+
+  <header class="absolute top-0 left-0 right-0 z-30">
+    <div class="max-w-[1440px] mx-auto h-20 px-6 md:px-10 flex items-center justify-between">
+      <a href="#" class="text-white text-[18px] font-semibold tracking-wider2">角落旅行社</a>
+      <nav class="hidden md:flex items-center gap-8 text-[14px] text-white/90 tracking-wider2">
+        <a href="#plans" class="nav-link">機加酒 <span class="opacity-60 ml-1">Package</span></a>
+        <a href="#golf" class="nav-link">球場費用 <span class="opacity-60 ml-1">Green Fee</span></a>
+        <a href="#itinerary" class="nav-link">行程 <span class="opacity-60 ml-1">Days</span></a>
+        <a href="#stay" class="nav-link">住宿 <span class="opacity-60 ml-1">Stay</span></a>
+        <a href="#price" class="nav-link">總覽 <span class="opacity-60 ml-1">Summary</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="relative w-full" style="min-height:max(70vh,520px); background:linear-gradient(135deg,#12343B,#1F5D3A);">
+    <img src="/tour/fukuoka-golf-2026/img/golf-saitozaki.jpg" alt="西戸崎海濱鄉村俱樂部空拍，球場緊鄰玄界灘沙灘" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 hero-veil"></div>
+    <div class="relative z-10 max-w-[1440px] mx-auto min-h-[max(70vh,520px)] px-6 md:px-10 pt-24 pb-14 flex flex-col justify-center text-white">
+      <div class="max-w-[820px]">
+        <div class="flex items-center gap-4 mb-6">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-white/90">角落旅行社 — 09/24–09/27・桃園直飛・福岡四日</span>
+        </div>
+        <p class="hero-pre uppercase text-white/95 mb-2">Fukuoka · 機加酒自駕打球</p>
+        <h1 class="hero-headline">福岡四日．打球</h1>
+        <p class="mt-7 text-white/90 text-[18px] leading-[1.8] max-w-[680px] font-light">機場到市區地鐵 5 分鐘，落地當天下午就打得到球。<br/>
+          回程是晚班機，最後一天照樣能下場——四天塞得下四場。</p>
+        <div class="mt-8 flex flex-wrap items-center gap-x-10 gap-y-4">
+          
+          <div>
+            <div class="text-[11px] tracking-explore uppercase text-corner mb-1">虎航去＋長榮回</div>
+            <div class="num text-[30px] font-semibold leading-none text-corner">NT$36,000<span class="text-[14px] text-white/70 font-light ml-1">/人</span></div>
+          </div>
+          <div class="h-10 w-px bg-white/25 hidden sm:block"></div>
+          <div>
+            <div class="text-[11px] tracking-explore uppercase text-white/60 mb-1">華航全程</div>
+            <div class="num text-[30px] font-semibold leading-none">NT$48,100<span class="text-[14px] text-white/70 font-light ml-1">/人</span></div>
+          </div>
+        </div>
+        <p class="mt-4 text-white/70 text-[13px] font-light">機票＋三晚住宿．3 人同房｜<span class="text-white/90">球場費用另計，見下方價目表</span></p>
+        <div class="mt-8 flex items-center gap-6 flex-wrap">
+          <a href="#golf" class="btn-corner text-[14px]">看球場價格<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative z-20 -mt-12">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="bg-white rounded-xl shadow-search px-6 md:px-8 py-6 grid grid-cols-2 md:grid-cols-12 gap-6 items-center">
+        <div class="col-span-2 md:col-span-4 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">路線 · Route</div>
+          <div class="flex items-center gap-2 mt-2 text-[15px] text-ink flex-wrap">
+            <span>桃園</span>
+            <svg class="w-4 h-4 ico" viewBox="0 0 24 24"><path d="M3.4 13.5l8-2 5-7 1.6.6L15.5 11l4-1 1 1.5-4 2.6 1 5-1.3.6-3-4.4-3.8 1.1-1 3.2-1.3-.3v-3.3l-3-1z"/></svg>
+            <span class="font-semibold text-cornerDark">福岡</span>
+            <span class="text-inkSoft text-[13px] ml-1">直飛 2 小時 5 分</span>
+          </div>
+        </div>
+        <div class="md:col-span-3 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">日期 · Date</div>
+          <div class="mt-2 text-[15px] text-ink num">09/24 <span class="text-inkSoft text-[13px]">（四）</span> — 09/27 <span class="text-inkSoft text-[13px]">（日）</span></div>
+          <div class="text-[13px] text-inkSoft mt-0.5">4 天 3 夜．中秋連假期間</div>
+        </div>
+        <div class="md:col-span-3 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">人數 · Pax</div>
+          <div class="mt-2 text-[15px] text-ink">3 人 1 房</div>
+          <div class="text-[13px] text-inkSoft mt-0.5">雙床房＋沙發床 24.3㎡</div>
+        </div>
+        <div class="col-span-2 md:col-span-2">
+          <a href="#contact" class="w-full btn-corner justify-center !py-3.5 text-[14px]">諮詢</a>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-3 mt-6 text-[13px] text-inkSoft">
+        <span class="tracking-wider2">本趟重點</span>
+        <span class="px-3 py-1 rounded-full bg-corner/10 border border-corner/30 text-cornerDark font-medium">四天最多排得下四場</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">機場到市區地鐵 5 分鐘</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">住中洲．屋台街就在旁邊</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">飯店有大浴場．打完球回來泡</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">56 座球場可挑</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="plans" class="pt-24 pb-4">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Package</span>
+        </div>
+        <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">機加酒兩案，<br/>差別只在搭哪一家</h2>
+        <p class="text-inkSoft mt-4 max-w-[700px] font-light text-[15px] leading-relaxed">住的是同一間、球場是同一批、車也是同一台。<strong class="font-semibold text-ink">兩案唯一的差別在機票</strong>——兩案都是桃園直飛，去程時間只差 35 分鐘。</p>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-7">
+        <article class="plan-card pick relative p-7 md:p-8">
+          <span class="plan-badge">省 NT$12,100</span>
+          <span class="text-[13px] tracking-explore uppercase text-inkSoft">Plan A</span>
+          <h3 class="text-[26px] font-semibold leading-tight mt-1">虎航去＋長榮回</h3>
+          <p class="text-inkSoft text-[13.5px] font-light mt-2 leading-relaxed">去程搭廉航省錢，回程換長榮的正班機。行李額度 2 件 × 23 公斤，帶球具最寬鬆的組合。</p>
+          <div class="num text-[40px] font-semibold text-cornerDark leading-none mt-6">NT$36,000<span class="text-[15px] text-inkSoft font-light ml-1">/人</span></div>
+          <div class="text-[12.5px] text-inkSoft/80 font-light mt-1">機票＋三晚住宿（3 人同房）</div>
+          <div class="mt-6">
+            <div class="row"><span class="k">去程</span><span class="num">虎航 IT240　06:15 桃園 T1 → 09:35 福岡</span></div>
+            <div class="row"><span class="k">回程</span><span class="num">長榮 BR101　19:20 福岡 → 20:45 桃園 T2</span></div>
+            <div class="row"><span class="k">機型</span><span class="num">A320／B787-9．皆直飛</span></div>
+            <div class="row"><span class="k">託運行李</span><span class="num text-turf font-semibold">2 件 × 23 公斤</span></div>
+            <div class="row"><span class="k">球具大件手續費</span><span class="num">虎航段另計 NT$550</span></div>
+          </div>
+          <div class="mt-6 rounded-xl bg-corner/5 border border-corner/25 p-5">
+            <div class="text-[13px] font-semibold text-cornerDark mb-2">適合誰</div>
+            <p class="text-[13.5px] text-inkSoft font-light leading-relaxed">想把錢留給球場的人。46 公斤的行李額度，三套球具加行李綽綽有餘；省下的 12,100 元，夠打兩場名門球場還有找。</p>
+          </div>
+        </article>
+
+        <article class="plan-card relative p-7 md:p-8">
+          <span class="text-[13px] tracking-explore uppercase text-inkSoft">Plan B</span>
+          <h3 class="text-[26px] font-semibold leading-tight mt-1">中華航空全程</h3>
+          <p class="text-inkSoft text-[13.5px] font-light mt-2 leading-relaxed">去回都是華航正班機，A330-300 廣體客機，含機上餐。回程 21:00 起飛，是所有選項裡最晚的。</p>
+          <div class="num text-[40px] font-semibold text-ink leading-none mt-6">NT$48,100<span class="text-[15px] text-inkSoft font-light ml-1">/人</span></div>
+          <div class="text-[12.5px] text-inkSoft/80 font-light mt-1">機票＋三晚住宿（3 人同房）</div>
+          <div class="mt-6">
+            <div class="row"><span class="k">去程</span><span class="num">CI110　06:50 桃園 T2 → 09:55 福岡</span></div>
+            <div class="row"><span class="k">回程</span><span class="num">CI117　21:00 福岡 → 22:25 桃園 T2</span></div>
+            <div class="row"><span class="k">機型</span><span class="num">A330-300．皆直飛</span></div>
+            <div class="row"><span class="k">託運行李</span><span class="num">23 公斤</span></div>
+            <div class="row"><span class="k">機上餐</span><span class="num text-turf font-semibold">去回皆含</span></div>
+          </div>
+          <div class="mt-6 rounded-xl bg-cream border border-black/5 p-5">
+            <div class="text-[13px] font-semibold text-ink mb-2">適合誰</div>
+            <p class="text-[13.5px] text-inkSoft font-light leading-relaxed">習慣搭正班機、重視改期彈性的人。<strong class="text-ink font-semibold">但託運只有 23 公斤</strong>——球具袋約 12 公斤，扣掉之後衣物空間會比較緊。</p>
+          </div>
+        </article>
+      </div>
+      <p class="mt-6 text-[12.5px] text-inkSoft/80 leading-relaxed max-w-[880px] font-light">＊上列為<strong class="text-ink font-semibold">每人售價</strong>，含機票（含稅）與三晚住宿，以 3 人同住一間雙床房（加沙發床）計算。
+        ＊<strong class="text-ink font-semibold">不含</strong>球場費用、租車、餐費、旅遊保險與個人消費。
+        ＊機位與房間均為即時售價，以實際開票與訂房當時為準；<strong class="text-ink font-semibold">本期間為中秋連假，票價與房況變動快，建議儘早確認</strong>。</p>
+    </div>
+  </section>
+
+  <section id="golf" class="py-24 bg-cream mt-20">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="flex items-end justify-between mb-12 flex-wrap gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="accent-bar"></span>
+            <span class="text-[12px] tracking-explore uppercase text-corner">Green Fee</span>
+          </div>
+          <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">球場費用另計，<br/>福岡有 56 座可挑</h2>
+        </div>
+        <p class="text-inkSoft max-w-[440px] font-light text-[15px] leading-relaxed">福岡是九州的高爾夫重鎮，光福岡縣就有 56 座球場。下表挑出從中洲出發一小時內、三個價位帶的代表，<strong class="font-semibold text-ink">打幾場、打哪一級，由您決定</strong>。</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-7 mb-14">
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border border-black/8">
+          <div class="relative">
+            <img src="/tour/fukuoka-golf-2026/img/golf-fairway.jpg" alt="日本球場球道實景" class="w-full h-48 object-cover" loading="lazy" />
+            <span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">球道實景・示意</span>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3"><span class="tag ">入門</span></div>
+            <h3 class="text-[20px] font-semibold leading-snug">秋月、皐月竜王、二丈⋯</h3>
+            <div class="text-[12.5px] text-inkSoft font-light mt-1">朝倉／飯塚／糸島・車程 45–50 分</div>
+            <div class="num text-[24px] font-semibold text-ink mt-4">NT$1,190–2,600<span class="text-[13px] text-inkSoft font-light ml-1">/人・場</span></div>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">一樣 18 洞、一樣含球車。想多打幾場、把預算留給名門場的話，用這一級墊檔。</p>
+          </div>
+        </article>
+
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border-2 border-turf/40">
+          <div class="relative">
+            <img src="/tour/fukuoka-golf-2026/img/golf-saitozaki.jpg" alt="西戸崎海濱鄉村俱樂部空拍，球場緊鄰沙灘" class="w-full h-48 object-cover" loading="lazy" />
+            <span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">西戸崎海濱 空拍</span>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3"><span class="tag tag-golf">中階</span></div>
+            <h3 class="text-[20px] font-semibold leading-snug">西戸崎海濱、久山、中央福岡</h3>
+            <div class="text-[12.5px] text-inkSoft font-light mt-1">福岡市東區／久山／筑紫野・車程 25–35 分</div>
+            <div class="num text-[24px] font-semibold text-turf mt-4">NT$1,730–3,580<span class="text-[13px] text-inkSoft font-light ml-1">/人・場</span></div>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">西戸崎就在海之中道的沙洲上，球道一側就是玄界灘，是福岡市區內最近的海景球場。</p>
+          </div>
+        </article>
+
+        <article class="tour-card bg-white rounded-2xl overflow-hidden shadow-card border border-black/8">
+          <div class="relative">
+            <img src="/tour/fukuoka-golf-2026/img/itoshima-keya.jpg" alt="糸島芥屋大門海蝕洞與玄界灘海岸" class="w-full h-48 object-cover" loading="lazy" />
+            <span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">糸島・芥屋海岸</span>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3"><span class="tag tag-pay">名門</span></div>
+            <h3 class="text-[20px] font-semibold leading-snug">芥屋、古賀、女王之丘</h3>
+            <div class="text-[12.5px] text-inkSoft font-light mt-1">糸島／古賀・車程 40–50 分</div>
+            <div class="num text-[24px] font-semibold text-ink mt-4">NT$4,770–5,590<span class="text-[13px] text-inkSoft font-light ml-1">/人・場</span></div>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">日本百大等級的老牌名門。<strong class="text-ink font-semibold">五千多台幣就打得到</strong>——這是福岡跟沖繩最大的差別。</p>
+          </div>
+        </article>
+      </div>
+      <article class="bg-white rounded-2xl shadow-card border border-black/5 p-7 md:p-9">
+        <div class="flex items-baseline justify-between flex-wrap gap-3 mb-7">
+          <div class="field-label">果嶺費一覽 · 每人每場 18 洞</div>
+          <div class="text-[12.5px] text-inkSoft font-light num">匯率 ¥1 ≈ NT$0.207</div>
+        </div>
+        <table class="gtable">
+          <thead><tr><th>球場</th><th class="hide-sm">日圓牌價</th><th>台幣參考</th></tr></thead>
+          <tbody>
+            <tr class="tier"><td colspan="3"><span class="tier-label text-cornerDark"><i style="background:#FFA500"></i>入門</span></td></tr>
+            <tr><td><div class="gname">秋月鄉村俱樂部</div><div class="gmeta">朝倉・車程 50 分</div></td><td class="hide-sm gyen num">¥5,750–7,500</td><td class="gnt num">NT$1,190–1,550</td></tr>
+            <tr><td><div class="gname">皐月高爾夫 竜王球場</div><div class="gmeta">飯塚・車程 45 分</div></td><td class="hide-sm gyen num">¥6,200–9,200</td><td class="gnt num">NT$1,280–1,900</td></tr>
+            <tr><td><div class="gname">京都鄉村俱樂部</div><div class="gmeta">京都郡・車程 60 分</div></td><td class="hide-sm gyen num">¥6,000–11,000</td><td class="gnt num">NT$1,240–2,280</td></tr>
+            <tr><td><div class="gname">福岡雉雞鄉村俱樂部</div><div class="gmeta">川崎町・車程 55 分</div></td><td class="hide-sm gyen num">¥6,650–12,000</td><td class="gnt num">NT$1,380–2,480</td></tr>
+            <tr><td><div class="gname">二丈鄉村俱樂部</div><div class="gmeta">糸島・車程 45 分</div></td><td class="hide-sm gyen num">¥8,600–12,560</td><td class="gnt num">NT$1,780–2,600</td></tr>
+            <tr class="tier"><td colspan="3"><span class="tier-label text-turf"><i style="background:#1F5D3A"></i>中階</span></td></tr>
+            <tr><td><div class="gname">久山鄉村俱樂部</div><div class="gmeta">久山町・車程 25 分・Par 70 丘陵林間</div></td><td class="hide-sm gyen num">¥8,372–17,297</td><td class="gnt num">NT$1,730–3,580</td></tr>
+            <tr><td><div class="gname">西戸崎海濱鄉村俱樂部</div><div class="gmeta">福岡市東區・車程 25 分・海之中道沙洲</div></td><td class="hide-sm gyen num">¥8,890–14,140</td><td class="gnt num">NT$1,840–2,930</td></tr>
+            <tr><td><div class="gname">筑紫野鄉村俱樂部</div><div class="gmeta">筑紫野・車程 35 分</div></td><td class="hide-sm gyen num">¥8,897–16,773</td><td class="gnt num">NT$1,840–3,470</td></tr>
+            <tr><td><div class="gname">中央福岡高爾夫俱樂部</div><div class="gmeta">筑紫野・車程 35 分</div></td><td class="hide-sm gyen num">¥9,000–14,000</td><td class="gnt num">NT$1,860–2,900</td></tr>
+            <tr><td><div class="gname">皐月高爾夫 天拝球場</div><div class="gmeta">筑紫野・車程 35 分</div></td><td class="hide-sm gyen num">¥9,500–17,000</td><td class="gnt num">NT$1,970–3,520</td></tr>
+            <tr><td><div class="gname">福岡鄉村俱樂部</div><div class="gmeta">福岡市東區・車程 25 分</div></td><td class="hide-sm gyen num">¥10,000–25,690</td><td class="gnt num">NT$2,070–5,320</td></tr>
+            <tr><td><div class="gname">志摩海濱鄉村俱樂部</div><div class="gmeta">糸島・車程 45 分・面玄界灘</div></td><td class="hide-sm gyen num">¥14,300–19,700</td><td class="gnt num">NT$2,960–4,080</td></tr>
+            <tr class="tier"><td colspan="3"><span class="tier-label text-inkSoft"><i style="background:#565656"></i>名門</span></td></tr>
+            <tr><td><div class="gname">玄海高爾夫俱樂部</div><div class="gmeta">宗像・車程 45 分</div></td><td class="hide-sm gyen num">¥23,055</td><td class="gnt num">NT$4,770</td></tr>
+            <tr><td><div class="gname">太宰府高爾夫俱樂部</div><div class="gmeta">太宰府・車程 30 分</div></td><td class="hide-sm gyen num">¥24,333</td><td class="gnt num">NT$5,040</td></tr>
+            <tr><td><div class="gname">女王之丘高爾夫俱樂部</div><div class="gmeta">糸島前原・車程 45 分</div></td><td class="hide-sm gyen num">¥25,747</td><td class="gnt num">NT$5,330</td></tr>
+            <tr><td><div class="gname">芥屋高爾夫俱樂部</div><div class="gmeta">糸島・車程 50 分・日本百大</div></td><td class="hide-sm gyen num">¥26,870</td><td class="gnt num">NT$5,560</td></tr>
+            <tr><td><div class="gname">古賀高爾夫俱樂部</div><div class="gmeta">古賀市・車程 35 分・老牌名門</div></td><td class="hide-sm gyen num">¥27,000</td><td class="gnt num">NT$5,590</td></tr>
+          </tbody>
+        </table>
+        <p class="mt-8 text-[12.5px] text-inkSoft/80 font-light leading-relaxed">＊上列為球場公開牌價區間（平日至假日），<strong class="text-ink font-semibold">含果嶺費與球車</strong>，實際依開球日與時段而定，正式報價以訂位確認為準。
+          ＊<strong class="text-ink font-semibold">日本球場預設沒有桿弟</strong>，需要的話要在訂位時另外提出、另外付費。
+          ＊球具可在球場租借，須事先預約、現場付費，租金各場不同。
+          ＊球場檔期熱門，<strong class="text-ink font-semibold">建議提前 3 到 6 個月訂位</strong>；本行程又落在中秋連假，更要及早卡位。
+          ＊車程為從中洲出發估算，實際依當日路況。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="route-map" class="pt-24 pb-4">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Route Map</span>
+        </div>
+        <h2 class="text-[30px] md:text-[38px] font-semibold leading-tight">中洲 → 海之中道・久山 → 筑紫野・糸島</h2>
+        <p class="text-inkSoft mt-3 max-w-[640px] font-light text-[15px] leading-relaxed">深綠點是球場，橘點是行程停留點，深色點是機場。住宿固定在中洲，球場分布在市區的四個方向，最近的 25 分鐘、最遠的名門場 50 分鐘，不必為了打球換飯店。</p>
+      </div>
+      <div id="route-map-canvas" class="w-full rounded-2xl border border-black/5 shadow-card" style="height:480px;"></div>
+      <ul id="rm-legend" class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[13px] text-inkSoft"></ul>
+    </div>
+  </section>
+
+  <section id="itinerary" class="pt-24 pb-20">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-14">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Day by Day</span>
+        </div>
+        <h2 class="text-[36px] md:text-[48px] font-semibold leading-tight max-w-[720px]">四天三夜，<br/>最多排得下四場</h2>
+        <p class="text-inkSoft mt-4 max-w-[660px] font-light text-[15px] leading-relaxed"><strong class="font-semibold text-ink">福岡機場到博多站地鐵只要 5 分鐘</strong>，是全日本離市區最近的國際機場之一。09:35 落地、11 點前就進得了球場；回程 19:20（華航 21:00），最後一天打完 18 洞還來得及。下面這份是「打三場」的排法，第一天下午和第四天都可以再加一場。</p>
+        <div class="mt-6 flex flex-wrap gap-3 text-[13px]">
+          <span class="px-3 py-1.5 rounded-full bg-turf/10 text-turf font-medium">D2・D3・D4 打球日</span>
+          <span class="px-3 py-1.5 rounded-full border border-black/10 text-inkSoft">全程自駕，不派車</span>
+        </div>
+        <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-[13px] text-inkSoft font-light">
+          <span class="flex items-center gap-2"><span class="tag tag-golf">下場</span>18 洞正式下場，含果嶺與球車</span>
+          <span class="flex items-center gap-2"><span class="tag tag-pay">另外付費</span>售價不含，另計</span>
+        </div>
+      </div>
+      <div id="days" class="flex flex-col gap-10"></div>
+      <div class="mt-12 rounded-2xl border border-black/10 bg-cream p-7 md:p-8">
+        <div class="flex items-center gap-2 mb-3"><span class="tag">時間可行性</span></div>
+        <h3 class="text-[21px] font-semibold leading-snug">第一天下午也排得進一場，四場是上限</h3>
+        <p class="text-[14px] text-inkSoft font-light leading-relaxed mt-3 max-w-[820px]">09:35 落地、10:30 取到車，西戸崎或久山 11:00 前就到得了，趕得上下午的開球時段——九月底福岡天黑約 18:20，打完 18 洞來得及。代價是第一天沒有市區時間，行李要先寄放（飯店 15:00 才能入住）。若要這樣排，訂位時告知即可。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="stay" class="py-24 bg-cream">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="flex items-end justify-between mb-12 flex-wrap gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="accent-bar"></span>
+            <span class="text-[12px] tracking-explore uppercase text-corner">Where You Stay</span>
+          </div>
+          <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">三井花園飯店 福岡中洲<br/>三晚不換宿</h2>
+        </div>
+        <p class="text-inkSoft max-w-[440px] font-light text-[15px] leading-relaxed">2020 年開業的四星飯店，位在中洲，屋台街就在旁邊。雙床房 24.3 平方公尺，加沙發床可住 3 人。</p>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-7 items-stretch">
+        <div class="relative rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/fukuoka-golf-2026/img/hotel-room.jpg" alt="三井花園飯店福岡中洲 雙床客房與沙發區" class="w-full h-full min-h-[300px] object-cover" loading="lazy" />
+          <span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">雙床房＋沙發床．24.3㎡</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <article class="tour-card bg-white rounded-2xl shadow-card border border-black/5 p-6">
+            <div class="flex items-center gap-2 mb-3 text-[13px] text-inkSoft">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="#FFA500" fill="none" stroke-width="1.8"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              位置
+            </div>
+            <h3 class="text-[19px] font-semibold leading-snug">中洲</h3>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">那珂川畔的中洲，<strong class="text-ink font-semibold">屋台街走路就到</strong>。地鐵中洲川端站到博多站 2 站，機場再 5 分鐘。</p>
+          </article>
+          <article class="tour-card bg-white rounded-2xl shadow-card border border-black/5 p-6">
+            <div class="flex items-center gap-2 mb-3 text-[13px] text-inkSoft">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="#FFA500" fill="none" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+              房型
+            </div>
+            <h3 class="text-[19px] font-semibold leading-snug">雙床房 24.3㎡</h3>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">兩張單人床＋沙發床，附浴缸、禁菸。<strong class="text-ink font-semibold">三人入住須事先預約</strong>，訂房時我們會一併處理。</p>
+          </article>
+          <article class="tour-card bg-white rounded-2xl shadow-card border border-black/5 p-6">
+            <div class="flex items-center gap-2 mb-3 text-[13px] text-inkSoft">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="#FFA500" fill="none" stroke-width="1.8"><path d="M4 14c2-2 5-2 7 0s5 2 7 0M4 18c2-2 5-2 7 0s5 2 7 0M12 3v6"/></svg>
+              大浴場
+            </div>
+            <h3 class="text-[19px] font-semibold leading-snug">打完球回來泡</h3>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">館內有大浴場，走 18 洞之後泡一下再去吃屋台——這是商務飯店給不了的。</p>
+          </article>
+          <article class="tour-card bg-white rounded-2xl shadow-card border border-black/5 p-6">
+            <div class="flex items-center gap-2 mb-3 text-[13px] text-inkSoft">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="#FFA500" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+              入退房
+            </div>
+            <h3 class="text-[19px] font-semibold leading-snug">15:00 / 11:00</h3>
+            <p class="text-inkSoft text-[13.5px] leading-relaxed mt-3 font-light">第一天若要直接去打球，行李可先寄放櫃檯；最後一天退房後行李一樣寄放，打完球再回來拿。</p>
+          </article>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mt-7">
+        <figure class="relative rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/fukuoka-golf-2026/img/hotel-onsen.jpg" alt="三井花園飯店福岡中洲 大浴場" class="w-full h-52 object-cover" loading="lazy" />
+          <figcaption class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">大浴場</figcaption>
+        </figure>
+        <figure class="relative rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/fukuoka-golf-2026/img/hotel-lobby.jpg" alt="三井花園飯店福岡中洲 大廳" class="w-full h-52 object-cover" loading="lazy" />
+          <figcaption class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">大廳</figcaption>
+        </figure>
+        <figure class="relative rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/fukuoka-golf-2026/img/hotel-breakfast.jpg" alt="飯店和式早餐" class="w-full h-52 object-cover" loading="lazy" />
+          <figcaption class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">早餐（另計）</figcaption>
+        </figure>
+        <figure class="relative rounded-2xl overflow-hidden shadow-card border border-black/5">
+          <img src="/tour/fukuoka-golf-2026/img/yatai.jpg" alt="中洲那珂川畔的屋台街" class="w-full h-52 object-cover" loading="lazy" />
+          <figcaption class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">中洲屋台．走路就到</figcaption>
+        </figure>
+      </div>
+      <p class="mt-6 text-[12px] text-inkSoft/80 leading-relaxed max-w-[820px] font-light">＊住宿費用為 3 晚 1 房 NT$31,435（含稅項及費用），3 人分攤每人 NT$10,478，已計入上方售價。
+        ＊<strong class="text-ink font-semibold">早餐與部分館內設施可能另外收費</strong>，以訂房方案為準。
+        ＊房價每日浮動，正式報價以下單當時為準。</p>
+    </div>
+  </section>
+
+  <section id="price" class="py-24">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Summary</span>
+        </div>
+        <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">機加酒 NT$36,000／NT$48,100，<br/>包含什麼一次講清楚</h2>
+        <p class="text-inkSoft mt-4 max-w-[700px] font-light text-[15px] leading-relaxed">機加酒含：<strong class="font-semibold text-ink">來回機票（含稅、含託運行李）與三晚住宿</strong>，以 3 人同住一間雙床房計算。<strong class="font-semibold text-ink">球場費用、租車、油錢與餐費都不含在內</strong>，要另外抓——下面把這些一項一項列出來，不要到現場才發現。</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-7 mb-9">
+        <article class="rounded-2xl border-2 border-turf/30 bg-turf/5 p-7">
+          <div class="flex items-center gap-2 mb-5"><span class="tag tag-golf">團費已含</span></div>
+          <ul class="space-y-3 text-[14.5px] text-ink">
+            <li class="flex gap-3"><span class="text-turf font-bold">✓</span><span>桃園⇄福岡來回機票，含稅、含託運行李</span></li>
+            <li class="flex gap-3"><span class="text-turf font-bold">✓</span><span>三井花園飯店福岡中洲 三晚，雙床房加沙發床</span></li>
+            <li class="flex gap-3"><span class="text-turf font-bold">✓</span><span>華航案另含去回程機上餐</span></li>
+            <li class="flex gap-3"><span class="text-turf font-bold">✓</span><span>球場代訂服務（開球時段、球具租借代為預約）</span></li>
+          </ul>
+        </article>
+        <article class="rounded-2xl border border-black/10 bg-white p-7">
+          <div class="flex items-center gap-2 mb-5"><span class="tag tag-pay">不含在團費內</span></div>
+          <ul class="space-y-3 text-[14.5px] text-ink">
+            <li class="flex gap-3"><span class="text-inkSoft">✗</span><span><strong class="font-semibold">球場果嶺費</strong>——依選哪一級，價目見上方球場區</span></li>
+            <li class="flex gap-3"><span class="text-inkSoft">✗</span><span>租車、油錢、高速公路費與停車</span></li>
+            <li class="flex gap-3"><span class="text-inkSoft">✗</span><span>全程餐食（含飯店早餐與球場午餐）</span></li>
+            <li class="flex gap-3"><span class="text-inkSoft">✗</span><span>旅遊保險、桿弟費、球具租借費、個人消費</span></li>
+            <li class="flex gap-3"><span class="text-inkSoft">✗</span><span>虎航段的球袋大件行李手續費</span></li>
+          </ul>
+        </article>
+      </div>
+      <div class="mb-9">
+        <h3 class="text-[21px] font-semibold leading-snug mb-2">不含的部分，各項參考價</h3>
+        <p class="text-[14px] text-inkSoft font-light leading-relaxed">球場打幾場、打哪一級由您決定，這裡只列單價。租車與餐費以 3 人同行分攤估算。</p>
+      </div>
+      <article class="bg-white rounded-2xl shadow-card border border-black/8 p-7 md:p-8 mb-7">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-14">
+          <div>
+            <div class="row"><span class="k">球場果嶺費　入門</span><span class="num">NT$1,190–2,600<span class="text-[12px] text-inkSoft font-light ml-1">/場</span></span></div>
+            <div class="row"><span class="k">球場果嶺費　中階</span><span class="num">NT$1,730–4,080<span class="text-[12px] text-inkSoft font-light ml-1">/場</span></span></div>
+            <div class="row"><span class="k">球場果嶺費　名門</span><span class="num">NT$4,770–5,590<span class="text-[12px] text-inkSoft font-light ml-1">/場</span></span></div>
+          </div>
+          <div>
+            <div class="row"><span class="k">租車　4 天（3 人分攤）</span><span class="num">NT$2,480</span></div>
+            <div class="row"><span class="k">油錢、高速費與停車　4 天</span><span class="num">NT$700</span></div>
+            <div class="row"><span class="k">餐費　4 天 10 餐參考</span><span class="num">NT$5,000</span></div>
+            <div class="row"><span class="k">球袋大件行李費（虎航段）</span><span class="num">NT$550</span></div>
+          </div>
+        </div>
+        <p class="mt-6 pt-5 border-t border-black/10 text-[13px] text-inkSoft font-light leading-relaxed">果嶺費逐場列表見上方球場區。<strong class="text-ink font-semibold">日期落在中秋連假（9/25–9/28），機票與房價正處高點</strong>——若日期可調整，我們可以另外幫您查平日的價格。</p>
+      </article>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
+        <article class="bg-cream rounded-2xl border border-black/5 p-7">
+          <div class="field-label mb-4">租車 · 另計</div>
+          <p class="text-[14px] text-inkSoft font-light leading-relaxed mb-5">福岡的球場都在市郊，一樣要開車。<strong class="font-semibold text-ink">車型要挑放得下球袋的</strong>——三個人三套球具，要租 Corolla Cross、CX-5 這一級的休旅車。</p>
+          <div class="grid grid-cols-1 gap-y-2.5 text-[14px]">
+            <div class="flex justify-between border-b border-black/5 pb-2"><span>休旅車 4 天（含免責險 CDW）</span><span class="num text-inkSoft">約 ¥36,000／台</span></div>
+            <div class="flex justify-between border-b border-black/5 pb-2"><span>安心補償 NOC（建議加購）</span><span class="num text-inkSoft">¥550–770／天</span></div>
+            <div class="flex justify-between border-b border-black/5 pb-2"><span>油錢與高速公路費</span><span class="num text-inkSoft">約 ¥10,000</span></div>
+            <div class="flex justify-between border-b border-black/5 pb-2"><span>球場停車</span><span class="num text-inkSoft">免費</span></div>
+          </div>
+          <p class="mt-4 text-[12.5px] text-inkSoft/80 font-light leading-relaxed">＊需備日文譯本駕照，出發前於監理站辦理。＊日本靠左行駛、右駕。＊往筑紫野、糸島、宗像方向多半會上都市高速或九州道，本表已估入。</p>
+        </article>
+        <article class="bg-cream rounded-2xl border border-black/5 p-7">
+          <div class="field-label mb-4">餐費 · 自理</div>
+          <p class="text-[14px] text-inkSoft font-light leading-relaxed mb-5">全程自理，四天約 10 餐（含球場午餐），一人參考 <span class="num font-semibold text-ink">NT$5,000</span>。飯店早餐另計。</p>
+          <div class="grid grid-cols-1 gap-y-2.5 text-[14px]">
+            <div class="flex justify-between border-b border-black/5 pb-2"><span>球場餐廳定食</span><span class="num text-inkSoft">¥1,500–2,500</span></div>
+            <div class="flex justify-between border-b border-black/5 pb-2"><span>博多豚骨拉麵</span><span class="num text-inkSoft">¥800–1,200</span></div>
+            <div class="flex justify-between border-b border-black/5 pb-2"><span>中洲屋台一人份</span><span class="num text-inkSoft">¥2,500–4,000</span></div>
+            <div class="flex justify-between border-b border-black/5 pb-2"><span>もつ鍋（牛腸鍋）一人份</span><span class="num text-inkSoft">¥3,000–4,500</span></div>
+            <div class="flex justify-between border-b border-black/5 pb-2"><span>飯店和式早餐</span><span class="num text-inkSoft">¥2,500 前後</span></div>
+          </div>
+          <p class="mt-4 text-[12.5px] text-inkSoft/80 font-light leading-relaxed">＊球場餐廳多半只收現金或日本國內信用卡，建議帶足日圓現金。＊屋台幾乎都只收現金。</p>
+        </article>
+      </div>
+      <p class="mt-8 text-[12.5px] text-inkSoft/80 leading-relaxed font-light">＊機加酒為<strong class="text-ink font-semibold">正式報價</strong>；球資、租車、油錢、餐費為<strong class="text-ink font-semibold">參考估算</strong>，實際依訂位與現場為準。
+        ＊日圓換算以 ¥1 ≈ NT$0.207 估（台灣銀行 2026/09/04 現金賣出 0.2067）。</p>
+    </div>
+  </section>
+
+  <section class="pb-24">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="flex items-center gap-3 mb-8">
+        <span class="accent-bar"></span>
+        <span class="text-[12px] tracking-explore uppercase text-corner">Before You Go</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="rounded-2xl border border-black/8 p-6">
+          <h3 class="text-[17px] font-semibold leading-snug mb-3">桿弟不是預設的</h3>
+          <p class="text-[13.5px] text-inkSoft font-light leading-relaxed">日本球場一般不主動配桿弟。果嶺費含的是球車，不是人。要桿弟得在訂位時提出、另外付費。</p>
+        </div>
+        <div class="rounded-2xl border border-black/8 p-6">
+          <h3 class="text-[17px] font-semibold leading-snug mb-3">華航行李額度較緊</h3>
+          <p class="text-[13.5px] text-inkSoft font-light leading-relaxed">華航案託運 23 公斤，球具袋約 12 公斤就佔掉一半。虎航＋長榮那案是 2 件 × 23 公斤，帶球具寬鬆很多。</p>
+        </div>
+        <div class="rounded-2xl border border-black/8 p-6">
+          <h3 class="text-[17px] font-semibold leading-snug mb-3">三人房要事先講</h3>
+          <p class="text-[13.5px] text-inkSoft font-light leading-relaxed">飯店是雙床房加沙發床做三人使用，<strong class="text-ink font-semibold">必須事先預約</strong>，不能到現場才加人。訂房時我們會一起處理。</p>
+        </div>
+        <div class="rounded-2xl border border-black/8 p-6">
+          <h3 class="text-[17px] font-semibold leading-snug mb-3">九月福岡還很熱</h3>
+          <p class="text-[13.5px] text-inkSoft font-light leading-relaxed">九月下旬白天約 28–30 度、濕度高，仍是颱風季尾聲。建議排早上的開球時段，並確認機票與球場的改期規則。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-20 bg-cream">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+      <div>
+        <h2 class="text-[28px] md:text-[34px] font-semibold leading-tight">選好哪一案、打哪幾場，<br/>我們去把開球時間卡住</h2>
+        <p class="text-inkSoft mt-3 font-light text-[15px]">中秋連假期間球場檔期比機位還難搶。決定球場與時段，我們先去訂，機票房間再一起收。</p>
+      </div>
+      <a href="#" class="btn-corner text-[15px] !px-9 !py-4">諮詢報價<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </section>
+
+  <footer class="bg-ink text-white pt-20 pb-10">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-14 border-b border-white/10">
+        <div class="md:col-span-5">
+          <div class="text-[20px] font-semibold tracking-wider2 mb-6">角落旅行社</div>
+          <p class="text-white/70 text-[14px] leading-relaxed font-light max-w-[420px]">福岡四日打球，住中洲、56 座球場任選，四天最多排得下四場。</p>
+        </div>
+        <div class="md:col-span-3">
+          <h4 class="text-[12px] tracking-explore uppercase text-corner mb-5">This Trip</h4>
+          <ul class="space-y-3 text-[14px] text-white/80">
+            <li><a href="#plans" class="hover:text-corner transition">機加酒兩案</a></li>
+            <li><a href="#golf" class="hover:text-corner transition">球場費用</a></li>
+            <li><a href="#itinerary" class="hover:text-corner transition">逐日行程</a></li>
+            <li><a href="#stay" class="hover:text-corner transition">住宿安排</a></li>
+            <li><a href="#price" class="hover:text-corner transition">費用總覽</a></li>
+          </ul>
+        </div>
+        <div class="md:col-span-4">
+          <h4 class="text-[12px] tracking-explore uppercase text-corner mb-5">Contact</h4>
+          <ul class="space-y-4 text-[14px] text-white/80 font-light">
+            <li class="flex gap-3"><svg class="w-4 h-4 mt-1 text-corner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 5h18v14H3z"/><path d="M3 5l9 9 9-9"/></svg>agency@venturo.tw</li>
+            <li class="flex gap-3"><svg class="w-4 h-4 mt-1 text-corner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>客製報價 · 福岡四日打球</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 flex flex-wrap items-center justify-between gap-4 text-[12px] text-white/50 tracking-wider2">
+        <div>© 2026 VENTURO × 角落旅行社. 機位、房型與開球時段以出發前確認為準。</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const ICO = {
+      plane:'<path d="M3.4 13.5l8-2 5-7 1.6.6L15.5 11l4-1 1 1.5-4 2.6 1 5-1.3.6-3-4.4-3.8 1.1-1 3.2-1.3-.3v-3.3l-3-1z"/>',
+      meal:'<path d="M6 3v8a2 2 0 0 0 2 2v8M6 3v5M9 3v5M18 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/>',
+      sight:'<path d="M12 21s7-7.5 7-13a7 7 0 1 0-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="8.5" r="2.6"/>',
+      golf:'<path d="M9 20h6M12 20V4l7 3.5-7 3.5"/><circle cx="8" cy="19" r="1.6"/>',
+      car:'<path d="M4 16v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2M16 16v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2"/><path d="M3 16h18v-4l-2-5H5L3 12z"/><circle cx="7" cy="14" r="1"/><circle cx="17" cy="14" r="1"/>',
+      shop:'<path d="M4 8h16l-1.2 11.2a1 1 0 0 1-1 .8H6.2a1 1 0 0 1-1-.8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+      hotel:'<path d="M3 20V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v14M14 20V11h6a1 1 0 0 1 1 1v8M3 20h18"/><path d="M6.5 9h3M6.5 13h3"/>',
+      bath:'<path d="M4 14c2-2 5-2 7 0s5 2 7 0M4 18c2-2 5-2 7 0s5 2 7 0M12 3v6"/>'
+    };
+    const DAYS = [
+      {
+        "n": 1,
+        "title": "抵達福岡．取車．中洲屋台",
+        "en": "Arrive Fukuoka & Nakasu",
+        "date": "09/24（四）",
+        "mode": "自駕",
+        "theme": [
+          "上午班機",
+          "機場取車",
+          "中洲入住",
+          "屋台晚餐"
+        ],
+        "img": "/tour/fukuoka-golf-2026/img/yatai.jpg",
+        "cap": "中洲・屋台街",
+        "steps": [
+          {
+            "t": "06:15",
+            "k": "plane",
+            "name": "桃園機場起飛",
+            "d": "Ａ案 虎航 IT240 06:15（T1）／Ｂ案 華航 CI110 06:50（T2）。飛行約 2 小時 5 分"
+          },
+          {
+            "t": "09:35",
+            "k": "plane",
+            "name": "抵達福岡機場",
+            "d": "福岡時間比台灣快 1 小時。國際線航廈通關，行李含球袋一起領"
+          },
+          {
+            "t": "10:30",
+            "k": "car",
+            "name": "租車中心取車",
+            "d": "接駁車到租車中心辦手續；記得帶日文譯本駕照。確認球袋放得進後車廂再上路"
+          },
+          {
+            "t": "11:30",
+            "k": "meal",
+            "name": "博多午餐",
+            "d": "豚骨拉麵或牛腸鍋，自理。<b>想第一天就下場的話，這裡直接開去西戸崎或久山，趕得上下午開球</b>"
+          },
+          {
+            "t": "15:00",
+            "k": "hotel",
+            "name": "三井花園飯店福岡中洲 入住",
+            "d": "15:00 開放入住。若上午先去打球，行李可先寄放櫃檯"
+          },
+          {
+            "t": "16:30",
+            "k": "bath",
+            "name": "大浴場",
+            "d": "館內大浴場，泡完再出門"
+          },
+          {
+            "t": "18:30",
+            "k": "shop",
+            "name": "中洲屋台街．晚餐",
+            "d": "走路就到。屋台幾乎只收現金，記得帶日圓"
+          }
+        ]
+      },
+      {
+        "n": 2,
+        "title": "第一場 18 洞",
+        "en": "Round 1",
+        "date": "09/25（五）",
+        "mode": "打球日",
+        "feat": true,
+        "theme": [
+          "18 洞",
+          "含果嶺與球車",
+          "車程 25–35 分"
+        ],
+        "img": "/tour/fukuoka-golf-2026/img/golf-saitozaki.jpg",
+        "cap": "西戸崎海濱．球場緊鄰沙灘",
+        "steps": [
+          {
+            "t": "06:45",
+            "k": "car",
+            "name": "飯店出發前往球場",
+            "d": "市區近郊的球場車程 25–35 分鐘；早餐建議前一晚在超商買好帶著"
+          },
+          {
+            "t": "07:30",
+            "k": "golf",
+            "name": "球場報到、練習果嶺",
+            "hot": "下場",
+            "d": "球具若用租的，前一天就要確認預約"
+          },
+          {
+            "t": "08:00",
+            "k": "golf",
+            "name": "第一場 18 洞開球",
+            "hot": "下場",
+            "d": "果嶺費含球車。球場依客人選擇的等級安排，見上方價目表"
+          },
+          {
+            "t": "13:30",
+            "k": "meal",
+            "name": "球場餐廳午餐",
+            "d": "日式定食為主，多半只收現金或日本國內卡"
+          },
+          {
+            "t": "16:00",
+            "k": "bath",
+            "name": "回飯店泡大浴場",
+            "d": "打完球先回來泡一下"
+          },
+          {
+            "t": "18:30",
+            "k": "meal",
+            "name": "博多晚餐",
+            "d": "自理"
+          }
+        ]
+      },
+      {
+        "n": 3,
+        "title": "第二場 18 洞",
+        "en": "Round 2",
+        "date": "09/26（六）",
+        "mode": "打球日",
+        "feat": true,
+        "theme": [
+          "18 洞",
+          "可排名門場",
+          "糸島方向"
+        ],
+        "img": "/tour/fukuoka-golf-2026/img/itoshima-keya.jpg",
+        "cap": "糸島・芥屋海岸",
+        "steps": [
+          {
+            "t": "06:30",
+            "k": "car",
+            "name": "飯店出發前往球場",
+            "d": "若排糸島的芥屋、女王之丘這一級，車程約 45–50 分鐘"
+          },
+          {
+            "t": "07:40",
+            "k": "golf",
+            "name": "球場報到",
+            "hot": "下場",
+            "d": "名門球場報到與服裝規定較嚴，建議提早到"
+          },
+          {
+            "t": "08:10",
+            "k": "golf",
+            "name": "第二場 18 洞開球",
+            "hot": "下場",
+            "d": "建議兩場排不同等級或不同地形，打起來比較有變化"
+          },
+          {
+            "t": "13:40",
+            "k": "meal",
+            "name": "球場午餐",
+            "d": "自理"
+          },
+          {
+            "t": "15:30",
+            "k": "sight",
+            "name": "糸島海岸線兜風",
+            "d": "回程沿玄界灘走，芥屋大門、二見浦夫婦岩都在路上；不想繞就直接回市區"
+          },
+          {
+            "t": "18:30",
+            "k": "meal",
+            "name": "晚餐後回飯店",
+            "d": "自理"
+          }
+        ]
+      },
+      {
+        "n": 4,
+        "title": "第三場．還車．賦歸",
+        "en": "Round 3 & Departure",
+        "date": "09/27（日）",
+        "mode": "打球日",
+        "feat": true,
+        "theme": [
+          "18 洞",
+          "退房寄放行李",
+          "晚班機"
+        ],
+        "img": "/tour/fukuoka-golf-2026/img/dazaifu.jpg",
+        "cap": "太宰府天満宮",
+        "steps": [
+          {
+            "t": "06:30",
+            "k": "hotel",
+            "name": "退房（行李寄放櫃檯）",
+            "d": "11:00 退房，但今天一早就出門，行李先寄放，打完球回來拿"
+          },
+          {
+            "t": "08:00",
+            "k": "golf",
+            "name": "第三場 18 洞開球",
+            "hot": "下場",
+            "d": "建議排太宰府或市區近郊的球場，打完好回市區"
+          },
+          {
+            "t": "13:30",
+            "k": "meal",
+            "name": "球場午餐",
+            "d": "自理"
+          },
+          {
+            "t": "15:00",
+            "k": "sight",
+            "name": "太宰府天満宮（時間夠的話）",
+            "d": "若打太宰府的球場，出來就在旁邊；不打球的人這天可以來這裡逛"
+          },
+          {
+            "t": "16:30",
+            "k": "car",
+            "name": "回飯店取行李、還車",
+            "d": "加滿油再還；預留 1 小時處理還車與接駁"
+          },
+          {
+            "t": "19:20",
+            "k": "plane",
+            "name": "福岡機場起飛",
+            "d": "Ａ案 長榮 BR101 19:20 → 20:45 桃園／Ｂ案 華航 CI117 21:00 → 22:25 桃園（福岡比台灣快 1 小時）"
+          }
+        ]
+      }
+    ];
+
+    const ic = (k) => '<svg class="ico" viewBox="0 0 24 24">'+(ICO[k]||ICO.sight)+'</svg>';
+    document.getElementById('days').innerHTML = DAYS.map(day => {
+      const steps = day.steps.map(s =>
+        '<div class="step">'+
+          '<div class="t num">'+s.t+'</div>'+
+          '<div class="si">'+ic(s.k)+'</div>'+
+          '<div class="flex-1">'+
+            '<div class="text-[15px] font-semibold text-ink">'+s.name+
+              (s.hot?' <span class="tag '+(s.hot==='下場'?'tag-golf':'tag-pay')+' align-middle ml-1">'+s.hot+'</span>':'')+'</div>'+
+            (s.d?'<div class="text-[13.5px] text-inkSoft font-light leading-relaxed mt-0.5">'+s.d+'</div>':'')+
+          '</div>'+
+        '</div>'
+      ).join('');
+      const tags = day.theme.map(t=>'<span class="tag">'+t+'</span>').join('');
+      const media = day.img
+        ? '<div class="relative order-1 lg:order-2 h-52 lg:h-auto lg:min-h-full overflow-hidden">'+
+            '<img src="'+day.img+'" alt="'+(day.cap||day.title)+'" loading="lazy" class="w-full h-full object-cover" />'+
+            (day.cap?'<span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">'+day.cap+'</span>':'')+
+          '</div>'
+        : '';
+      const bodyCols = day.img ? 'lg:grid-cols-[1fr_320px]' : '';
+      return (
+        '<div class="day-block">'+
+          '<div class="day-rail grid grid-cols-1 md:grid-cols-[auto_1fr] gap-5 md:gap-8">'+
+            '<div class="num-bubble'+(day.feat?' !bg-turf !text-white !border-turf':'')+' num">'+String(day.n).padStart(2,'0')+'</div>'+
+            '<div class="bg-white rounded-2xl shadow-card border border-black/5 overflow-hidden grid grid-cols-1 '+bodyCols+'">'+
+              '<div class="p-6 md:p-8 order-2 lg:order-1">'+
+                '<div class="flex items-baseline gap-3 flex-wrap">'+
+                  '<h3 class="text-[24px] md:text-[26px] font-semibold leading-tight">'+day.title+'</h3>'+
+                  '<span class="text-[13px] tracking-wider2 text-inkSoft font-light">'+day.en+'</span>'+
+                  '<span class="ml-auto flex items-baseline gap-3">'+
+                    (day.mode?'<span class="tag'+(day.mode==='打球日'?' tag-golf':'')+'">'+day.mode+'</span>':'')+
+                    '<span class="num text-[13px] text-inkSoft">'+(day.date||'')+'</span>'+
+                  '</span>'+
+                '</div>'+
+                '<div class="flex flex-wrap gap-2 mt-3 mb-6">'+tags+'</div>'+
+                steps+
+              '</div>'+
+              media+
+            '</div>'+
+          '</div>'+
+        '</div>'
+      );
+    }).join('');
+  </script>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+  (function(){
+    const ROUTE = [
+      {
+        "city": "福岡機場",
+        "en": "Fukuoka Airport",
+        "coords": [
+          33.5859,
+          130.4506
+        ],
+        "note": "D1 抵達／D4 賦歸・地鐵到博多站 5 分鐘",
+        "air": true
+      },
+      {
+        "city": "博多站",
+        "en": "Hakata Station",
+        "coords": [
+          33.5897,
+          130.4207
+        ],
+        "note": "轉乘與美食中心"
+      },
+      {
+        "city": "中洲",
+        "en": "Nakasu",
+        "coords": [
+          33.593,
+          130.402
+        ],
+        "note": "三晚住宿・三井花園飯店福岡中洲・屋台街"
+      },
+      {
+        "city": "西戸崎海濱",
+        "en": "Saitozaki Seaside CC",
+        "coords": [
+          33.658,
+          130.356
+        ],
+        "note": "中階・福岡市東區・車程 25 分・海之中道沙洲",
+        "golf": true
+      },
+      {
+        "city": "久山 C.C.",
+        "en": "Hisayama CC",
+        "coords": [
+          33.648,
+          130.478
+        ],
+        "note": "中階・久山町・車程 25 分",
+        "golf": true
+      },
+      {
+        "city": "古賀 G.C.",
+        "en": "Koga GC",
+        "coords": [
+          33.73,
+          130.47
+        ],
+        "note": "名門・古賀市・車程 35 分",
+        "golf": true
+      },
+      {
+        "city": "中央福岡",
+        "en": "Central Fukuoka GC",
+        "coords": [
+          33.47,
+          130.52
+        ],
+        "note": "中階・筑紫野・車程 35 分",
+        "golf": true
+      },
+      {
+        "city": "太宰府 G.C.",
+        "en": "Dazaifu GC",
+        "coords": [
+          33.51,
+          130.54
+        ],
+        "note": "名門・太宰府・車程 30 分",
+        "golf": true
+      },
+      {
+        "city": "太宰府天満宮",
+        "en": "Dazaifu Tenmangu",
+        "coords": [
+          33.5215,
+          130.5348
+        ],
+        "note": "D4・順路景點"
+      },
+      {
+        "city": "芥屋 G.C.",
+        "en": "Keya GC",
+        "coords": [
+          33.556,
+          130.19
+        ],
+        "note": "名門・糸島・車程 50 分・日本百大",
+        "golf": true
+      }
+    ];
+    const map = L.map('route-map-canvas',{zoomControl:false,attributionControl:false,scrollWheelZoom:false})
+      .setView([33.59,130.38],10);
+    L.control.zoom({position:'bottomright'}).addTo(map);
+    // ⚠ 不要用 CartoDB（basemaps.cartocdn.com）——已改成需要 API key，會回一張印著
+    // 「API KEY REQUIRED」的浮水印圖，而且 HTTP 仍然是 200，光驗網址驗不出來。
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {maxZoom:18, attribution:'&copy; OpenStreetMap'}).addTo(map);
+
+    const pts = ROUTE.map(r=>r.coords);
+    L.polyline(pts,{color:'#FFA500',weight:3,opacity:.85,dashArray:'1 9',lineCap:'round'}).addTo(map);
+
+    const legend = document.getElementById('rm-legend');
+    const cls = r => r.air ? 'air' : (r.golf ? 'golf' : '');
+    ROUTE.forEach(r=>{
+      const html = '<div class="city-marker"><div class="pin '+cls(r)+'"></div><div class="lbl">'+r.city+'</div></div>';
+      L.marker(r.coords,{icon:L.divIcon({className:'',html,iconSize:[0,0]})}).addTo(map);
+      legend.insertAdjacentHTML('beforeend',
+        '<li class="flex items-center gap-2"><span class="rm-dot '+cls(r)+'"></span><b class="text-ink font-medium">'+r.city+'</b><span>'+r.note+'</span></li>');
+    });
+    // ⚠ 先 invalidateSize 再 fitBounds，否則容器尺寸還沒量到，地圖會縮太遠、標籤全疊在一起
+    const bounds = L.latLngBounds(pts);
+    function fit(){ map.invalidateSize(); map.fitBounds(bounds, { padding:[56,56], maxZoom:12 }); }
+    setTimeout(fit, 250);
+    window.addEventListener('load', ()=>setTimeout(fit, 120));
+  })();
+  </script>
+
+  <div class="lb-overlay" id="lb" aria-hidden="true">
+    <button class="lb-close" aria-label="關閉">&times;</button>
+    <button class="lb-nav lb-prev" aria-label="上一張">&#8249;</button>
+    <img alt="" />
+    <button class="lb-nav lb-next" aria-label="下一張">&#8250;</button>
+    <div class="lb-count"></div>
+  </div>
+  <script>
+  (function(){
+    const lb=document.getElementById('lb'), lbImg=lb.querySelector('img'), cnt=lb.querySelector('.lb-count');
+    let group=[], idx=0;
+    function show(i){
+      idx=(i+group.length)%group.length;
+      const im=group[idx];
+      lbImg.src=im.currentSrc||im.src; lbImg.alt=im.alt||'';
+      cnt.textContent=group.length>1?(idx+1)+' / '+group.length:'';
+    }
+    document.addEventListener('click', e=>{
+      const img = e.target.closest('img');
+      if(!img) return;
+      const scope = img.closest('.day-block, .tour-card, figure, section') || img.parentElement;
+      group = Array.from(scope.querySelectorAll('img'));
+      if(!group.length) group=[img];
+      show(group.indexOf(img));
+      lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
+    });
+    function close(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbImg.src=''; }
+    function prev(e){ if(e) e.stopPropagation(); show(idx-1); }
+    function next(e){ if(e) e.stopPropagation(); show(idx+1); }
+    lb.addEventListener('click', close);
+    lbImg.addEventListener('click', e=>e.stopPropagation());
+    lb.querySelector('.lb-prev').addEventListener('click', prev);
+    lb.querySelector('.lb-next').addEventListener('click', next);
+    document.addEventListener('keydown', e=>{
+      if(!lb.classList.contains('open')) return;
+      if(e.key==='Escape') close();
+      else if(e.key==='ArrowLeft') prev();
+      else if(e.key==='ArrowRight') next();
+    });
+  })();
+  </script>
+</body>
+</html>

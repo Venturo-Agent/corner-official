@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>苗栗・台中・嘉義 一日遊 — 角落旅行社</title>
+  <meta name="description" content="10/17（六）當日往返。高雄五甲 07:30 出發，苗栗卓蘭花露農場園區午餐、台中如邑堂冠軍太陽餅、嘉義水上品皇咖啡觀光工廠，18:20 回到同一個地點。" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            corner: '#FFA500',
+            cornerDark: '#E68A00',
+            ink: '#262626',
+            inkSoft: '#565656',
+            cream: '#FAF7F2',
+          },
+          fontFamily: {
+            display: ['"Josefin Sans"', '"Noto Sans TC"', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            card: '0 8px 28px -10px rgba(38,38,38,0.18)',
+            cardHover: '0 18px 40px -12px rgba(38,38,38,0.28)',
+            search: '0 18px 50px -16px rgba(38,38,38,0.30)',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html, body { font-family: 'Josefin Sans', 'Noto Sans TC', system-ui, sans-serif; color:#262626; }
+    body { background:#FFFFFF; }
+
+    .tracking-explore { letter-spacing:0.30em; }
+    .tracking-wider2  { letter-spacing:0.14em; }
+    .num { font-family:'IBM Plex Mono', ui-monospace, 'Noto Sans TC', monospace; font-variant-numeric:tabular-nums; }
+
+    .hero-headline { font-weight:700; font-size:clamp(36px,7.4vw,100px); line-height:0.98; letter-spacing:0.01em; }
+    .hero-pre { font-weight:300; font-size:clamp(18px,1.4vw,22px); letter-spacing:0.30em; }
+
+    .tour-card { transition:transform .35s ease, box-shadow .35s ease; }
+    .tour-card:hover { transform:translateY(-6px); box-shadow:0 18px 40px -12px rgba(38,38,38,0.28); }
+
+    .nav-link { position:relative; }
+    .nav-link::after{ content:""; position:absolute; left:50%; bottom:-6px; height:2px; width:0; background:#FFA500; transition:width .25s ease, left .25s ease; }
+    .nav-link:hover::after{ left:0; width:100%; }
+
+    .btn-corner { background:#FFA500; color:#fff; border-radius:6px; padding:14px 30px; font-weight:600; letter-spacing:0.08em; transition:background .2s ease, transform .2s ease; display:inline-flex; align-items:center; gap:10px; }
+    .btn-corner:hover { background:#E68A00; transform:translateY(-1px); }
+
+    .field-label { font-size:11px; letter-spacing:0.22em; color:#565656; text-transform:uppercase; }
+    .accent-bar { display:inline-block; width:48px; height:2px; background:#FFA500; }
+
+    .hero-veil { background:linear-gradient(180deg, rgba(38,38,38,0.32) 0%, rgba(38,38,38,0.18) 32%, rgba(38,38,38,0.66) 100%); }
+    .ico { stroke:#FFA500; stroke-width:1.6; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+
+    .tag { display:inline-flex; align-items:center; gap:6px; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; padding:5px 10px; border-radius:999px; background:#FFF4E0; color:#B26A00; font-weight:500; }
+    .tag-hot { background:#FFA500; color:#fff; }
+    .tag-pay { background:#fff; color:#6B6560; border:1px solid rgba(0,0,0,.14); font-weight:400; }
+
+    .num-bubble { width:46px; height:46px; border:1.5px solid #FFA500; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; color:#FFA500; font-weight:600; letter-spacing:0.05em; }
+
+    .day-rail { position:relative; }
+    .step { display:flex; gap:14px; align-items:flex-start; }
+    .step + .step { margin-top:14px; }
+    .step .t { min-width:52px; text-align:right; color:#E68A00; font-weight:600; font-size:13px; padding-top:2px; }
+    .step .t.soft { color:#9a9a9a; font-weight:400; font-size:12px; }
+    .step .si { width:22px; flex:none; padding-top:1px; }
+    .step .si svg { width:18px; height:18px; }
+
+    .leaflet-container { background:#FAF7F2; font-family:'Noto Sans TC',sans-serif; }
+    .leaflet-tile-pane { filter:grayscale(.72) brightness(1.06) contrast(.94); }
+    .leaflet-control-attribution { font-size:10px; background:rgba(255,255,255,.72); color:#8A8A8A; }
+    .leaflet-control-attribution a { color:#8A8A8A; }
+    .city-marker { display:flex; flex-direction:column; align-items:center; transform:translateY(-50%) scale(.5); opacity:0;
+      transition:opacity .4s ease, transform .5s cubic-bezier(.34,1.56,.64,1); }
+    .city-marker.on { opacity:1; transform:translateY(-50%) scale(1); }
+    .city-marker .pin { width:22px; height:22px; border-radius:50%; background:#FFA500; border:2.5px solid #fff; box-shadow:0 2px 7px rgba(38,38,38,.45);
+      display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; line-height:1;
+      font-family:'IBM Plex Mono', ui-monospace, monospace; }
+    .city-marker .pin.air { background:#262626; }
+    .rm-seq { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%;
+      background:#FFA500; color:#fff; font-size:10.5px; font-weight:700; flex:none; font-family:'IBM Plex Mono', ui-monospace, monospace; }
+    .rm-seq.air { background:#262626; }
+    @media (prefers-reduced-motion: reduce) { .city-marker { opacity:1; transform:translateY(-50%); transition:none; } }
+    .city-marker .lbl { font-family:'Josefin Sans','Noto Sans TC',sans-serif; font-weight:600; font-size:.86rem; margin-top:3px; white-space:nowrap; color:#262626;
+      text-shadow:0 0 4px #fff,0 0 4px #fff,0 0 6px #fff; }
+    /* 相鄰兩點太近時把標籤翻到圖釘上方，避免字疊字 */
+    .city-marker.flip { flex-direction:column-reverse; }
+    .city-marker.flip .lbl { margin-top:0; margin-bottom:3px; }
+
+    img { cursor: zoom-in; }
+    .lb-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(20,20,20,.92); display: none; align-items: center; justify-content: center; padding: 24px; }
+    .lb-overlay.open { display: flex; }
+    .lb-overlay img { max-width: 94vw; max-height: 90vh; width: auto; height: auto; border-radius: 8px; box-shadow: 0 24px 60px -20px rgba(0,0,0,.6); cursor: zoom-out; }
+    .lb-close { position: absolute; top: 20px; right: 28px; background: none; border: none; color: #fff; font-size: 2.4rem; line-height: 1; cursor: pointer; }
+    .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.12); border: none; color: #fff; font-size: 2rem; width: 52px; height: 52px; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s ease; }
+    .lb-nav:hover { background: rgba(255,255,255,.26); }
+    .lb-prev { left: 20px; } .lb-next { right: 20px; }
+    .lb-count { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: #fff; font-family: 'IBM Plex Mono', monospace; font-size: .8rem; letter-spacing: .1em; background: rgba(0,0,0,.5); padding: 4px 14px; border-radius: 999px; }
+    @media (max-width: 600px) { .lb-nav { width: 42px; height: 42px; font-size: 1.6rem; } }
+  </style>
+</head>
+<body class="font-display antialiased">
+
+  <!-- ====================== NAVBAR ====================== -->
+  <header class="absolute top-0 left-0 right-0 z-30">
+    <div class="max-w-[1440px] mx-auto h-20 px-6 md:px-10 flex items-center justify-between">
+      <a href="#" class="text-white text-[18px] font-semibold tracking-wider2">角落旅行社</a>
+      <nav class="hidden md:flex items-center gap-10 text-[14px] text-white/90 tracking-wider2">
+        <a href="#itinerary" class="nav-link">當日行程 <span class="opacity-60 ml-1">Day</span></a>
+        <a href="#stops" class="nav-link">停三站 <span class="opacity-60 ml-1">Stops</span></a>
+        <a href="#notes" class="nav-link">須知 <span class="opacity-60 ml-1">Notes</span></a>
+        <a href="#contact" class="nav-link">諮詢 <span class="opacity-60 ml-1">Contact</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ====================== HERO ====================== -->
+  <section class="relative w-full" style="min-height:max(70vh,520px); background:linear-gradient(135deg,#2b2f36,#3d4552);">
+    <img src="/tour/miaoli-1day-1017/img/hero.jpg" alt="花露農場雨林咖啡館" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 hero-veil"></div>
+
+    <div class="relative z-10 max-w-[1440px] mx-auto min-h-[max(70vh,520px)] px-6 md:px-10 pt-24 pb-14 xl:pb-24 flex flex-col justify-center text-white">
+      <div class="max-w-[820px]">
+        <div class="flex items-center gap-4 mb-6">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-white/90">角落旅行社 — 10/17 出發・高雄五甲上下車・當日往返</span>
+        </div>
+        <p class="hero-pre uppercase text-white/95 mb-2">Miaoli · Taichung · Chiayi</p>
+        <h1 class="hero-headline">中台灣一日遊</h1>
+        <p class="mt-7 text-white/90 text-[18px] leading-[1.8] max-w-[660px] font-light">
+          早餐在車上吃，午餐在花園裡吃 —— 苗栗卓蘭花露農場、<br/>
+          台中如邑堂冠軍太陽餅、嘉義水上品皇咖啡觀光工廠。
+        </p>
+        <p class="mt-4 text-white/75 text-[14px] font-light">先北上到最遠的卓蘭，台中與嘉義都排在南下回家的路上，不走回頭路</p>
+        <div class="mt-10 flex items-center gap-6 flex-wrap">
+          <a href="#itinerary" class="btn-corner text-[14px]">
+            看當日行程
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-10 items-center gap-8 md:gap-10 text-white/90 hidden xl:flex">
+        <div><div class="text-[28px] font-semibold leading-none num">1<span class="text-corner">天</span></div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">當日往返</div></div>
+        <div class="h-10 w-px bg-white/30"></div>
+        <div><div class="text-[28px] font-semibold leading-none num">3</div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">苗栗／台中／嘉義</div></div>
+        <div class="h-10 w-px bg-white/30"></div>
+        <div><div class="text-[28px] font-semibold leading-none num">480<span class="text-corner text-[18px] ml-1">km</span></div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">國道全程</div></div>
+        <div class="h-10 w-px bg-white/30"></div>
+        <div><div class="text-[28px] font-semibold leading-none num">10<span class="text-corner">:</span>50</div><div class="text-[11px] tracking-explore uppercase mt-2 text-white/70">07:30 – 18:20</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 行程速覽（浮卡）====================== -->
+  <section class="relative z-20 -mt-12">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="bg-white rounded-xl shadow-search px-6 md:px-8 py-6 grid grid-cols-2 md:grid-cols-12 gap-6 items-center">
+        <div class="col-span-2 md:col-span-4 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">路線 · Route</div>
+          <div class="flex items-center gap-2 mt-2 text-[15px] text-ink flex-wrap">
+            <span>高雄五甲</span>
+            <svg class="w-4 h-4 ico" viewBox="0 0 24 24"><circle cx="7" cy="18" r="2.5"/><circle cx="17" cy="18" r="2.5"/><path d="M4 18h1l2-9h8l3 9h1M7 9h8"/></svg>
+            <span class="font-semibold text-cornerDark">卓蘭・台中・嘉義</span>
+            <span class="text-inkSoft text-[13px] ml-1">原地上下車</span>
+          </div>
+        </div>
+        <div class="md:col-span-3 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">出發 · Departure</div>
+          <div class="mt-2 text-[15px] text-ink num">10/17 <span class="text-inkSoft text-[13px]">（六）</span></div>
+          <div class="text-[13px] text-inkSoft num mt-0.5">當日往返 · 一日遊</div>
+        </div>
+        <div class="md:col-span-3 md:border-r border-black/5 md:pr-6">
+          <div class="field-label">時間 · Hours</div>
+          <div class="mt-2 text-[13px] text-ink num leading-relaxed">
+            <div><span class="text-inkSoft">出發</span> 07:30 高雄五甲</div>
+            <div><span class="text-inkSoft">返抵</span> 18:20 高雄五甲</div>
+          </div>
+        </div>
+        <div class="col-span-2 md:col-span-2">
+          <a href="#contact" class="w-full btn-corner justify-center !py-3.5 text-[14px]">諮詢報價</a>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-3 mt-6 text-[13px] text-inkSoft">
+        <span class="tracking-wider2">本趟重點</span>
+        <span class="px-3 py-1 rounded-full bg-corner/10 border border-corner/30 text-cornerDark font-medium">午餐在農場裡吃</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">花露農場・全台第一座精油博物館</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">如邑堂・連續五屆全國冠軍太陽餅</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">品皇咖啡觀光工廠・免門票</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">咖啡免費試飲</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">車上早餐</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">國道休息站停靠</span>
+        <span class="px-3 py-1 rounded-full border border-black/10">車內歡唱</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 路線圖 ====================== -->
+  <section id="route-map" class="pt-24 pb-4">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Route Map</span>
+        </div>
+        <h2 class="text-[30px] md:text-[38px] font-semibold leading-tight">高雄五甲 → 苗栗卓蘭 → 台中西屯 → 嘉義水上 → 高雄五甲</h2>
+        <p class="text-inkSoft mt-3 max-w-[560px] font-light text-[15px] leading-relaxed">真實地理位置的移動路線，<strong class="font-semibold text-ink">依當天實際順序描出來</strong>：早上國道一號一路往北，先到最遠的苗栗卓蘭；下午開始往南收，台中、嘉義都落在回程路上，最後直接回到早上出發的同一個地點。</p>
+      </div>
+      <!-- 這條路線是南北細長帶，地圖框做成直式窄框才貼得住台灣西半部；
+           寬框會被迫拉遠到看見福建。圖例改放右側，順便補滿版面。 -->
+      <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,440px)_1fr] gap-10 items-start">
+        <div id="route-map-canvas" class="w-full rounded-2xl border border-black/5 shadow-card" style="height:640px;"></div>
+        <div>
+          <div class="field-label mb-5">停靠順序 · Stops in order</div>
+          <ul id="rm-legend" class="grid grid-cols-1 gap-4 text-[14px] text-inkSoft"></ul>
+          <p class="mt-8 pt-6 border-t border-black/5 text-[13px] text-inkSoft/85 font-light leading-relaxed">
+            橘線是當天遊覽車實際走的方向：早上一路往北拉到卓蘭，下午開始往南收。
+            深色圖釘是高雄五甲，早上從那裡上車、晚上也在那裡下車。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 當日行程 ====================== -->
+  <section id="itinerary" class="pt-24 pb-20">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-14">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Hour by Hour</span>
+        </div>
+        <h2 class="text-[36px] md:text-[48px] font-semibold leading-tight max-w-[680px]">一天之內，<br/>把中台灣走成一條線</h2>
+        <p class="text-inkSoft mt-4 max-w-[560px] font-light text-[15px] leading-relaxed">
+          07:30 從五甲發車，早餐在車上發；上午國道一號往北，十一點進花露農場，午餐就在園區裡吃。下午到台中拿冠軍太陽餅，傍晚在嘉義水上的咖啡工廠喝一杯，五點前上車，天黑前回到同一個地點。
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3 text-[13px]">
+          <span class="px-3 py-1.5 rounded-full bg-corner/10 text-cornerDark font-medium">全程遊覽車 · 原地上下車</span>
+        </div>
+      </div>
+
+      <div id="days" class="flex flex-col gap-10"></div>
+    </div>
+  </section>
+
+  <!-- ====================== 停三站 ====================== -->
+  <section id="stops" class="py-24 bg-cream">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Three Stops</span>
+        </div>
+        <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">一天只停三站，<br/>每一站都停得夠久</h2>
+        <p class="text-inkSoft mt-4 max-w-[600px] font-light text-[15px] leading-relaxed">一日遊最怕的是點排太滿、每站只夠拍張照。這天只排三站：農場停兩個半小時含午餐，餅家四十五分鐘，咖啡工廠將近一小時。中間不再插點。</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+
+        <article class="bg-white rounded-2xl shadow-card border border-black/5 overflow-hidden tour-card flex flex-col">
+          <div class="h-52 overflow-hidden relative">
+            <img src="/tour/miaoli-1day-1017/img/ch-garden.jpg" alt="花露農場園區" loading="lazy" class="w-full h-full object-cover" />
+            <span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">花露農場</span>
+          </div>
+          <div class="p-7 flex-1 flex flex-col">
+            <div class="flex items-baseline gap-3 flex-wrap mb-3">
+              <h3 class="text-[21px] font-semibold">花露休閒農場</h3>
+              <span class="tag tag-hot">午餐站</span>
+            </div>
+            <p class="text-[13.5px] text-inkSoft font-light leading-relaxed flex-1">苗栗卓蘭西坪的山邊農場。園內的精油故事館是全台第一座以精油為主題的博物館，把香草種植、萃取到成品排在同一條動線上。餐廳就在園區裡，吃完走出來就是花園，不必再上車換地方。</p>
+            <div class="mt-5 pt-5 border-t border-black/5 grid gap-2 text-[13px] text-inkSoft font-light">
+              <div class="flex justify-between"><span>抵達</span><span class="num text-ink">11:00</span></div>
+              <div class="flex justify-between"><span>停留</span><span class="num text-ink">約 2 小時 30 分</span></div>
+              <div class="flex justify-between"><span>位置</span><span class="text-ink">苗栗・卓蘭</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-2xl shadow-card border border-black/5 overflow-hidden tour-card flex flex-col">
+          <div class="h-52 overflow-hidden relative">
+            <img src="/tour/miaoli-1day-1017/img/ch-suncake.jpg" alt="如邑堂太陽餅" loading="lazy" class="w-full h-full object-cover" />
+            <span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">如邑堂太陽餅</span>
+          </div>
+          <div class="p-7 flex-1 flex flex-col">
+            <div class="flex items-baseline gap-3 flex-wrap mb-3">
+              <h3 class="text-[21px] font-semibold">如邑堂餅家</h3>
+              <span class="tag">下午茶站</span>
+            </div>
+            <p class="text-[13.5px] text-inkSoft font-light leading-relaxed flex-1">台中西屯漢翔路的創始店。太陽餅連續五屆拿下全國冠軍，店內現場奉茶、可先試吃再決定帶哪一種回家。這一站就在往嘉義的路上，順路不繞路。</p>
+            <div class="mt-5 pt-5 border-t border-black/5 grid gap-2 text-[13px] text-inkSoft font-light">
+              <div class="flex justify-between"><span>抵達</span><span class="num text-ink">14:20</span></div>
+              <div class="flex justify-between"><span>停留</span><span class="num text-ink">約 45 分鐘</span></div>
+              <div class="flex justify-between"><span>位置</span><span class="text-ink">台中・西屯</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-2xl shadow-card border border-black/5 overflow-hidden tour-card flex flex-col">
+          <div class="h-52 bg-ink text-white flex flex-col items-center justify-center relative">
+            <div class="num text-[46px] font-semibold text-corner leading-none">0</div>
+            <div class="text-[12px] tracking-explore uppercase text-white/70 mt-3">入館門票</div>
+            <span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">品皇咖啡觀光工廠</span>
+          </div>
+          <div class="p-7 flex-1 flex flex-col">
+            <div class="flex items-baseline gap-3 flex-wrap mb-3">
+              <h3 class="text-[21px] font-semibold">品皇咖啡觀光工廠</h3>
+              <span class="tag">最後一站</span>
+            </div>
+            <p class="text-[13.5px] text-inkSoft font-light leading-relaxed flex-1">嘉義水上鄉大崙，2023 年遷來的新館，就在國道一號南下回高雄的路上。全館免門票，五款咖啡與奶茶開放試飲，戶外一只巨大的黃金咖啡杯是新館最好認的地標。</p>
+            <div class="mt-5 pt-5 border-t border-black/5 grid gap-2 text-[13px] text-inkSoft font-light">
+              <div class="flex justify-between"><span>抵達</span><span class="num text-ink">16:05</span></div>
+              <div class="flex justify-between"><span>停留</span><span class="num text-ink">約 55 分鐘</span></div>
+              <div class="flex justify-between"><span>位置</span><span class="text-ink">嘉義・水上</span></div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 出發前須知 ====================== -->
+  <section id="notes" class="py-24">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="accent-bar"></span>
+          <span class="text-[12px] tracking-explore uppercase text-corner">Before You Go</span>
+        </div>
+        <h2 class="text-[34px] md:text-[44px] font-semibold leading-tight">出發前<br/>先知道這幾件事</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <article class="bg-white rounded-2xl shadow-card border border-black/5 p-7">
+          <div class="field-label mb-4">上下車 · 集合</div>
+          <div class="grid gap-4 text-[14px] text-inkSoft font-light leading-relaxed">
+            <div><strong class="font-semibold text-ink">07:30 高雄五甲發車</strong>，請提前十分鐘到集合地點；回程 18:20 於同一地點下車。</div>
+            <div><strong class="font-semibold text-ink">早餐在車上發放</strong>，發車後即可享用，不必先在外面買。</div>
+            <div>去程國道一號往北，中途於休息站停靠一次；車上可歡唱。</div>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-2xl shadow-card border border-black/5 p-7">
+          <div class="field-label mb-4">當天路況 · 車程</div>
+          <div class="grid gap-3 text-[14px]">
+            <div class="flex justify-between border-b border-black/5 pb-2"><span class="text-inkSoft font-light">高雄五甲 → 苗栗卓蘭</span><span class="num text-ink">約 3 小時 30 分</span></div>
+            <div class="flex justify-between border-b border-black/5 pb-2"><span class="text-inkSoft font-light">卓蘭 → 台中西屯</span><span class="num text-ink">約 50 分鐘</span></div>
+            <div class="flex justify-between border-b border-black/5 pb-2"><span class="text-inkSoft font-light">台中西屯 → 嘉義水上</span><span class="num text-ink">約 1 小時</span></div>
+            <div class="flex justify-between border-b border-black/5 pb-2"><span class="text-inkSoft font-light">嘉義水上 → 高雄五甲</span><span class="num text-ink">約 1 小時 20 分</span></div>
+            <div class="flex justify-between pt-1"><span class="font-semibold text-ink">全程國道合計</span><span class="num font-semibold text-cornerDark">約 480 公里</span></div>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-2xl shadow-card border border-black/5 p-7">
+          <div class="field-label mb-4">農場 · 花況與營業</div>
+          <div class="grid gap-4 text-[14px] text-inkSoft font-light leading-relaxed">
+            <div>花露農場<strong class="font-semibold text-ink">每週三公休</strong>；10/17 是週六，正常營業（週六 08:30–17:30）。</div>
+            <div>園區的<strong class="font-semibold text-ink">繡球花季在四到六月</strong>，十月看的是其他花區與精油故事館，實際花況以當日園區為準。</div>
+            <div>卓蘭在山邊，十月早晚比平地涼，建議帶一件薄外套；園區有坡道，穿好走的鞋。</div>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-2xl shadow-card border border-black/5 p-7">
+          <div class="field-label mb-4">最後一站 · 時間怎麼抓</div>
+          <div class="grid gap-4 text-[14px] text-inkSoft font-light leading-relaxed">
+            <div>品皇咖啡觀光工廠<strong class="font-semibold text-ink">營業到 17:00</strong>。我們 16:05 到，停留將近一小時，之後直接上車回高雄，不再排下一個點。</div>
+            <div>館內免門票、停車場大，遊覽車好停。</div>
+            <div>咖啡與奶茶開放試飲，館內另有咖啡商品與零食可挑，適合把伴手禮一次買齊。</div>
+          </div>
+        </article>
+      </div>
+
+      <p class="mt-8 text-[12.5px] text-inkSoft/80 font-light leading-relaxed">＊本頁車程與停留時間為規劃估算，實際以正式出團通知為準。＊各站營業時間查核於 2026 年 9 月，出發前以店家公告為準。</p>
+    </div>
+  </section>
+
+  <!-- ====================== CTA 帶 ====================== -->
+  <section id="contact" class="py-20 bg-cream">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+      <div>
+        <h2 class="text-[28px] md:text-[34px] font-semibold leading-tight">這份行程喜歡的話，<br/>我們幫你把細節談定</h2>
+        <p class="text-inkSoft mt-3 font-light text-[15px]">行程與時間都在這一頁，人數、車型與正式報價由業務為你確認。</p>
+      </div>
+      <a href="#" class="btn-corner text-[15px] !px-9 !py-4">諮詢報價
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ====================== FOOTER ====================== -->
+  <footer class="bg-ink text-white pt-20 pb-10">
+    <div class="max-w-[1240px] mx-auto px-6 md:px-10">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-14 border-b border-white/10">
+        <div class="md:col-span-5">
+          <div class="text-[20px] font-semibold tracking-wider2 mb-6">角落旅行社</div>
+          <p class="text-white/70 text-[14px] leading-relaxed font-light max-w-[420px]">中台灣一日遊，早餐在車上，午餐在花園裡。</p>
+        </div>
+        <div class="md:col-span-3">
+          <h4 class="text-[12px] tracking-explore uppercase text-corner mb-5">This Trip</h4>
+          <ul class="space-y-3 text-[14px] text-white/80">
+            <li><a href="#itinerary" class="hover:text-corner transition">當日行程</a></li>
+            <li><a href="#stops" class="hover:text-corner transition">停三站</a></li>
+            <li><a href="#notes" class="hover:text-corner transition">出發前須知</a></li>
+            <li><a href="#contact" class="hover:text-corner transition">諮詢報價</a></li>
+          </ul>
+        </div>
+        <div class="md:col-span-4">
+          <h4 class="text-[12px] tracking-explore uppercase text-corner mb-5">Contact</h4>
+          <ul class="space-y-4 text-[14px] text-white/80 font-light">
+            <li class="flex gap-3"><svg class="w-4 h-4 mt-1 text-corner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 5h18v14H3z"/><path d="M3 5l9 9 9-9"/></svg>agency@venturo.tw</li>
+            <li class="flex gap-3"><svg class="w-4 h-4 mt-1 text-corner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>一日遊行程提案 · 10/17 版</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 flex flex-wrap items-center justify-between gap-4 text-[12px] text-white/50 tracking-wider2">
+        <div>© 2026 VENTURO × 角落旅行社. 時刻與停留時間以出發前確認為準。</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====================== 行程資料 + renderer ====================== -->
+  <script>
+    const ICO = {
+      meal:'<path d="M6 3v8a2 2 0 0 0 2 2v8M6 3v5M9 3v5M18 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/>',
+      sight:'<path d="M12 21s7-7.5 7-13a7 7 0 1 0-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="8.5" r="2.6"/>',
+      ride:'<circle cx="7" cy="18" r="2.5"/><circle cx="17" cy="18" r="2.5"/><path d="M4 18h1l2-9h8l3 9h1M7 9h8"/>',
+      free:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>',
+      cafe:'<path d="M4 8h13v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8z"/><path d="M17 9h2.2a2.3 2.3 0 0 1 0 4.6H17"/><path d="M7 4.5v1.5M10 4v2M13 4.5v1.5"/>',
+      shop:'<path d="M4 8h16l-1.2 12H5.2L4 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>'
+    };
+    const DAYS = [
+      { n:1, title:"卓蘭花園午餐・台中太陽餅・嘉義咖啡工廠", en:"One Day · Central Taiwan", date:"10/17（六）", mode:"遊覽車", theme:["車上早餐","農場午餐","冠軍太陽餅","免費咖啡"],
+        img:"/tour/miaoli-1day-1017/img/feat-meal.jpg", cap:"花露農場園區餐點",
+        steps:[
+          {t:"07:30", k:"ride", name:"高雄五甲・發車", d:"請提前十分鐘到集合地點；早餐在車上發放，上車就可以吃"},
+          {t:"途中", k:"free", soft:true, name:"國道一號北上・休息站停靠", d:"國道風光，中途停一次休息站；車上可歡唱"},
+          {t:"11:00", k:"sight", name:"花露休閒農場・入園", d:"苗栗卓蘭西坪的山邊農場。精油故事館是全台第一座以精油為主題的博物館，香草種植、萃取到成品排在同一條動線上"},
+          {t:"園內", k:"meal", soft:true, name:"園區午餐", d:"餐廳就在農場裡，吃完走出來就是花園，不用再上車換地方；含用餐共停留約兩個半小時"},
+          {t:"途中", k:"ride", soft:true, name:"卓蘭 → 台中西屯", d:"車程約 50 分鐘"},
+          {t:"14:20", k:"shop", name:"如邑堂餅家・漢翔路創始店", d:"太陽餅連續五屆拿下全國冠軍。現場奉茶、可先試吃再決定帶哪一種回家"},
+          {t:"途中", k:"ride", soft:true, name:"台中 → 嘉義水上", d:"國道一號南下，車程約 1 小時"},
+          {t:"16:05", k:"cafe", name:"品皇咖啡觀光工廠", d:"全館免門票，五款咖啡與奶茶開放試飲；戶外有一只巨大的黃金咖啡杯。工廠 17:00 打烊，這是當天最後一站"},
+          {t:"途中", k:"ride", soft:true, name:"嘉義水上 → 高雄五甲", d:"國道一號南下，車程約 1 小時 20 分"},
+          {t:"18:20", k:"ride", name:"高雄五甲・賦歸", d:"回到早上出發的同一個地點下車"},
+        ]},
+    ];
+
+    const ic = (k) => '<svg class="ico" viewBox="0 0 24 24">'+(ICO[k]||ICO.sight)+'</svg>';
+    document.getElementById('days').innerHTML = DAYS.map(day => {
+      const steps = day.steps.map(s =>
+        '<div class="step">'+
+          '<div class="t num'+(s.soft?' soft':'')+'">'+s.t+'</div>'+
+          '<div class="si">'+ic(s.k)+'</div>'+
+          '<div class="flex-1">'+
+            '<div class="text-[15px] font-semibold text-ink">'+s.name+
+              (s.hot?' <span class="tag '+(s.hot.indexOf('PASS')===0?'tag-hot':'tag-pay')+' align-middle ml-1">'+s.hot+'</span>':'')+'</div>'+
+            (s.d?'<div class="text-[13.5px] text-inkSoft font-light leading-relaxed mt-0.5">'+s.d+'</div>':'')+
+          '</div>'+
+        '</div>'
+      ).join('');
+      const tags = day.theme.map(t=>'<span class="tag">'+t+'</span>').join('');
+      const media = day.img
+        ? '<div class="relative order-1 lg:order-2 h-52 lg:h-auto lg:min-h-full overflow-hidden">'+
+            '<img src="'+day.img+'" alt="'+(day.cap||day.title)+'" loading="lazy" class="w-full h-full object-cover" />'+
+            (day.cap?'<span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/95 text-[11px] tracking-wider2 text-ink font-medium">'+day.cap+'</span>':'')+
+          '</div>'
+        : '';
+      const bodyCols = day.img ? 'lg:grid-cols-[1fr_320px]' : '';
+      return (
+        '<div class="day-block">'+
+          '<div class="day-rail grid grid-cols-1 md:grid-cols-[auto_1fr] gap-5 md:gap-8">'+
+            '<div class="num-bubble !bg-corner !text-white num">'+String(day.n).padStart(2,'0')+'</div>'+
+            '<div class="bg-white rounded-2xl shadow-card border border-black/5 overflow-hidden grid grid-cols-1 '+bodyCols+'">'+
+              '<div class="p-6 md:p-8 order-2 lg:order-1">'+
+                '<div class="flex items-baseline gap-3 flex-wrap">'+
+                  '<h3 class="text-[24px] md:text-[26px] font-semibold leading-tight">'+day.title+'</h3>'+
+                  '<span class="text-[13px] tracking-wider2 text-inkSoft font-light">'+day.en+'</span>'+
+                  '<span class="ml-auto flex items-baseline gap-3">'+
+                    (day.mode?'<span class="tag tag-hot">'+day.mode+'</span>':'')+
+                    '<span class="num text-[13px] text-inkSoft">'+(day.date||'')+'</span>'+
+                  '</span>'+
+                '</div>'+
+                '<div class="flex flex-wrap gap-2 mt-3 mb-6">'+tags+'</div>'+
+                steps+
+              '</div>'+
+              media+
+            '</div>'+
+          '</div>'+
+        '</div>'
+      );
+    }).join('');
+  </script>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+  (function(){
+    const ROUTE = [
+      { seq:"起", city:"高雄五甲",   coords:[22.5928,120.3277], note:"07:30 發車，早餐在車上", air:true },
+      { seq:"1",  city:"苗栗卓蘭",   coords:[24.3130,120.8246], note:"11:00 花露休閒農場・園區午餐・精油故事館", flip:true },
+      { seq:"2",  city:"台中西屯",   coords:[24.1851,120.6409], note:"14:20 如邑堂餅家・冠軍太陽餅" },
+      { seq:"3",  city:"嘉義水上",   coords:[23.4444,120.3587], note:"16:05 品皇咖啡觀光工廠・免門票" },
+      { seq:"終", city:"高雄五甲",   coords:[22.5928,120.3277], note:"18:20 賦歸，原地下車", air:true, dup:true },
+    ];
+
+    // 這條路線是南北向的細長帶狀，整數級距的縮放會一路退到看見福建；
+    // zoomSnap 放到 0.25 才貼得上台灣西半部。
+    const map = L.map('route-map-canvas',{zoomControl:false,attributionControl:true,scrollWheelZoom:false,zoomSnap:0.25})
+      .setView([23.5,120.6],8);
+    L.control.zoom({position:'bottomright'}).addTo(map);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap'}).addTo(map);
+
+    const pts = ROUTE.map(r=>r.coords);
+    const line = L.polyline(pts,{color:'#FFA500',weight:3,opacity:.9,lineCap:'round',lineJoin:'round'}).addTo(map);
+
+    const legend = document.getElementById('rm-legend');
+    const markerEls = [];
+    ROUTE.forEach(r=>{
+      if (r.dup) return;
+      const html = `<div class="city-marker ${r.flip?'flip':''}"><div class="pin ${r.air?'air':''}">${r.seq}</div><div class="lbl">${r.city}</div></div>`;
+      const m = L.marker(r.coords,{icon:L.divIcon({className:'',html,iconSize:[0,0]})}).addTo(map);
+      markerEls.push(m.getElement().querySelector('.city-marker'));
+      legend.insertAdjacentHTML('beforeend',
+        `<li class="flex items-start gap-2"><span class="rm-seq ${r.air?'air':''}">${r.seq}</span><span><b class="text-ink font-medium">${r.city}</b> <span class="text-inkSoft">${r.note}</span></span></li>`);
+    });
+    legend.insertAdjacentHTML('beforeend',
+      `<li class="flex items-start gap-2"><span class="rm-seq air">終</span><span><b class="text-ink font-medium">高雄五甲</b> <span class="text-inkSoft">18:20 賦歸，原地下車</span></span></li>`);
+
+    const nodeFrac = [];
+    function buildCurved(){
+      const BOW = 0.10, N = 26;
+      const lls = [];
+      const cum = [0];
+      let total = 0, prev = null;
+      for (let i=0;i<ROUTE.length-1;i++){
+        const pa = map.latLngToLayerPoint(L.latLng(ROUTE[i].coords));
+        const pb = map.latLngToLayerPoint(L.latLng(ROUTE[i+1].coords));
+        const dx = pb.x-pa.x, dy = pb.y-pa.y;
+        const cx = (pa.x+pb.x)/2 - dy*BOW, cy = (pa.y+pb.y)/2 + dx*BOW;
+        for (let k=(i===0?0:1); k<=N; k++){
+          const t = k/N, u = 1-t;
+          const x = u*u*pa.x + 2*u*t*cx + t*t*pb.x;
+          const y = u*u*pa.y + 2*u*t*cy + t*t*pb.y;
+          const pt = L.point(x,y);
+          if (prev) total += pt.distanceTo(prev);
+          prev = pt;
+          lls.push(map.layerPointToLatLng(pt));
+        }
+        cum.push(total);
+      }
+      nodeFrac.length = 0;
+      ROUTE.forEach((r,i)=>{ if(!r.dup) nodeFrac.push(total ? cum[i]/total : 0); });
+      return lls;
+    }
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const host = document.getElementById('route-map-canvas');
+    let ready = false, seen = false, played = false;
+
+    const showAll = () => {
+      const el = line.getElement();
+      if (el) { el.style.transition='none'; el.style.strokeDasharray='none'; el.style.strokeDashoffset='0'; }
+      markerEls.forEach(el2 => el2 && el2.classList.add('on'));
+    };
+
+    function play(){
+      if (played) return; played = true;
+      const path = line.getElement();
+      if (!path || typeof path.getTotalLength !== 'function') { showAll(); return; }
+      const len = path.getTotalLength();
+      if (!len) { showAll(); return; }
+
+      path.style.transition = 'none';
+      path.style.strokeDasharray = len;
+      path.style.strokeDashoffset = len;
+
+      const DUR = 5200;
+      const ease = t => -(Math.cos(Math.PI * t) - 1) / 2;
+      const t0 = performance.now();
+      (function frame(now){
+        const t = Math.min(1, (now - t0) / DUR);
+        const p = ease(t);
+        path.style.strokeDashoffset = len * (1 - p);
+        nodeFrac.forEach((f,i)=>{ if (p >= f - 0.002 && markerEls[i]) markerEls[i].classList.add('on'); });
+        if (t < 1) requestAnimationFrame(frame);
+        else showAll();
+      })(performance.now());
+    }
+    const maybePlay = () => { if (ready && seen) play(); };
+
+    map.fitBounds(L.latLngBounds(pts).pad(0.22));
+    map.once('moveend', ()=>{
+      map.invalidateSize();
+      line.setLatLngs(buildCurved());
+      ready = true;
+      if (reduce) { showAll(); } else { maybePlay(); }
+    });
+    setTimeout(()=>map.invalidateSize(), 200);
+
+    if ('IntersectionObserver' in window && host) {
+      const io = new IntersectionObserver(es=>{
+        es.forEach(e=>{ if (e.isIntersecting) { io.disconnect(); seen = true; maybePlay(); } });
+      }, {threshold:.2});
+      io.observe(host);
+    } else { seen = true; maybePlay(); }
+
+    setTimeout(()=>{ if(!played){ seen = true; maybePlay(); } }, 6000);
+  })();
+  </script>
+
+  <div class="lb-overlay" id="lb" aria-hidden="true">
+    <button class="lb-close" aria-label="關閉">&times;</button>
+    <button class="lb-nav lb-prev" aria-label="上一張">&#8249;</button>
+    <img alt="" />
+    <button class="lb-nav lb-next" aria-label="下一張">&#8250;</button>
+    <div class="lb-count"></div>
+  </div>
+  <script>
+  (function(){
+    const lb=document.getElementById('lb'), lbImg=lb.querySelector('img'), cnt=lb.querySelector('.lb-count');
+    let group=[], idx=0;
+    function show(i){
+      idx=(i+group.length)%group.length;
+      const im=group[idx];
+      lbImg.src=im.currentSrc||im.src; lbImg.alt=im.alt||'';
+      cnt.textContent=group.length>1?(idx+1)+' / '+group.length:'';
+    }
+    document.addEventListener('click', e=>{
+      const img = e.target.closest('img');
+      if(!img) return;
+      const scope = img.closest('.day-block, .tour-card, section') || img.parentElement;
+      group = Array.from(scope.querySelectorAll('img'));
+      if(!group.length) group=[img];
+      show(group.indexOf(img));
+      lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
+    });
+    function close(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbImg.src=''; }
+    function prev(e){ if(e) e.stopPropagation(); show(idx-1); }
+    function next(e){ if(e) e.stopPropagation(); show(idx+1); }
+    lb.addEventListener('click', close);
+    lbImg.addEventListener('click', e=>e.stopPropagation());
+    lb.querySelector('.lb-prev').addEventListener('click', prev);
+    lb.querySelector('.lb-next').addEventListener('click', next);
+    document.addEventListener('keydown', e=>{
+      if(!lb.classList.contains('open')) return;
+      if(e.key==='Escape') close();
+      else if(e.key==='ArrowLeft') prev();
+      else if(e.key==='ArrowRight') next();
+    });
+  })();
+  </script>
+</body>
+</html>

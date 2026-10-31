@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>角落旅行社｜2026 東京・仙台私人包團・六日</title>
+
+<!--
+══════════════════════════════════════════════════════════════════════════
+排版守則（Yongcheng Typography Principles v1 - 沿用）
+══════════════════════════════════════════════════════════════════════════
+1. 斷行語意優先：<br> 必須斷在意群之間
+2. 行末只能是句號（。）— 逗號、頓號、分號、開引號絕不放行末
+3. 標題 / hero 最後一行 ≥ 4 中文字
+4. body / 引言用 text-wrap: pretty + max-width 控制行寬
+5. 改寫優於將就 — 文案斷不乾淨拆成多個短句
+══════════════════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;600;700&amp;family=Noto+Sans+TC:wght@300;400;500;700&amp;family=Cormorant+Garamond:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #2D1F18;        /* 深栗 主色 */
+    --copper: #C85A38;     /* 紅銅 accent */
+    --paper: #F5F0E8;      /* 霧米 分區 */
+    --rule: rgba(45,31,24,0.15);
+    --rule-strong: rgba(45,31,24,0.4);
+    --muted: rgba(45,31,24,0.55);
+  }
+  html, body { background: #fff; }
+  body {
+    font-family: 'Noto Serif TC', serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.7;
+  }
+  p, .quote, h1, h2, h3, .key-msg {
+    text-wrap: pretty;
+    word-break: keep-all;
+    line-break: strict;
+  }
+  scroll-behavior: smooth;
+  html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+
+  /* ============ TOOLBAR ============ */
+  .toolbar {
+    position: sticky; top: 0; z-index: 1000;
+    background: var(--ink); color: #fff;
+    padding: 14px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .toolbar-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px; font-weight: 600; letter-spacing: 0.04em;
+  }
+  .toolbar-sub { font-size: 11px; color: rgba(255,255,255,0.55); letter-spacing: 0.06em; margin-left: 14px; }
+
+  .disclaimer {
+    background: #fff8e1; border-top: 1px solid #f0d878;
+    padding: 12px 28px;
+    font-size: 11px; color: #6b5a20;
+    text-align: center; letter-spacing: 0.04em;
+  }
+  .disclaimer strong { color: #4a3d10; }
+
+  /* ============ LAYOUT ============ */
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  /* ============ SIDENAV ============ */
+  .sidenav {
+    position: sticky; top: 0; align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 36px 24px 36px 32px;
+    border-right: 1px solid var(--rule);
+  }
+  .sidenav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px; letter-spacing: 0.2em;
+    color: var(--copper);
+    margin-bottom: 8px; text-transform: uppercase;
+    font-weight: 500;
+  }
+  .sidenav-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 18px; font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .sidenav-subtitle {
+    font-size: 12px; color: var(--muted);
+    margin-bottom: 32px;
+    letter-spacing: 0.02em;
+    font-family: 'Noto Sans TC', sans-serif;
+    line-height: 1.6;
+  }
+  .sidenav-section {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px; letter-spacing: 0.18em;
+    color: var(--copper);
+    text-transform: uppercase;
+    margin: 24px 0 8px 0;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed var(--rule);
+  }
+  .sidenav ol { list-style: none; padding: 0; }
+  .sidenav li { margin-bottom: 1px; }
+  .sidenav li a {
+    display: flex; align-items: baseline;
+    padding: 8px 0 8px 14px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px; color: var(--ink);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: all 0.18s;
+    line-height: 1.4;
+  }
+  .sidenav li a:hover { border-left-color: var(--copper); }
+  .sidenav li a.active {
+    border-left-color: var(--copper);
+    color: var(--ink);
+    font-weight: 600;
+    background: var(--paper);
+  }
+  .sidenav li a .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px; color: var(--copper);
+    margin-right: 12px; font-weight: 500;
+    min-width: 22px;
+  }
+  .sidenav-foot {
+    margin-top: 40px; padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-size: 11px; line-height: 1.7;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+
+  /* ============ MAIN ============ */
+  .main { padding: 0 64px; min-width: 0; }
+
+  /* ============ COVER ============ */
+  .cover {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 48px 0 64px;
+  }
+  .cover-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 20px;
+  }
+  .cover-brand {
+    font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+    font-size: 22px; font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+  .cover-brand .cn {
+    font-family: 'Noto Serif TC', serif;
+    margin-right: 10px; font-weight: 500;
+  }
+  .cover-meta {
+    text-align: right;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px; color: var(--muted);
+    letter-spacing: 0.08em; line-height: 1.6;
+  }
+  .cover-center {
+    align-self: center;
+    padding: 64px 0;
+  }
+  .cover-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px; color: var(--copper);
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+  }
+  .cover-eyebrow::before { content: '— '; }
+  .cover-title {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 80px; line-height: 1.2;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+    margin-bottom: 32px;
+    max-width: 14em;
+  }
+  .cover-subtitle {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 300;
+    font-size: 28px; color: var(--ink);
+    line-height: 1.6;
+    max-width: 22em;
+  }
+  .cover-subtitle .accent {
+    color: var(--copper);
+    font-weight: 500;
+  }
+  .cover-bottom {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-top: 1px solid var(--ink);
+    padding-top: 20px;
+  }
+  .cover-to {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px; color: var(--ink);
+    line-height: 1.7;
+  }
+  .cover-to small {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px; color: var(--copper);
+    letter-spacing: 0.18em;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .cover-from {
+    text-align: right;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px; color: var(--muted);
+    letter-spacing: 0.1em;
+    line-height: 1.7;
+  }
+
+  /* ============ SECTION ============ */
+  .section {
+    padding: 96px 0;
+    border-top: 1px solid var(--rule);
+    min-height: 60vh;
+  }
+  .section.bleed-paper {
+    background: var(--paper);
+    margin: 0 -64px;
+    padding: 96px 64px;
+  }
+  .sect-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; color: var(--copper);
+    letter-spacing: 0.18em;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .sect-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px; color: var(--copper);
+    margin-right: 16px;
+    letter-spacing: 0.12em;
+  }
+  .sect-title {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 56px;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 32px;
+    max-width: 16em;
+    letter-spacing: -0.005em;
+  }
+  .sect-title .accent { color: var(--copper); }
+  .key-msg {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 300;
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1.7;
+    margin-bottom: 56px;
+    max-width: 26em;
+  }
+
+  /* day card structure */
+  .day-grid {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 48px;
+    margin-bottom: 32px;
+  }
+  .day-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px; color: var(--copper);
+    letter-spacing: 0.1em;
+    padding-top: 6px;
+  }
+  .day-tag .day-num {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--copper);
+    font-weight: 400;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .day-content h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 32px;
+    color: var(--ink);
+    margin-bottom: 16px;
+    line-height: 1.35;
+  }
+  .day-content .day-summary {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1.85;
+    margin-bottom: 20px;
+    max-width: 30em;
+  }
+  .day-content .day-meta {
+    display: flex; gap: 24px; flex-wrap: wrap;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+  .day-content .day-meta strong {
+    color: var(--ink);
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 14px;
+    margin-left: 8px;
+  }
+
+  /* placeholder block — 待補 */
+  .tbd {
+    margin-top: 32px;
+    border: 1px dashed var(--rule-strong);
+    padding: 32px 36px;
+    background: rgba(245,240,232,0.4);
+    color: var(--muted);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    line-height: 1.8;
+  }
+  .tbd::before {
+    content: '◇ 待 William 確認 ◇';
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    color: var(--copper);
+    letter-spacing: 0.3em;
+    margin-bottom: 10px;
+    font-style: normal;
+  }
+  .tbd ul {
+    margin: 8px 0 0 18px;
+    padding: 0;
+  }
+  .tbd li {
+    margin-bottom: 4px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    font-style: normal;
+  }
+
+  /* highlight block */
+  .highlight {
+    margin-top: 36px;
+    padding: 36px 40px;
+    border-left: 4px solid var(--copper);
+    background: var(--paper);
+  }
+  .highlight .h-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--copper);
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+  .highlight h4 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 24px;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+  .highlight p {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.85;
+    max-width: 32em;
+  }
+
+  /* tab 切換 - 主推 / 備選 */
+  .plan-tabs {
+    display: flex; gap: 0;
+    margin-bottom: 48px;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .plan-tab {
+    background: transparent;
+    border: none; cursor: pointer;
+    padding: 18px 28px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 16px; font-weight: 500;
+    color: var(--muted);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.18s;
+    letter-spacing: 0.04em;
+  }
+  .plan-tab:hover { color: var(--ink); }
+  .plan-tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--copper);
+    font-weight: 600;
+  }
+  .plan-tab .tab-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--copper);
+    margin-right: 10px;
+    letter-spacing: 0.15em;
+  }
+  .plan-panel { display: none; }
+  .plan-panel.active { display: block; }
+
+  /* route card grid */
+  .route-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    margin-top: 40px;
+  }
+  .route-grid.cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .route-card {
+    background: #fff;
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .route-card .r-img {
+    aspect-ratio: 16/10;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .route-card .r-img::after {
+    content: attr(data-caption);
+    position: absolute; bottom: 8px; right: 12px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    color: rgba(255,255,255,0.92);
+    letter-spacing: 0.12em;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+  .route-card .r-body {
+    padding: 24px 28px 28px 28px;
+  }
+  .route-card .r-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--copper);
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .route-card h4 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .route-card .r-sub {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    line-height: 1.7;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--rule);
+    max-width: 22em;
+  }
+  .route-card .r-points {
+    list-style: none;
+    padding: 0;
+    margin-top: 0;
+  }
+  .route-card .r-points li {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.85;
+    padding: 3px 0 3px 16px;
+    position: relative;
+  }
+  .route-card .r-points li::before {
+    content: '・';
+    position: absolute;
+    left: 0;
+    color: var(--copper);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .route-card .r-meta {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ritual spotlight (2-col image + text feature) */
+  .ritual-spotlight {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    margin-top: 32px;
+    padding: 48px 0;
+  }
+  .ritual-spotlight .rs-img {
+    aspect-ratio: 4/3;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .ritual-spotlight .rs-img::after {
+    content: attr(data-caption);
+    position: absolute; bottom: 12px; left: 16px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    color: rgba(245,240,232,0.92);
+    letter-spacing: 0.12em;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+  .ritual-spotlight .rs-text .rs-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--copper);
+    letter-spacing: 0.18em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .ritual-spotlight .rs-text h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 36px;
+    color: var(--ink);
+    line-height: 1.35;
+    margin-bottom: 18px;
+    text-wrap: pretty;
+  }
+  .ritual-spotlight .rs-text .rs-lead {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 400;
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1.85;
+    text-wrap: pretty;
+  }
+
+  /* note block - 帶 jp 字 / 解釋 */
+  .jp-note {
+    background: rgba(232,185,125,0.08);
+    border-left: 3px solid #E8B97D;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.75;
+  }
+  .jp-note strong {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--copper);
+  }
+  .warn-note {
+    background: #fff8e1;
+    border-left: 3px solid #f0b400;
+    padding: 14px 20px;
+    margin: 16px 0;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px;
+    color: #6b5a20;
+    line-height: 1.7;
+  }
+  .warn-note::before {
+    content: '⚠ ';
+    color: #b88500;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .warn-note strong { color: #4a3d10; font-weight: 600; }
+
+  /* timeline list (overview) */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 18px;
+    margin-top: 32px;
+  }
+  .tl-card {
+    border-top: 2px solid var(--copper);
+    padding: 16px 0 0 0;
+  }
+  .tl-card .tl-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    color: var(--copper);
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+  }
+  .tl-card h5 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .tl-card p {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* sequence steps (Day 5 用) */
+  .sequence-steps {
+    margin-top: 24px;
+    padding: 32px 36px;
+    background: #fff;
+    border: 1px solid var(--rule);
+  }
+  .sequence-steps .ss-head {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--copper);
+    letter-spacing: 0.18em;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .sequence-steps .ss-step {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--rule);
+  }
+  .sequence-steps .ss-step:last-child { border-bottom: none; padding-bottom: 0; }
+  .sequence-steps .ss-time {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--copper);
+    line-height: 1;
+    padding-top: 4px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+  .sequence-steps .ss-body h6 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .sequence-steps .ss-body p {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  /* footer */
+  .footer {
+    padding: 64px 0;
+    border-top: 1px solid var(--ink);
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 32px;
+  }
+  .footer h5 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--copper);
+    margin-bottom: 12px;
+  }
+  .footer p, .footer a {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.85;
+    text-decoration: none;
+    display: block;
+  }
+  .footer-brand-name {
+    font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .footer-brand-name .cn {
+    font-family: 'Noto Serif TC', serif;
+    margin-right: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- =============== SIDENAV =============== -->
+  <aside class="sidenav">
+    <div class="sidenav-brand">Private Tour</div>
+    <div class="sidenav-title">東京・仙台<br>私人包團</div>
+    <div class="sidenav-subtitle">2026.06.12 – 06.17・六日<br>8 人私人包團</div>
+
+    <div class="sidenav-section">序</div>
+    <ol>
+      <li><a href="#overview"><span class="num">01</span>六天總覽</a></li>
+    </ol>
+
+    <div class="sidenav-section">行程</div>
+    <ol>
+      <li><a href="#day1"><span class="num">02</span>Day 1｜抵達・東京</a></li>
+      <li><a href="#day2"><span class="num">03</span>Day 2｜日光・界 鬼怒川</a></li>
+      <li><a href="#day3"><span class="num">04</span>Day 3｜江戶村・那須</a></li>
+      <li><a href="#day4"><span class="num">05</span>Day 4｜那須 → 仙台</a></li>
+      <li><a href="#day5"><span class="num">06</span>Day 5｜松島・水族館</a></li>
+      <li><a href="#day6"><span class="num">07</span>Day 6｜返程</a></li>
+    </ol>
+
+    <div class="sidenav-section">附錄</div>
+    <ol>
+      <li><a href="#stays"><span class="num">08</span>住宿一覽</a></li>
+    </ol>
+
+    <div class="sidenav-foot">
+      角落旅行社<br>
+      2026.06 東京・仙台私人包團
+    </div>
+  </aside>
+
+  <!-- =============== MAIN =============== -->
+  <div class="main">
+
+    <!-- =============== 00 COVER =============== -->
+    <section class="cover" id="cover">
+      <div class="cover-top">
+        <div class="cover-brand">
+          <span class="cn">角落</span>Corner Travel
+        </div>
+        <div class="cover-meta">
+          PRIVATE TOUR<br>
+          2026.06.12 – 06.17<br>
+          東京 × 日光 × 仙台
+        </div>
+      </div>
+
+      <div class="cover-center">
+        <div class="cover-eyebrow">2026 私人包團・東京仙台六日</div>
+        <h1 class="cover-title">不走熱門路。<br><span style="color:var(--copper)">走你的角落。</span></h1>
+        <p class="cover-subtitle">
+          東京。日光。那須。仙台。六日。<br>
+          一車一團一行程。<span class="accent">不拼團、不趕點。</span>
+        </p>
+      </div>
+
+      <div class="cover-bottom">
+        <div class="cover-to">
+          <small>包團規格</small>
+          8 位・私人包車・全程隨團
+        </div>
+        <div class="cover-from">
+          Corner Travel Agency<br>
+          角落旅行社
+        </div>
+      </div>
+    </section>
+
+    <!-- =============== 01 OVERVIEW =============== -->
+    <section class="section bleed-paper" id="overview">
+      <div class="sect-eyebrow"><span class="sect-num">01</span>SIX DAYS · OVERVIEW</div>
+      <h2 class="sect-title">六天行程一覽。</h2>
+      <p class="key-msg">
+        從東京進、仙台出。四晚不同主題的頂級旅館：界 鬼怒川 · 星野 RISONARE 那須 · 一之坊 · 仙台大都會。
+      </p>
+      <div class="timeline">
+        <div class="tl-card">
+          <div class="tl-num">DAY 1 · 6/12</div>
+          <h5>抵達・<br>東京進駐</h5>
+          <p>松山 → 羽田。包車接機。東京市區飯店休整。</p>
+        </div>
+        <div class="tl-card">
+          <div class="tl-num">DAY 2 · 6/13</div>
+          <h5>日光世遺・<br>鬼怒川溫泉</h5>
+          <p>東照宮・神橋・華嚴瀑布。傍晚入住界 鬼怒川。</p>
+        </div>
+        <div class="tl-card">
+          <div class="tl-num">DAY 3 · 6/14</div>
+          <h5>江戶村・<br>那須高原</h5>
+          <p>日光江戶村穿越體驗。入住星野 RISONARE 那須。</p>
+        </div>
+        <div class="tl-card">
+          <div class="tl-num">DAY 4 · 6/15</div>
+          <h5>南會津・<br>仙台秋保</h5>
+          <p>塔のへつり・大內宿茅草老街。入住仙台一之坊。</p>
+        </div>
+        <div class="tl-card">
+          <div class="tl-num">DAY 5 · 6/16</div>
+          <h5>松島・<br>仙台</h5>
+          <p>松島遊船・さんとり茶屋穴子丼・海之杜水族館。入住仙台大都會。</p>
+        </div>
+        <div class="tl-card">
+          <div class="tl-num">DAY 6 · 6/17</div>
+          <h5>仙台 →<br>返程</h5>
+          <p>仙台機場送機。返抵桃園 / 松山。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============== 02 DAY 1 =============== -->
+    <section class="section" id="day1">
+      <div class="sect-eyebrow"><span class="sect-num">02</span>DAY 1 · 6/12</div>
+      <div class="day-grid">
+        <div class="day-tag">
+          <span class="day-num">01</span>
+          JUN.<br>抵達日
+        </div>
+        <div class="day-content">
+          <h3>松山起飛、羽田降落、第一天先把腳放鬆。</h3>
+          <p class="day-summary">
+            長榮 BR192 早班直飛、上午抵達羽田。專車接機、直送東京市區飯店。<br>
+            當晚自由活動、晚餐自理。明天才正式啟程。
+          </p>
+          <div class="day-meta">
+            <span>Flight <strong>BR192・TSA 07:20 → HND 11:30</strong></span>
+            <span>Transfer <strong>羽田 → 東京市區・專車接送</strong></span>
+            <span>Stay <strong>東京詩穎洲際酒店 The Strings by InterContinental Tokyo</strong></span>
+            <span>Meal <strong>機餐 + 晚餐自理</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ritual-spotlight" style="margin-top:48px;">
+        <div class="rs-img" style="background-image:url('/tour/SDJ260612a/images/day1-strings-intercontinental.png')"></div>
+        <div class="rs-text">
+          <div class="rs-tag">— STAY · 東京詩穎洲際酒店</div>
+          <h3>第一晚住汐留 26 樓以上、<span style="color:var(--copper);">東京天際線是你的窗景。</span></h3>
+          <p class="rs-lead">
+            The Strings by InterContinental Tokyo 位於汐留摩天樓 26 樓以上、所有客房高層、東京塔 / 銀座 / 台場夜景一覽。<br>
+            JR / 都營淺草線 / 大江戶線三線交會、是進東京 / 出東京動線最順的位置之一。<br>
+            第一晚不安排行程、讓客人放慢腳步——窗景已是這趟旅程的開場白。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============== 03 DAY 2 =============== -->
+    <section class="section bleed-paper" id="day2">
+      <div class="sect-eyebrow"><span class="sect-num">03</span>DAY 2 · 6/13</div>
+      <div class="day-grid">
+        <div class="day-tag">
+          <span class="day-num">02</span>
+          JUN.<br>世遺日
+        </div>
+        <div class="day-content">
+          <h3>三百年的東照宮、百年的神橋、九十七公尺的瀑布。</h3>
+          <p class="day-summary">
+            上午東京北上栃木日光、世界遺產東照宮 + 神橋。<br>
+            下午華嚴瀑布、傍晚進鬼怒川峽谷、入住星野「界 鬼怒川」。
+          </p>
+          <div class="day-meta">
+            <span>Move <strong>東京 → 日光 → 鬼怒川</strong></span>
+            <span>Stay <strong>界 鬼怒川（星野集團）</strong></span>
+            <span>Meal <strong>飯店早餐 / 日光惠比壽家 湯波懷石午餐 / 界 懐石晚宴</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="route-grid cols-3" style="margin-top:32px;">
+        <div class="route-card">
+          <div class="r-img" style="background-image:url('/tour/SDJ260612a/images/day2-toshogu.png')"></div>
+          <div class="r-body">
+            <div class="r-tag">— SPOT 01 · 世界遺產</div>
+            <h4>日光東照宮</h4>
+            <p class="r-sub" style="border:none; padding-bottom:0;">德川家康廟。陽明門、三猿、眠貓、五重塔。江戶幕府最高規格的木造建築群。</p>
+          </div>
+        </div>
+        <div class="route-card">
+          <div class="r-img" style="background-image:url('/tour/SDJ260612a/images/day2-shinkyo.png')"></div>
+          <div class="r-body">
+            <div class="r-tag">— SPOT 02 · 日光地標</div>
+            <h4>神橋</h4>
+            <p class="r-sub" style="border:none; padding-bottom:0;">大谷川上的朱紅木橋。日本三大奇橋之一。建於江戶初期、是進入日光二社一寺的儀式性入口。</p>
+          </div>
+        </div>
+        <div class="route-card">
+          <div class="r-img" style="background-image:url('/tour/SDJ260612a/images/day2-kegon.png')"></div>
+          <div class="r-body">
+            <div class="r-tag">— SPOT 03 · 日本三名瀑</div>
+            <h4>華嚴瀑布</h4>
+            <p class="r-sub" style="border:none; padding-bottom:0;">中禪寺湖湖水傾洩。97 公尺單段直落。觀景電梯直達瀑底正面觀景台、距離只有 50 公尺。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ritual-spotlight" style="margin-top:48px;">
+        <div class="rs-text">
+          <div class="rs-tag">— LUNCH · 元祖日光ゆば料理 惠比壽家</div>
+          <h3>日光的午餐、<span style="color:var(--copper);">一頓湯波懷石。</span></h3>
+          <p class="rs-lead">
+            日光名物「湯波（ゆば）」是豆乳煮沸後表面凝結的薄膜、層次細膩、清淡卻甘鮮。<br>
+            惠比壽家是日光湯波料理的元祖店、創業逾百年、堅持手工挽湯波。中午一道道送上：刺身湯波、煮物、揚湯波、湯波蕎麥——是日光行程中安靜但有分量的一餐。
+          </p>
+        </div>
+        <div class="rs-img" style="background-image:url('/tour/SDJ260612a/images/day2-yuba.png')"></div>
+      </div>
+      <div class="jp-note">
+        <strong>湯波（ゆば）</strong><br>
+        日光特產、豆乳加熱後表面凝結的薄膜。
+      </div>
+
+      <div class="ritual-spotlight" style="margin-top:48px;">
+        <div class="rs-img" style="background-image:url('/tour/SDJ260612a/images/day2-kai-kinugawa.png')"></div>
+        <div class="rs-text">
+          <div class="rs-tag">— STAY · 界 鬼怒川</div>
+          <h3>星野「界」品牌、<span style="color:var(--copper);">第一晚的高光。</span></h3>
+          <p class="rs-lead">
+            界（KAI）是星野旗下深耕日本溫泉文化的旅館系列。鬼怒川館以「益子燒」陶藝與栃木在地工藝為主題。<br>
+            泡湯。懷石。在地藝匠互動。第一晚就把日本旅館的儀式感拉滿。
+          </p>
+        </div>
+      </div>
+      <div class="jp-note">
+        <strong>界 鬼怒川</strong> — 星野「界」品牌位於鬼怒川溫泉的旅館。重點：露天溫泉、栃木地藝術品房、懷石晚宴（早晚餐含）。
+      </div>
+    </section>
+
+    <!-- =============== 04 DAY 3 =============== -->
+    <section class="section" id="day3">
+      <div class="sect-eyebrow"><span class="sect-num">04</span>DAY 3 · 6/14</div>
+      <div class="day-grid">
+        <div class="day-tag">
+          <span class="day-num">03</span>
+          JUN.<br>穿越日
+        </div>
+        <div class="day-content">
+          <h3>江戶穿越、那須森林、一天走過 400 年。</h3>
+          <p class="day-summary">
+            上午鬼怒川出發、車程 30 分鐘抵達「日光江戶村」、武士忍者花魁町人、整座還原江戶城下町。下午北上那須高原、入住「星野 RISONARE 那須」、飯店內晚餐。
+          </p>
+          <div class="day-meta">
+            <span>Move <strong>鬼怒川 → 江戶村 → 那須</strong></span>
+            <span>Stay <strong>星野 RISONARE 那須</strong></span>
+            <span>Meal <strong>飯店早餐 / 江戶村午餐自理 / 飯店晚餐</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ritual-spotlight">
+        <div class="rs-img" style="background-image:url('/tour/SDJ260612a/images/day3-edo-wonderland.png')"></div>
+        <div class="rs-text">
+          <div class="rs-tag">— EDO WONDERLAND · 穿越體驗</div>
+          <h3>不是觀光景區、<br><span style="color:var(--copper);">400 年前的城下町。</span></h3>
+          <p class="rs-lead">
+            日光江戶村佔地廣大、忠實還原江戶時代城下町、宿場町、武家屋敷。<br>
+            可變裝武士、忍者、町人、花魁、農民、新選組——換上戲服、整天在園區內活動。<br>
+            園內有 5-6 場大型表演（忍者活劇、花魁道中、大江戶劇場、地獄寺）、自由選看。
+          </p>
+        </div>
+      </div>
+
+      <div class="highlight">
+        <div class="h-tag">— 江戶村重點</div>
+        <h4>三件值得花時間的事。</h4>
+        <p>
+          <strong>1. 變裝</strong>：武士或花魁、含妝髮 3-4 小時、攝影師跟拍另計。<br>
+          <strong>2. 表演</strong>：每天 5-6 場、推「大江戶劇場」與「忍者活劇」。<br>
+          <strong>3. 午餐</strong>：園內鰻魚、蕎麥、町人定食。推鰻魚屋「越後屋」。
+        </p>
+      </div>
+
+      <div class="ritual-spotlight" style="margin-top:48px;">
+        <div class="rs-text">
+          <div class="rs-tag">— STAY · 星野 RISONARE 那須</div>
+          <h3>森林裡的農場度假村、<span style="color:var(--copper);">享受獨有的靜謐。</span></h3>
+          <p class="rs-lead">
+            RISONARE 那須以「農場 × 自然 × 美食」為主題。佔地廣闊、有自家農園、戶外活動、自助晚宴採用那須當地食材。<br>
+            和界 鬼怒川的「日式溫泉旅館」儀式感不同——這晚是西式度假村的愜意。兩晚兩種日本。
+          </p>
+        </div>
+        <div class="rs-img" style="background-image:url('/tour/SDJ260612a/images/day3-risonare-nasu.png')"></div>
+      </div>
+    </section>
+
+    <!-- =============== 05 DAY 4 (主推大內宿 / 備選五色沼 tab) =============== -->
+    <section class="section bleed-paper" id="day4">
+      <div class="sect-eyebrow"><span class="sect-num">05</span>DAY 4 · 6/15 · 行程建議</div>
+      <div class="day-grid">
+        <div class="day-tag">
+          <span class="day-num">04</span>
+          JUN.<br>移動日
+        </div>
+        <div class="day-content">
+          <h3>那須到仙台、中間 250 公里不該是空白車程。</h3>
+          <p class="day-summary">
+            那須直拉仙台秋保、車程 3 小時。中間順遊兩條路線都不繞路。<br>
+            <strong>主推大內宿（江戶茅草老街）、備選五色沼（火山湖群）</strong>、看客人偏好。
+          </p>
+          <div class="day-meta">
+            <span>Move <strong>那須 → 南會津 → 仙台秋保</strong></span>
+            <span>Stay <strong>仙台秋保溫泉 一之坊</strong></span>
+            <span>Meal <strong>飯店早餐 / 在地午餐 / 一之坊晚宴</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="plan-tabs" style="margin-top:48px;">
+        <button class="plan-tab active" data-plan="ouchijuku"><span class="tab-num">PLAN A</span>主推 · 大內宿茅草老街</button>
+        <button class="plan-tab" data-plan="goshikinuma"><span class="tab-num">PLAN B</span>備選 · 五色沼火山湖群</button>
+      </div>
+
+      <!-- PLAN A · 大內宿 -->
+      <div class="plan-panel active" data-plan="ouchijuku">
+
+        <div class="highlight">
+          <div class="h-tag">— 為什麼推這條</div>
+          <h4>江戶時代的老街、加奇岩峽谷。一天看到「日本的老」。</h4>
+          <p>
+            大內宿是會津西街道上的宿場町、整條街維持茅草屋頂、看起來像走進時代劇。<br>
+            塔のへつり是南會津的奇岩峽谷、紅色木橋橫跨翠綠溪谷、是短時間就能拍滿照片的點。<br>
+            兩點都在會津南端、順路往仙台、不繞遠路。
+          </p>
+        </div>
+
+        <div class="ritual-spotlight">
+          <div class="rs-img" style="background-image:url('/tour/SDJ260612a/images/day4-ouchijuku.png')"></div>
+          <div class="rs-text">
+            <div class="rs-tag">— OUCHI-JUKU · 大內宿</div>
+            <h3>會津西街道的宿場町、<span style="color:var(--copper);">整條街都是日式古建築。</span></h3>
+            <p class="rs-lead">
+              江戶時代會津藩通往日光的宿場町。約 30 戶茅草屋頂民家整齊排列、現役為土產店、蕎麥屋、宿屋。<br>
+              特色午餐：「ねぎそば」高遠蕎麥麵——用一整根長蔥當筷子吃冷蕎麥。看起來像玩笑、吃過會記得。
+            </p>
+          </div>
+        </div>
+
+        <div class="sequence-steps" style="margin-top:48px;">
+          <div class="ss-head">— 一日順序・建議時程</div>
+          <div class="ss-step">
+            <div class="ss-time">08:30</div>
+            <div class="ss-body">
+              <h6>RISONARE 那須早餐 + 退房</h6>
+              <p>專車待命。行李上車、出發。</p>
+            </div>
+          </div>
+          <div class="ss-step">
+            <div class="ss-time">10:30</div>
+            <div class="ss-body">
+              <h6>抵達大內宿</h6>
+              <p>停車場到老街口步行 5 分鐘。午餐先解決（蔥蕎麥麵店推薦「三澤屋」、需提前訂位）。</p>
+            </div>
+          </div>
+          <div class="ss-step">
+            <div class="ss-time">13:00</div>
+            <div class="ss-body">
+              <h6>大內宿漫遊</h6>
+              <p>整條街來回約 2 小時。土產買得：南會津笠地藏木雕、會津漆器、蕎麥麵伴手。</p>
+            </div>
+          </div>
+          <div class="ss-step">
+            <div class="ss-time">15:00</div>
+            <div class="ss-body">
+              <h6>出發前往仙台秋保</h6>
+              <p>大內宿 → 仙台秋保 一之坊、車程約 3 小時。</p>
+            </div>
+          </div>
+          <div class="ss-step">
+            <div class="ss-time">18:00</div>
+            <div class="ss-body">
+              <h6>抵達一之坊・check-in</h6>
+              <p>放行李、進溫泉。19:30 飯店晚宴。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ritual-spotlight" style="margin-top:48px;">
+          <div class="rs-text">
+            <div class="rs-tag">— STAY · 仙台秋保 一之坊</div>
+            <h3>仙台西邊的山裡、<span style="color:var(--copper);">當晚的溫泉旅館。</span></h3>
+            <p class="rs-lead">
+              一之坊位於秋保溫泉、仙台市西邊的山區、是東北代表性的老舖溫泉旅館。<br>
+              大浴場、露天風呂、自助式日洋會席晚餐。客室面森林、推開窗就是綠意——是這趟旅程中最「鬆」的一晚。
+            </p>
+          </div>
+          <div class="rs-img" style="background-image:url('/tour/SDJ260612a/images/day4-ichinobo.png')"></div>
+        </div>
+
+        <div class="jp-note" style="margin-top:32px;">
+          <strong>大內宿（おおうちじゅく）</strong> — 福島県下郷町、會津西街道宿場町、被指定為國家重要傳統建造物群保存地區。茅草屋頂維護需在地居民共同合作、目前仍依江戶舊法維持。冬季有點燈祭、夏季新綠、6 月是淡季少觀光客、是好時間。
+        </div>
+
+      </div>
+
+      <!-- PLAN B · 五色沼 -->
+      <div class="plan-panel" data-plan="goshikinuma">
+
+        <div class="highlight">
+          <div class="h-tag">— 為什麼是備選</div>
+          <h4>更自然系、更運動感。喜歡健行 + 拍照的客人選這條。</h4>
+          <p>
+            五色沼是磐梯山火山爆發後形成的湖群、礦物質讓每個湖呈現不同顏色（青、綠、藍、翠玉）。<br>
+            走完最熱門路線約 1.5 小時、平路為主、不算累。配中午喜多方拉麵（日本三大拉麵之一）、補回體力。<br>
+            如果客人偏好自然景觀勝過歷史人文、選這條。
+          </p>
+        </div>
+
+        <div class="ritual-spotlight">
+          <div class="rs-img" style="background-image:url('/tour/SDJ260612a/images/day4-goshikinuma.png')"></div>
+          <div class="rs-text">
+            <div class="rs-tag">— GOSHIKINUMA · 五色沼</div>
+            <h3>火山口下的翠玉湖群、<span style="color:var(--copper);">每個湖一個顏色。</span></h3>
+            <p class="rs-lead">
+              磐梯山 1888 年噴發、堰塞形成 30 多個火山湖。礦物質讓每個湖呈現不同顏色：毘沙門沼的翠藍、青沼的孔雀綠、赤沼的鐵鏽紅。<br>
+              整條探勝路 4 公里、步行約 1.5 小時、地形平緩、適合一般體力。
+            </p>
+          </div>
+        </div>
+
+        <div class="ritual-spotlight" style="margin-top:32px;">
+          <div class="rs-text">
+            <div class="rs-tag">— KITAKATA · 喜多方拉麵</div>
+            <h3>日本三大拉麵之一、<span style="color:var(--copper);">會津的午餐。</span></h3>
+            <p class="rs-lead">
+              寬扁麵、醬油湯頭、叉燒切片。喜多方市內超過 120 家拉麵店、是日本拉麵密度最高的城市之一。<br>
+              從五色沼開車約 30 分鐘、是順路午餐選擇。推薦店：「坂内食堂」、「來夢」。
+            </p>
+          </div>
+          <div class="rs-img" style="background-image:url('/tour/SDJ260612a/images/day4-kitakata-ramen.png')"></div>
+        </div>
+
+        <div class="jp-note" style="margin-top:32px;">
+          <strong>五色沼自然探勝路</strong> — 磐梯朝日國立公園範圍內、單程約 4 公里、官方推薦時間 1 小時 10 分。6 月新綠盛、湖色尤其鮮明。若改回程走法、可不必往返、終點接公車回起點。
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =============== 06 DAY 5 =============== -->
+    <section class="section" id="day5">
+      <div class="sect-eyebrow"><span class="sect-num">06</span>DAY 5 · 6/16</div>
+      <div class="day-grid">
+        <div class="day-tag">
+          <span class="day-num">05</span>
+          JUN.<br>松島日
+        </div>
+        <div class="day-content">
+          <h3>松島的島群、仙台港的水族館、市區的牛舌晚餐。</h3>
+          <p class="day-summary">
+            一早下山、北上松島——日本三景、260 座小島散落海上、遊船 50 分鐘。<br>
+            午餐さんとり茶屋穴子丼、下午海之杜水族館、傍晚仙台市區、晚餐閣 牛舌料理。
+          </p>
+          <div class="day-meta">
+            <span>Move <strong>秋保 → 松島 → 仙台港 → 仙台市區</strong></span>
+            <span>Stay <strong>仙台大都會酒店 Sendai Metropolitan</strong></span>
+            <span>Meal <strong>一之坊早餐 / さんとり茶屋 穴子丼午餐 / 閣 牛舌料理晚餐</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="route-grid cols-3" style="margin-top:32px;">
+        <div class="route-card">
+          <div class="r-img" style="background-image:url('/tour/SDJ260612a/images/day5-matsushima.png')"></div>
+          <div class="r-body">
+            <div class="r-tag">— SPOT 01 · 日本三景</div>
+            <h4>松島遊船</h4>
+            <p class="r-sub">260 座小松島散落海灣。芭蕉曾在此寫「松島啊、松島啊」。遊船一圈 50 分鐘、最近的島舉手可觸。</p>
+            <ul class="r-points">
+              <li>仁王丸大型遊船 / 包船 VIP 二選一</li>
+              <li>船上可邊餵海鷗邊看島群</li>
+              <li>下船後可走五大堂・瑞嚴寺</li>
+            </ul>
+          </div>
+        </div>
+        <div class="route-card">
+          <div class="r-img" style="background-image:url('/tour/SDJ260612a/images/day5-santori-anago.png')"></div>
+          <div class="r-body">
+            <div class="r-tag">— SPOT 02 · 在地午餐</div>
+            <h4>さんとり茶屋 穴子丼</h4>
+            <p class="r-sub">松島灣畔近 50 年老舖。穴子（星鰻）蒲燒鋪滿整碗、是松島代表名物之一。二樓座敷有海灣景觀。</p>
+            <ul class="r-points">
+              <li>地點：松島海岸駅徒步 10 分</li>
+              <li>招牌：あなご丼（穴子丼）</li>
+              <li>二樓座敷 26 席、8 人團體已預訂</li>
+              <li>訂位：022-353-2622 / 官網 WEB 預約</li>
+            </ul>
+          </div>
+        </div>
+        <div class="route-card">
+          <div class="r-img" style="background-image:url('/tour/SDJ260612a/images/day5-aquarium.png')"></div>
+          <div class="r-body">
+            <div class="r-tag">— SPOT 03 · 回程順遊</div>
+            <h4>仙台海之杜水族館</h4>
+            <p class="r-sub">東北最大水族館、位於仙台港、剛好在松島回市區路上。海豚秀 + 三陸海域展示是亮點。</p>
+            <ul class="r-points">
+              <li>主題：日本近海 + 世界海洋兩大區</li>
+              <li>海豚 / 海獅秀每日 4 場</li>
+              <li>建議停留 1.5–2 小時</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="sequence-steps" style="margin-top:32px;">
+        <div class="ss-head">— 一日順序・建議時程</div>
+        <div class="ss-step">
+          <div class="ss-time">09:00</div>
+          <div class="ss-body">
+            <h6>一之坊早餐 + 退房</h6>
+            <p>專車從秋保溫泉直奔松島、車程約 1 小時。</p>
+          </div>
+        </div>
+        <div class="ss-step">
+          <div class="ss-time">10:30</div>
+          <div class="ss-body">
+            <h6>松島遊船（仁王丸 11:00 班次）</h6>
+            <p>50 分鐘環島遊船。可包船升級成 VIP 私人船（需預約）。</p>
+          </div>
+        </div>
+        <div class="ss-step">
+          <div class="ss-time">12:00</div>
+          <div class="ss-body">
+            <h6>さんとり茶屋 穴子丼午餐</h6>
+            <p>松島灣畔近 50 年老舖、招牌穴子丼。二樓座敷 26 席、8 人包團已預訂。</p>
+          </div>
+        </div>
+        <div class="ss-step">
+          <div class="ss-time">14:00</div>
+          <div class="ss-body">
+            <h6>仙台海之杜水族館</h6>
+            <p>從松島開車 30 分鐘。停留 2 小時、看海豚秀。</p>
+          </div>
+        </div>
+        <div class="ss-step">
+          <div class="ss-time">16:30</div>
+          <div class="ss-body">
+            <h6>仙台大都會酒店 check-in</h6>
+            <p>水族館 → 仙台車站、車程 30 分鐘。大都會就在仙台車站正上方、進房整理。</p>
+          </div>
+        </div>
+        <div class="ss-step">
+          <div class="ss-time">18:30</div>
+          <div class="ss-body">
+            <h6>閣 牛舌料理晚餐</h6>
+            <p>仙台在地老舖、厚切牛舌 + 炭火現燒。麥飯 + 牛尾湯 + 厚切牛舌經典三件套。需事先訂位、避免排隊。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ritual-spotlight" style="margin-top:48px;">
+        <div class="rs-text">
+          <div class="rs-tag">— DINNER · 牛たん料理 閣</div>
+          <h3>仙台的味覺記憶、<span style="color:var(--copper);">炭火現燒厚切牛舌。</span></h3>
+          <p class="rs-lead">
+            「牛たん料理 閣」是仙台在地老舖、堅持厚切牛舌 + 炭火現燒、是仙台牛舌料理的代表店家之一。<br>
+            麥飯 + 牛尾湯 + 厚切牛舌的經典三件套、配上烤蔬菜與小菜——是一場屬於仙台的味覺記憶。
+          </p>
+        </div>
+        <div class="rs-img" style="background-image:url('/tour/SDJ260612a/images/day6-gyutan-kaku.png')"></div>
+      </div>
+    </section>
+
+    <!-- =============== 07 DAY 6 =============== -->
+    <section class="section bleed-paper" id="day6">
+      <div class="sect-eyebrow"><span class="sect-num">07</span>DAY 6 · 6/17</div>
+      <div class="day-grid">
+        <div class="day-tag">
+          <span class="day-num">06</span>
+          JUN.<br>返程日
+        </div>
+        <div class="day-content">
+          <h3>仙台機場送機、把最後一個動作交給我們。</h3>
+          <p class="day-summary">
+            清晨先走仙台朝市（飯店步行 5 分鐘、海鮮乾貨 + 在地早食），接著一番町商店街自由購物（伴手禮：牛舌、萩之月、毛豆甘樂餅），下午專車送仙台機場、長榮 BR117 直飛桃園、晚間返抵台灣。
+          </p>
+          <div class="day-meta">
+            <span>Move <strong>朝市 → 一番町 → 仙台機場・專車</strong></span>
+            <span>Flight <strong>BR117・SDJ 16:05 → TPE 18:55</strong></span>
+            <span>Meal <strong>朝市早食 / 自由午餐 / 機餐</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ritual-spotlight" style="margin-top:48px;">
+        <div class="rs-img" style="background-image:url('/tour/SDJ260612a/images/day6-asaichi.png')"></div>
+        <div class="rs-text">
+          <div class="rs-tag">— SENDAI ASAICHI · 仙台朝市</div>
+          <h3>「仙台的廚房」、<span style="color:var(--copper);">離車站 5 分鐘。</span></h3>
+          <p class="rs-lead">
+            仙台朝市有「仙台的廚房」之稱、距離 JR 仙台站步行 5 分鐘（從仙台大都會酒店出發 7 分鐘）。<br>
+            除了一般買賣食材的店家、朝市內也有許多必吃美食：生魚片丼飯、拉麵、可樂餅、現烤海鮮串——新鮮、美味又實惠。<br>
+            退房後散步當早午餐、是這趟旅程很順的結尾。
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =============== 08 STAYS =============== -->
+    <section class="section" id="stays">
+      <div class="sect-eyebrow"><span class="sect-num">08</span>STAYS · 住宿一覽</div>
+      <h2 class="sect-title">五個夜晚、五種不同的日本。</h2>
+      <p class="key-msg">
+        每晚刻意安排不同類型的旅館 — 都會型 → 溫泉旅館 → 度假村 → 度假旅館 → 都會型。讓客人在六天內體驗到日本住宿的光譜。
+      </p>
+      <div class="route-grid cols-3">
+        <div class="route-card">
+          <div class="r-img" style="background-image:url('https://picsum.photos/seed/tokyo-hotel-luxury-marunouchi/800/500')"></div>
+          <div class="r-body">
+            <div class="r-tag">— NIGHT 1 · 都會型</div>
+            <h4>東京・客戶自選</h4>
+            <p class="r-sub" style="border:none; padding-bottom:0;">第一晚過渡用。可依客戶偏好挑選東京市區飯店、晚間自由活動。</p>
+          </div>
+        </div>
+        <div class="route-card">
+          <div class="r-img" style="background-image:url('/tour/SDJ260612a/images/day2-kai-kinugawa.png')"></div>
+          <div class="r-body">
+            <div class="r-tag">— NIGHT 2 · 溫泉旅館</div>
+            <h4>界 鬼怒川</h4>
+            <p class="r-sub" style="border:none; padding-bottom:0;">星野「界」品牌。栃木地工藝主題。建議「客室露天風呂付」房型、私人浴池在房內。</p>
+          </div>
+        </div>
+        <div class="route-card">
+          <div class="r-img" style="background-image:url('/tour/SDJ260612a/images/stays-risonare.png')"></div>
+          <div class="r-body">
+            <div class="r-tag">— NIGHT 3 · 度假村</div>
+            <h4>星野 RISONARE 那須</h4>
+            <p class="r-sub" style="border:none; padding-bottom:0;">農場 × 自然 × 美食主題。森林氛圍、那須當地食材自助晚宴。</p>
+          </div>
+        </div>
+        <div class="route-card">
+          <div class="r-img" style="background-image:url('/tour/SDJ260612a/images/stays-ichinobo.png')"></div>
+          <div class="r-body">
+            <div class="r-tag">— NIGHT 4 · 度假旅館</div>
+            <h4>仙台秋保 一之坊</h4>
+            <p class="r-sub" style="border:none; padding-bottom:0;">秋保溫泉老舖、廣島大浴場 + 自助餐 buffet 形式、夥伴自在度高。</p>
+          </div>
+        </div>
+        <div class="route-card">
+          <div class="r-img" style="background-image:url('/tour/SDJ260612a/images/stays-sendai-metropolitan.png')"></div>
+          <div class="r-body">
+            <div class="r-tag">— NIGHT 5 · 都會型</div>
+            <h4>仙台大都會酒店</h4>
+            <p class="r-sub" style="border:none; padding-bottom:0;">仙台車站正上方、隔天送機最方便。市區牛舌名店步行可達。</p>
+          </div>
+        </div>
+        <div class="route-card" style="background:var(--paper); border-color:var(--copper);">
+          <div class="r-body" style="padding:32px 28px;">
+            <div class="r-tag" style="margin-bottom:14px;">— DESIGN NOTE</div>
+            <h4>住宿節奏。<br>不是越貴越好。</h4>
+            <p class="r-sub" style="margin-top:14px; padding-bottom:0; border:none; max-width:none;">
+              第一晚都會、第二晚溫泉旅館（高光）、第三晚度假村（放鬆）、第四晚溫泉旅館（補回懷石感）、第五晚都會（方便送機）。<br>
+              避免連續兩晚同類型、避免從高峰一路下滑。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============== FOOTER =============== -->
+    <footer class="footer">
+      <div>
+        <div class="footer-brand-name"><span class="cn">角落旅行社</span>Corner Travel</div>
+        <p style="color:var(--ink); font-size:13px; font-style:italic;">如果可以、讓我們一起探索世界上每個角落。</p>
+      </div>
+      <div>
+        <h5>聯絡</h5>
+        <a href="tel:+886925929203">0925-929-203</a>
+        <a href="mailto:william@cornertravel.com.tw">william@cornertravel.com.tw</a>
+      </div>
+      <div>
+        <h5>辦公室</h5>
+        <p>台北市大同區<br>重慶北路一段 67 號 8 樓之二</p>
+      </div>
+      <div>
+        <h5>License</h5>
+        <p>交觀甲第 06015 號<br>品保北字第 2551 號</p>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+  // sidenav scroll-spy
+  const links = document.querySelectorAll('.sidenav li a');
+  const sections = Array.from(links)
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.sidenav a[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => obs.observe(s));
+
+  // Day 4 PLAN A / PLAN B tab 切換
+  document.querySelectorAll('.plan-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.plan;
+      document.querySelectorAll('.plan-tab').forEach(b => b.classList.toggle('active', b.dataset.plan === target));
+      document.querySelectorAll('.plan-panel').forEach(p => p.classList.toggle('active', p.dataset.plan === target));
+    });
+  });
+</script>
+
+</body>
+</html>
