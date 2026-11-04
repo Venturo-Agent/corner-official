@@ -12,7 +12,15 @@
 --serif:"Noto Serif TC","Noto Serif CJK TC",serif;--sans:"Noto Sans TC","Noto Sans CJK TC",system-ui,sans-serif}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:#2a2d2f;font-family:var(--sans);color:var(--ink)}
-.app{display:grid;grid-template-columns:320px 1fr;height:100%}
+.app{display:grid;grid-template-columns:230px 1fr 300px;grid-template-rows:50px 1fr;grid-template-areas:'top top top' 'rail view insp';height:100%}
+.top{grid-area:top;display:flex;align-items:center;gap:8px;padding:0 14px;background:#fff;border-bottom:1px solid var(--line)}
+.top b{font:700 16px var(--serif);margin-right:6px}.top .sp{flex:1}.top .sv{font-size:12px;color:var(--mute)}.top .sep{width:1px;height:22px;background:var(--line);margin:0 4px}
+.top button{font:inherit;font-size:13px;padding:6px 11px;border-radius:6px;border:1px solid var(--line);background:#fff;cursor:pointer}.top .pri{background:var(--acc);border-color:var(--acc);color:#fff}
+.rail{grid-area:rail;background:var(--panel);overflow-y:auto;padding:12px 10px;display:flex;flex-direction:column;gap:10px;border-right:1px solid var(--line)}
+.rail .pages{max-height:none}.rail .row{flex-wrap:nowrap}.rail select{min-width:0;flex:1}
+.insp{grid-area:insp;background:var(--panel);overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:16px;border-left:1px solid var(--line)}
+.insp h2{font:700 15px var(--serif);margin:0}.insp p{margin:0;font-size:12.5px;line-height:1.7;color:var(--mute)}
+.view{grid-area:view}
 .side{background:var(--panel);overflow-y:auto;padding:16px 14px 40px;display:flex;flex-direction:column;gap:16px}
 .side h1{font:700 18px var(--serif);margin:0}.side p{margin:0;font-size:13px;line-height:1.7;color:var(--mute)}
 .side a{color:var(--acc);font-size:13px}
@@ -38,43 +46,45 @@ html,body{margin:0;height:100%;background:#2a2d2f;font-family:var(--sans);color:
 .in{animation:in .7s cubic-bezier(.16,.8,.24,1) both;animation-delay:calc(var(--i,0)*70ms)}
 @keyframes in{from{opacity:0;transform:translateY(24px)}}
 @media (prefers-reduced-motion:reduce){.in{animation:none}}
-.present .app{display:block}.present .side,.present .hint{display:none}.present .view{width:100%;height:100%}
+.present .app{display:block}.present .top,.present .rail,.present .insp,.present .hint{display:none}.present .view{width:100%;height:100%}
 .present .slide [contenteditable=false]:hover{box-shadow:none}
 .edit .slide img{cursor:grab;outline:3px dashed #c9921caa;outline-offset:-3px}.edit .slide img:active{cursor:grabbing}
 #msg{min-height:1.5em}#msg[data-bad="1"]{color:#b3372b;font-weight:700}
 .row button:disabled{opacity:.4;cursor:not-allowed}
 .hint{position:absolute;right:16px;bottom:10px;color:#ffffff99;font-size:12px}
-@media (max-width:860px){.app{grid-template-columns:1fr;grid-template-rows:auto 1fr}.side{max-height:50vh}}
+@media (max-width:1100px){.app{grid-template-columns:170px 1fr;grid-template-areas:'top top' 'rail view'}.insp{display:none}}
+@media (max-width:700px){.app{grid-template-columns:1fr;grid-template-rows:auto 1fr;grid-template-areas:'top' 'view'}.rail{display:none}}
 </style>
 </head>
 <body>
 <div class="app">
-<aside class="side">
-  <a href="../">← 回總入口</a>
-  <a href="?continuity=1&page=0">播放照片延續版本</a>
-  <a href="?storyboard=1&page=0">播放逐頁分鏡版本</a>
-  <div><h1>投影母片</h1><p>ERP 資料一進來就排好整份。每一頁可以點一下換版本、直接點字修改、加減項目；航線聚焦可切換一路拉近、全景切近或分日照片路線；版面都是程式照規則算的，不靠 AI。</p></div>
-  <div class="row"><button type="button" id="presentTog" aria-pressed="false">開始放映</button><button type="button" id="motionTog">收起頁面動畫</button></div>
-  <div class="row"><button type="button" id="speakerTog">講者視窗 S</button><button type="button" id="overviewTog">縮圖總覽 O</button><button type="button" id="fsTog">全螢幕 F</button></div>
-  <div class="blk"><b>整份頁序（<span id="pos"></span>）</b><div class="pages" id="pages"></div></div>
-  <div class="blk"><b>這一頁的版本</b><div class="vars" id="vars"></div></div>
-  <div class="blk" id="cntBlk"><b id="cntLab">項目數</b><div class="row cnt"><button type="button" id="minus" aria-label="減少一項">−</button><output id="n"></output><button type="button" id="plus" aria-label="增加一項">＋</button></div><p>變灰的版本＝這個數量排不下。</p></div>
-  <div class="blk"><b>新增投影片（插在這頁後面）</b><div class="row"><select id="addType" aria-label="頁型"></select><button type="button" class="pri" id="add">新增</button><button type="button" id="del">刪除這頁</button></div></div>
-  <div class="blk"><b>全編輯模式</b>
-    <div class="row"><button type="button" class="pri" id="editTog" aria-pressed="false">開始編輯照片</button></div>
+<header class="top"><b>IGG 北海道</b>
+  <button type="button" class="pri" id="presentTog" aria-pressed="false">開始放映</button><button type="button" id="speakerTog">講者視窗 S</button><button type="button" id="overviewTog">縮圖總覽 O</button><button type="button" id="fsTog">全螢幕 F</button><button type="button" id="motionTog">收起頁面動畫</button>
+  <span class="sp"></span><span class="sv" id="saveInfo">編輯會自動存在這台電腦</span><span class="sep"></span>
+  <button type="button" class="pri" id="exp">存成定稿檔</button><button type="button" id="imp">開啟定稿檔</button><button type="button" id="reset">還原原始</button></header>
+<nav class="rail">
+  <div class="blk"><b>投影片（<span id="pos"></span>）</b><div class="pages" id="pages"></div></div>
+  <div class="row"><select id="addType" aria-label="頁型"></select><button type="button" class="pri" id="add">＋新增</button></div>
+  <div class="row"><button type="button" id="del">刪除這頁</button></div>
+</nav>
+<aside class="insp">
+  <div class="blk"><h2>這一頁的版面</h2><div class="vars" id="vars"></div></div>
+  <div class="blk" id="cntBlk"><b id="cntLab">項目數</b><div class="row cnt"><button type="button" id="minus" aria-label="減少一項">−</button><output id="n"></output><button type="button" id="plus" aria-label="增加一項">＋</button></div><p>變灰的版面＝這個數量排不下。</p></div>
+  <div class="blk"><h2>照片</h2>
+    <div class="row"><button type="button" id="editTog" aria-pressed="false">開始編輯照片</button></div>
     <div class="row" id="imgTools" hidden><button type="button" id="imgPick">換這張圖…</button><button type="button" id="imgRst">還原這張</button><button type="button" id="focusRst">焦點置中</button></div>
     <p id="focusInfo"></p>
-    <div class="row"><button type="button" id="pageRst">還原這一頁</button><button type="button" id="exp">匯出 JSON</button><button type="button" id="imp">匯入 JSON</button></div>
+    <div class="row"><button type="button" id="pageRst">還原這一頁</button></div>
     <p id="msg" role="status"></p><input type="file" id="file" accept="image/jpeg,image/png,image/webp,image/gif,application/json" hidden>
-    <p>文字隨時可以直接點了改。照片需先按「開始編輯照片」。換上去的圖會自動縮小，只存在這台瀏覽器。</p></div>
-  <div class="blk"><div class="row"><button type="button" id="reset">回到原始資料</button></div><p>資料：韓國跨境交流五日（SEL261216A），照片是這團的真照片。改過的內容只存在這台瀏覽器。</p></div>
+    <p>文字直接點了改。換照片先按「開始編輯照片」。修改自動存在這台電腦；要留下最後版本，按上方「存成定稿檔」。</p></div>
 </aside>
-<main class="view"><div id="stage"></div><div class="hint">翻頁 ← →　·　點字修改　·　目錄／總覽點一格＝跳到那頁</div></main>
+<main class="view"><div id="stage"></div><div class="hint">翻頁 ← →　·　點字修改　·　目錄/總覽點一格＝跳到那頁</div></main>
 </div>
+<script>(function(){var o=Storage.prototype.setItem;Storage.prototype.setItem=function(){var r=o.apply(this,arguments);var e=document.getElementById("saveInfo");if(e){var d=new Date();e.textContent="已自動儲存 "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2)}return r}})()</script>
 <script src="data.js"></script>
 <script src="core.js"></script>
 <script src="variants.bundle.js"></script>
 <script>(function(){function fs(){var d=document,e=d.documentElement;if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d)}else{(e.requestFullscreen||e.webkitRequestFullscreen||function(){}).call(e)}}var b=document.getElementById("fsTog");if(b)b.onclick=fs;addEventListener("keydown",function(e){if((e.key==="f"||e.key==="F")&&!e.target.isContentEditable&&!e.target.closest("input,select,textarea"))fs()})})()</script>
-<script>M.start()</script>
+<script>addEventListener("keydown",function(e){if(e.key==="Escape"&&document.body.classList.contains("present")&&/studio|edit/.test(location.search)&&!document.querySelector(".overview.open,[data-overview].open,.presenter-open")&&!(document.fullscreenElement))document.getElementById("presentTog").click()});M.start()</script>
 </body>
 </html>
