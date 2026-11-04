@@ -162,8 +162,8 @@ window.DATA = {
   "cuts": {},
   "code": "SPK270704F",
   "title": "北海道",
-  "sub": "北海道札幌六天自由行・2027.07.04 出發",
-  "dates": "2027.07.04 – 07.09",
+  "sub": "北海道札幌六天自由行・2027.07.06 出發",
+  "dates": "2027.07.06 – 07.11",
   "agency": "角落旅行社",
   "en": "HOKKAIDO",
   "hero": "img/hokkaido-igg-canal.jpg",
@@ -589,37 +589,37 @@ window.DATA = {
    "items": [
     {
      "t": " 傍晚逛進札幌",
-     "sub": "07.04 SUN",
+     "sub": "07.06 TUE",
      "img": "img/hokkaido-igg-odori.jpg",
      "body": "桃園 → 新千歲 → 札幌"
     },
     {
      "t": " 神宮到二條市場",
-     "sub": "07.05 MON",
+     "sub": "07.07 WED",
      "img": "img/hokkaido-igg-jingu.jpg",
      "body": "札幌市區"
     },
     {
      "t": " 運河與壽司的夏天",
-     "sub": "07.06 TUE",
+     "sub": "07.08 THU",
      "img": "img/hokkaido-igg-canal.jpg",
      "body": "札幌 → 小樽 → 札幌"
     },
     {
      "t": " 夏日花田一日",
-     "sub": "07.07 WED",
+     "sub": "07.09 FRI",
      "img": "img/hokkaido-igg-furano-tomita.jpg",
      "body": "札幌 → 美瑛 → 富良野 → 札幌"
     },
     {
      "t": " 最後一晚的札幌",
-     "sub": "07.08 THU",
+     "sub": "07.10 SAT",
      "img": "img/hokkaido-igg-moiwa.jpg",
      "body": "札幌近郊"
     },
     {
      "t": " 新千歲機場買到最後一刻",
-     "sub": "07.09 FRI",
+     "sub": "07.11 SUN",
      "img": "img/hokkaido-igg-nijo.jpg",
      "body": "札幌 → 新千歲 → 桃園"
     }
@@ -698,7 +698,7 @@ window.DATA = {
   {
    "type": "day",
    "title": "落地新千歲， 傍晚逛進札幌",
-   "date": "07.04 SUN",
+   "date": "07.06 TUE",
    "n": 1,
    "img": "img/hokkaido-igg-odori.jpg",
    "img2": null,
@@ -728,7 +728,7 @@ window.DATA = {
   {
    "type": "day",
    "title": "札幌市區慢走， 神宮到二條市場",
-   "date": "07.05 MON",
+   "date": "07.07 WED",
    "n": 2,
    "img": "img/hokkaido-igg-jingu.jpg",
    "img2": null,
@@ -758,7 +758,7 @@ window.DATA = {
   {
    "type": "day",
    "title": "小樽一日， 運河與壽司的夏天",
-   "date": "07.06 TUE",
+   "date": "07.08 THU",
    "n": 3,
    "img": "img/hokkaido-igg-canal.jpg",
    "img2": null,
@@ -788,7 +788,7 @@ window.DATA = {
   {
    "type": "day",
    "title": "美瑛富良野， 夏日花田一日",
-   "date": "07.07 WED",
+   "date": "07.09 FRI",
    "n": 4,
    "img": "img/hokkaido-igg-furano-tomita.jpg",
    "img2": null,
@@ -818,7 +818,7 @@ window.DATA = {
   {
    "type": "day",
    "title": "近郊與夜景， 最後一晚的札幌",
-   "date": "07.08 THU",
+   "date": "07.10 SAT",
    "n": 5,
    "img": "img/hokkaido-igg-moiwa.jpg",
    "img2": null,
@@ -848,7 +848,7 @@ window.DATA = {
   {
    "type": "day",
    "title": "回程前， 新千歲機場買到最後一刻",
-   "date": "07.09 FRI",
+   "date": "07.11 SUN",
    "n": 6,
    "img": "img/hokkaido-igg-nijo.jpg",
    "img2": null,
