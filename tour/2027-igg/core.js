@@ -354,7 +354,7 @@
   if (STATIC) document.head.insertAdjacentHTML('beforeend', '<style>.slide *{animation:none!important;transition:none!important}</style>')
   if (q.has('fresh')) { IMG = {}; S.v = {}; S.text = {}; S.extra = {}; S.pages = null; D.pages = JSON.parse(JSON.stringify(P0)) }
   if (q.has('storyboard')) D.pages.forEach((p, i) => { if (['cover', 'day', 'stay'].includes(p.type)) S.v[i] = 'storyboard' })
-  if (q.has('continuity')) D.pages.forEach((p, i) => { if (['cover', 'toc', 'overview', 'day', 'spot'].includes(p.type)) S.v[i] = 'continuity' })
+  if (q.has('continuity') || !q.has('classic')) D.pages.forEach((p, i) => { if (['cover', 'toc', 'overview', 'day', 'spot'].includes(p.type) && (q.has('continuity') || !S.v[i])) S.v[i] = 'continuity' })
   if (q.has('page')) S.page = +q.get('page')
   if (q.has('n')) { const p = D.pages[S.page]; S.extra[S.page] = +q.get('n') - (p.items || []).length }
   if (q.has('v')) S.v[S.page] = q.get('v')
