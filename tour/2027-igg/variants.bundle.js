@@ -2629,15 +2629,15 @@ M.add('food', 'bento', { name: '便當格', range: [3, 8], html: c => {
     ${a.body ? `<p style="font-size:21px;line-height:1.8;color:var(--mute);margin:40px 0 0;padding-top:28px;border-top:3px solid var(--ink)"><b class="serif" style="display:block;font-size:26px;color:var(--ink);margin-bottom:8px">${U.esc(c.tx('it0', a.t))}</b>${U.esc(a.body)}</p>` : ''}</div>` + cells.map(cell).join('') } }) }
 
 /* variants/food/chopsticks.js */
-// food／chopsticks：深藍紙面＋金箔筷（取自山陰手冊美食頁），照片＋菜名＋一句話，最多 9 道排 3×3；不標第幾天，只標地區
+// food／chopsticks：深藍紙面＋金箔筷（取自山陰手冊美食頁），照片＋菜名＋一句話，依道數自動排 1～3 列、照片隨格寬放大；不標第幾天，只標地區
 { const U = M.util
-M.add('food', 'chopsticks', { name: '深藍筷席', range: [4, 9], order: 0, html: c => {
-  const w = 440, gx = 50, H = 150, rh = 258
+M.add('food', 'chopsticks', { name: '深藍筷席', range: [3, 9], order: 0, html: c => {
+  const n = c.items.length, rows = n <= 3 ? 1 : n <= 8 ? 2 : 3, cols = Math.ceil(n / rows), gx = 50, w = Math.floor((1680 - gx * (cols - 1)) / cols), rh = Math.floor(790 / rows), H = Math.min(rh - 112, Math.round(w * .78))
   return `<div class="ab" style="inset:0;background:#0c1626"></div>
   <img src="img/food-bg-navy.jpg" alt="" style="position:absolute;right:0;top:0;height:1080px;width:776px;object-fit:cover;object-position:right">
   <div class="ab" style="right:640px;top:0;width:200px;height:1080px;background:linear-gradient(90deg,#0c1626,transparent)"></div>
-  <div class="ab in" style="left:120px;top:70px;--i:1;color:#f3ead8"><div class="kick" style="color:#d9b66a">${c.ed('k', '在地餐食')}</div><div class="serif" style="font-size:56px;margin-top:8px">${c.ed('h', '這趟會吃到的料理')}</div></div>` +
-  c.items.map((it, i) => { const x = 120 + (i % 3) * (w + gx), y = 232 + Math.floor(i / 3) * rh
+  <div class="ab in" style="left:120px;top:70px;--i:1;color:#f3ead8"><div class="kick" style="color:#d9b66a">${c.ed('k', c.p.kick || '在地餐食')}</div><div class="serif" style="font-size:56px;margin-top:8px">${c.ed('h', c.p.title || '這趟會吃到的料理')}</div></div>` +
+  c.items.map((it, i) => { const x = 120 + (i % cols) * (w + gx), y = 232 + Math.floor(i / cols) * rh
     return `<div class="ab in" style="left:${x}px;top:${y}px;width:${w}px;--i:${i + 2};color:#f3ead8"><img src="${it.img}" alt="" style="width:100%;height:${H}px;object-fit:cover;display:block;border:1px solid #d9b66a55">
     <div style="display:flex;gap:12px;align-items:baseline;margin-top:10px"><span class="serif" style="font-size:${U.fit(c.tx('it' + i, it.t), w - 110, 28, 18)}px">${c.ed('it' + i, it.t)}</span><span style="font-size:16px;color:#d9b66a;white-space:nowrap">${U.esc(it.sub || '')}</span></div>
     <p style="font-size:17px;line-height:1.5;margin:4px 0 0;color:#f3ead8bb">${U.esc(it.body || '')}</p></div>` }).join('') +
@@ -2942,7 +2942,7 @@ M.add('notice', 'photo', { name: '照片＋清單', range: [1, 3], html: c => {
   const pad = Math.max(0, (B - T - need(fs)) / 2)
   return `<img class="hero" src="${img}" alt="" style="position:absolute;left:0;top:0;width:${PW}px;height:1080px;object-fit:cover">
     <div class="ab" style="left:0;top:0;width:${PW}px;height:1080px;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.72))"></div>
-    <div class="ab in" style="left:64px;bottom:90px;width:${PW - 110}px;color:#fff;--i:1"><div class="kick" style="color:#fff">${c.ed('k', '注意事項')}</div><div class="serif" style="font-size:${U.fit(c.tx("h", "出門在外，記得這幾件事"), PW - 110, 56, 40)}px;line-height:1.25;margin-top:12px">${c.ed('h', '出門在外，記得這幾件事')}</div></div>
+    <div class="ab in" style="left:64px;bottom:90px;width:${PW - 110}px;color:#fff;--i:1"><div class="kick" style="color:#fff">${c.ed('k', c.p.kick || '注意事項')}</div><div class="serif" style="font-size:${U.fit(c.tx("h", c.p.title || "出門在外，記得這幾件事"), PW - 110, 56, 40)}px;line-height:1.25;margin-top:12px">${c.ed('h', c.p.title || '出門在外，記得這幾件事')}</div></div>
     <div class="ab" style="left:${X}px;top:${T + pad}px;width:${W}px">` +
     c.items.map((it, i) => `<div class="in" style="${i ? 'margin-top:22px;padding-top:22px;border-top:1px solid #d3d7d4;' : ''}--i:${i + 2}">
       <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:12px"><span style="font:700 ${fs}px var(--serif);color:${cl[i % 3]}">${U.no(i)}</span><div class="serif" style="font-size:${Math.round(fs * 1.3)}px;line-height:1.35">${c.ed('it' + i, it.t)}</div></div>
@@ -3900,12 +3900,12 @@ M.add('qa', 'tiers', { name: '詳略兩級', range: [5, 10], html: c => {
    const event=clock.events.find(e=>t>=e.start&&t<e.end),idx=event?.i??-1,s=event&&r.segments[idx],intro=t<clock.intro,final=!event&&!intro,u=event?ease(cl((t-event.start)/event.travel)):1,landed=event&&t>=event.start+event.travel
    let cam=r.start,phase=final?'final':intro?'overview':String(idx),geo=s&&curve(s,u)
    if(s){
-    const wide=fitPoints([geo.a,geo.b,geo.control]),near={x:geo.b[0],y:geo.b[1],s:Math.min(160,Math.max(wide.s*2.5,r.final.s))}
+    const wide=fitPoints([geo.a,geo.b,geo.control]),near={x:geo.b[0],y:geo.b[1],s:Math.min(400,Math.max(wide.s*2.5,r.final.s))}
     if(mode==='follow')cam={x:geo.p[0],y:geo.p[1],s:wide.s*2.1}
     else if(mode==='atlas')cam=u<.6?fitPoints([geo.a,geo.p]):near
     else if(mode==='cut'||mode==='split')cam=landed?near:wide
     else cam=camera(wide,near,u)
-    if(s.mode!=='flight'){const pf=idx>0&&r.segments[idx-1].mode==='flight'&&byId[r.segments[idx-1].to].pos;cam=pf?camera({x:pf[0],y:pf[1],s:Math.min(160,r.final.s)},ground,u):ground}
+    if(s.mode!=='flight'){const pf=idx>0&&r.segments[idx-1].mode==='flight'&&byId[r.segments[idx-1].to].pos;cam=pf?camera({x:pf[0],y:pf[1],s:Math.min(400,r.final.s)},ground,u):ground}
    }else if(final&&ground)cam=ground
    maps(images,cam)
    const at=p=>[(p[0]-cam.x)*cam.s+W/2,(p[1]-cam.y)*cam.s+H/2]

@@ -220,7 +220,7 @@ window.DATA = {
    "type": "toc",
    "items": [
     {
-     "t": "航班與集合",
+     "t": "機場接送",
      "img": "img/hokkaido-igg-jingu.jpg"
     },
     {
@@ -246,43 +246,25 @@ window.DATA = {
    ]
   },
   {
-   "type": "flight",
+   "type": "notice",
+   "variant": "photo",
+   "kick": "機場接送",
+   "title": "新千歲到札幌，有機場接送",
+   "img": "img/airport-chitose.jpg",
    "items": [
     {
-     "t": "長榮航空 BR 166（A 組去程）",
-     "sub": "07/04（日）",
-     "from": "桃園 TPE",
-     "to": "札幌新千歲 CTS",
-     "dep": "約 06:55",
-     "arr": "11:55",
-     "body": "桃園第二航廈"
+     "t": "新千歲機場 → 札幌",
+     "items": [
+      "抵達新千歲機場後，有機場接送前往札幌市區",
+      "回程同樣從札幌送回新千歲機場"
+     ]
     },
     {
-     "t": "長榮航空 BR 165（A 組回程）",
-     "sub": "07/09（五）",
-     "from": "札幌新千歲 CTS",
-     "to": "桃園 TPE",
-     "dep": "約 13:00",
-     "arr": "16:20",
-     "body": "新千歲國際線航廈"
-    },
-    {
-     "t": "長榮航空 BR 116（B 組去程）",
-     "sub": "07/04（日）",
-     "from": "桃園 TPE",
-     "to": "札幌新千歲 CTS",
-     "dep": "約 10:10",
-     "arr": "15:00",
-     "body": "桃園第二航廈"
-    },
-    {
-     "t": "長榮航空 BR 115（B 組回程）",
-     "sub": "07/09（五）",
-     "from": "札幌新千歲 CTS",
-     "to": "桃園 TPE",
-     "dep": "約 16:15",
-     "arr": "19:15",
-     "body": "新千歲國際線航廈"
+     "t": "自由行",
+     "items": [
+      "本行程為自由行，航班請依各自機票為準",
+      "行李與入住時間以住宿規定為準"
+     ]
     }
    ]
   },
@@ -554,28 +536,6 @@ window.DATA = {
       "scale": 48.41821766550073
      },
      {
-      "src": "img/route-SPK270704F/airport-0.jpg",
-      "bounds": [
-       221.10896888888888,
-       88.21019827657291,
-       15.3,
-       12.15
-      ],
-      "kind": "ne",
-      "scale": 160
-     },
-     {
-      "src": "img/route-SPK270704F/airport-7.jpg",
-      "bounds": [
-       206.56013475555554,
-       103.49370179403654,
-       15.3,
-       12.15
-      ],
-      "kind": "ne",
-      "scale": 160
-     },
-     {
       "src": "img/route-SPK270704F/region.jpg",
       "bounds": [
        222.88073829454902,
@@ -585,6 +545,28 @@ window.DATA = {
       ],
       "kind": "ne",
       "scale": 207.2843227897421
+     },
+     {
+      "src": "img/route-SPK270704F/airport-0.jpg",
+      "bounds": [
+       225.69896888888888,
+       91.8551982765729,
+       6.12,
+       4.86
+      ],
+      "kind": "ne",
+      "scale": 400
+     },
+     {
+      "src": "img/route-SPK270704F/airport-7.jpg",
+      "bounds": [
+       211.15013475555554,
+       107.13870179403654,
+       6.12,
+       4.86
+      ],
+      "kind": "ne",
+      "scale": 400
      },
      {
       "src": "img/route-SPK270704F/local.jpg",
@@ -911,6 +893,8 @@ window.DATA = {
   },
   {
    "type": "food",
+   "kick": "札幌",
+   "title": "烤肉與湯咖哩",
    "items": [
     {
      "t": "成吉思汗達摩本店",
@@ -941,6 +925,20 @@ window.DATA = {
      "sub": "札幌",
      "body": "札幌湯咖哩三大名店之一，湯頭濃厚、配料大塊",
      "img": "img/food-curry2.jpg"
+    }
+   ],
+   "variant": "chopsticks"
+  },
+  {
+   "type": "food",
+   "kick": "札幌",
+   "title": "拉麵與海鮮市場",
+   "items": [
+    {
+     "t": "一幻拉麵",
+     "sub": "札幌",
+     "body": "以蝦湯頭聞名的札幌拉麵名店，湯底濃郁",
+     "img": "img/food-ichigen.jpg"
     },
     {
      "t": "一粒庵 味噌拉麵",
@@ -965,31 +963,21 @@ window.DATA = {
      "sub": "札幌・二條市場",
      "body": "根室漁港直送的螃蟹料理，位於二條市場旁",
      "img": "img/food-crab.jpg"
+    },
+    {
+     "t": "根室花丸 迴轉壽司",
+     "sub": "札幌",
+     "body": "北海道平價人氣迴轉壽司，適合回程前補一餐",
+     "img": "img/food-kaiten-sushi.jpg"
     }
    ],
    "variant": "chopsticks"
   },
   {
    "type": "food",
+   "kick": "小樽・富良野・美瑛",
+   "title": "海膽、壽司與近郊美味",
    "items": [
-    {
-     "t": "札幌蟹本家",
-     "sub": "札幌・薄野",
-     "body": "螃蟹料理專門店，薄野一帶有分店，蟹鍋與蟹腳吃到飽足",
-     "img": "img/food-crab.jpg"
-    },
-    {
-     "t": "根室花丸 迴轉壽司",
-     "sub": "札幌",
-     "body": "北海道平價人氣迴轉壽司，適合回程前補一餐",
-     "img": "img/food-kaiten.jpg"
-    },
-    {
-     "t": "六花亭 札幌本店",
-     "sub": "札幌",
-     "body": "北海道代表性的菓子店，葡萄奶油夾心餅乾是招牌，可買伴手禮",
-     "img": "img/food-roka.jpg"
-    },
     {
      "t": "三角市場海膽丼",
      "sub": "小樽",
@@ -1019,6 +1007,56 @@ window.DATA = {
      "sub": "美瑛",
      "body": "美瑛在地農產與餐飲複合設施，可買農產品與甜點，順路休息",
      "img": "img/hokkaido-igg-biei-hills.jpg"
+    }
+   ],
+   "variant": "chopsticks"
+  },
+  {
+   "type": "food",
+   "kick": "伴手禮",
+   "title": "北海道人氣伴手禮",
+   "items": [
+    {
+     "t": "白色戀人",
+     "sub": "石屋製菓",
+     "body": "白巧克力夾在薄脆餅乾之間，北海道最具代表的伴手禮",
+     "img": "img/gift-shiroi.jpg"
+    },
+    {
+     "t": "ROYCE' 生巧克力",
+     "sub": "ROYCE'",
+     "body": "入口即化的生巧克力，新千歲機場與市區都買得到",
+     "img": "img/gift-royce.jpg"
+    },
+    {
+     "t": "六花亭 奶油夾心餅乾",
+     "sub": "六花亭",
+     "body": "葡萄乾與奶油夾心，六花亭的招牌點心",
+     "img": "img/gift-marusei.jpg"
+    },
+    {
+     "t": "六花亭 酥脆千層派",
+     "sub": "六花亭",
+     "body": "現烤酥皮的人氣點心，保存期限短，適合當天吃",
+     "img": "img/gift-sakusaku.jpg"
+    },
+    {
+     "t": "Calbee じゃがポックル",
+     "sub": "Calbee",
+     "body": "北海道限定的馬鈴薯條，口味清爽",
+     "img": "img/gift-jaga.jpg"
+    },
+    {
+     "t": "北菓樓 開拓おかき",
+     "sub": "北菓樓",
+     "body": "北海道甜蝦風味的米果，鹹香好配茶",
+     "img": "img/gift-kitakaro.jpg"
+    },
+    {
+     "t": "柳月 三方六",
+     "sub": "柳月",
+     "body": "以北海道木柴為造型的年輪蛋糕",
+     "img": "img/gift-sanpo.jpg"
     }
    ],
    "variant": "chopsticks"
@@ -1079,7 +1117,22 @@ window.DATA = {
   },
   {
    "type": "end",
-   "body": "旅途愉快"
+   "body": "旅途愉快",
+   "items": [
+    {
+     "img": "img/hokkaido-igg-furano-tomita.jpg"
+    },
+    {
+     "img": "img/hokkaido-igg-biei-hills.jpg"
+    },
+    {
+     "img": "img/hokkaido-igg-canal.jpg"
+    },
+    {
+     "img": "img/hokkaido-igg-yotei.jpg"
+    }
+   ],
+   "img": "img/hokkaido-igg-biei-aoiike.jpg"
   }
  ]
-}
+};
