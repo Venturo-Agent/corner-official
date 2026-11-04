@@ -417,7 +417,7 @@ window.DATA = {
       "day": "01",
       "dayIndex": 0,
       "arrival": "arrival",
-      "duration": "",
+      "duration": "約 4 小時",
       "position": null,
       "carrier": "長榮航空　BR 166（A 組去程）",
       "source": "flights"
@@ -805,9 +805,12 @@ window.DATA = {
    "type": "spot",
    "title": "大通公園與札幌電視塔",
    "en": "Odori Park",
-   "sub": "第 1 天",
-   "body": "札幌市中心的綠帶，夏天有啤酒園與花壇，電視塔可上展望台看市區。",
-   "tags": [],
+   "sub": "札幌",
+   "body": "東西橫貫市中心約 1.5 公里的綠帶，夏季花壇盛開；東端的札幌電視塔高約 147 公尺，展望台可俯瞰棋盤式街區。",
+   "tags": [
+    "地鐵大通站",
+    "電視塔展望台"
+   ],
    "items": [
     {
      "img": "img/hokkaido-igg-odori.jpg",
@@ -820,9 +823,11 @@ window.DATA = {
    "type": "spot",
    "title": "北海道神宮",
    "en": "Hokkaido Shrine",
-   "sub": "第 2 天",
-   "body": "位於圓山公園旁的神社，是札幌市民參拜的老地方。",
-   "tags": [],
+   "sub": "札幌",
+   "body": "位於圓山公園內，明治時代為守護開拓而創建，祭祀開拓三神與明治天皇，境內樹林成蔭，是札幌人參拜與散步的老地方。",
+   "tags": [
+    "圓山公園站步行約 15 分"
+   ],
    "items": [
     {
      "img": "img/hokkaido-igg-jingu.jpg",
@@ -835,9 +840,12 @@ window.DATA = {
    "type": "spot",
    "title": "小樽運河",
    "en": "Otaru Canal",
-   "sub": "第 3 天",
-   "body": "紅磚倉庫沿水路排開，傍晚點燈後最有氣氛。",
-   "tags": [],
+   "sub": "小樽",
+   "body": "1923 年完工的運河全長約 1,140 公尺，一側保留紅磚倉庫與石造步道，傍晚點亮煤氣燈後最有氣氛。",
+   "tags": [
+    "小樽站步行約 10 分",
+    "堺町通順路"
+   ],
    "items": [
     {
      "img": "img/hokkaido-igg-canal.jpg",
@@ -850,9 +858,11 @@ window.DATA = {
    "type": "spot",
    "title": "美瑛丘陵",
    "en": "Biei Hills",
-   "sub": "第 4 天",
-   "body": "一片片起伏的田野與花帶，是北海道夏天的代表風景。",
-   "tags": [],
+   "sub": "美瑛・富良野",
+   "body": "起伏丘陵上拼貼著田野與花帶，沿途停靠幾處展望點，就是北海道夏天的明信片風景。",
+   "tags": [
+    "札幌出發車程約 2.5 小時"
+   ],
    "items": [
     {
      "img": "img/hokkaido-igg-biei-hills.jpg",
@@ -865,9 +875,11 @@ window.DATA = {
    "type": "spot",
    "title": "富良野薰衣草花田",
    "en": "Furano",
-   "sub": "第 4 天",
-   "body": "富田農場一帶的花田，盛期約在 7 月中下旬，7 月初為初開。",
-   "tags": [],
+   "sub": "美瑛・富良野",
+   "body": "富田農場一帶的花田，薰衣草盛期約 7 月中下旬，7 月初只有早開品種與其他花帶，出發前宜先查農場開花狀況。",
+   "tags": [
+    "花季偏早"
+   ],
    "items": [
     {
      "img": "img/hokkaido-igg-furano-tomita.jpg",
@@ -880,9 +892,11 @@ window.DATA = {
    "type": "spot",
    "title": "美瑛青池",
    "en": "Blue Pond",
-   "sub": "第 4 天",
-   "body": "湖水呈現獨特的乳藍色，在美瑛可與花田順路安排。",
-   "tags": [],
+   "sub": "美瑛・富良野",
+   "body": "因防範十勝岳火山泥流所築的堰堤蓄水而成，湖水呈乳藍色，水中立著枯木，光線與天候不同色澤也不同。",
+   "tags": [
+    "與花田順路"
+   ],
    "items": [
     {
      "img": "img/hokkaido-igg-biei-aoiike.jpg",
