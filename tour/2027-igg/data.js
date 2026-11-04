@@ -184,21 +184,21 @@ window.DATA = {
    "type": "flight",
    "items": [
     {
-     "t": "長榮航空 BR 166／BR 116",
+     "t": "長榮航空 BR 166",
      "sub": "07/04（日）",
      "from": "桃園 TPE",
      "to": "札幌新千歲 CTS",
      "dep": "約 06:55",
-     "arr": "11:55 （搭 BR116 則約 10:10",
+     "arr": "11:55",
      "body": "桃園第二航廈"
     },
     {
-     "t": "長榮航空 BR 165／BR 115",
+     "t": "長榮航空 BR 165",
      "sub": "07/09（五）",
      "from": "札幌新千歲 CTS",
      "to": "桃園 TPE",
      "dep": "約 13:00",
-     "arr": "16:20 （搭 BR115 則約 16:15",
+     "arr": "16:20",
      "body": "新千歲國際線航廈"
     }
    ]
@@ -354,7 +354,7 @@ window.DATA = {
       "arrival": "arrival",
       "duration": "",
       "position": null,
-      "carrier": "長榮航空　BR 166／BR 116",
+      "carrier": "長榮航空　BR 166",
       "source": "flights"
      },
      {
@@ -422,7 +422,7 @@ window.DATA = {
       "arrival": "arrival",
       "duration": "",
       "position": null,
-      "carrier": "長榮航空　BR 165／BR 115",
+      "carrier": "長榮航空　BR 165",
       "source": "flights"
      }
     ],
@@ -438,7 +438,7 @@ window.DATA = {
       "arrival": "arrival",
       "duration": "",
       "position": null,
-      "carrier": "長榮航空　BR 166／BR 116",
+      "carrier": "長榮航空　BR 166",
       "source": "flights"
      },
      {
@@ -452,7 +452,7 @@ window.DATA = {
       "arrival": "arrival",
       "duration": "",
       "position": null,
-      "carrier": "長榮航空　BR 165／BR 115",
+      "carrier": "長榮航空　BR 165",
       "source": "flights"
      }
     ],
