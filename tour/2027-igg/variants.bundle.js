@@ -3846,12 +3846,14 @@ M.add('qa', 'tiers', { name: '詳略兩級', range: [5, 10], html: c => {
   .rt-map img{position:absolute;max-width:none;transform-origin:0 0}.rt-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
   .rt-pin{position:absolute;left:0;top:0;width:36px;height:36px;border-radius:50%;background:var(--acc);color:white;border:3px solid var(--paper);display:grid;place-items:center;font-size:18px;font-weight:700}
   .rt-pin.rt-shared{width:max-content;display:flex;align-items:center;gap:6px;padding:0 9px;border-radius:18px}
+  .rt-pin.rt-named{width:max-content;display:flex;gap:7px;padding:0 12px;border-radius:18px;white-space:nowrap}.rt-pin .rt-tag{display:none;font:600 20px var(--sans)}.rt-pin.rt-named .rt-tag{display:inline}
   .rt-pin.rt-crowded{width:10px;height:10px;min-width:0;padding:0;border-width:2px}.rt-pin.rt-crowded span{display:none}
   .rt-rail{position:absolute;left:1360px;top:0;width:560px;height:1080px;background:var(--paper);padding:64px 70px}
   .rt-title{font:700 46px/1.45 var(--serif);margin:38px 0 24px;overflow-wrap:anywhere}
   .rt-list{position:absolute;top:444px;left:70px;right:70px;height:422px;display:flex;flex-direction:column;justify-content:${n>10?'flex-start':'space-evenly'};overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--acc) var(--paper)}
   .rt-stop{display:flex;flex-shrink:0;min-height:40px;gap:14px;align-items:center;font-size:${n>8?20:24}px;line-height:1.45}.rt-stop em{font:600 18px var(--sans);color:var(--acc);min-width:30px}.rt-stop[hidden]{display:none}.rt-stop>div{min-width:0;overflow-wrap:anywhere}.rt-stop.active{color:var(--acc);font-weight:700}
   .rt-phase{position:absolute;left:44px;top:40px;max-width:1200px;padding:16px 24px;background:var(--paper);font:600 28px var(--serif)}
+  .rt-clock{position:absolute;left:44px;top:132px;padding:14px 24px;background:var(--paper);font:700 40px var(--serif);font-variant-numeric:tabular-nums;display:none}.rt-clock small{font:500 20px var(--sans);color:var(--mute);margin-right:12px}
   .rt-credit{position:absolute;bottom:22px;left:28px;padding:8px 12px;background:var(--paper);font-size:16px}
   .rt-legend{position:absolute;left:70px;right:70px;bottom:110px;display:flex;gap:16px;flex-wrap:wrap;font-size:18px}.rt-legend div{display:flex;gap:8px;align-items:center}
   .rt-replay{position:absolute;left:70px;bottom:50px;background:transparent;border:0;border-bottom:1px solid var(--acc);padding:8px 0;color:var(--acc);font:500 20px var(--sans);cursor:pointer}
@@ -3862,10 +3864,11 @@ M.add('qa', 'tiers', { name: '詳略兩級', range: [5, 10], html: c => {
   ${r.segments.map((s,i)=>`<g class="rt-segment"><path fill="none" stroke="${modes[s.mode]?.[2]||'var(--acc)'}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${modes[s.mode]?.[1]||''}"/></g>`).join('')}
   <g class="rt-plane" fill="var(--acc)" stroke="var(--paper)" stroke-width="1.5"><path d="M24 0 L3 -6 L-6 -23 L-12 -23 L-9 -5 L-23 -8 L-28 -14 L-32 -14 L-29 0 L-32 14 L-28 14 L-23 8 L-9 5 L-12 23 L-6 23 L3 6 Z"/></g>
   <circle class="rt-cursor" r="12" fill="var(--acc2)" stroke="white" stroke-width="4"/></svg>
-  ${pinGroups(r.stops).map(g=>`<div class="rt-pin${g.length>1?' rt-shared':''}" data-id="${U.esc(g[0].p.id)}">${g.map(({p,i})=>c.ed('pin'+p.id,String(i+1).padStart(2,'0'))).join(c.ed('pin-separator','·'))}</div>`).join('')}
+  ${pinGroups(r.stops).map(g=>`<div class="rt-pin${g.length>1?' rt-shared':''}" data-id="${U.esc(g[0].p.id)}">${g.map(({p,i})=>c.ed('pin'+p.id,String(i+1).padStart(2,'0'))).join(c.ed('pin-separator','·'))}<span class="rt-tag">${U.esc(safe(g[0].p.name))}</span></div>`).join('')}
   ${r.from&&r.to?`<div class="rt-endpoint rt-origin">${c.ed('origin',safe(r.from.name))}</div><div class="rt-endpoint rt-destination">${c.ed('destination',safe(r.to.name))}</div>`:''}
   ${variant==='split'?`<div class="rt-split" style="position:absolute;inset:0;pointer-events:none;overflow:hidden">${[0,1].map(side=>`<div class="rt-pane" style="position:absolute;left:0;top:${side*540}px;width:1360px;height:540px;overflow:hidden;background:var(--paper);border-bottom:4px solid var(--paper)">${r.layers.map(l=>`<img src="${U.esc(l.src)}" alt="" draggable="false">`).join('')}<div style="position:absolute;left:680px;top:270px;width:18px;height:18px;background:var(--acc);border:3px solid var(--paper);border-radius:50%"></div><div style="position:absolute;left:720px;top:280px;max-width:570px;background:var(--paper);padding:12px;font-size:28px">${r.segments.map((s,i)=>`<div data-split-leg="${i}">${c.ed('split'+side+'-'+i,safe(r.stops.find(p=>p.id===(side?s.to:s.from))?.name))}</div>`).join('')}</div></div>`).join('')}</div>`:''}
   <div class="rt-phase"><div data-phase="flight">${c.ed('flight-phase','從出發到抵達')}</div>${r.segments.map((s,i)=>`<div data-phase="${i}" hidden><div data-travel="${i}">${c.ed('phase'+i,`第 ${+s.day||s.day} 天　${safe(r.stops.find(p=>p.id===s.from)?.name)} → ${safe(r.stops.find(p=>p.id===s.to)?.name)}`)}</div><div data-arrival="${i}" hidden>${c.ed('arrival'+i,`${s.arrival==='transfer'?'轉機':s.arrival==='stopover'?'經停 · 同班機續飛':s.arrival==='stop'?'中途停留':s.mode==='flight'?'抵達':'到站'}　${safe(r.stops.find(p=>p.id===s.to)?.name)}${s.duration?'　'+safe(s.duration):''}`)}</div></div>`).join('')}<div data-phase="overview" hidden>${c.ed('overview-phase','全程航線 · 逐站展開')}</div><div data-phase="final" hidden>${c.ed('final-phase','旅途足跡')}</div></div>
+  <div class="rt-clock"><small>飛行時間</small><span></span></div>
   <div class="rt-credit">${c.ed('credit','© OpenStreetMap contributors · Natural Earth')}</div></div>
   <aside class="rt-rail"><div style="font-size:20px;color:var(--acc)">${c.ed('agency',safe(c.meta.agency))}</div>
   <h2 class="rt-title">${c.ed('title',safe(c.p.title||r.title))}</h2>
@@ -3876,7 +3879,7 @@ M.add('qa', 'tiers', { name: '詳略兩級', range: [5, 10], html: c => {
  }
  function timeline(r,mode){
   let t=mode==='atlas'&&r.segments.length?2400:0
-  const seen=new Set(),events=r.segments.map((s,i)=>{const fly=s.mode==='flight',back=!fly&&seen.has(s.to),travel=fly?({continuous:4400,cut:3000,follow:3800,split:4800,atlas:2400}[mode]||3000):back?400:1100,hold=fly?(['transfer','stopover','stop'].includes(s.arrival)?1800:1100):back?0:700;seen.add(s.from);seen.add(s.to),e={i,start:t,travel,hold,end:t+travel+hold};t=e.end;return e})
+  const seen=new Set(),events=r.segments.map((s,i)=>{const fly=s.mode==='flight',back=!fly&&seen.has(s.to),travel=fly?({continuous:5200,cut:3000,follow:3800,split:4800,atlas:2400}[mode]||3000):back?400:1100,hold=fly?(['transfer','stopover','stop'].includes(s.arrival)?1800:mode==='continuous'&&r.segments[i+1]&&r.segments[i+1].mode!=='flight'?3000:1100):back?0:700;seen.add(s.from);seen.add(s.to),e={i,start:t,travel,hold,end:t+travel+hold};t=e.end;return e})
   return {events,total:t+1200,intro:mode==='atlas'&&r.segments.length?2400:0}
  }
  function mount(el,c,variant){
@@ -3886,7 +3889,7 @@ M.add('qa', 'tiers', { name: '詳略兩級', range: [5, 10], html: c => {
   const media=matchMedia('(prefers-reduced-motion: reduce)'),q=new URLSearchParams(location.search),clock=timeline(r,mode)
   let raf=0,dead=false,lastActive=null
   const fitPoints=(ps,cap=120)=>{const xs=ps.map(p=>p[0]),ys=ps.map(p=>p[1]);return {x:(Math.min(...xs)+Math.max(...xs))/2,y:(Math.min(...ys)+Math.max(...ys))/2,s:Math.min(cap,(W-400)/Math.max(.1,Math.max(...xs)-Math.min(...xs)),(H-420)/Math.max(.1,Math.max(...ys)-Math.min(...ys)))}}
-  const gp=r.segments.some(g=>g.mode!=='flight')?r.stops.filter(p=>!p.air).map(p=>p.pos):[],ground=gp.length?(()=>{const g=fitPoints(gp,Math.max(120,r.final.s*.6));return {...g,s:Math.min(g.s,r.final.s)}})():null
+  const gp=r.segments.some(g=>g.mode!=='flight')?r.stops.filter(p=>!p.air).map(p=>p.pos):[],ground=gp.length?(()=>{const g=fitPoints(gp,Math.max(120,r.final.s*.6));return {x:r.final.x,y:r.final.y,s:Math.min(g.s,r.final.s)}})():null
   const curve=(s,u)=>{const a=byId[s.from].pos,b=byId[s.to].pos,control=[(a[0]+b[0])/2,(a[1]+b[1])/2-Math.abs(b[0]-a[0])*.15];return {a,b,control,p:a.map((v,k)=>s.mode==='flight'?(1-u)**2*v+2*(1-u)*u*control[k]+u*u*b[k]:mix(v,b[k],u))}}
   function maps(nodes,cam,height=H){
    const at=p=>[(p[0]-cam.x)*cam.s+W/2,(p[1]-cam.y)*cam.s+height/2]
@@ -3904,14 +3907,15 @@ M.add('qa', 'tiers', { name: '詳略兩級', range: [5, 10], html: c => {
     if(mode==='follow')cam={x:geo.p[0],y:geo.p[1],s:wide.s*2.1}
     else if(mode==='atlas')cam=u<.6?fitPoints([geo.a,geo.p]):near
     else if(mode==='cut'||mode==='split')cam=landed?near:wide
+    else if(ground&&r.segments[idx+1]&&r.segments[idx+1].mode!=='flight'){const mid={x:geo.p[0],y:geo.p[1],s:wide.s*3};cam=landed?camera({x:geo.b[0],y:geo.b[1],s:wide.s*3},ground,ease(cl((t-event.start-event.travel)/event.hold))):camera(wide,mid,u)}
     else cam=camera(wide,near,cl(u*1.4))
-    if(s.mode!=='flight'){const pf=idx>0&&r.segments[idx-1].mode==='flight'&&byId[r.segments[idx-1].to].pos;cam=pf?camera({x:pf[0],y:pf[1],s:Math.min(1000,r.final.s)},ground,u):ground}
+    if(s.mode!=='flight'){const pf=mode!=='continuous'&&idx>0&&r.segments[idx-1].mode==='flight'&&byId[r.segments[idx-1].to].pos;cam=pf?camera({x:pf[0],y:pf[1],s:Math.min(1000,r.final.s)},ground,u):ground}
    }else if(final&&ground)cam=ground
    maps(images,cam)
    const at=p=>[(p[0]-cam.x)*cam.s+W/2,(p[1]-cam.y)*cam.s+H/2]
    const occupied=[]
    ;[...pins].sort((a,b)=>Number(b.dataset.id===s?.to)-Number(a.dataset.id===s?.to)).forEach(pin=>{
-    pin.classList.remove('rt-crowded');const v=at(byId[pin.dataset.id].pos),w=pin.offsetWidth,h=36
+    pin.classList.remove('rt-crowded');pin.classList.toggle('rt-named',!!ground&&cam.s>=ground.s*.9&&!byId[pin.dataset.id].air);const v=at(byId[pin.dataset.id].pos),w=pin.offsetWidth,h=36
     const crowded=occupied.some(p=>Math.abs(p.x-v[0])<(p.w+w)/2+10&&Math.abs(p.y-v[1])<h+8)
     pin.classList.toggle('rt-crowded',crowded);const half=pin.offsetWidth/2,hh=pin.offsetHeight/2,visible=v[0]>half+2&&v[0]<W-half-2&&v[1]>155&&v[1]<H-90
     if(!crowded&&visible)occupied.push({x:v[0],y:v[1],w})
@@ -3921,6 +3925,8 @@ M.add('qa', 'tiers', { name: '詳略兩級', range: [5, 10], html: c => {
     path.setAttribute('d',segment.mode==='flight'?`M${a} Q${partial} ${z}`:`M${a} L${z}`);path.dataset.progress=String(progress);groups[i].style.opacity=progress>0?1:0
    })
    $('.rt-flight').style.display='none'
+   {const ck=$('.rt-clock'),m=s?.mode==='flight'&&/(\d+(?:\.\d+)?)\s*小時(?:\s*(\d+)\s*分)?/.exec(s.duration||'');ck.style.display=m?'block':'none'
+    if(m){const tot=Math.round(m[1]*60+(+m[2]||0)),n=Math.round(tot*(landed?1:u)),f=v=>Math.floor(v/60)+':'+String(v%60).padStart(2,'0');ck.lastChild.textContent=f(n)+' / '+f(tot)}}
    const plane=$('.rt-plane'),cursor=$('.rt-cursor');plane.style.opacity=s?.mode==='flight'?1:0;cursor.style.opacity=s&&s.mode!=='flight'?1:0
    if(s){const pos=at(geo.p),tangent=geo.a.map((v,k)=>2*(1-u)*(geo.control[k]-v)+2*u*(geo.b[k]-geo.control[k]));plane.setAttribute('transform',`translate(${pos}) rotate(${Math.atan2(tangent[1],tangent[0])*180/Math.PI}) scale(${landed?.65:1})`);cursor.setAttribute('cx',pos[0]);cursor.setAttribute('cy',pos[1])}
    $$('.rt-origin,.rt-destination').forEach(e=>e.style.visibility='hidden')
