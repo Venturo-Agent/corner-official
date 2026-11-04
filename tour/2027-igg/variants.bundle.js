@@ -2938,7 +2938,7 @@ M.add('notice', 'photo', { name: '照片＋清單', range: [1, 3], html: c => {
   const n = c.n, PW = 680, X = PW + 90, W = 1800 - X, T = 90, B = 1000, cl = ['var(--acc)', 'var(--acc2)', 'var(--acc3)']
   const img = c.p.img || c.meta.hero
   const need = fs => c.items.reduce((a, it) => a + fs * 1.3 * 1.35 + 22 + (it.items || []).reduce((s, x) => s + lines(x, W - fs - 20, fs) * fs * 1.5 + 8, 0), 0) + (n - 1) * 44
-  let fs = 22; for (const f of [32, 30, 28, 26, 24, 22]) if (need(f) <= B - T) { fs = f; break }
+  let fs = 22; for (const f of [38, 36, 34, 32, 30, 28, 26, 24, 22]) if (need(f) <= B - T) { fs = f; break }
   const pad = Math.max(0, (B - T - need(fs)) / 2)
   return `<img class="hero" src="${img}" alt="" style="position:absolute;left:0;top:0;width:${PW}px;height:1080px;object-fit:cover">
     <div class="ab" style="left:0;top:0;width:${PW}px;height:1080px;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.72))"></div>
