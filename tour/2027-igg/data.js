@@ -18,6 +18,21 @@ window.DATA = {
     "reason": "未提供正式場所ID；名稱及s0不是綁定"
    },
    {
+    "path": "gallery[3]",
+    "status": "unbound",
+    "reason": "未提供正式場所ID；名稱及s0不是綁定"
+   },
+   {
+    "path": "gallery[4]",
+    "status": "unbound",
+    "reason": "未提供正式場所ID；名稱及s0不是綁定"
+   },
+   {
+    "path": "gallery[5]",
+    "status": "unbound",
+    "reason": "未提供正式場所ID；名稱及s0不是綁定"
+   },
+   {
     "path": "dining[0]",
     "status": "unbound",
     "reason": "未提供正式場所ID；名稱及s0不是綁定"
@@ -64,6 +79,46 @@ window.DATA = {
    },
    {
     "path": "dining[9]",
+    "status": "unbound",
+    "reason": "未提供正式場所ID；名稱及s0不是綁定"
+   },
+   {
+    "path": "dining[10]",
+    "status": "unbound",
+    "reason": "未提供正式場所ID；名稱及s0不是綁定"
+   },
+   {
+    "path": "dining[11]",
+    "status": "unbound",
+    "reason": "未提供正式場所ID；名稱及s0不是綁定"
+   },
+   {
+    "path": "dining[12]",
+    "status": "unbound",
+    "reason": "未提供正式場所ID；名稱及s0不是綁定"
+   },
+   {
+    "path": "dining[13]",
+    "status": "unbound",
+    "reason": "未提供正式場所ID；名稱及s0不是綁定"
+   },
+   {
+    "path": "dining[14]",
+    "status": "unbound",
+    "reason": "未提供正式場所ID；名稱及s0不是綁定"
+   },
+   {
+    "path": "dining[15]",
+    "status": "unbound",
+    "reason": "未提供正式場所ID；名稱及s0不是綁定"
+   },
+   {
+    "path": "dining[16]",
+    "status": "unbound",
+    "reason": "未提供正式場所ID；名稱及s0不是綁定"
+   },
+   {
+    "path": "dining[17]",
     "status": "unbound",
     "reason": "未提供正式場所ID；名稱及s0不是綁定"
    },
@@ -116,9 +171,11 @@ window.DATA = {
    "img/hokkaido-igg-canal.jpg",
    "img/hokkaido-igg-odori.jpg",
    "img/hokkaido-igg-jingu.jpg",
-   "img/hokkaido-igg-yotei.jpg",
-   "img/hokkaido-igg-tanuki.jpg",
-   "img/hokkaido-igg-nijo.jpg"
+   "img/hokkaido-igg-furano-tomita.jpg",
+   "img/hokkaido-igg-moiwa.jpg",
+   "img/hokkaido-igg-nijo.jpg",
+   "img/hokkaido-igg-biei-hills.jpg",
+   "img/hokkaido-igg-biei-aoiike.jpg"
   ],
   "photoSizes": {
    "img/hokkaido-igg-canal.jpg": {
@@ -133,17 +190,25 @@ window.DATA = {
     "w": 1600,
     "h": 1200
    },
-   "img/hokkaido-igg-yotei.jpg": {
-    "w": 1600,
-    "h": 899
-   },
-   "img/hokkaido-igg-tanuki.jpg": {
+   "img/hokkaido-igg-furano-tomita.jpg": {
     "w": 1600,
     "h": 1067
+   },
+   "img/hokkaido-igg-moiwa.jpg": {
+    "w": 1600,
+    "h": 900
    },
    "img/hokkaido-igg-nijo.jpg": {
     "w": 1600,
     "h": 1200
+   },
+   "img/hokkaido-igg-biei-hills.jpg": {
+    "w": 900,
+    "h": 600
+   },
+   "img/hokkaido-igg-biei-aoiike.jpg": {
+    "w": 1920,
+    "h": 1280
    }
   }
  },
@@ -172,11 +237,11 @@ window.DATA = {
     },
     {
      "t": "注意事項",
-     "img": "img/hokkaido-igg-canal.jpg"
+     "img": "img/hokkaido-igg-biei-hills.jpg"
     },
     {
      "t": "常見問題",
-     "img": "img/hokkaido-igg-odori.jpg"
+     "img": "img/hokkaido-igg-biei-aoiike.jpg"
     }
    ]
   },
@@ -376,20 +441,6 @@ window.DATA = {
       "source": "flights"
      },
      {
-      "flightIndex": 2,
-      "part": 0,
-      "from": "air-TPE",
-      "to": "s0",
-      "mode": "flight",
-      "day": "01",
-      "dayIndex": 0,
-      "arrival": "arrival",
-      "duration": "",
-      "position": null,
-      "carrier": "長榮航空　BR 116（B 組去程）",
-      "source": "flights"
-     },
-     {
       "day": "01",
       "from": "s0",
       "to": "s1",
@@ -442,34 +493,6 @@ window.DATA = {
       "from": "s1",
       "to": "s0",
       "mode": "unknown"
-     },
-     {
-      "flightIndex": 3,
-      "part": 0,
-      "from": "s0",
-      "to": "air-TPE",
-      "mode": "flight",
-      "day": "06",
-      "dayIndex": 5,
-      "arrival": "arrival",
-      "duration": "",
-      "position": null,
-      "carrier": "長榮航空　BR 115（B 組回程）",
-      "source": "flights"
-     },
-     {
-      "flightIndex": 1,
-      "part": 0,
-      "from": "s0",
-      "to": "air-TPE",
-      "mode": "flight",
-      "day": "06",
-      "dayIndex": 5,
-      "arrival": "arrival",
-      "duration": "",
-      "position": null,
-      "carrier": "長榮航空　BR 165（A 組回程）",
-      "source": "flights"
      }
     ],
     "flights": [
@@ -486,57 +509,15 @@ window.DATA = {
       "position": null,
       "carrier": "長榮航空　BR 166（A 組去程）",
       "source": "flights"
-     },
-     {
-      "flightIndex": 2,
-      "part": 0,
-      "from": "air-TPE",
-      "to": "s0",
-      "mode": "flight",
-      "day": "01",
-      "dayIndex": 0,
-      "arrival": "arrival",
-      "duration": "",
-      "position": null,
-      "carrier": "長榮航空　BR 116（B 組去程）",
-      "source": "flights"
-     },
-     {
-      "flightIndex": 3,
-      "part": 0,
-      "from": "s0",
-      "to": "air-TPE",
-      "mode": "flight",
-      "day": "06",
-      "dayIndex": 5,
-      "arrival": "arrival",
-      "duration": "",
-      "position": null,
-      "carrier": "長榮航空　BR 115（B 組回程）",
-      "source": "flights"
-     },
-     {
-      "flightIndex": 1,
-      "part": 0,
-      "from": "s0",
-      "to": "air-TPE",
-      "mode": "flight",
-      "day": "06",
-      "dayIndex": 5,
-      "arrival": "arrival",
-      "duration": "",
-      "position": null,
-      "carrier": "長榮航空　BR 165（A 組回程）",
-      "source": "flights"
      }
     ],
     "skipped": [],
     "coverage": {
-     "sourceFlightRows": 4,
-     "expandedFlightLegs": 4,
-     "drawnFlightLegs": 4,
+     "sourceFlightRows": 1,
+     "expandedFlightLegs": 1,
+     "drawnFlightLegs": 1,
      "points": 8,
-     "lines": 13,
+     "lines": 10,
      "skipped": []
     },
     "start": {
@@ -645,13 +626,13 @@ window.DATA = {
     {
      "t": " 夏日花田一日",
      "sub": "07.07 WED",
-     "img": "img/hokkaido-igg-yotei.jpg",
+     "img": "img/hokkaido-igg-furano-tomita.jpg",
      "body": "札幌 → 美瑛 → 富良野 → 札幌"
     },
     {
      "t": " 最後一晚的札幌",
      "sub": "07.08 THU",
-     "img": "img/hokkaido-igg-tanuki.jpg",
+     "img": "img/hokkaido-igg-moiwa.jpg",
      "body": "札幌近郊"
     },
     {
@@ -679,11 +660,11 @@ window.DATA = {
      "time": "11:55"
     },
     {
-     "t": "JR 快速 Airport 約 40 分進札幌",
+     "t": "JR 快速 Airport 新千歲機場→札幌約 40 分，班次密、不用預約",
      "time": ""
     },
     {
-     "t": "入住後逛大通公園與札幌電視塔",
+     "t": "入住後步行逛大通公園與札幌電視塔（札幌站走路約 15 分，或搭地鐵 1 站）",
      "time": ""
     },
     {
@@ -701,19 +682,19 @@ window.DATA = {
    "img2": null,
    "items": [
     {
-     "t": "上午：北海道神宮",
+     "t": "上午：北海道神宮（地下鐵東西線「圓山公園」站步行約 15 分）",
      "time": ""
     },
     {
-     "t": "午餐：二條市場海鮮丼",
+     "t": "午餐：二條市場海鮮丼（大通步行約 10 分）",
      "time": ""
     },
     {
-     "t": "下午：舊道廳紅磚館與時計台",
+     "t": "下午：舊道廳紅磚館與時計台（札幌站步行約 10–15 分）",
      "time": ""
     },
     {
-     "t": "狸小路逛街",
+     "t": "狸小路逛街（地鐵「薄野」站出口即是）",
      "time": ""
     },
     {
@@ -731,23 +712,23 @@ window.DATA = {
    "img2": null,
    "items": [
     {
-     "t": "JR 札幌往小樽約 40 分",
+     "t": "札幌站搭 JR 快速往小樽約 40 分，每小時數班",
      "time": ""
     },
     {
-     "t": "小樽運河與倉庫群",
+     "t": "小樽運河與倉庫群（小樽站步行約 10 分）",
      "time": ""
     },
     {
-     "t": "堺町通：北一硝子、LeTAO、北菓樓",
+     "t": "堺町通：北一硝子、LeTAO、北菓樓（運河步行約 10 分）",
      "time": ""
     },
     {
-     "t": "午餐：三角市場海膽丼",
+     "t": "午餐：三角市場海膽丼（小樽站旁，步行約 3 分）",
      "time": ""
     },
     {
-     "t": "下午回札幌",
+     "t": "下午 JR 回札幌約 40 分",
      "time": ""
     }
    ]
@@ -757,19 +738,19 @@ window.DATA = {
    "title": "美瑛富良野， 夏日花田一日",
    "date": "07.07 WED",
    "n": 4,
-   "img": "img/hokkaido-igg-yotei.jpg",
+   "img": "img/hokkaido-igg-furano-tomita.jpg",
    "img2": null,
    "items": [
     {
-     "t": "札幌出發，建議參加一日巴士團或租車",
+     "t": "札幌出發，建議參加一日巴士團或包車（單程車程約 2.5 小時）",
      "time": ""
     },
     {
-     "t": "美瑛：丘陵與花田",
+     "t": "美瑛：丘陵與花田、青池（美瑛到富良野車程約 40 分）",
      "time": ""
     },
     {
-     "t": "富良野：薰衣草花田",
+     "t": "富良野：富田農場薰衣草花田",
      "time": ""
     },
     {
@@ -777,7 +758,7 @@ window.DATA = {
      "time": ""
     },
     {
-     "t": "傍晚回札幌",
+     "t": "傍晚回札幌（約 2.5 小時；不開車可 JR 札幌→旭川→富良野線，轉車約 3.5–4 小時，班次少、須先查時刻）",
      "time": ""
     }
    ]
@@ -787,23 +768,23 @@ window.DATA = {
    "title": "近郊與夜景， 最後一晚的札幌",
    "date": "07.08 THU",
    "n": 5,
-   "img": "img/hokkaido-igg-tanuki.jpg",
+   "img": "img/hokkaido-igg-moiwa.jpg",
    "img2": null,
    "items": [
     {
-     "t": "上午：莫埃萊沼公園",
+     "t": "上午：莫埃萊沼公園（地鐵東豐線至「環狀通東」站轉巴士約 15 分，市區出發合計約 50 分；搭計程車約 30 分）",
      "time": ""
     },
     {
-     "t": "午餐：札幌啤酒園",
+     "t": "午餐：札幌啤酒園（地鐵東豐線「東區役所前」站步行約 10 分）",
      "time": ""
     },
     {
-     "t": "下午：自由購物或休息",
+     "t": "下午：自由購物或休息（札幌站周邊百貨步行可達）",
      "time": ""
     },
     {
-     "t": "傍晚：藻岩山纜車看夜景",
+     "t": "傍晚：藻岩山纜車看夜景（市電「纜車入口」站下車，接駁巴士約 5 分到山麓站，山頂約 10 分鐘）",
      "time": ""
     },
     {
@@ -825,7 +806,7 @@ window.DATA = {
      "time": ""
     },
     {
-     "t": "中午前搭 JR 往新千歲機場",
+     "t": "中午前搭 JR 快速 Airport 往新千歲機場約 40 分，國際線建議起飛前 3 小時抵達",
      "time": ""
     },
     {
@@ -880,6 +861,51 @@ window.DATA = {
      "img": "img/hokkaido-igg-canal.jpg",
      "w": 1600,
      "h": 1058
+    }
+   ]
+  },
+  {
+   "type": "spot",
+   "title": "美瑛丘陵",
+   "en": "Biei Hills",
+   "sub": "第 4 天",
+   "body": "一片片起伏的田野與花帶，是北海道夏天的代表風景。",
+   "tags": [],
+   "items": [
+    {
+     "img": "img/hokkaido-igg-biei-hills.jpg",
+     "w": 900,
+     "h": 600
+    }
+   ]
+  },
+  {
+   "type": "spot",
+   "title": "富良野薰衣草花田",
+   "en": "Furano",
+   "sub": "第 4 天",
+   "body": "富田農場一帶的花田，盛期約在 7 月中下旬，7 月初為初開。",
+   "tags": [],
+   "items": [
+    {
+     "img": "img/hokkaido-igg-furano-tomita.jpg",
+     "w": 1600,
+     "h": 1067
+    }
+   ]
+  },
+  {
+   "type": "spot",
+   "title": "美瑛青池",
+   "en": "Blue Pond",
+   "sub": "第 4 天",
+   "body": "湖水呈現獨特的乳藍色，在美瑛可與花田順路安排。",
+   "tags": [],
+   "items": [
+    {
+     "img": "img/hokkaido-igg-biei-aoiike.jpg",
+     "w": 1920,
+     "h": 1280
     }
    ]
   },
@@ -939,11 +965,64 @@ window.DATA = {
      "sub": "第 5 天 ",
      "body": "根室漁港直送的螃蟹料理，位於二條市場旁",
      "img": null
-    },
+    }
+   ]
+  },
+  {
+   "type": "food",
+   "items": [
     {
      "t": "根室花丸 迴轉壽司",
      "sub": "第 6 天 ",
      "body": "北海道平價人氣迴轉壽司，適合回程前補一餐",
+     "img": null
+    },
+    {
+     "t": "札幌拉麵共和國",
+     "sub": "第 2 天 ",
+     "body": "集結多家北海道拉麵名店的美食街，在札幌站旁大樓，一次比較不同湯頭",
+     "img": null
+    },
+    {
+     "t": "札幌蟹本家",
+     "sub": "第 1 天 ",
+     "body": "螃蟹料理專門店，薄野一帶有分店，蟹鍋與蟹腳吃到飽足",
+     "img": null
+    },
+    {
+     "t": "雪印 Parlour 札幌",
+     "sub": "第 2 天 ",
+     "body": "主打北海道牛奶製作的聖代與冰淇淋，逛大通時順路",
+     "img": null
+    },
+    {
+     "t": "六花亭 札幌本店",
+     "sub": "第 5 天 ",
+     "body": "北海道代表性的菓子店，葡萄奶油夾心餅乾是招牌，可買伴手禮",
+     "img": null
+    },
+    {
+     "t": "LeTAO 小樽本店",
+     "sub": "第 3 天 ",
+     "body": "雙層起司蛋糕名店，在堺町通上，可內用搭配咖啡",
+     "img": null
+    },
+    {
+     "t": "政壽司 小樽壽司屋通",
+     "sub": "第 3 天 ",
+     "body": "小樽壽司屋通上的老牌壽司店，主打當季在地海鮮",
+     "img": null
+    },
+    {
+     "t": "唯我獨尊 富良野咖哩",
+     "sub": "第 4 天 ",
+     "body": "富良野知名咖哩店，以自家製醬汁與在地食材聞名，前往富良野時午餐選擇",
+     "img": null
+    },
+    {
+     "t": "美瑛選果",
+     "sub": "第 4 天 ",
+     "body": "美瑛在地農產與餐飲複合設施，可買農產品與甜點，順路休息",
      "img": null
     }
    ]
@@ -998,7 +1077,7 @@ window.DATA = {
     },
     {
      "t": "有食物過敏怎麼辦？",
-     "body": "以上為網路上多篇台灣旅遊攻略共同推薦的店家，營業時間與排隊狀況會變動，出發前請再確認。"
+     "body": "以上為網路上多篇台灣旅遊攻略共同推薦的店家，營業時間與排隊狀況會變動，出發前請再確認。交通時間為概估，以當日實際班次與路況為準。"
     }
    ]
   },
