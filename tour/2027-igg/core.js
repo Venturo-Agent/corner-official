@@ -345,7 +345,7 @@
 
   // 網址參數（驗收程式用）：?page=頁號&v=版本&n=項目數&static=1
   const q = new URLSearchParams(location.search), STATIC = PREVIEW || q.has('static')
-  let PRESENT = PREVIEW || q.has('present')
+  let PRESENT = PREVIEW || !(q.has('studio') || q.has('edit'))  // 客戶連結預設純放映；內部編輯加 ?studio=1
   $('presentTog').onclick = () => { if (EDIT) setEdit(false); PRESENT = !PRESENT; syncMode(); render() }
   function syncMode() { $('presentTog').textContent = PRESENT ? '回到編輯' : '開始放映'; $('presentTog').setAttribute('aria-pressed', PRESENT); document.body.classList.toggle('present', PRESENT); document.querySelector('.hint').textContent = PRESENT ? '翻頁 ← →　·　S 講者視窗　·　O 總覽　·　Esc 回到編輯' : '翻頁 ← →　·　點字修改　·　目錄／總覽點一格＝跳到那頁' }
   syncMode()
