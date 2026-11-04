@@ -3900,12 +3900,12 @@ M.add('qa', 'tiers', { name: '詳略兩級', range: [5, 10], html: c => {
    const event=clock.events.find(e=>t>=e.start&&t<e.end),idx=event?.i??-1,s=event&&r.segments[idx],intro=t<clock.intro,final=!event&&!intro,u=event?ease(cl((t-event.start)/event.travel)):1,landed=event&&t>=event.start+event.travel
    let cam=r.start,phase=final?'final':intro?'overview':String(idx),geo=s&&curve(s,u)
    if(s){
-    const wide=fitPoints([geo.a,geo.b,geo.control]),near={x:geo.b[0],y:geo.b[1],s:Math.min(400,Math.max(wide.s*2.5,r.final.s))}
+    const wide=fitPoints([geo.a,geo.b,geo.control]),near={x:geo.b[0],y:geo.b[1],s:Math.min(1000,Math.max(wide.s*2.5,r.final.s))}
     if(mode==='follow')cam={x:geo.p[0],y:geo.p[1],s:wide.s*2.1}
     else if(mode==='atlas')cam=u<.6?fitPoints([geo.a,geo.p]):near
     else if(mode==='cut'||mode==='split')cam=landed?near:wide
-    else cam=camera(wide,near,u)
-    if(s.mode!=='flight'){const pf=idx>0&&r.segments[idx-1].mode==='flight'&&byId[r.segments[idx-1].to].pos;cam=pf?camera({x:pf[0],y:pf[1],s:Math.min(400,r.final.s)},ground,u):ground}
+    else cam=camera(wide,near,cl(u*1.4))
+    if(s.mode!=='flight'){const pf=idx>0&&r.segments[idx-1].mode==='flight'&&byId[r.segments[idx-1].to].pos;cam=pf?camera({x:pf[0],y:pf[1],s:Math.min(1000,r.final.s)},ground,u):ground}
    }else if(final&&ground)cam=ground
    maps(images,cam)
    const at=p=>[(p[0]-cam.x)*cam.s+W/2,(p[1]-cam.y)*cam.s+H/2]
