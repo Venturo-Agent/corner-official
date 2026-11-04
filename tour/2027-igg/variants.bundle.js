@@ -3899,7 +3899,7 @@ M.add('qa', 'tiers', { name: '詳略兩級', range: [5, 10], html: c => {
     const crowded=occupied.some(p=>Math.abs(p.x-v[0])<(p.w+w)/2+10&&Math.abs(p.y-v[1])<h+8)
     pin.classList.toggle('rt-crowded',crowded);const half=pin.offsetWidth/2,hh=pin.offsetHeight/2,visible=v[0]>half+2&&v[0]<W-half-2&&v[1]>155&&v[1]<H-90
     if(!crowded&&visible)occupied.push({x:v[0],y:v[1],w})
-    pin.style.transform=`translate(${v[0]-half}px,${v[1]-hh}px)`;pin.style.visibility=visible?'visible':'hidden'
+    const id=pin.dataset.id,reached=final||r.segments.some((g,k)=>(g.from===id&&(k<idx||k===idx&&!intro&&u>0))||(g.to===id&&(k<idx||k===idx&&landed)));pin.style.transform=`translate(${v[0]-half}px,${v[1]-hh}px)`;pin.style.visibility=visible&&reached?'visible':'hidden'
    })
    paths.forEach((path,i)=>{const segment=r.segments[i],progress=final?1:intro?ease(cl(t/1800)):i<idx?1:i===idx?u:0,g=curve(segment,progress),a=at(g.a),z=at(g.p),partial=at(g.a.map((v,k)=>mix(v,g.control[k],progress)))
     path.setAttribute('d',segment.mode==='flight'?`M${a} Q${partial} ${z}`:`M${a} L${z}`);path.dataset.progress=String(progress);groups[i].style.opacity=progress>0?1:0
