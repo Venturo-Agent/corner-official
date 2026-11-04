@@ -2628,6 +2628,21 @@ M.add('food', 'bento', { name: '便當格', range: [3, 8], html: c => {
     <div class="serif" style="font-size:64px;line-height:1.25;margin-top:14px">${c.ed('h', '在地的味道')}</div><div style="font-size:21px;letter-spacing:.2em;color:var(--mute);margin-top:12px">${c.ed('cnt', '這趟會吃到 ' + n + ' 道')}</div>
     ${a.body ? `<p style="font-size:21px;line-height:1.8;color:var(--mute);margin:40px 0 0;padding-top:28px;border-top:3px solid var(--ink)"><b class="serif" style="display:block;font-size:26px;color:var(--ink);margin-bottom:8px">${U.esc(c.tx('it0', a.t))}</b>${U.esc(a.body)}</p>` : ''}</div>` + cells.map(cell).join('') } }) }
 
+/* variants/food/chopsticks.js */
+// food／chopsticks：深藍紙面＋金箔筷（取自山陰手冊美食頁），照片＋菜名＋一句話，最多 9 道排 3×3；不標第幾天，只標地區
+{ const U = M.util
+M.add('food', 'chopsticks', { name: '深藍筷席', range: [4, 9], order: 0, html: c => {
+  const w = 440, gx = 50, H = 150, rh = 258
+  return `<div class="ab" style="inset:0;background:#0c1626"></div>
+  <img src="img/food-bg-navy.jpg" alt="" style="position:absolute;right:0;top:0;height:1080px;width:776px;object-fit:cover;object-position:right">
+  <div class="ab" style="right:640px;top:0;width:200px;height:1080px;background:linear-gradient(90deg,#0c1626,transparent)"></div>
+  <div class="ab in" style="left:120px;top:70px;--i:1;color:#f3ead8"><div class="kick" style="color:#d9b66a">${c.ed('k', '在地餐食')}</div><div class="serif" style="font-size:56px;margin-top:8px">${c.ed('h', '這趟會吃到的料理')}</div></div>` +
+  c.items.map((it, i) => { const x = 120 + (i % 3) * (w + gx), y = 232 + Math.floor(i / 3) * rh
+    return `<div class="ab in" style="left:${x}px;top:${y}px;width:${w}px;--i:${i + 2};color:#f3ead8"><img src="${it.img}" alt="" style="width:100%;height:${H}px;object-fit:cover;display:block;border:1px solid #d9b66a55">
+    <div style="display:flex;gap:12px;align-items:baseline;margin-top:10px"><span class="serif" style="font-size:${U.fit(c.tx('it' + i, it.t), w - 110, 28, 18)}px">${c.ed('it' + i, it.t)}</span><span style="font-size:16px;color:#d9b66a;white-space:nowrap">${U.esc(it.sub || '')}</span></div>
+    <p style="font-size:17px;line-height:1.5;margin:4px 0 0;color:#f3ead8bb">${U.esc(it.body || '')}</p></div>` }).join('') +
+  `<div class="ab" style="left:120px;bottom:10px;font-size:14px;color:#f3ead866">照片：Wikimedia Commons 與本案實拍，各依 CC BY／CC BY-SA 授權</div>` } }) }
+
 /* variants/food/dish-portrait.js */
 // food／dish-portrait：一席特寫；學自 _lab-web/69783123000000000a028b21-b 的主圖與跨下緣資訊，單道專用
 { const U = M.util
