@@ -184,7 +184,7 @@ window.DATA = {
    "type": "flight",
    "items": [
     {
-     "t": "長榮航空 BR 166",
+     "t": "長榮航空 BR 166（A 組去程）",
      "sub": "07/04（日）",
      "from": "桃園 TPE",
      "to": "札幌新千歲 CTS",
@@ -193,12 +193,30 @@ window.DATA = {
      "body": "桃園第二航廈"
     },
     {
-     "t": "長榮航空 BR 165",
+     "t": "長榮航空 BR 165（A 組回程）",
      "sub": "07/09（五）",
      "from": "札幌新千歲 CTS",
      "to": "桃園 TPE",
      "dep": "約 13:00",
      "arr": "16:20",
+     "body": "新千歲國際線航廈"
+    },
+    {
+     "t": "長榮航空 BR 116（B 組去程）",
+     "sub": "07/04（日）",
+     "from": "桃園 TPE",
+     "to": "札幌新千歲 CTS",
+     "dep": "約 10:10",
+     "arr": "15:00",
+     "body": "桃園第二航廈"
+    },
+    {
+     "t": "長榮航空 BR 115（B 組回程）",
+     "sub": "07/09（五）",
+     "from": "札幌新千歲 CTS",
+     "to": "桃園 TPE",
+     "dep": "約 16:15",
+     "arr": "19:15",
      "body": "新千歲國際線航廈"
     }
    ]
@@ -354,7 +372,21 @@ window.DATA = {
       "arrival": "arrival",
       "duration": "",
       "position": null,
-      "carrier": "長榮航空　BR 166",
+      "carrier": "長榮航空　BR 166（A 組去程）",
+      "source": "flights"
+     },
+     {
+      "flightIndex": 2,
+      "part": 0,
+      "from": "air-TPE",
+      "to": "s0",
+      "mode": "flight",
+      "day": "01",
+      "dayIndex": 0,
+      "arrival": "arrival",
+      "duration": "",
+      "position": null,
+      "carrier": "長榮航空　BR 116（B 組去程）",
       "source": "flights"
      },
      {
@@ -412,6 +444,20 @@ window.DATA = {
       "mode": "unknown"
      },
      {
+      "flightIndex": 3,
+      "part": 0,
+      "from": "s0",
+      "to": "air-TPE",
+      "mode": "flight",
+      "day": "06",
+      "dayIndex": 5,
+      "arrival": "arrival",
+      "duration": "",
+      "position": null,
+      "carrier": "長榮航空　BR 115（B 組回程）",
+      "source": "flights"
+     },
+     {
       "flightIndex": 1,
       "part": 0,
       "from": "s0",
@@ -422,7 +468,7 @@ window.DATA = {
       "arrival": "arrival",
       "duration": "",
       "position": null,
-      "carrier": "長榮航空　BR 165",
+      "carrier": "長榮航空　BR 165（A 組回程）",
       "source": "flights"
      }
     ],
@@ -438,7 +484,35 @@ window.DATA = {
       "arrival": "arrival",
       "duration": "",
       "position": null,
-      "carrier": "長榮航空　BR 166",
+      "carrier": "長榮航空　BR 166（A 組去程）",
+      "source": "flights"
+     },
+     {
+      "flightIndex": 2,
+      "part": 0,
+      "from": "air-TPE",
+      "to": "s0",
+      "mode": "flight",
+      "day": "01",
+      "dayIndex": 0,
+      "arrival": "arrival",
+      "duration": "",
+      "position": null,
+      "carrier": "長榮航空　BR 116（B 組去程）",
+      "source": "flights"
+     },
+     {
+      "flightIndex": 3,
+      "part": 0,
+      "from": "s0",
+      "to": "air-TPE",
+      "mode": "flight",
+      "day": "06",
+      "dayIndex": 5,
+      "arrival": "arrival",
+      "duration": "",
+      "position": null,
+      "carrier": "長榮航空　BR 115（B 組回程）",
       "source": "flights"
      },
      {
@@ -452,17 +526,17 @@ window.DATA = {
       "arrival": "arrival",
       "duration": "",
       "position": null,
-      "carrier": "長榮航空　BR 165",
+      "carrier": "長榮航空　BR 165（A 組回程）",
       "source": "flights"
      }
     ],
     "skipped": [],
     "coverage": {
-     "sourceFlightRows": 2,
-     "expandedFlightLegs": 2,
-     "drawnFlightLegs": 2,
+     "sourceFlightRows": 4,
+     "expandedFlightLegs": 4,
+     "drawnFlightLegs": 4,
      "points": 8,
-     "lines": 11,
+     "lines": 13,
      "skipped": []
     },
     "start": {
