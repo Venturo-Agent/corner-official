@@ -101,8 +101,10 @@
     const sk = o => Object.fromEntries(Object.entries(o).map(([k, v]) => { const [i, r] = k.split(/:(.*)/s); return [(+i >= from ? +i + d : +i) + ':' + r, v] }))
     S.text = sk(S.text); IMG = sk(IMG); saveImg()
   }
-  M.addSlide = type => { const like = P0.find(p => p.type === type), np = type === 'proposal' ? { type, title: '方案比較', items: [{ t: '方案一' }, { t: '方案二' }] } : like ? JSON.parse(JSON.stringify(like)) : { type, title: '新的一頁', items: [{ t: '項目一' }, { t: '項目二' }, { t: '項目三' }] }
-    delete np._slideId
+  const BLANK = /^(t|title|sub|body|kick|en|time|date)$/
+  const blank = o => { if (Array.isArray(o)) return o.map(x => typeof x === 'string' ? '點此輸入' : blank(x)); if (o && typeof o === 'object') { for (const k in o) { if (BLANK.test(k) && typeof o[k] === 'string') o[k] = '點此輸入'; else if (o[k] && typeof o[k] === 'object') o[k] = blank(o[k]) } } return o }
+  M.addSlide = type => { const like = P0.find(p => p.type === type), np = like ? blank(JSON.parse(JSON.stringify(like))) : { type, title: '點此輸入', items: [{ t: '點此輸入' }, { t: '點此輸入' }, { t: '點此輸入' }] }
+    delete np._slideId; if (type === 'day') np.n = D.pages.filter(p => p.type === 'day').length + 1
     shift(S.page + 1, 1); D.pages.splice(S.page + 1, 0, np); S.pages = D.pages; S.page++; render() }
   M.delSlide = () => { if (D.pages.length <= 1) return; dropPage(S.page); D.pages.splice(S.page, 1); shift(S.page + 1, -1); delete S.v[S.page]; S.pages = D.pages; render() }
   const save = () => { if (PREVIEW) return; try { localStorage.setItem(KEY, JSON.stringify(S)) } catch (e) {} }
@@ -169,7 +171,8 @@
     const pi = S.page, p = D.pages[pi], cur = chosen(pi)
     stage.innerHTML = html(pi); applyImgs(stage, pi); M.applySwiss(stage.querySelector('.slide')); drawSel()
     $('pages').innerHTML = D.pages.map((q, k) => `<button type="button" data-p="${k}" aria-current="${k === pi}"><i>${String(k + 1).padStart(2, '0')}</i>${TYPES[q.type]}${q.title ? '・' + esc(q.title).slice(0, 10) : q.type === 'day' ? '' : ''}<small>${(chosen(k) || {}).name || '—'}</small></button>`).join('')
-    $('vars').innerHTML = variantsFor(pi).map(({ v, ok }) => `<button type="button" data-v="${v.id}" aria-pressed="${cur && cur.id === v.id}" ${ok ? '' : 'disabled'}>${esc(v.name)}${p.items ? `<small>可排 ${v.range[0]}～${v.range[1]} 項</small>` : ''}</button>`).join('') || '<p>這種頁還沒有版本</p>'
+    const vs = variantsFor(pi)
+    $('vars').innerHTML = vs.length ? `<button type="button" id="vPrev" aria-label="上一個版面">‹</button><select id="vSel" aria-label="版面">${vs.map(({ v, ok }) => `<option value="${v.id}" ${ok ? '' : 'disabled'} ${cur && cur.id === v.id ? 'selected' : ''}>${esc(v.name)}</option>`).join('')}</select><button type="button" id="vNext" aria-label="下一個版面">›</button>` : '<p>這種頁還沒有版本</p>'
     $('cntBlk').hidden = !p.items; $('n').textContent = pageItems(p, pi).length
     $('plus').disabled = p.type === 'proposal' && pageItems(p, pi).length >= 2
     $('minus').disabled = p.type === 'proposal' && pageItems(p, pi).length <= 1
@@ -191,7 +194,12 @@
     dispatchEvent(new CustomEvent('masters:page', { detail: { page: pi, total: D.pages.length } }))
   }
   $('pages').addEventListener('click', e => { const b = e.target.closest('[data-p]'); if (b) go(+b.dataset.p) })
-  $('vars').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b && !b.disabled) { S.v[S.page] = b.dataset.v; render() } })
+  const vStep = d => { const o = [...$('vSel').options]; let i = $('vSel').selectedIndex; do { i += d } while (o[i] && o[i].disabled); if (o[i]) { S.v[S.page] = o[i].value; render() } }
+  $('vars').addEventListener('click', e => { if (e.target.id === 'vPrev') vStep(-1); if (e.target.id === 'vNext') vStep(1) })
+  $('vars').addEventListener('change', e => { if (e.target.id === 'vSel') { S.v[S.page] = e.target.value; render() } })
+  $('print').onclick = () => { const box = document.createElement('div'), keep = BOX.slice(); box.id = 'printAll'
+    D.pages.forEach((_, i) => { const s = document.createElement('section'); s.innerHTML = html(i); applyImgs(s, i); M.applySwiss(s.querySelector('.slide')); box.appendChild(s) })
+    BOX.splice(0, BOX.length, ...keep); document.body.appendChild(box); addEventListener('afterprint', () => box.remove(), { once: true }); print() }
   $('plus').onclick = () => { const p = D.pages[S.page]; if (pageItems(p, S.page).length < (p.type === 'toc' ? 8 : p.type === 'proposal' ? 2 : 20)) { S.extra[S.page] = (S.extra[S.page] || 0) + 1; render() } }
   $('minus').onclick = () => { const p = D.pages[S.page]; if (pageItems(p, S.page).length > 1) { S.extra[S.page] = (S.extra[S.page] || 0) - 1; render() } }
   $('reset').onclick = () => { played.clear(); IMG = {}; saveImg(); SEL = null; S.v = {}; S.text = {}; S.extra = {}; S.pages = null; D.pages = JSON.parse(JSON.stringify(P0)); render() }
@@ -436,7 +444,6 @@
   $('editTog').onclick = () => setEdit(!EDIT)
   $('imgPick').onclick = pickFor
   $('imgRst').onclick = () => { if (SEL && IMG[SEL]) { delete IMG[SEL]; saveImg(); render(); msg('這張照片已還原') } }
-  $('focusRst').onclick = () => { const o = IMG[SEL]; if (o) { delete o.pos; if (!o.d) delete IMG[SEL]; saveImg(); render(); msg('焦點已置中') } }
   $('pageRst').onclick = () => { dropPage(S.page); render(); msg('這一頁的字與照片已還原') }
   // 拖曳＝調焦點；沒移動就是選取（雙擊＝直接開選檔）
   let DRAG = null
