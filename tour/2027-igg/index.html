@@ -55,7 +55,7 @@ html,body{margin:0;height:100%;background:#2a2d2f;font-family:var(--sans);color:
   <a href="?storyboard=1&page=0">播放逐頁分鏡版本</a>
   <div><h1>投影母片</h1><p>ERP 資料一進來就排好整份。每一頁可以點一下換版本、直接點字修改、加減項目；航線聚焦可切換一路拉近、全景切近或分日照片路線；版面都是程式照規則算的，不靠 AI。</p></div>
   <div class="row"><button type="button" id="presentTog" aria-pressed="false">開始放映</button><button type="button" id="motionTog">收起頁面動畫</button></div>
-  <div class="row"><button type="button" id="speakerTog">講者視窗 S</button><button type="button" id="overviewTog">縮圖總覽 O</button></div>
+  <div class="row"><button type="button" id="speakerTog">講者視窗 S</button><button type="button" id="overviewTog">縮圖總覽 O</button><button type="button" id="fsTog">全螢幕 F</button></div>
   <div class="blk"><b>整份頁序（<span id="pos"></span>）</b><div class="pages" id="pages"></div></div>
   <div class="blk"><b>這一頁的版本</b><div class="vars" id="vars"></div></div>
   <div class="blk" id="cntBlk"><b id="cntLab">項目數</b><div class="row cnt"><button type="button" id="minus" aria-label="減少一項">−</button><output id="n"></output><button type="button" id="plus" aria-label="增加一項">＋</button></div><p>變灰的版本＝這個數量排不下。</p></div>
@@ -74,6 +74,7 @@ html,body{margin:0;height:100%;background:#2a2d2f;font-family:var(--sans);color:
 <script src="data.js"></script>
 <script src="core.js"></script>
 <script src="variants.bundle.js"></script>
+<script>(function(){function fs(){var d=document,e=d.documentElement;if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d)}else{(e.requestFullscreen||e.webkitRequestFullscreen||function(){}).call(e)}}var b=document.getElementById("fsTog");if(b)b.onclick=fs;addEventListener("keydown",function(e){if((e.key==="f"||e.key==="F")&&!e.target.isContentEditable&&!e.target.closest("input,select,textarea"))fs()})})()</script>
 <script>M.start()</script>
 </body>
 </html>
