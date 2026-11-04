@@ -3885,8 +3885,8 @@ M.add('qa', 'tiers', { name: '詳略兩級', range: [5, 10], html: c => {
   const $=s=>el.querySelector(s),$$=s=>[...el.querySelectorAll(s)],images=$$('.rt-map > img'),pins=$$('.rt-pin'),paths=$$('.rt-segment path'),groups=$$('.rt-segment'),byId=Object.fromEntries(r.stops.map(p=>[p.id,p]))
   const media=matchMedia('(prefers-reduced-motion: reduce)'),q=new URLSearchParams(location.search),clock=timeline(r,mode)
   let raf=0,dead=false,lastActive=null
-  const fitPoints=ps=>{const xs=ps.map(p=>p[0]),ys=ps.map(p=>p[1]);return {x:(Math.min(...xs)+Math.max(...xs))/2,y:(Math.min(...ys)+Math.max(...ys))/2,s:Math.min(120,(W-400)/Math.max(.1,Math.max(...xs)-Math.min(...xs)),(H-420)/Math.max(.1,Math.max(...ys)-Math.min(...ys)))}}
-  const gp=r.segments.some(g=>g.mode!=='flight')?r.stops.filter(p=>!p.air).map(p=>p.pos):[],ground=gp.length?(()=>{const g=fitPoints(gp);return {...g,s:Math.min(g.s,r.final.s)}})():null
+  const fitPoints=(ps,cap=120)=>{const xs=ps.map(p=>p[0]),ys=ps.map(p=>p[1]);return {x:(Math.min(...xs)+Math.max(...xs))/2,y:(Math.min(...ys)+Math.max(...ys))/2,s:Math.min(cap,(W-400)/Math.max(.1,Math.max(...xs)-Math.min(...xs)),(H-420)/Math.max(.1,Math.max(...ys)-Math.min(...ys)))}}
+  const gp=r.segments.some(g=>g.mode!=='flight')?r.stops.filter(p=>!p.air).map(p=>p.pos):[],ground=gp.length?(()=>{const g=fitPoints(gp,Math.max(120,r.final.s*.6));return {...g,s:Math.min(g.s,r.final.s)}})():null
   const curve=(s,u)=>{const a=byId[s.from].pos,b=byId[s.to].pos,control=[(a[0]+b[0])/2,(a[1]+b[1])/2-Math.abs(b[0]-a[0])*.15];return {a,b,control,p:a.map((v,k)=>s.mode==='flight'?(1-u)**2*v+2*(1-u)*u*control[k]+u*u*b[k]:mix(v,b[k],u))}}
   function maps(nodes,cam,height=H){
    const at=p=>[(p[0]-cam.x)*cam.s+W/2,(p[1]-cam.y)*cam.s+height/2]
