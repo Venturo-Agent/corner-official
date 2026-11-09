@@ -16,7 +16,7 @@
     font:600 12px/1.3 "Noto Serif CJK TC","Noto Serif TC",serif; color:#5a5048; background:rgba(243,235,220,.82); box-shadow:0 4px 10px -6px rgba(0,0,0,.5); }
   .lbl.on { color:#2a2420; background:#f6efe2; border-left:3px solid #ae2a20; }
   .lbl.sel { background:#ae2a20; color:#fff; border-left-color:#ae2a20; }
-  .city { position:absolute; left:0; top:0; transform-origin:0 0; font:500 11px/1 "Noto Sans TC",sans-serif; color:#3a3028; text-shadow:0 0 3px #f3ebdc, 0 0 3px #f3ebdc; padding-left:6px; }
+  .city { position:absolute; left:0; top:0; font:500 11px/1 "Noto Sans TC",sans-serif; color:#3a3028; text-shadow:0 0 3px #f3ebdc, 0 0 3px #f3ebdc; padding-left:6px; }
   header { position:fixed; left:24px; top:20px; color:#f3ebdc; z-index:3; pointer-events:none; }
   header .k { font:600 11px/1 sans-serif; letter-spacing:.36em; color:#d9a089; }
   header h1 { font:700 28px/1.3 "Noto Serif CJK TC","Noto Serif TC",serif; margin-top:8px; }
@@ -38,6 +38,16 @@
   #card p { margin-top:10px; font:400 14px/1.8 "Noto Serif TC",serif; color:#4a4038; text-wrap:pretty; }
   #card .st { margin-top:10px; font-size:12px; color:#7d7062; }
   #card button { margin-top:12px; border:0; background:#2a2420; color:#f3ebdc; padding:7px 14px; border-radius:2px; cursor:pointer; font:inherit; }
+  .country { position:absolute; left:0; top:0; font:600 15px/1 "Noto Serif CJK TC","Noto Serif TC",serif; letter-spacing:.5em; color:rgba(74,58,40,.82); text-shadow:0 0 6px rgba(243,235,220,.9); white-space:nowrap; }
+  .country.r0, .country.r1, .country.r2 { font-size:19px; } .country.r4 { font-size:12px; letter-spacing:.3em; }
+  .city.big { font:600 13px/1 "Noto Serif TC",serif; color:#2a2420; }
+  .city::before { content:''; position:absolute; left:-1px; top:3px; width:4px; height:4px; border-radius:50%; background:#7a3a2a; }
+  .fall { position:absolute; left:0; top:0; font:600 12px/1 "Noto Serif TC",serif; color:#1f4f6a; background:rgba(230,243,248,.88); padding:3px 7px; border-radius:2px; white-space:nowrap; }
+  #loading { position:fixed; inset:0; z-index:10; background:#121a23; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; color:#e9dcc6; transition:opacity .9s; }
+  #loading.done { opacity:0; pointer-events:none; }
+  #loading h2 { font:700 30px/1.3 "Noto Serif CJK TC","Noto Serif TC",serif; letter-spacing:.2em; }
+  #loading .track { width:260px; height:2px; background:rgba(233,220,198,.2); } #bar { height:100%; width:0; background:#d9a089; transition:width .4s; }
+  #loadmsg { font-size:12px; color:#9a8f80; letter-spacing:.1em; }
   .hint { position:fixed; right:24px; top:22px; color:#9a8f80; font-size:12px; z-index:3; pointer-events:none; }
   @media (max-width:900px) {
     header h1 { font-size:22px; } #side { top:auto; height:60vh; width:100%; padding:12px 16px; background:rgba(21,29,38,.94); transform:translateY(100%); transition:.3s; }
@@ -51,7 +61,8 @@
 <header><div class="k">CORNER × VENTURO　·　私用</div><h1>世界地標</h1><div id="stat">載入中…</div></header>
 <aside id="side"><input id="q" placeholder="搜尋地標、國家、城市"><div id="list"></div></aside>
 <button id="tog">地標清單</button>
-<div class="hint">拖曳旋轉　·　滾輪縮放　·　點地標飛過去</div>
+<div class="hint">拖曳旋轉　·　滾輪縮放　·　點地標飛過去　·　雙擊地面飛下去看</div>
+<div id="loading"><h2>世界正在展開</h2><div class="track"><div id="bar"></div></div><div id="loadmsg">準備中</div></div>
 <section id="card"></section>
 <script src="explorer.js"></script>
 </body>
