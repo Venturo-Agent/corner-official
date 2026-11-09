@@ -54,6 +54,7 @@ html,body{margin:0;height:100%;background:#2a2d2f;font-family:var(--sans);color:
 .hint{position:absolute;right:16px;bottom:10px;color:#ffffff99;font-size:12px}
 @media (max-width:1100px){.app{grid-template-columns:170px 1fr;grid-template-areas:'top top' 'rail view'}.insp{display:none}}
 @media (max-width:700px){.app{grid-template-columns:1fr;grid-template-rows:auto 1fr;grid-template-areas:'top' 'view'}.rail{display:none}}
+body.present .app{display:block;height:100%}
 </style>
 </head>
 <body>
@@ -85,6 +86,6 @@ html,body{margin:0;height:100%;background:#2a2d2f;font-family:var(--sans);color:
 <script src="core.js"></script>
 <script src="variants.bundle.js"></script>
 <script>(function(){function fs(){var d=document,e=d.documentElement;if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d)}else{(e.requestFullscreen||e.webkitRequestFullscreen||function(){}).call(e)}}var b=document.getElementById("fsTog");if(b)b.onclick=fs;addEventListener("keydown",function(e){if((e.key==="f"||e.key==="F")&&!e.target.isContentEditable&&!e.target.closest("input,select,textarea"))fs()})})()</script>
-<script>addEventListener("keydown",function(e){if(e.key==="Escape"&&document.body.classList.contains("present")&&/studio|edit/.test(location.search)&&!document.querySelector(".overview.open,[data-overview].open,.presenter-open")&&!(document.fullscreenElement))document.getElementById("presentTog").click()});M.start()</script>
+<script>addEventListener("keydown",function(e){if(e.key==="Escape"&&document.body.classList.contains("present")&&/studio|edit/.test(location.search)&&!document.querySelector(".overview.open,[data-overview].open,.presenter-open")&&!(document.fullscreenElement))document.getElementById("presentTog").click()});(function(){var p=null,skip=0;addEventListener("click",function(e){if(skip&&Date.now()-skip<700){skip=0;e.stopImmediatePropagation();e.preventDefault()}},true);addEventListener("pointerdown",function(e){p=e.pointerType==="touch"&&document.body.classList.contains("present")&&!e.target.closest("button,a,input,label,select,textarea,[role=button],[role=slider],[role=checkbox]")?e:null});addEventListener("pointerup",function(e){if(!p||e.pointerId!==p.pointerId)return;var dx=e.clientX-p.clientX,dy=e.clientY-p.clientY;p=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){skip=Date.now();M.presentation.step(dx<0?1:-1)}else if(Math.hypot(dx,dy)<10&&!M.presentation.hit(e.clientX,e.clientY)){skip=Date.now();M.presentation.step(e.clientX>innerWidth/2?1:-1)}})})();M.start()</script>
 </body>
 </html>

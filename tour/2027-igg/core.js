@@ -505,6 +505,7 @@
     get current() { return S.page },
     get total() { return D.pages.length },
     go, step: d => go(navigationPage() + d),
+    hit(cx, cy) { const r = stage.getBoundingClientRect(), k = r.width / 1920, x = (cx - r.left) / k, y = (cy - r.top) / k; return !!BOX.find(b => b && b.to >= 0 && x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h) },
     present(on = true) { if (EDIT) setEdit(false); PRESENT = on; syncMode(); render() },
     subscribe(fn) { addEventListener('masters:page', fn); return () => removeEventListener('masters:page', fn) },
     page(pi) {
