@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>角落・世界地標</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { height:100%; overflow:hidden; background:#151d26; color:#2a2420; font:14px/1.5 "Noto Sans CJK TC","Noto Sans TC",sans-serif; }
+  #stage, #labels { position:fixed; inset:0; } #labels { pointer-events:none; }
+  .lbl { position:absolute; left:0; top:0; pointer-events:auto; border:0; cursor:pointer; padding:3px 8px 4px; border-radius:2px; white-space:nowrap;
+    font:600 12px/1.3 "Noto Serif CJK TC","Noto Serif TC",serif; color:#5a5048; background:rgba(243,235,220,.82); box-shadow:0 4px 10px -6px rgba(0,0,0,.5); }
+  .lbl.on { color:#2a2420; background:#f6efe2; border-left:3px solid #ae2a20; }
+  .lbl.sel { background:#ae2a20; color:#fff; border-left-color:#ae2a20; }
+  .city { position:absolute; left:0; top:0; transform-origin:0 0; font:500 11px/1 "Noto Sans TC",sans-serif; color:#3a3028; text-shadow:0 0 3px #f3ebdc, 0 0 3px #f3ebdc; padding-left:6px; }
+  header { position:fixed; left:24px; top:20px; color:#f3ebdc; z-index:3; pointer-events:none; }
+  header .k { font:600 11px/1 sans-serif; letter-spacing:.36em; color:#d9a089; }
+  header h1 { font:700 28px/1.3 "Noto Serif CJK TC","Noto Serif TC",serif; margin-top:8px; }
+  header #stat { font-size:13px; color:#c9bfae; margin-top:4px; }
+  #side { position:fixed; left:0; top:118px; bottom:0; width:300px; z-index:3; display:flex; flex-direction:column; padding:0 14px 16px 24px; }
+  #q { width:100%; padding:9px 12px; border:0; border-radius:3px; background:rgba(243,235,220,.94); font:inherit; outline:none; }
+  #list { overflow:auto; margin-top:10px; padding-right:6px; scrollbar-width:thin; }
+  #list h3 { font:700 13px/1 "Noto Serif TC",serif; color:#e9c9a0; margin:16px 0 8px; letter-spacing:.08em; }
+  #list button { display:flex; justify-content:space-between; gap:8px; width:100%; text-align:left; border:0; background:none; color:#b9ae9c; padding:5px 6px; border-radius:2px; cursor:pointer; font:inherit; }
+  #list button b { font-weight:500; } #list button span { font-size:12px; opacity:.75; white-space:nowrap; }
+  #list button.on { color:#f3ebdc; } #list button:hover { background:rgba(243,235,220,.1); }
+  #tog { display:none; }
+  #card { position:fixed; right:24px; bottom:24px; width:min(380px,calc(100vw - 48px)); z-index:4; background:#f3ebdc; border-radius:3px; padding:20px 22px 18px;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.7); transform:translateY(16px); opacity:0; pointer-events:none; transition:.35s; }
+  #card.on { transform:none; opacity:1; pointer-events:auto; }
+  #card .k { font:600 11px/1.4 sans-serif; letter-spacing:.2em; color:#ae2a20; }
+  #card h2 { font:700 26px/1.3 "Noto Serif CJK TC","Noto Serif TC",serif; margin-top:6px; }
+  #card .en { color:#7d7062; font-size:13px; letter-spacing:.06em; }
+  #card p { margin-top:10px; font:400 14px/1.8 "Noto Serif TC",serif; color:#4a4038; text-wrap:pretty; }
+  #card .st { margin-top:10px; font-size:12px; color:#7d7062; }
+  #card button { margin-top:12px; border:0; background:#2a2420; color:#f3ebdc; padding:7px 14px; border-radius:2px; cursor:pointer; font:inherit; }
+  .hint { position:fixed; right:24px; top:22px; color:#9a8f80; font-size:12px; z-index:3; pointer-events:none; }
+  @media (max-width:900px) {
+    header h1 { font-size:22px; } #side { top:auto; height:60vh; width:100%; padding:12px 16px; background:rgba(21,29,38,.94); transform:translateY(100%); transition:.3s; }
+    body.listopen #side { transform:none; } #tog { display:block; position:fixed; left:16px; bottom:16px; z-index:5; border:0; padding:9px 14px; border-radius:3px; background:#f3ebdc; font:inherit; }
+    .hint { display:none; } #card { bottom:64px; }
+  }
+</style>
+</head>
+<body>
+<div id="stage"></div><div id="labels"></div>
+<header><div class="k">CORNER × VENTURO　·　私用</div><h1>世界地標</h1><div id="stat">載入中…</div></header>
+<aside id="side"><input id="q" placeholder="搜尋地標、國家、城市"><div id="list"></div></aside>
+<button id="tog">地標清單</button>
+<div class="hint">拖曳旋轉　·　滾輪縮放　·　點地標飛過去</div>
+<section id="card"></section>
+<script src="explorer.js"></script>
+</body>
+</html>
