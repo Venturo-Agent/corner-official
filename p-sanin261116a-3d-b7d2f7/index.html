@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>紙雕旅程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;600;700&display=swap">
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html,body { height:100%; overflow:hidden; background:#e8dcc6; color:var(--ink); font-family:var(--sans); }
+  #stage, #labels, #grain { position:fixed; inset:0; }
+  #labels, #grain { pointer-events:none; }
+  #grain { opacity:.10; mix-blend-mode:multiply; z-index:5; }
+  .k { font:600 clamp(11px,.78vw,14px)/1.4 var(--sans); letter-spacing:.36em; color:var(--red); }
+  h1, h2 { font-family:var(--serif); font-weight:600; }
+  h2 span { display:block; }
+  h1, h2 { text-wrap:balance; }
+  p, li { text-wrap:pretty; }   /* 不留孤字 */
+
+  /* 每段一個版面；左側用紙色暈開托住文字（不用玻璃、不用框） */
+  .scene { position:fixed; z-index:3; opacity:0; pointer-events:none; transition:opacity .8s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+  .left { left:0; top:0; bottom:0; width:min(50vw,820px); display:flex; flex-direction:column; justify-content:center;
+    padding:0 6vw 0 clamp(28px,5vw,96px); transform:translateX(-28px);
+    background:linear-gradient(90deg, rgba(var(--wash),.96) 0%, rgba(var(--wash),.9) 38%, rgba(var(--wash),.62) 58%, rgba(var(--wash),.24) 78%, rgba(var(--wash),0) 100%); }
+  .left > * { max-width:min(38vw,640px); }
+  .topc { left:0; right:0; top:0; padding:clamp(28px,5vh,64px) 0 14vh; text-align:center; transform:translateY(-20px);
+    background:linear-gradient(180deg, rgba(var(--wash),.95) 0%, rgba(var(--wash),.82) 55%, rgba(var(--wash),0) 100%); }
+  body[data-mode=brand] #brand, body[data-mode=why] #why, body[data-mode=hq] #hq, body[data-mode=promise] #promise, body[data-mode=cover] #cover, body[data-mode=foreword] #foreword,
+  body[data-mode=overview] #overview, body[data-mode=flight] #flight, body[data-mode=chapter] #chapter, body[data-mode=panel] #panel,
+  body[data-mode=memory] #memory, body[data-mode=close] #close { opacity:1; transform:none; pointer-events:auto; }
+
+  /* 起：公司開場是一整張紙，翻走後露出地圖 */
+  #brand { inset:0; z-index:6; background:var(--paper); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    opacity:1; transform:translateY(-102%); transition:transform 1.4s cubic-bezier(.7,0,.2,1); }
+  body[data-mode=brand] #brand { transform:none; }
+  #brand .logo { height:clamp(36px,3.4vw,60px); margin-bottom:5vh; }
+  #brand h1 { font-size:clamp(44px,5vw,92px); letter-spacing:.24em; margin-right:-.24em; line-height:1.2; }
+  #brand .rule { display:block; width:56px; height:2px; background:var(--red); margin:4.5vh auto 4vh; }
+  #brand p { font:500 clamp(17px,1.45vw,26px)/2 var(--serif); letter-spacing:.12em; }
+  #brand .foot { position:absolute; bottom:5vh; font:600 12px/1 var(--sans); letter-spacing:.4em; color:var(--mute); }
+  #promise h2 { font-size:clamp(38px,3.6vw,66px); line-height:1.3; margin:.5em 0 .6em; letter-spacing:.06em; }
+  #promise p { font:400 clamp(15px,1.15vw,20px)/1.9 var(--serif); color:#4a4038; }
+
+  #why h2, #hq h2 { font-size:clamp(38px,3.6vw,66px); line-height:1.3; margin:.5em 0 .7em; letter-spacing:.06em; }
+  #why p span { display:block; font:400 clamp(16px,1.2vw,21px)/2.1 var(--serif); color:#4a4038; }
+  #hq p { font:400 clamp(13px,.95vw,16px)/2 var(--sans); color:#5a4e44; letter-spacing:.06em; }
+  #hq .svc { font:600 clamp(18px,1.4vw,24px)/1.6 var(--serif); color:var(--ink); margin-bottom:.8em; letter-spacing:.12em; }
+  #hq .svc i { font-style:normal; color:var(--red); margin:0 .4em; }
+  #cover h1 { font-size:clamp(64px,7.4vw,140px); line-height:1.02; margin:.3em 0 .25em; letter-spacing:.04em; }
+  #cover h1 small { display:block; font-size:.36em; letter-spacing:.5em; margin-top:.35em; color:var(--red); }
+  #cover .l2 { font:500 clamp(16px,1.3vw,23px)/1.7 var(--serif); }
+  #cover .tag { margin-top:1.6em; font:400 clamp(14px,1vw,17px)/1.8 var(--sans); color:var(--mute); }
+  #foreword h2 { font-size:clamp(28px,2.4vw,46px); line-height:1.45; margin:.6em 0 .9em; }
+  #foreword p { font:400 clamp(16px,1.2vw,21px)/2 var(--serif); color:#4a4038; }
+  #foreword p span { display:block; }
+
+  #overview h2, #memory h2 { font-size:clamp(28px,2.6vw,46px); line-height:1.4; margin:.45em 0 .5em; }
+  #overview p { font:400 clamp(13px,.95vw,16px)/1.9 var(--sans); color:var(--mute); letter-spacing:.06em; }
+  #memory ul { list-style:none; display:flex; justify-content:center; gap:clamp(18px,2.4vw,44px); margin-top:1.4em; padding:0 6vw; }
+  #memory li { max-width:15em; text-align:left; font:400 clamp(12px,.85vw,14px)/1.7 var(--sans); color:#5a4e44; border-top:1px solid #b9a98f; padding-top:.8em; }
+  #memory li b { display:block; font:600 clamp(15px,1.1vw,19px)/1.5 var(--serif); color:var(--ink); margin-bottom:.3em; }
+
+  #flight h2 { font-size:clamp(30px,2.7vw,48px); line-height:1.45; margin:.5em 0 .7em; }
+  #flight .big { font:600 clamp(20px,1.5vw,26px)/1.6 var(--serif); }
+  #flight p { font:400 clamp(14px,1vw,17px)/1.8 var(--sans); color:var(--mute); letter-spacing:.08em; }
+
+  /* 轉：章節直排 */
+  #chapter { flex-direction:row; align-items:center; gap:clamp(24px,3vw,56px); }
+  #chapter .v { writing-mode:vertical-rl; display:flex; align-items:flex-start; gap:.4em; }
+  #chapter .v small { font:600 clamp(14px,1.1vw,19px)/1 var(--serif); letter-spacing:.5em; color:var(--red); }
+  #chapter .v h2 { font-size:clamp(64px,6.6vw,124px); letter-spacing:.14em; line-height:1; }
+  #chapter .range { font:600 13px/1 var(--sans); letter-spacing:.3em; margin:1.2em 0 1.4em; color:var(--mute); }
+  #chapter ul { list-style:none; }
+  #chapter li { font:500 clamp(14px,1.05vw,18px)/1.6 var(--serif); padding:.55em 0; border-top:1px solid #cdbfa8; display:flex; gap:1em; }
+  #chapter li b { font:600 12px/2.2 var(--sans); color:var(--red); letter-spacing:.1em; }
+
+  #panel .num { font:700 clamp(72px,6.4vw,120px)/.9 var(--serif); margin-top:.35em; }
+  #panel .num span { display:block; font:600 12px/1 var(--sans); letter-spacing:.42em; color:var(--red); margin-bottom:12px; }
+  #panel .when { margin:16px 0 12px; font:500 13px/1.4 var(--sans); letter-spacing:.16em; color:var(--mute); }
+  #panel h2 { font-size:clamp(22px,1.75vw,32px); line-height:1.5; }
+  #panel .desc { margin-top:14px; font:400 clamp(14px,1vw,17px)/1.85 var(--serif); color:#4a4038; }
+  #panel .spots { margin:16px 0 14px; font:500 13px/1.8 var(--sans); }
+  #panel .spots i { font-style:normal; color:var(--red); margin:0 .5em; }
+  #panel .meta { font:400 13px/1.8 var(--sans); color:#5a4e44; }
+  #panel .meta b { color:var(--red); font-weight:600; margin-right:.9em; }
+
+  #close h2 { font-size:clamp(36px,3.4vw,62px); line-height:1.45; }
+  #close .sign { margin:1em 0 3.4em; font:500 clamp(15px,1.1vw,19px)/1 var(--serif); color:var(--mute); letter-spacing:.2em; }
+  #close .co { border-top:1px solid #b9a98f; padding-top:1.6em; }
+  #close .co .logo { height:clamp(26px,2vw,36px); margin-bottom:1em; }
+  #close .co p { font:400 13px/1.9 var(--sans); color:#5a4e44; letter-spacing:.06em; }
+  #close .co .slogan { font:600 clamp(16px,1.2vw,20px)/1.6 var(--serif); color:var(--ink); letter-spacing:.2em; margin-bottom:.4em; }
+  #close .co .credit { margin-top:1.4em; font-size:11px; letter-spacing:.3em; color:var(--mute); }
+
+  .ch { position:absolute; left:0; top:0; translate:-50% -100%; text-align:center; font:600 clamp(18px,1.4vw,26px)/1.2 var(--serif);
+    color:var(--ink); opacity:0; transition:opacity .6s; text-shadow:0 0 12px rgba(var(--wash),.9), 0 0 3px rgba(var(--wash),1); }
+  .ch small { display:block; font:600 11px/1.6 var(--sans); letter-spacing:.4em; color:var(--red); }
+  .ch.on { opacity:1; }
+
+  #dots { position:fixed; z-index:7; right:clamp(20px,3vw,56px); bottom:clamp(18px,3vh,36px); display:flex; gap:5px; align-items:center; }
+  #dots button { width:6px; height:6px; border:0; border-radius:50%; background:var(--ink); opacity:.28; cursor:pointer; }
+  #dots button.chapter { width:10px; height:10px; }
+  #dots button.on { opacity:1; background:var(--red); }
+  @media (max-width:900px) {
+    .left { width:100%; top:auto; padding:22px 22px 64px; justify-content:flex-end;
+      background:linear-gradient(0deg, rgba(var(--wash),.97) 0%, rgba(var(--wash),.9) 70%, rgba(var(--wash),0) 100%); }
+    .left > * { max-width:100%; }
+    #memory ul { flex-direction:column; gap:10px; }
+  }
+  @media (prefers-reduced-motion:reduce) { .scene, #brand, .ch { transition:none; } }
+</style>
+</head>
+<body data-mode="brand">
+<div id="stage"></div>
+<div id="labels"></div>
+<section id="brand" class="scene"></section>
+<section id="why" class="scene left"></section>
+<section id="promise" class="scene left"></section>
+<section id="hq" class="scene left"></section>
+<section id="cover" class="scene left"></section>
+<section id="foreword" class="scene left"></section>
+<section id="overview" class="scene topc"></section>
+<section id="flight" class="scene left"></section>
+<section id="chapter" class="scene left"></section>
+<section id="panel" class="scene left"></section>
+<section id="memory" class="scene topc"></section>
+<section id="close" class="scene left"></section>
+<div id="grain"></div>
+<nav id="dots"></nav>
+<script src="data.js"></script>
+<script>
+// 地圖上的旗子、明信片是畫在畫布上的字：等網路字型到齊再開場，別台電腦／手機才不會變成系統字
+(() => { const J = window.JOURNEY, txt = JSON.stringify([J.stops, J.days.map(d => [d.date, d.en, d.title, d.cap])]) + '台北桃園機場總公司',
+  go = () => { const s = document.createElement('script'); s.src = 'journey.js'; document.body.appendChild(s); };
+  Promise.race([Promise.all(['600 64px "Noto Serif TC"', '600 64px "Noto Sans TC"', '400 64px "Noto Sans TC"'].map(f => document.fonts.load(f, txt))),
+    new Promise(r => setTimeout(r, 4000))]).then(go, go); })();
+</script>
+</body>
+</html>
