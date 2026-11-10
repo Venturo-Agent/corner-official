@@ -218,7 +218,7 @@
           <span class="accent-bar"></span>
           <span class="text-[12px] tracking-explore uppercase text-corner">Route Map</span>
         </div>
-        <h2 class="text-[30px] md:text-[38px] font-semibold leading-tight">機場周邊 → 甘川 → 南浦洞 → 海雲台・青沙浦 → 機張</h2>
+        <h2 class="text-[30px] md:text-[38px] font-semibold leading-tight">金海 → 甘川 → 南浦洞 → 海雲台・青沙浦 → 機張</h2>
         <p class="text-inkSoft mt-3 max-w-[560px] font-light text-[15px] leading-relaxed">真實地理位置的移動路線，依天數順序描出來；第四、五天為暫排，確認後更新。</p>
       </div>
       <div id="route-map-canvas" class="w-full rounded-2xl border border-black/5 shadow-card" style="height:480px;"></div>
@@ -235,7 +235,7 @@
           <span class="text-[12px] tracking-explore uppercase text-corner">Day by Day</span>
         </div>
         <h2 class="text-[36px] md:text-[48px] font-semibold leading-tight max-w-[680px]">六天五夜，<br/>老城區走到海岸線</h2>
-        <p class="text-inkSoft mt-4 max-w-[560px] font-light text-[15px] leading-relaxed">第一天落地先在機場周邊走走再回飯店；第二天甘川與南浦洞老城區；第三天海雲台與機張海岸線；第四、五天暫排；最後一天早餐後直送機場。</p>
+        <p class="text-inkSoft mt-4 max-w-[560px] font-light text-[15px] leading-relaxed">第一天落地先在金海採草莓（備案加耶主題公園）再入住南浦洞；第二天甘川與南浦洞老城區；第三天海雲台與機張海岸線；第四、五天暫排；最後一天早餐後直送機場。</p>
         <div class="mt-6 flex flex-wrap gap-3 text-[13px]">
           <span class="px-3 py-1.5 rounded-full bg-corner/10 text-cornerDark font-medium">四天包車 · D2–D5</span>
           <span class="px-3 py-1.5 rounded-full bg-corner/10 text-cornerDark font-medium">全程當地導遊</span>
@@ -402,12 +402,14 @@
       self:'<path d="M3 11l18-8-8 18-2-8-8-2z"/>'
     };
     const DAYS = [
-      { n:1, title:"抵達釜山・機場周邊", en:"Arrival & Around the Airport", date:"3/22（一）", mode:"專車接機", theme:["抵達即玩","機場周邊","自由晚餐"],
+      { n:1, title:"抵達釜山・金海採草莓", en:"Arrival & Gimhae Strawberries", date:"3/22（一）", mode:"專車接機", theme:["抵達即玩","金海採莓","南浦洞夜晚"],
         steps:[
           {t:"08:00", k:"plane", name:"台中機場搭乘星宇航空", d:"11:15 抵達釜山金海機場"},
           {t:"11:15", k:"ride", name:"專車接機", d:"通關領完行李直接上車"},
-          {t:"下午", k:"sight", name:"機場周邊半日遊", d:"景點籌備中，確認後補上"},
-          {t:"傍晚", k:"sight", name:"入住飯店", d:"格里芬灣飯店，五晚同住"},
+          {t:"12:30", k:"meal", name:"金海午餐", d:"機場周邊用餐，現場自付"},
+          {t:"14:00", k:"sight", name:"金海採草莓", d:"落地先玩機場這一側，不繞回市區（暫排，3 月下旬莓季尾聲，待電話確認）"},
+          {t:"備案", k:"sight", name:"加耶主題公園", d:"若莓園休園或不想採莓，改走伽倻歷史主題園區，約 ₩10,000（暫排，票價待確認）"},
+          {t:"17:30", k:"ride", name:"專車前往南浦洞・入住飯店", d:"金海機場到飯店車程約 30 分鐘；格里芬灣飯店，五晚同住"},
           {t:"晚上", k:"free", name:"自由活動・晚餐自理", d:""},
         ]},
       { n:2, title:"甘川文化村・南浦洞老城區", en:"Gamcheon & Nampo", date:"3/23（二）", mode:"包車", theme:["彩色山城","札嘎其市場","國際市場","龍頭山公園"], img:"/tour/busan-2026-mar/img/day5-gamcheon.jpg", cap:"甘川文化村",
