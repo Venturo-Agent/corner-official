@@ -15,7 +15,8 @@
   html,body { height:100%; overflow:hidden; background:#e8dcc6; color:var(--ink); font-family:var(--sans); }
   #stage, #labels, #grain { position:fixed; inset:0; }
   #labels, #grain { pointer-events:none; }
-  #grain { opacity:.06; mix-blend-mode:multiply; z-index:5; }
+  #grain { opacity:.06; z-index:5; }
+  #grain:not(.a), .fib:not(.a) { visibility:hidden; }   /* hud.js 把紙纖維換成「黑＋透明度」後才顯示：等於原本的色彩增值，但不用混合模式（手機每格少兩次全螢幕合成） */
   .k { font:600 max(11px,1.5vh)/1.4 var(--sans); letter-spacing:.36em; color:var(--red); }
   h1, h2 { font-family:var(--serif); font-weight:600; }
   h2 span { display:block; }
@@ -104,7 +105,7 @@
   #close .co .credit { margin-top:1.4em; font-size:11px; letter-spacing:.3em; color:var(--mute); }
 
   .ch { position:absolute; left:0; top:0; translate:-50% -100%; text-align:center; font:600 clamp(18px,1.4vw,26px)/1.2 var(--serif);
-    color:var(--ink); opacity:0; transition:opacity .6s; text-shadow:0 0 12px rgba(var(--wash),.9), 0 0 3px rgba(var(--wash),1); }
+    color:var(--ink); opacity:0; transition:opacity .6s; will-change:transform; text-shadow:0 0 12px rgba(var(--wash),.9), 0 0 3px rgba(var(--wash),1); }
   .ch small { display:block; font:600 11px/1.6 var(--sans); letter-spacing:.4em; color:var(--red); }
   .ch.on { opacity:1; }
 
@@ -133,7 +134,7 @@
   body.hud:not([data-hud=run]) #dots { opacity:0; pointer-events:none; }
   #hud-load, #hud-menu { position:fixed; inset:0; z-index:100; overflow:hidden; color:var(--ink);
     background:radial-gradient(120% 90% at 50% 42%, #f7f1e6 0%, var(--paper) 55%, #e6d9c2 100%); transition:transform 1.4s cubic-bezier(.7,0,.2,1), opacity .6s; }
-  #hud-load .fib, #hud-menu .fib { position:absolute; inset:0; opacity:.07; mix-blend-mode:multiply; pointer-events:none; }
+  #hud-load .fib, #hud-menu .fib { position:absolute; inset:0; opacity:.07; pointer-events:none; }
   #hud-load.away, #hud-menu.up { transform:translateY(-102%); box-shadow:0 30px 60px rgba(42,30,18,.35); }
 
   /* 0 載入：團名＋紅線進度條＋輪播小知識 */
@@ -165,6 +166,8 @@
   #hud-teaser .b { height:16vh; }
   #hud-teaser .cap { position:absolute; left:6vw; right:6vw; bottom:0; height:16vh; display:flex; align-items:center; justify-content:center; text-align:center;
     font:600 clamp(20px,3.4vh,44px)/1.5 var(--serif); letter-spacing:.14em; color:#fbf5ea; text-wrap:balance; opacity:0; translate:0 8px; transition:opacity 1.6s 1s, translate 2s 1s; }
+  #hud-teaser .cap .in { display:block; max-width:100%; text-wrap:balance; }   /* 詞組是行內塊：照標點換行、詞組內不拆 */
+  #hud-teaser .cap .ph, #hud-teaser .cap .w { display:inline-block; white-space:nowrap; }
   #hud-teaser.on .lb { transform:none; }
   #hud-teaser.on .cap { opacity:1; translate:0 0; }
 
@@ -220,9 +223,9 @@
     background:rgba(251,246,236,.75); border:1px solid rgba(42,36,32,.28); border-radius:2px; box-shadow:0 3px 0 #d6c6a8; transition:translate .2s, box-shadow .2s, border-color .2s, background .2s; }
   #hud-menu .opts b { display:block; font:600 max(17px,2.4vh)/1 var(--serif); letter-spacing:.3em; margin-right:-.3em; }
   #hud-menu .opts small { display:block; margin-top:.8em; font:600 max(10px,1.3vh)/1 var(--sans); letter-spacing:.32em; margin-right:-.32em; color:var(--mute); }
-  #hud-menu .opts button::before { content:""; position:absolute; left:50%; top:-16px; width:8px; height:8px; translate:-50% 0; rotate:45deg; background:var(--red); opacity:0; transition:opacity .2s, top .2s; }
+  #hud-menu .opts button::before { content:""; position:absolute; left:50%; top:-16px; width:8px; height:8px; translate:-50% 0; rotate:45deg; background:var(--red); opacity:0; transition:opacity .2s, translate .2s; }
   #hud-menu .opts button.cur { translate:0 -3px; border-color:var(--red); box-shadow:0 6px 0 #d6c6a8, 0 16px 24px -16px rgba(60,30,14,.5); background:#fbf6ec; }
-  #hud-menu .opts button.cur::before { opacity:1; top:-19px; }
+  #hud-menu .opts button.cur::before { opacity:1; translate:-50% -3px; }
   #hud-menu .opts button.go { background:var(--red); border-color:var(--red); color:#fbf3e4; box-shadow:0 4px 0 #761a12, 0 16px 26px -14px rgba(90,24,14,.55); }
   #hud-menu .opts button.go small { color:rgba(251,243,228,.75); }
   #hud-menu .opts button.go.cur { background:#bd3326; box-shadow:0 7px 0 #761a12, 0 20px 30px -14px rgba(90,24,14,.6); }
@@ -429,6 +432,14 @@
   #hud-qa b { font:700 clamp(28px,4.4vh,48px)/1 var(--serif); letter-spacing:.06em; }
   #hud-qa span { font:600 var(--t-read)/1 var(--serif); letter-spacing:.2em; }
   /* 黑屏（B／簡報筆黑屏鍵）：蓋在最上層，主講人講話時觀眾看主講人 */
+  /* 手機捲動版（hud.js SCROLL）：上下滑一次走一幕；不讓瀏覽器下拉重新整理吃掉往下滑 */
+  html:has(body.hud), body.hud { overscroll-behavior:none; }
+  #hud-sh { position:fixed; left:50%; top:clamp(14px,2.4vh,24px); z-index:120; translate:-50% -8px; display:flex; align-items:center; gap:.7em; padding:.6em 1.1em .55em .9em;
+    font:600 max(13px,1.6vh)/1 var(--serif); letter-spacing:.24em; color:var(--ink); background:#fbf6ec; border:1px solid rgba(42,36,32,.28); border-radius:2px; box-shadow:0 3px 0 #d6c6a8;
+    opacity:0; pointer-events:none; transition:opacity .5s, translate .6s; }
+  #hud-sh.on { opacity:1; translate:-50% 0; }
+  #hud-sh i { width:8px; height:8px; border:solid var(--red); border-width:1.5px 0 0 1.5px; rotate:45deg; translate:0 2px; }
+  #hud-sh.on i { animation:hudNext 1.4s ease-in-out infinite; }
   #hud-black { position:fixed; inset:0; z-index:300; background:#000; opacity:0; pointer-events:none; transition:opacity .35s; }
   #hud-black.on { opacity:1; pointer-events:auto; }
   /* 返回主選單：左上角一張小籤 */

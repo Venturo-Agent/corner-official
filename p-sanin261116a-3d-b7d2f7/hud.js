@@ -74,7 +74,7 @@
     if (mk.mark && CO.credit) M.querySelector('.credit .vm').src = mk.mark; else M.querySelector('.credit .vm').remove();
     if (mk.mark) B.querySelector('.v').src = mk.mark; else B.querySelector('.v').remove();
     if (mk.logo) B.querySelector('.w').src = mk.logo; else B.querySelector('.w').remove();
-    TZ.querySelector('.cap').textContent = (J.story.foreword && J.story.foreword.lead) || '';
+    capFill((J.story.foreword && J.story.foreword.lead) || '');
     if (PROP) {   // 提案版：存檔欄改「提案」＋客戶名；選項照觀眾的問題排：為什麼找我們 → 行程亮點 → 費用與報名 → 開始
       M.querySelector('.mk').innerHTML = 'PROPOSAL<i>·</i>提案';
       if (J.client) M.querySelector('.mission .nm').insertAdjacentHTML('beforebegin', `<p class="for">致　${esc(J.client)}</p>`);
@@ -108,14 +108,26 @@
     box.addEventListener('click', (e) => { const c = e.target.closest('.card'); if (c) c.classList.toggle('flip'); });
   }
 
+  // 冷開場字幕：照標點分詞組、詞組內不拆（同逐日標題）；詞組比畫面寬才再照詞切，還放不下就縮字級（William 最在意斷字：「楓紅」不能拆）
+  function capFill(t) {
+    const c = TZ.querySelector('.cap'); c.innerHTML = `<span class="in">${esc(t).split(/(?<=[，、。；：！？　])/).filter(Boolean).map((x) => `<span class="ph">${x}</span>`).join('')}</span>`; capFit();
+  }
+  function capFit() {
+    const c = TZ.querySelector('.cap'); if (!c || !c.textContent) return; c.style.fontSize = '';
+    const W = () => c.clientWidth - 2, wide = () => [...c.querySelectorAll('.ph, .w')].filter((x) => x.getBoundingClientRect().width > W());
+    wide().forEach((p) => { if (p.classList.contains('ph') && 'Segmenter' in Intl) p.innerHTML = [...new Intl.Segmenter('zh-Hant', { granularity: 'word' }).segment(p.textContent)].map((g) => `<span class="w">${esc(g.segment)}</span>`).join(''); });
+    for (let f = parseFloat(getComputedStyle(c).fontSize), i = 0; wide().length && i < 12; i++) c.style.fontSize = `${(f *= 0.92).toFixed(1)}px`;
+  }
+  addEventListener('resize', capFit); if (document.fonts) document.fonts.ready.then(capFit);
+
   // ── 狀態切換 ──
-  function setState(s) { state = s; body.dataset.hud = s; sceneAt = Date.now(); post(); }
+  function setState(s) { state = s; body.dataset.hud = s; sceneAt = Date.now(); post(); if (s === 'run' && SCROLL) setTimeout(scrollHint, 1600); }
   function afterReady() {
     clearInterval(tipTimer);
     if (direct || state === 'run') { [L, B, M, TZ].forEach((x) => x.remove()); setState('run'); return; }
     if (DAILY) { [L, B, M, TZ].forEach((x) => x.remove()); setState('daily'); if (!SCN.length) readScenes(); showDay(todayN(), 0); return; }
     if (teaserFn && !COMPANY) {   // 公司介紹版不播這團的冷開場
-      L.classList.add('away'); setState('teaser'); TZ.classList.add('on');
+      L.classList.add('away'); setState('teaser'); TZ.classList.add('on'); capFit();
       Promise.resolve().then(() => teaserFn(TZ.querySelector('.cap').textContent)).catch(() => {}).then(() => { TZ.classList.remove('on'); boot(); });
     } else boot();
   }
@@ -164,6 +176,45 @@
     if (state !== 'run' || sx == null) return; const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; sx = null;
     if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) { if (dx > 0) back(); else fwd(); }
   }, { passive: true });
+  // ── 手機捲動版（同業標竿第三招）：觀眾自己用手機看時，往上滑（滾輪往下）＝下一幕、反向＝上一幕，一次只走一幕（吸附），3D 照常 go。
+  //    ?scroll=1 一開就進入；手機直式在旅程中第一次上下滑自動進入。只多一種本機手勢，鍵盤、點擊、主講人視窗都照舊 ──
+  let SCROLL = q.get('scroll') === '1', scrAt = 0, gy = null, gx = 0, gIn = null, gCards = [], gCan = [false, false];
+  const phonePortrait = () => matchMedia('(orientation:portrait) and (max-width:820px) and (pointer:coarse)').matches;
+  const scrollOk = () => ['run', 'tour', 'prologue'].includes(state) || (state === 'menu' && SCROLL);
+  function scrollStep(d) {
+    if (Date.now() - scrAt < 450) return; scrAt = Date.now();
+    if (state === 'tour') cstep(d); else if (state === 'prologue') proStep(d); else if (state === 'menu') { if (d > 0) pick('start'); } else (d > 0 ? fwd : back)();
+  }
+  function scrollOn() { SCROLL = true; body.classList.add('hud-scroll'); }
+  // 卡片自己還能往這個方向捲，就先讓卡片捲（同每日版）
+  function innerScroller(t) { for (let e = t instanceof Element ? t : null; e && e !== body; e = e.parentElement) { const o = getComputedStyle(e).overflowY; if ((o === 'auto' || o === 'scroll') && e.scrollHeight > e.clientHeight + 2) return e; } return null; }
+  const innerCan = (e, d) => e && (d > 0 ? e.scrollTop + e.clientHeight < e.scrollHeight - 2 : e.scrollTop > 2);
+  const dragTo = (y, ms) => gCards.forEach((c) => { c.style.transition = ms ? `translate ${ms}ms cubic-bezier(.2,.8,.2,1)` : 'none'; c.style.translate = y ? `0 ${y}px` : ''; });
+  addEventListener('touchstart', (e) => {
+    if (!scrollOk() || e.touches.length > 1) { gy = null; return; }
+    gy = e.touches[0].clientY; gx = e.touches[0].clientX; gIn = innerScroller(e.target); gCards = []; gCan = [innerCan(gIn, 1), innerCan(gIn, -1)];   // 起手時卡片還能捲的方向：這一滑先給卡片捲，下一滑才換幕
+  }, { passive: true });
+  addEventListener('touchmove', (e) => {   // 卡片跟著手指走一小段（只動 translate），放手再吸附
+    if (gy == null || !(SCROLL || phonePortrait())) return; const dy = e.touches[0].clientY - gy, dx = e.touches[0].clientX - gx;
+    if (Math.abs(dy) < 8 || Math.abs(dy) < Math.abs(dx) || gCan[dy < 0 ? 0 : 1]) return;
+    if (!gCards.length) gCards = [...document.querySelectorAll('.scene')].filter((c) => +getComputedStyle(c).opacity > 0.3);
+    dragTo(Math.max(-90, Math.min(90, dy * 0.35)));
+  }, { passive: true });
+  addEventListener('touchend', (e) => {
+    if (gy == null) return; const dy = e.changedTouches[0].clientY - gy, dx = e.changedTouches[0].clientX - gx, d = dy < 0 ? 1 : -1; gy = null;
+    const go = Math.abs(dy) > 60 && Math.abs(dy) > Math.abs(dx) * 1.5 && !gCan[d > 0 ? 0 : 1] && scrollOk() && (SCROLL || (phonePortrait() && state === 'run'));
+    if (!go) { if (gCards.length) dragTo(0, 300); gCards = []; return; }
+    if (!SCROLL) scrollOn();
+    if (gCards.length) { dragTo(d * 46); requestAnimationFrame(() => requestAnimationFrame(() => { dragTo(0, 520); gCards = []; })); }   // 新的一幕從手指走的反方向補上來
+    scrollStep(d);
+  }, { passive: true });
+  addEventListener('wheel', (e) => {
+    if (!SCROLL || !scrollOk() || Math.abs(e.deltaY) < 20) return; const d = e.deltaY > 0 ? 1 : -1;
+    if (innerCan(innerScroller(e.target), d) || Date.now() - scrAt < 900) return; scrollStep(d);
+  }, { passive: true });
+  const SH = el('hud-sh', '', '<i></i><span>往上滑　下一幕</span>'); let shown1 = false;   // 捲動版第一次進旅程時提示一次
+  function scrollHint() { if (shown1) return; shown1 = true; SH.classList.add('on'); setTimeout(() => SH.classList.remove('on'), 3200); }
+  if (SCROLL) scrollOn();
   // 鍵盤、簡報筆、主講人視窗共用一套：回傳 true＝這裡處理掉了（不再給 main.js）
   function keyCmd(k, remote) {
     if (k === 'b' || k === 'B' || k === '.') { blackout(); return true; }   // 簡報筆的黑屏鍵（多半送 B 或 .）
@@ -222,6 +273,7 @@
     if (!ch || !ch.days) return; const ci = ch.ci != null ? ch.ci : J.story.chapters.findIndex((c) => c.name === ch.name);
     if (stageKey === ci) return; stageKey = ci;
     const d0 = ch.days[0], d1 = ch.days[ch.days.length - 1];
+    S.scrollTop = 0;   // 同一張卡換天：從頂端開始（手機卡片可捲，上一天捲到哪不帶過來）
     S.innerHTML = `<div class="ghost">${pad(ci + 1)}</div>
       <div class="no"><span>STAGE</span>${pad(ci + 1)}</div><div class="k">${esc(ch.en)}</div><h2>${esc(ch.name)}</h2><i class="rule"></i>
       <p class="range">DAY ${pad(d0)}${ch.days.length > 1 ? ' — ' + pad(d1) : ''}<i>·</i>${ch.days.length} DAYS</p>
@@ -236,6 +288,7 @@
     if (!d || dayKey === d.n) return; dayKey = d.n;
     const mm = MEMO && memOf(d.n); D.classList.toggle('mem', !!mm);
     if (mm) {   // 回憶版：這天有團員照片就換成拍立得（照片＋一句＋提供者）；沒有就照一般逐日卡
+      D.scrollTop = 0;
       D.innerHTML = `<div class="pol"><i class="tape"></i><p class="tag">DAY ${pad(d.n)}<i>·</i>${esc(d.date)}</p><figure><img src="${esc(mm.photo)}" alt=""></figure>
         ${mm.caption ? `<p class="cap">${esc(mm.caption)}</p>` : ''}${mm.by ? `<p class="by">${esc(mm.by)}</p>` : ''}</div><p class="ttl">${phr(d.title)}</p>`;
       replay(D); return;
@@ -243,6 +296,7 @@
     const ci = J.story.chapters.findIndex((c) => c.days.includes(d.n)), ch = J.story.chapters[ci] || {};
     const legs = String(d.legs || '').split(/\s*→\s*/).filter(Boolean);
     const spots = (d.spots || []).slice(0, 3).map((x) => { const [a, ...b] = String(x).split(/　+/); return [a, b.join(' ')]; });
+    D.scrollTop = 0;
     D.innerHTML = `<div class="chip"><b>STAGE ${pad(ci + 1)}</b>${esc(ch.name)}</div>
       ${d.img ? `<figure class="ph${d.imgSize && d.imgSize[1] > d.imgSize[0] ? ' tall' : ''}"><img src="${d.img}" alt=""></figure>` : ''}
       <div class="dn"><span>DAY</span><strong>${pad(d.n)}</strong><em>/ ${pad(J.days.length)}</em><time>${esc(d.date)}</time></div>
@@ -520,8 +574,9 @@
   ODO.querySelector('.ico').addEventListener('click', () => odoToggle());
   ODO.querySelector('.more').addEventListener('click', () => ODO.classList.toggle('full'));
   function roll(elm, v) {
+    const s = v == null ? '' : String(Math.max(0, Math.round(+v || 0))).padStart(3, '0');
+    if (elm._v === s) return; elm._v = s;   // main.js 每格都呼叫：數字沒變就不碰 DOM（省每格重算樣式與重排）
     if (v == null) { elm.innerHTML = '<span class="dg na">—</span>'; return; }   // 沒有里程（例：當天沒有站點）就寫「—」，不寫 000 讓人以為沒移動
-    const s = String(Math.max(0, Math.round(+v || 0))).padStart(3, '0');
     if (elm.querySelector('.na')) elm.innerHTML = '';
     if (elm.children.length !== s.length) elm.innerHTML = [...s].map(() => `<span class="dg"><span class="st">${[...'0123456789'].map((x) => `<i>${x}</i>`).join('')}</span></span>`).join('');
     [...s].forEach((ch, i) => { elm.children[i].firstChild.style.transform = `translateY(${-ch * 10}%)`; });
@@ -534,7 +589,8 @@
   function odoShow(today, todayTotal, cum) {
     const none = todayTotal === 0 || (todayTotal == null && !today);
     roll(ODO.querySelector('[data-k=t]'), none ? null : today); roll(ODO.querySelector('[data-k=c]'), cum);
-    ODO.querySelector('.r em').textContent = !none && todayTotal != null && Math.round(todayTotal) !== Math.round(today) ? `/ ${Math.round(todayTotal)}` : '';
+    const em = ODO.querySelector('.r em'), tx = !none && todayTotal != null && Math.round(todayTotal) !== Math.round(today) ? `/ ${Math.round(todayTotal)}` : '';
+    if (em.textContent !== tx) em.textContent = tx;
   }
   function odoStatic(s) {   // 靜態值：到第 N 天就顯示當天總里程、累計到當天
     const L = kmList(); if (!L) { delete ODO.dataset.ok; return; } ODO.dataset.ok = 1;
@@ -564,7 +620,17 @@
     PROP = (J.story && J.story.mode) === 'proposal'; OFFER = PROP ? offerOf(J.story) : null; if (PROP) body.classList.add('hud-proposal'); fill();   // 公司資料沒建（例如同業團）時至少有承辦旅行社的名稱
     new MutationObserver(sync).observe(body, { attributes: true, attributeFilter: ['data-mode'] });
     new MutationObserver(sync).observe($('dots'), { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
-    const g = setInterval(() => { const u = $('grain').style.backgroundImage; if (u) { document.querySelectorAll('#hud-load .fib, #hud-menu .fib').forEach((f) => { f.style.backgroundImage = u; }); clearInterval(g); } }, 200);
+    // 紙纖維：main.js 給的是白底淡褐纖維、原本用色彩增值疊上去。改成「黑＋透明度（1 − 亮度）」用一般疊法，畫面一樣，但手機不必每格多做全螢幕混合
+    const g = setInterval(() => {
+      const u = $('grain').style.backgroundImage.match(/url\("?(.*?)"?\)$/); if (!u) return; clearInterval(g);
+      const im = new Image(); im.onload = () => {
+        const c = document.createElement('canvas'); c.width = im.width; c.height = im.height; const x = c.getContext('2d'); x.drawImage(im, 0, 0);
+        const d = x.getImageData(0, 0, c.width, c.height), a = d.data;
+        for (let i = 0; i < a.length; i += 4) { a[i + 3] = 255 - (a[i] + a[i + 1] + a[i + 2]) / 3; a[i] = a[i + 1] = a[i + 2] = 0; }
+        x.putImageData(d, 0, 0); const v = `url(${c.toDataURL()})`;
+        [$('grain'), ...document.querySelectorAll('#hud-load .fib, #hud-menu .fib')].forEach((f) => { f.style.backgroundImage = v; f.classList.add('a'); });
+      }; im.src = u[1];
+    }, 200);
   });
   setState('load');
 })();
