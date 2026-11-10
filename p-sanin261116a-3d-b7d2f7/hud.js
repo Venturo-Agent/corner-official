@@ -16,6 +16,36 @@
   const body = document.body; body.classList.add('hud');
   const el = (id, cls, html) => { const e = document.createElement('div'); e.id = id; if (cls) e.className = cls; if (html) e.innerHTML = html; body.appendChild(e); return e; };
 
+  // 橫向外殼：每日、公司與回憶版沿原設計；轉向只遮畫面，不重建旅程
+  const portraitScreen = matchMedia('(orientation:portrait) and (max-width:1024px) and (any-pointer:coarse)');
+  const touchScreen = () => navigator.maxTouchPoints > 0 || matchMedia('(any-pointer:coarse)').matches;
+  let landscape = !['daily', 'company', 'memory'].includes(q.get('mode')), rotateWait = null, lockTried = false;
+  const ROT = el('hud-rotate', '', '<div class="sheet"><div class="turn" aria-hidden="true"><i></i><b></b></div><p>請把手機轉橫</p><small>轉橫後繼續旅程</small></div>');
+  ROT.setAttribute('role', 'dialog'); ROT.setAttribute('aria-label', '請把手機轉橫'); ROT.setAttribute('aria-modal', 'true');
+  const rotateBlocked = () => landscape && portraitScreen.matches;
+  function orientationUI() {
+    const blocked = rotateBlocked(); body.classList.toggle('hud-landscape', landscape); body.classList.toggle('hud-rotated', blocked);
+    const viewport = document.querySelector('meta[name=viewport]'), content = `width=device-width,initial-scale=1${landscape ? ',viewport-fit=cover' : ''}`;
+    if (viewport && viewport.content !== content) viewport.content = content;
+    ROT.hidden = !blocked;
+    [...body.children].forEach((e) => { if (e !== ROT && !['SCRIPT', 'STYLE'].includes(e.tagName)) e.inert = blocked; });
+    document.dispatchEvent(new CustomEvent('hud:orientation', { detail: { blocked } }));
+    if (!blocked && rotateWait) { const fn = rotateWait; rotateWait = null; fn(); }
+    if (!blocked && typeof touchHint === 'function') touchHint();
+  }
+  function inLandscape(fn) { if (rotateBlocked()) rotateWait = fn; else fn(); }
+  async function lockLandscape() {
+    if (!landscape || lockTried || !/Android/i.test(navigator.userAgent) || !touchScreen()) return;
+    lockTried = true;
+    try { if (!document.fullscreenElement && document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen(); } catch (x) { }
+    try { if (screen.orientation && screen.orientation.lock) await screen.orientation.lock('landscape'); } catch (x) { }
+  }
+  addEventListener('resize', orientationUI);
+  if (portraitScreen.addEventListener) portraitScreen.addEventListener('change', orientationUI);
+  else portraitScreen.addListener(orientationUI);
+  // 舊版 iOS 的多指手勢也不交給整頁縮放；每日版沿原操作
+  addEventListener('gesturestart', (e) => { if (landscape) e.preventDefault(); }, { passive: false });
+
   // ── 0 載入：一張紙，只有這團的名字、紅線進度條、這團的小知識（先給畫面，不先給公司） ──
   const L = el('hud-load', '', `<div class="fib"></div><div class="in"><p class="nm"><span class="tn"></span><span class="suf"></span></p><p class="dt"></p>
     <div class="row"><span class="st">LOADING</span><span class="pct">0%</span></div><div class="bar"><i></i></div>
@@ -100,12 +130,13 @@
   // 角色介紹：CO.people = [{ name, role, en, photo, bio: 字串或字串陣列 }]；沒資料就不出這個選項（11/10 主控：畫面不出現「待補」），不編人
   function people() {
     const P = CO.people || [], box = M.querySelector('.cards');
-    box.innerHTML = P.length ? P.map((p, i) => `<button type="button" class="card" style="--i:${i}"><div class="face">
+    box.innerHTML = P.length ? P.map((p, i) => `<button type="button" class="card" aria-expanded="false" style="--i:${i}"><div class="face">
         ${p.photo ? `<img src="${esc(p.photo)}" alt="">` : `<span class="mono">${esc(String(p.name || '').slice(0, 1))}</span>`}
         <p class="role">${esc(p.en || p.role || '')}</p><p class="name">${esc(p.name)}</p>${p.en && p.role ? `<p class="sub">${esc(p.role)}</p>` : ''}</div>
       <div class="back"><p class="name">${esc(p.name)}</p>${[].concat(p.bio || []).map((x) => `<p>${esc(x)}</p>`).join('')}</div></button>`).join('')
       : '';
-    box.addEventListener('click', (e) => { const c = e.target.closest('.card'); if (c) c.classList.toggle('flip'); });
+    box.addEventListener('click', (e) => { const c = e.target.closest('.card'); if (c) c.setAttribute('aria-expanded', String(c.classList.toggle('flip'))); });
+    M.querySelector('.people .hint').textContent = touchScreen() ? '點一下看背景　再點收回' : '移到卡片上看背景　ESC 返回';
   }
 
   // 冷開場字幕：照標點分詞組、詞組內不拆（同逐日標題）；詞組比畫面寬才再照詞切，還放不下就縮字級（William 最在意斷字：「楓紅」不能拆）
@@ -121,21 +152,22 @@
   addEventListener('resize', capFit); if (document.fonts) document.fonts.ready.then(capFit);
 
   // ── 狀態切換 ──
-  function setState(s) { state = s; body.dataset.hud = s; sceneAt = Date.now(); post(); if (s === 'run' && SCROLL) setTimeout(scrollHint, 1600); }
+  function setState(s) { state = s; body.dataset.hud = s; sceneAt = Date.now(); post(); if (s === 'run') { if (SCROLL) setTimeout(scrollHint, 1600); setTimeout(touchHint, 0); } }
   function afterReady() {
+    if (rotateBlocked()) { rotateWait = afterReady; return; }
     clearInterval(tipTimer);
     if (direct || state === 'run') { [L, B, M, TZ].forEach((x) => x.remove()); setState('run'); return; }
     if (DAILY) { [L, B, M, TZ].forEach((x) => x.remove()); setState('daily'); if (!SCN.length) readScenes(); showDay(todayN(), 0); return; }
     if (teaserFn && !COMPANY) {   // 公司介紹版不播這團的冷開場
       L.classList.add('away'); setState('teaser'); TZ.classList.add('on'); capFit();
-      Promise.resolve().then(() => teaserFn(TZ.querySelector('.cap').textContent)).catch(() => {}).then(() => { TZ.classList.remove('on'); boot(); });
+      Promise.resolve().then(() => teaserFn(TZ.querySelector('.cap').textContent)).catch(() => {}).then(() => { TZ.classList.remove('on'); inLandscape(boot); });
     } else boot();
   }
   function boot() {
     setState('boot'); B.classList.add('on');
     if (!B.querySelector('img')) { B.remove(); menu(); return; }
     requestAnimationFrame(() => requestAnimationFrame(() => B.classList.add('show')));
-    setTimeout(() => { L.remove(); menu(); B.classList.add('out'); }, 2100); setTimeout(() => B.remove(), 3000);
+    setTimeout(() => inLandscape(() => { L.remove(); menu(); B.classList.add('out'); setTimeout(() => B.remove(), 900); }), 2100);
   }
   function menu() {
     if (state === 'run') return;
@@ -169,18 +201,33 @@
   const QA = el('hud-qa', '', '<b>Q&amp;A</b><span>問題與交流</span>');
   function fwd() { const j = J_(); if (!j) return; if (j.step >= SCN.length - 1) { QA.classList.toggle('on'); post(); } else { QA.classList.remove('on'); j.go(j.step + 1); } }
   function back() { const j = J_(); if (!j) return; if (QA.classList.contains('on')) { QA.classList.remove('on'); post(); return; } if (j.step > 0) j.go(j.step - 1); }
-  // 手機左右滑：往右滑＝上一幕、往左滑＝下一幕（開始後）
-  let sx = null, sy = 0;
-  addEventListener('touchstart', (e) => { if (state === 'run') { sx = e.touches[0].clientX; sy = e.touches[0].clientY; } }, { passive: true });
-  addEventListener('touchend', (e) => {
-    if (state !== 'run' || sx == null) return; const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; sx = null;
-    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) { if (dx > 0) back(); else fwd(); }
+  // 左右滑一次一幕；垂直拖曳只捲卡片，多指不翻幕，拖過後吃掉合成點擊
+  let sx = null, sy = 0, touchX = null, touchY = 0, suppressTap = 0, swipeAt = 0;
+  addEventListener('touchstart', (e) => {
+    sx = null;
+    if (e.touches.length !== 1 || rotateBlocked()) { touchX = null; if (landscape) suppressTap = Date.now() + 600; return; }
+    touchX = e.touches[0].clientX; touchY = e.touches[0].clientY;
+    if (state === 'run' && !e.target.closest('button, a, input, select, textarea, #dots')) { sx = touchX; sy = touchY; }
   }, { passive: true });
+  addEventListener('touchmove', (e) => {
+    if (e.touches.length !== 1) { sx = touchX = null; if (landscape && e.cancelable) e.preventDefault(); }
+  }, { passive: false });
+  addEventListener('touchend', (e) => {
+    const t = e.changedTouches[0];
+    if (landscape && e.touches.length) suppressTap = Date.now() + 600;
+    if (landscape && touchX != null && Math.hypot(t.clientX - touchX, t.clientY - touchY) > 12) suppressTap = Date.now() + 600;
+    touchX = null;
+    if (state !== 'run' || sx == null || e.touches.length || rotateBlocked()) { sx = null; return; }
+    const dx = t.clientX - sx, dy = t.clientY - sy; sx = null;
+    const threshold = Math.max(36, Math.min(60, innerWidth * 0.06));
+    if (Math.abs(dx) > threshold && Math.abs(dx) > Math.abs(dy) * 1.5 && Date.now() - swipeAt > 450) { swipeAt = Date.now(); if (dx > 0) back(); else fwd(); }
+  }, { passive: true });
+  addEventListener('touchcancel', () => { sx = touchX = null; suppressTap = Date.now() + 600; }, { passive: true });
   // ── 手機捲動版（同業標竿第三招）：觀眾自己用手機看時，往上滑（滾輪往下）＝下一幕、反向＝上一幕，一次只走一幕（吸附），3D 照常 go。
   //    ?scroll=1 一開就進入；手機直式在旅程中第一次上下滑自動進入。只多一種本機手勢，鍵盤、點擊、主講人視窗都照舊 ──
   let SCROLL = q.get('scroll') === '1', scrAt = 0, gy = null, gx = 0, gIn = null, gCards = [], gCan = [false, false];
-  const phonePortrait = () => matchMedia('(orientation:portrait) and (max-width:820px) and (pointer:coarse)').matches;
-  const scrollOk = () => ['run', 'tour', 'prologue'].includes(state) || (state === 'menu' && SCROLL);
+  const phonePortrait = () => !landscape && matchMedia('(orientation:portrait) and (max-width:820px) and (pointer:coarse)').matches;
+  const scrollOk = () => !landscape && (['run', 'tour', 'prologue'].includes(state) || (state === 'menu' && SCROLL));
   function scrollStep(d) {
     if (Date.now() - scrAt < 450) return; scrAt = Date.now();
     if (state === 'tour') cstep(d); else if (state === 'prologue') proStep(d); else if (state === 'menu') { if (d > 0) pick('start'); } else (d > 0 ? fwd : back)();
@@ -215,8 +262,18 @@
   const SH = el('hud-sh', '', '<i></i><span>往上滑　下一幕</span>'); let shown1 = false;   // 捲動版第一次進旅程時提示一次
   function scrollHint() { if (shown1) return; shown1 = true; SH.classList.add('on'); setTimeout(() => SH.classList.remove('on'), 3200); }
   if (SCROLL) scrollOn();
+  const TH = el('hud-touch-hint', '', '點右邊下一步、左邊上一步');
+  TH.setAttribute('role', 'status');
+  let touchHintShown = false;
+  function touchHint() {
+    if (!landscape || !touchScreen() || rotateBlocked() || state !== 'run' || !SCN[J_() && J_().step] || SCN[J_().step].k !== 'day' || touchHintShown) return;
+    touchHintShown = true;
+    try { if (localStorage.getItem('journey-touch-hint') === '1') return; localStorage.setItem('journey-touch-hint', '1'); } catch (x) { }
+    TH.classList.add('on'); setTimeout(() => TH.classList.remove('on'), 4000);
+  }
   // 鍵盤、簡報筆、主講人視窗共用一套：回傳 true＝這裡處理掉了（不再給 main.js）
   function keyCmd(k, remote) {
+    if (rotateBlocked()) return true;
     if (k === 'b' || k === 'B' || k === '.') { blackout(); return true; }   // 簡報筆的黑屏鍵（多半送 B 或 .）
     if (k === 'p' || k === 'P') { if (!remote) presenter(); return true; }
     if ((k === 'k' || k === 'K') && ODO.dataset.ok) { odoToggle(); return true; }
@@ -244,8 +301,13 @@
   }
   addEventListener('keydown', (e) => { if (e.ctrlKey || e.metaKey || e.altKey) return; if (keyCmd(e.key, false)) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
   addEventListener('click', (e) => {
+    if (rotateBlocked() || (landscape && Date.now() < suppressTap && e.detail !== 0)) { e.preventDefault(); e.stopImmediatePropagation(); return; }
     const t = e.target.closest ? e.target : e.target.parentElement, onWorld = t && t.closest('#stage, #brand, .scene');
+    if (t && t.closest('#hud-menu .opts button')) lockLandscape();
     if (state === 'run') {
+      if (landscape && touchScreen() && J_() && onWorld && !t.closest('button, a')) {
+        e.stopImmediatePropagation(); if (e.clientX < innerWidth / 2) back(); else fwd(); return;
+      }
       // 開始後：點卡片也能翻（手機點到的多半是卡片，不是畫布；總檢 #1）。左側 20%＝上一幕，其餘＝下一幕；畫布的點擊 main.js 自己會翻
       const onCard = t && t.closest('.scene') && !t.closest('button, a, #stage'), left = e.clientX < innerWidth * 0.2;
       if (J_() && onCard) { e.stopImmediatePropagation(); if (left) back(); else fwd(); }
@@ -398,17 +460,24 @@
     $('dots').classList.add('map');
     document.querySelectorAll('#labels .ch small').forEach((s, i) => { s.textContent = `STAGE ${pad(i + 1)}`; });
   }
-  function map(step) { [...$('dots').children].forEach((b, i) => { b.classList.toggle('done', i < step); b.classList.toggle('on', i === step); }); }
+  function map(step) {
+    const nav = $('dots');
+    [...nav.children].forEach((b, i) => { b.classList.toggle('done', i < step); b.classList.toggle('on', i === step); });
+    const b = nav.children[step];
+    if (landscape && touchScreen() && b && nav.scrollWidth > nav.clientWidth) nav.scrollLeft = b.offsetLeft - (nav.clientWidth - b.offsetWidth) / 2;
+  }
 
   // ── 跟著 main.js 走：換幕時讀 __journey.step。不是這裡叫的換幕（截圖工具、?n=）→ 直接進「開始後」狀態 ──
   function sync() {
     const j = J_(); if (!j || !J || (!SCN.length && !readScenes())) return; mapInit(); decorate(); const s = j.step; if (s === last || s < 0) return;
-    const ext = last >= 0 && s !== expect; last = s;
+    const changed = last >= 0, ext = changed && s !== expect; last = s;
+    if (changed && landscape && !rotateBlocked() && ['run', 'prologue', 'route'].includes(state) && /Android/i.test(navigator.userAgent) && navigator.vibrate) { try { navigator.vibrate(10); } catch (x) { } }
     if (ext && state === 'tour') return;
     if (ext && state === 'daily') { const sc = SCN[s]; if (sc && sc.k === 'day' && sc.n !== dayN) showDay(sc.n, 0, true); return; }
     if (ext && state !== 'run') { [L, B, M, TZ].forEach((x) => x.remove()); BK.classList.remove('on'); setState('run'); }
     const sc = SCN[s]; if (!sc) return; map(s);
     if (sc.k === 'chapter') stage(sc.ci); if (sc.k === 'day') day(sc.n);
+    if (sc.k === 'day') touchHint();
     if (PRO.includes(sc.k) || sc.k === 'memory' || sc.k === 'close') replay($(sc.k));
     sceneAt = Date.now(); odoLive = false; odoStatic(s); post();
   }
@@ -608,6 +677,7 @@
     start(fn) { onGo = fn; },
     stage, day, map, sync,
     odometer(today, todayTotal, cum) { odoLive = true; ODO.dataset.ok = 1; odoShow(today, todayTotal, cum); },
+    get landscapeBlocked() { return rotateBlocked(); },
     get state() { return state; },
   };
 
@@ -617,6 +687,7 @@
     MEMO = (J.story && J.story.mode) === 'memory' || q.get('mode') === 'memory'; MEMS = MEMO ? ((J.story && J.story.memories) || []).filter((m) => m && m.photo) : [];
     if (MEMO) body.classList.add('hud-memory');
     COMPANY = (J.story && J.story.mode) === 'company' || q.get('mode') === 'company'; if (COMPANY) body.classList.add('hud-company');
+    landscape = !DAILY && !MEMO && !COMPANY; if (landscape) { SCROLL = false; body.classList.remove('hud-scroll'); } orientationUI();
     PROP = (J.story && J.story.mode) === 'proposal'; OFFER = PROP ? offerOf(J.story) : null; if (PROP) body.classList.add('hud-proposal'); fill();   // 公司資料沒建（例如同業團）時至少有承辦旅行社的名稱
     new MutationObserver(sync).observe(body, { attributes: true, attributeFilter: ['data-mode'] });
     new MutationObserver(sync).observe($('dots'), { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
@@ -632,5 +703,6 @@
       }; im.src = u[1];
     }, 200);
   });
+  orientationUI();
   setState('load');
 })();
