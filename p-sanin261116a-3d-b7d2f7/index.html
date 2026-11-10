@@ -41,13 +41,13 @@
   #brand .logo { height:clamp(36px,3.4vw,60px); margin-bottom:5vh; }
   #brand h1 { font-size:clamp(44px,5vw,92px); letter-spacing:.24em; margin-right:-.24em; line-height:1.2; }
   #brand .rule { display:block; width:56px; height:2px; background:var(--red); margin:4.5vh auto 4vh; }
-  #brand p { font:500 clamp(17px,1.45vw,26px)/2 var(--serif); letter-spacing:.12em; }
+  #brand p { font:500 max(var(--t-read), min(1.45vw, 26px))/2 var(--serif); letter-spacing:.12em; }
   #brand .foot { position:absolute; bottom:5vh; font:600 12px/1 var(--sans); letter-spacing:.4em; color:var(--mute); }
   #promise h2 { font-size:clamp(38px,3.6vw,66px); line-height:1.3; margin:.5em 0 .6em; letter-spacing:.06em; }
-  #promise p { font:400 clamp(15px,1.15vw,20px)/1.9 var(--serif); color:#4a4038; }
+  #promise p { font:400 max(var(--t-read), min(1.15vw, 20px))/1.9 var(--serif); color:#4a4038; }
 
   #why h2, #hq h2 { font-size:clamp(38px,3.6vw,66px); line-height:1.3; margin:.5em 0 .7em; letter-spacing:.06em; }
-  #why p span { display:block; font:400 clamp(16px,1.2vw,21px)/2.1 var(--serif); color:#4a4038; }
+  #why p span { display:block; font:400 max(var(--t-read), min(1.2vw, 21px))/2 var(--serif); color:#4a4038; }
   #hq p { font:400 clamp(13px,.95vw,16px)/2 var(--sans); color:#5a4e44; letter-spacing:.06em; }
   #hq .svc { font:600 clamp(18px,1.4vw,24px)/1.6 var(--serif); color:var(--ink); margin-bottom:.8em; letter-spacing:.12em; }
   #hq .svc i { font-style:normal; color:var(--red); margin:0 .4em; }
@@ -56,7 +56,7 @@
   #cover .l2 { font:500 clamp(16px,1.3vw,23px)/1.7 var(--serif); }
   #cover .tag { margin-top:1.6em; font:400 clamp(14px,1vw,17px)/1.8 var(--sans); color:var(--mute); }
   #foreword h2 { font-size:clamp(28px,2.4vw,46px); line-height:1.45; margin:.6em 0 .9em; }
-  #foreword p { font:400 clamp(16px,1.2vw,21px)/2 var(--serif); color:#4a4038; }
+  #foreword p { font:400 max(var(--t-read), min(1.2vw, 21px))/2 var(--serif); color:#4a4038; }
   #foreword p span { display:block; }
 
   #overview h2, #memory h2 { font-size:clamp(28px,2.6vw,46px); line-height:1.4; margin:.45em 0 .5em; }
@@ -175,7 +175,7 @@
   #hud-boot .mk { display:flex; flex-direction:column; align-items:center; gap:clamp(14px,2.4vh,26px); opacity:0; scale:.97; transition:opacity .8s ease, scale 2.4s cubic-bezier(.16,.84,.24,1); }
   #hud-boot.show .mk { opacity:1; scale:1; }
   #hud-boot .v { width:clamp(72px,9vh,120px); }
-  #hud-boot .w { width:clamp(180px,24vh,300px); filter:brightness(0) invert(.9); }
+  #hud-boot .w { width:clamp(180px,24vh,300px); filter:brightness(0) invert(1); }   /* 深色字標在黑底改純白（總檢 #10） */
 
   /* 3 主選單：一整張紙，四角紅角標＋雙線框 */
   #hud-menu { display:none; }
@@ -192,6 +192,7 @@
   #hud-menu.sub-people .home, #hud-menu.sub-offer .home { opacity:0; translate:0 -16px; pointer-events:none; }
   #hud-menu.sub-offer .offer { opacity:1; translate:0 0; pointer-events:auto; }
   #hud-menu.sub-people .people { opacity:1; translate:0 0; pointer-events:auto; }
+  #hud-menu.noslogan .pre { margin-bottom:clamp(30px,5vh,56px); }   /* 同業團沒有口號：公司名下面直接接本次旅程，不留一大片空白 */
   #hud-menu .clogo { display:block; height:clamp(34px,5vh,64px); margin:0 auto clamp(12px,1.8vh,20px); filter:drop-shadow(2px 2px 0 rgba(122,72,0,.18)); }
   #hud-menu .pre { font:600 var(--t-lab)/1 var(--sans); letter-spacing:.5em; margin-right:-.5em; color:var(--mute); margin-bottom:clamp(56px,10vh,110px); }
   #hud-menu h1 { position:relative; isolation:isolate; display:flex; justify-content:center; font-family:var(--serif); font-weight:700; line-height:1; }
@@ -227,7 +228,7 @@
   #hud-menu .opts button.go.cur { background:#bd3326; box-shadow:0 7px 0 #761a12, 0 20px 30px -14px rgba(90,24,14,.6); }
   #hud-menu .opts button:active { translate:0 2px; }
   #hud-menu .opts button:focus-visible { outline:2px solid var(--ink); outline-offset:5px; }
-  #hud-menu .hint { margin-top:clamp(20px,3.4vh,34px); font:600 var(--t-lab)/1 var(--sans); letter-spacing:.4em; margin-right:-.4em; color:var(--mute); opacity:.8; }
+  #hud-menu .hint { margin-top:clamp(20px,3.4vh,34px); font:600 var(--t-read)/1 var(--sans); letter-spacing:.4em; margin-right:-.4em; color:var(--mute); opacity:.8; }
   #hud-menu .credit { position:absolute; z-index:1; right:clamp(44px,4vw,72px); bottom:clamp(32px,4.6vh,46px); display:flex; align-items:center; gap:10px; font:500 var(--t-lab)/1 var(--sans); letter-spacing:.3em; color:var(--mute); }
   #hud-menu .credit .vm { width:2.2vh; height:2.2vh; min-width:18px; min-height:18px; filter:invert(1); mix-blend-mode:multiply; opacity:.7; }
   /* 3a 角色介紹：人物卡一列，移上去（觸控＝點）翻到背面看背景；沒資料一張待補框 */
@@ -273,6 +274,38 @@
   #close .cta .price small:not(.note) { display:block; margin:.5em 0 0; }
   #close .cta .consult > b, #close .cta .consult > p:first-of-type { border-top:2px solid var(--red); }
   #close .cta .consult > p:first-of-type { color:var(--ink); }
+  /* 公司介紹版「我們走過的路」：一張紙上排行程票卡（月份、國家、團名），多就分頁 */
+  body.hud-company #overview, body.hud-company #labels .ch, body.hud-company #close .co .slogan { display:none; }   /* 公司介紹版：不放這團的總覽字，片尾口號不重複 */
+  #hud-works { position:fixed; z-index:9; left:5vw; right:5vw; top:50%; translate:0 -50%; max-height:84vh; display:none; color:var(--ink);
+    background:rgb(var(--wash)); outline:1px solid rgba(42,36,32,.22); outline-offset:-10px; box-shadow:0 30px 60px -30px rgba(42,30,18,.5); }
+  #hud-works.on { display:flex; }
+  #hud-works .in { flex:1; display:flex; flex-direction:column; padding:clamp(28px,5vh,56px) clamp(28px,4vw,72px); min-height:0; }
+  #hud-works .ttl { display:flex; align-items:center; gap:1em; font:600 clamp(26px,4vh,46px)/1 var(--serif); letter-spacing:.18em; margin-bottom:clamp(20px,4vh,40px); }
+  #hud-works .ttl b { font:700 var(--t-lab)/1 var(--sans); letter-spacing:.32em; color:#fbf3e4; background:var(--ink); padding:.6em .8em .55em 1em; box-shadow:2px 2px 0 #c9b796; }
+  #hud-works .ttl em { margin-left:auto; font:600 var(--t-lab)/1 var(--sans); font-style:normal; letter-spacing:.2em; color:var(--mute); }
+  #hud-works .grid { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:clamp(12px,1.6vw,26px); min-height:0; overflow:auto; }
+  #hud-works .tk { position:relative; display:flex; flex-direction:column; gap:.5em; padding:clamp(16px,2.4vh,26px) clamp(16px,1.4vw,24px); background:#fbf6ec;
+    border:1px solid rgba(42,36,32,.2); border-left:4px solid var(--red); box-shadow:3px 3px 0 #d6c6a8; }
+  #hud-works .tk::after { content:""; position:absolute; right:22%; top:8px; bottom:8px; border-left:1.5px dashed #cdbfa8; }   /* 票根撕線 */
+  #hud-works .mo { font:700 clamp(22px,3vh,34px)/1 var(--serif); letter-spacing:.04em; }
+  #hud-works .ct { align-self:flex-start; font:600 var(--t-lab)/1 var(--sans); letter-spacing:.2em; color:var(--red); }
+  #hud-works .tt { margin-right:24%; font:600 var(--t-read)/1.45 var(--serif); }
+  #hud-works small { font:500 var(--t-lab)/1 var(--sans); color:var(--mute); letter-spacing:.1em; }
+  #hud-works.hud-in .tk { animation:hudDay .5s cubic-bezier(.16,.84,.24,1) calc(.08s * var(--i)) both; }
+  #hud-works.hud-in.back .tk { animation-name:hudDayDn; }
+  #hud-works .pg { display:flex; justify-content:center; gap:8px; margin-top:clamp(14px,2.4vh,24px); }
+  #hud-works .pg i { width:8px; height:8px; rotate:45deg; border:1.5px solid #b9a98f; }
+  #hud-works .pg i.on { background:var(--red); border-color:var(--red); }
+  @media (max-width:900px) {
+    #hud-works { left:3vw; right:3vw; }
+    #hud-works .grid { grid-template-columns:1fr; }
+    #hud-works .in { padding:22px 18px; }
+    #hud-works .ttl { flex-wrap:wrap; gap:.6em; font-size:24px; letter-spacing:.1em; margin-bottom:16px; }
+    #hud-works .ttl b, #hud-works .ttl em { white-space:nowrap; }
+    #hud-works .tk { padding:12px 14px; gap:.3em; } #hud-works .tk::after { display:none; } #hud-works .tt { margin-right:0; }
+    #hud-menu .opts b { letter-spacing:.12em; margin-right:-.12em; white-space:nowrap; }
+  }
+
   /* 旅途中每日版（hud.js DAILY）：只放今天；電腦＝左欄，手機＝下方紙卡（上面留給 3D 當天那一幕） */
   body.hud-daily #hud-day, body.hud-daily #hud-stage, body.hud-daily #gallery, body.hud-daily #panel, body.hud-daily #chapter { display:none !important; }
   #hud-daily { display:none; position:fixed; z-index:8; left:0; top:0; bottom:0; width:min(36vw,580px); color:var(--ink);
@@ -311,7 +344,7 @@
   #hud-daily .quest ul, #hud-daily .food ul { list-style:none; }
   #hud-daily .quest li { display:flex; gap:.85em; align-items:baseline; padding:.4em 0; font:500 var(--t-read)/1.5 var(--serif); }
   #hud-daily .quest li i { flex:none; width:9px; height:9px; border:1.5px solid var(--red); rotate:45deg; translate:0 -1px; }
-  #hud-daily .quest li small { display:block; font:400 var(--t-lab)/1.6 var(--sans); color:var(--mute); }
+  #hud-daily .quest li small { display:block; font:400 var(--t-read)/1.5 var(--sans); color:var(--mute); }
   #hud-daily .food { margin-bottom:6px; }
   #hud-daily .food ul { display:flex; gap:16px; }
   #hud-daily .food li { display:flex; flex-direction:column; align-items:center; gap:4px; }
@@ -330,6 +363,71 @@
     #hud-daily .dn strong { font-size:56px; }
   }
 
+  /* 住：第一晚小飯店卡、連住只寫續住（hud.js hotelHTML） */
+  .hotel { display:flex; gap:.9em; align-items:flex-start; margin:10px 0 4px; padding:.75em .95em; max-width:min(30vw,500px); background:#fbf6ec;
+    border:1px solid rgba(42,36,32,.2); border-left:3px solid var(--red); box-shadow:2px 2px 0 #d6c6a8; }
+  #hud-daily .hotel { max-width:none; }
+  .hotel > b { flex:none; font:700 var(--t-lab)/1.9 var(--sans); color:var(--red); }
+  .hotel .hn { font:600 var(--t-read)/1.4 var(--serif); }
+  .hotel .he { font:600 max(10px,1.3vh)/1.6 var(--sans); letter-spacing:.16em; color:var(--mute); }
+  .hotel .ha { font:500 var(--t-lab)/1.6 var(--sans); color:#5a4e44; letter-spacing:.06em; } .hotel .ha i { font-style:normal; color:var(--red); margin:0 .5em; }
+  .hotel .hd { margin-top:.3em; font:400 var(--t-read)/1.6 var(--serif); color:#4a4038; }
+  .cont span { margin-left:.8em; padding:.15em .55em; font:600 var(--t-lab)/1.4 var(--sans); letter-spacing:.14em; color:var(--mute); border:1px solid #cdbfa8; border-radius:2px; }
+
+  /* 行車碼表：右下一顆紙圓鈕，打開是一張紙卡；數字是一格一格的紙條往上捲（hud.js roll） */
+  #hud-odo { position:fixed; z-index:11; right:clamp(20px,3vw,56px); bottom:clamp(54px,8vh,84px); display:none; flex-direction:column-reverse; align-items:flex-end; gap:10px; color:var(--ink); }
+  body[data-hud=run] #hud-odo[data-ok], body[data-hud=daily] #hud-odo[data-ok] { display:flex; }
+  #hud-odo .ico { position:relative; width:48px; height:48px; border-radius:50%; cursor:pointer; background:#fbf6ec; border:1px solid rgba(42,36,32,.28); box-shadow:2px 3px 0 #d6c6a8; }
+  #hud-odo .ico i { position:absolute; left:11px; top:10px; width:24px; height:24px; border-radius:50%; border:2px solid var(--ink); border-bottom-color:transparent; rotate:45deg; }
+  #hud-odo .ico i::after { content:""; position:absolute; left:50%; top:50%; width:2px; height:10px; background:var(--red); transform-origin:50% 100%; translate:-50% -100%; rotate:-90deg; }
+  #hud-odo .ico span { position:absolute; left:0; right:0; bottom:6px; text-align:center; font:700 9px/1 var(--sans); letter-spacing:.14em; }
+  #hud-odo.on .ico { background:var(--red); border-color:var(--red); box-shadow:2px 3px 0 #761a12; } #hud-odo.on .ico i { border-color:#fbf3e4; border-bottom-color:transparent; } #hud-odo.on .ico span { color:#fbf3e4; }
+  #hud-odo .pn { display:none; min-width:230px; padding:14px 16px 12px; background:#fbf6ec; border:1px solid rgba(42,36,32,.22); box-shadow:3px 3px 0 #d6c6a8, 0 18px 30px -18px rgba(42,30,18,.5); }
+  #hud-odo.on .pn { display:block; }
+  #hud-odo .r { display:flex; align-items:center; gap:.6em; margin-bottom:8px; }
+  #hud-odo .r b { width:2.6em; font:700 var(--t-lab)/1 var(--sans); letter-spacing:.2em; color:var(--red); }
+  #hud-odo .r small { font:600 var(--t-lab)/1 var(--sans); color:var(--mute); }
+  #hud-odo .r em { font:500 var(--t-lab)/1 var(--sans); font-style:normal; color:var(--mute); }
+  #hud-odo .num { display:inline-flex; gap:3px; }
+  #hud-odo .dg { display:inline-block; width:.72em; height:1.2em; overflow:hidden; font:700 max(22px,3vh)/1.2em var(--serif); text-align:center;
+    background:#efe5d3; border-radius:2px; box-shadow:inset 0 1px 0 rgba(255,255,255,.6), inset 0 -2px 0 rgba(42,30,18,.12); }
+  #hud-odo .st { display:block; transition:transform .7s cubic-bezier(.3,.8,.3,1); }
+  #hud-odo .st i { display:block; height:1.2em; font-style:normal; }
+  #hud-odo .dg.na { width:auto; padding:0 .5em; color:var(--mute); }
+  #hud-odo .more { margin-top:4px; padding:.4em .7em; font:600 var(--t-lab)/1 var(--sans); letter-spacing:.14em; color:var(--ink); background:none; border:1px solid #cdbfa8; border-radius:2px; cursor:pointer; }
+  #hud-odo .tbl { display:none; list-style:none; margin-top:10px; max-height:34vh; overflow:auto; }
+  #hud-odo.full .tbl { display:block; }
+  #hud-odo .tbl li { display:flex; justify-content:space-between; gap:1.4em; padding:.3em 0; border-top:1px solid #e1d4bd; font:500 var(--t-lab)/1.4 var(--sans); }
+  #hud-odo .tbl li b { font-weight:600; letter-spacing:.12em; color:#5a4e44; } #hud-odo .tbl li.on b, #hud-odo .tbl li.on span { color:var(--red); }
+  #hud-odo .tbl li.sum { border-top:1.5px solid var(--ink); font-weight:700; }
+  @media (prefers-reduced-motion:reduce) { #hud-odo .st { transition:none; } }
+  #hud-qa.on ~ #hud-odo { display:none !important; }   /* Q&A 時碼表讓位 */
+
+  /* 回程回憶版：每天一張拍立得（團員照片、一句話、提供者），紙膠帶貼著；主畫面右上的實景照片收起，免得兩張照片 */
+  body.hud-memory #gallery { display:none !important; }
+  #hud-day.mem { justify-content:center; }
+  #hud-day.mem .pol { position:relative; width:min(30vw,460px); padding:14px 14px 18px; background:#fffdf8; rotate:-2.2deg;
+    box-shadow:0 1px 0 rgba(255,255,255,.8) inset, 0 28px 44px -24px rgba(42,30,18,.6), 0 6px 12px -8px rgba(42,30,18,.3); }
+  #hud-day.mem .tape { position:absolute; left:50%; top:-13px; width:120px; height:28px; translate:-50% 0; rotate:4deg;
+    background:repeating-linear-gradient(90deg, rgba(174,42,32,.5) 0 8px, rgba(174,42,32,.38) 8px 16px); box-shadow:0 2px 4px rgba(42,30,18,.15); }
+  #hud-day.mem .tag { font:700 var(--t-lab)/1 var(--sans); letter-spacing:.24em; color:var(--red); margin:4px 2px 10px; }
+  #hud-day.mem .tag i { font-style:normal; margin:0 .6em; }
+  #hud-day.mem figure img { display:block; width:100%; aspect-ratio:4/3; object-fit:cover; }
+  #hud-day.mem .cap { margin:14px 4px 0; font:600 max(17px,2.6vh)/1.6 var(--serif); color:var(--ink); }
+  #hud-day.mem .by { margin:6px 4px 0; text-align:right; font:500 var(--t-lab)/1.4 var(--serif); color:var(--mute); }
+  #hud-day.mem .by::before { content:"— "; }
+  #hud-day.mem > .ttl { margin-top:26px; font:500 var(--t-read)/1.6 var(--serif); color:#4a4038; max-width:min(30vw,460px); }
+  #hud-day.mem.hud-in .pol { animation:hudPol .9s cubic-bezier(.2,.9,.25,1.15) both; }
+  @keyframes hudPol { from { opacity:0; translate:0 -40px; rotate:-9deg; } }
+  #close .credits.by { margin:0 0 1.4em; } #close .credits.by small { display:block; font:700 var(--t-lab)/1 var(--sans); letter-spacing:.24em; color:var(--red); margin-bottom:.6em; }
+  #close .credits.by p { display:flex; flex-wrap:wrap; gap:.3em 1.2em; font:600 var(--t-read)/1.5 var(--serif); }
+
+  /* 片尾停住再按一次：Q&A 提示（總檢十名外） */
+  #hud-qa { position:fixed; z-index:20; right:clamp(28px,4vw,72px); bottom:clamp(60px,10vh,110px); display:flex; align-items:center; gap:.8em; padding:.7em 1.2em;
+    background:var(--red); color:#fbf3e4; box-shadow:3px 3px 0 #761a12, 0 20px 30px -16px rgba(90,24,14,.5); opacity:0; translate:0 12px; transition:opacity .5s, translate .6s; pointer-events:none; }
+  #hud-qa.on { opacity:1; translate:0 0; }
+  #hud-qa b { font:700 clamp(28px,4.4vh,48px)/1 var(--serif); letter-spacing:.06em; }
+  #hud-qa span { font:600 var(--t-read)/1 var(--serif); letter-spacing:.2em; }
   /* 黑屏（B／簡報筆黑屏鍵）：蓋在最上層，主講人講話時觀眾看主講人 */
   #hud-black { position:fixed; inset:0; z-index:300; background:#000; opacity:0; pointer-events:none; transition:opacity .35s; }
   #hud-black.on { opacity:1; pointer-events:auto; }
@@ -349,17 +447,17 @@
   #memory .stats b { font:700 clamp(40px,6vh,72px)/1 var(--serif); color:var(--ink); }
   #memory .stats em { font:600 var(--t-lab)/1 var(--sans); font-style:normal; letter-spacing:.32em; color:var(--red); }
   #memory .stats small { font:500 var(--t-lab)/1 var(--sans); color:#5a4e44; letter-spacing:.1em; }
-  #memory li { font-size:var(--t-lab); } #memory li b { font-size:var(--t-read); }
+  #memory li { font-size:var(--t-read); } #memory li b { font-size:max(17px,2.6vh); }
   #close .credits { list-style:none; margin:0 0 1.6em; } #close .credits li { display:flex; gap:1.2em; align-items:baseline; padding:.3em 0; }
   #close .credits small { min-width:8em; font:600 var(--t-lab)/1 var(--sans); letter-spacing:.2em; color:var(--red); } #close .credits b { font:600 var(--t-read)/1.4 var(--serif); }
-  #close .co p { font-size:var(--t-lab); }
+  #close .co p, #close .co .lic, #close .co .credit { font-size:var(--t-read); }   /* 片尾聯絡與執照字號後排要讀得到（總檢 #10） */
   /* 前情提要第四幕：據點卡 */
   #hq .offices { list-style:none; display:flex; gap:clamp(18px,2vw,36px); margin:.4em 0 1.4em; }
   #hq .offices li { flex:1; border-top:2px solid var(--red); padding-top:.9em; }
   #hq .offices b { display:block; font:600 var(--t-lab)/1.3 var(--sans); letter-spacing:.24em; color:var(--red); }
   #hq .offices span { display:block; margin:.45em 0 .3em; font:600 clamp(20px,2.8vh,30px)/1.3 var(--serif); letter-spacing:.1em; }
-  #hq .offices small { display:block; font:400 var(--t-lab)/1.6 var(--sans); color:#5a4e44; letter-spacing:.04em; }
-  #hq .lic { font:400 var(--t-lab)/1.8 var(--sans); color:var(--mute); } #hq .lic i { font-style:normal; color:var(--red); margin:0 .6em; }
+  #hq .offices small { display:block; font:400 var(--t-read)/1.6 var(--sans); color:#5a4e44; letter-spacing:.04em; }
+  #hq .lic { font:400 var(--t-read)/1.8 var(--sans); color:var(--mute); } #hq .lic i { font-style:normal; color:var(--red); margin:0 .6em; }
 
   /* hud.js 在就用新介面，原本的章節／逐日層收起（hud.js 沒載到時舊介面照常） */
   body.hud #chapter, body.hud #panel { display:none; }
@@ -379,6 +477,7 @@
   .hud-pro.hud-in .sq { animation:hudLine 1s cubic-bezier(.16,.84,.24,1) calc(.25s + var(--i) * .55s) both; }
   .hud-pro.hud-in .next { animation:hudLine .6s ease calc(.4s + var(--i) * .55s) both, hudNext 1.4s ease-in-out calc(1s + var(--i) * .55s) infinite; }
   @keyframes hudLine { from { opacity:0; translate:0 10px; filter:blur(3px); } }
+  .hud-end.hud-in .sq { animation-delay:calc(.2s + var(--i) * .28s); }   /* 片尾與回顧項目多，進場節奏加快，不讓觀眾等 */
   @keyframes hudNext { 50% { translate:0 5px; opacity:.4; } }
   /* 本次旅程（cover）：多一行天數／夜數／關卡數 */
   #cover .stats { margin-top:1.4em; display:flex; align-items:baseline; gap:1em; font:600 11px/1 var(--sans); letter-spacing:.32em; color:var(--mute); }
@@ -438,7 +537,7 @@
   #hud-day .quest ul { list-style:none; }
   #hud-day .quest li { display:flex; gap:.85em; align-items:baseline; padding:.42em 0; font:500 var(--t-read)/1.5 var(--serif); }
   #hud-day .quest li i { flex:none; width:9px; height:9px; border:1.5px solid var(--red); rotate:45deg; translate:0 -1px; }
-  #hud-day .quest li small { display:block; font:400 var(--t-lab)/1.6 var(--sans); color:var(--mute); letter-spacing:.04em; }
+  #hud-day .quest li small { display:block; font:400 var(--t-read)/1.5 var(--sans); color:var(--mute); letter-spacing:.04em; }
   #hud-day.hud-in .quest li { animation:hudIn .5s cubic-bezier(.16,.84,.24,1) calc(.35s + var(--i) * .1s) both; }
   #hud-day.hud-in .quest li i { animation:hudTick .4s ease-out calc(.6s + var(--i) * .1s) both; }
   @keyframes hudTick { from { scale:0; } 70% { scale:1.4; background:var(--red); } }
@@ -462,7 +561,7 @@
   #dots.map button:first-child::before { display:none; }
   #dots.map button.day::after { width:6px; height:6px; background:var(--paper); border:1.5px solid #a8977c; }
   #dots.map button.chapter::after { width:9px; height:9px; border-radius:0; rotate:45deg; background:var(--paper); border:1.5px solid var(--ink); }
-  #dots.map button span { position:absolute; left:50%; top:17px; translate:-50% 0; font:600 max(9px,1.2vh)/1 var(--sans); letter-spacing:.06em; color:var(--mute); pointer-events:none; }
+  #dots.map button span { position:absolute; left:50%; top:16px; translate:-50% 0; font:600 max(12px,2.2vh)/1 var(--sans); letter-spacing:.06em; color:var(--mute); pointer-events:none; }
   #dots.map button.done::before, #dots.map button.on::before { background:var(--red); height:1.5px; }
   #dots.map button.done::after { background:var(--red); border-color:var(--red); }
   #dots.map button.on::after { background:var(--red); border-color:var(--red); scale:1.5; box-shadow:0 0 0 3px rgba(var(--wash),.9), 0 0 0 4px var(--red); }
@@ -490,7 +589,19 @@
     #hud-menu .meta { display:flex; flex-wrap:wrap; justify-content:center; column-gap:.9em; } #hud-menu .meta i { display:none; }
     #close h2 { font-size:min(clamp(26px,7vw,40px), 6.4vw); }
     #hud-teaser .cap { font-size:clamp(16px,4.6vw,22px); letter-spacing:.06em; }
-    #hud-stage .ghost { font-size:46vw; top:auto; bottom:6vh; translate:0 0; }
+    /* 手機：章節卡與每天的卡縮成下方一截（3D 是主角；總檢 #1），點卡片任何地方都往下一頁 */
+    #hud-stage, #hud-day { top:auto; bottom:0; max-height:46vh; overflow:auto; justify-content:flex-start; padding:16px 20px 46px;
+      background:rgba(var(--wash),.97); border-radius:14px 14px 0 0; box-shadow:0 -16px 34px -20px rgba(42,30,18,.45); }
+    #hud-stage .ghost, #hud-day .ph { display:none; }
+    #hud-stage .no { font-size:24px; margin-bottom:8px; } #hud-stage h2 { font-size:clamp(30px,9vw,40px); } #hud-stage .rule { margin:10px 0; }
+    #hud-stage ol { margin-top:6px; } #hud-stage li { padding:.25em 0; font-size:16px; } #hud-stage > .k { display:none; } #hud-stage .range { font-size:12px; }
+    #hud-day .chip { margin-bottom:6px; } #hud-day .dn strong { font-size:40px; } #hud-day h2 { font-size:21px; margin:2px 0; }
+    #hud-day .route { margin:6px 0; } #hud-day .quest { margin:6px 0 2px; } #hud-day .quest li { padding:.12em 0; }
+    #hud-day .quest li small { display:none; }   /* 手機卡片要矮：小註收起，電腦版照放 */ #hud-day .food figure { height:44px; } #hud-day .food { margin:2px 0 4px; }
+    #hud-odo { top:12px; bottom:auto; right:12px; flex-direction:column; }
+    #hud-day.mem { background:none; box-shadow:none; overflow:visible; max-height:none; align-items:center; padding-bottom:58px; } #hud-day.mem .pol { width:64vw; } #hud-day.mem > .ttl { max-width:80vw; text-align:center; } #hud-day .hotel .he { display:none; } .hotel { max-width:none; }
+    #hud-qa { bottom:auto; top:9vh; left:0; right:0; margin:0 auto; width:max-content; }
+    #hud-back small, #hud-menu .people .hint, #hud-menu .offer .hint { display:none; }   /* 手機沒有 ESC 鍵 */
     #hud-stage h2 { font-size:clamp(40px,12vw,64px); }
     #hud-stage .rule { width:46vw; }
     #hud-day > *, #hud-stage ol { max-width:100%; }
@@ -498,7 +609,7 @@
     #hud-day .dn strong { font-size:48px; }
     #hud-day .desc { display:none; }
     #hud-day .quest li { padding:.25em 0; }
-    #dots.map { left:50%; right:auto; translate:-50% 0; bottom:12px; padding:0 4px; }
+    #dots.map { left:50%; right:auto; translate:-50% 0; bottom:8px; padding:6px 10px 4px; background:rgba(var(--wash),.96); border-radius:10px; }
     #dots.map button { width:calc((100vw - 32px) / 28); max-width:14px; }
     #dots.map button span { display:none; }
   }
@@ -507,8 +618,8 @@
     #panel .ph img, #panel .ph.tall img { width:100%; max-height:20vh; aspect-ratio:16/9; }
     #gallery, #gallery.portrait { left:4vw; right:4vw; top:3vh; width:auto; }
     #gallery img, #gallery.portrait img { aspect-ratio:16/10; }
-    .left { width:100%; top:auto; padding:22px 22px 64px; justify-content:flex-end;
-      background:linear-gradient(0deg, rgba(var(--wash),.97) 0%, rgba(var(--wash),.9) 70%, rgba(var(--wash),0) 100%); }
+    .left { width:100%; top:auto; padding:16vh 22px 64px; justify-content:flex-end;   /* 上方多留一段暈開，標題不壓在 3D 霧上（換團驗收：上海片尾） */
+      background:linear-gradient(0deg, rgba(var(--wash),.97) 0%, rgba(var(--wash),.94) 72%, rgba(var(--wash),0) 100%); }
     .left > * { max-width:100%; }
     #memory ul { flex-direction:column; gap:10px; }
   }
