@@ -10,11 +10,13 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;600;700&display=swap">
 <style>
   * { box-sizing:border-box; margin:0; padding:0; }
+  /* 主題色由 main.js 寫入；這裡是 main.js 還沒到之前（載入畫面）的底色，同 japan-washi */
+  :root { --ink:#2a2420; --paper:#f3ebdc; --wash:232,220,198; --red:#ae2a20; --mute:#7d7062; --serif:"Noto Serif CJK TC","Noto Serif TC",serif; --sans:"Noto Sans TC",sans-serif; }
   html,body { height:100%; overflow:hidden; background:#e8dcc6; color:var(--ink); font-family:var(--sans); }
   #stage, #labels, #grain { position:fixed; inset:0; }
   #labels, #grain { pointer-events:none; }
   #grain { opacity:.06; mix-blend-mode:multiply; z-index:5; }
-  .k { font:600 clamp(11px,.78vw,14px)/1.4 var(--sans); letter-spacing:.36em; color:var(--red); }
+  .k { font:600 max(11px,1.5vh)/1.4 var(--sans); letter-spacing:.36em; color:var(--red); }
   h1, h2 { font-family:var(--serif); font-weight:600; }
   h2 span { display:block; }
   h1, h2 { text-wrap:balance; }
@@ -86,12 +88,14 @@
   #panel .when { margin:16px 0 12px; font:500 13px/1.4 var(--sans); letter-spacing:.16em; color:var(--mute); }
   #panel h2 { font-size:clamp(22px,1.75vw,32px); line-height:1.5; }
   #panel .desc { margin-top:14px; font:400 clamp(14px,1vw,17px)/1.85 var(--serif); color:#4a4038; }
+  #panel .desc, #panel .spots, #panel .meta { max-width:min(32vw,540px); }   /* 11/10：說明太寬會壓到右邊景物的旗子 */
   #panel .spots { margin:16px 0 14px; font:500 13px/1.8 var(--sans); }
   #panel .spots i { font-style:normal; color:var(--red); margin:0 .5em; }
   #panel .meta { font:400 13px/1.8 var(--sans); color:#5a4e44; }
   #panel .meta b { color:var(--red); font-weight:600; margin-right:.9em; }
 
-  #close h2 { font-size:clamp(36px,3.4vw,62px); line-height:1.45; }
+  #close h2 { font-size:clamp(30px,3vw,56px); line-height:1.45; }
+  body.hud #close h2 span { white-space:nowrap; }   /* 結語一句一行不拆字（hud.js 把 <br> 拆成 span） */
   #close .sign { margin:1em 0 3.4em; font:500 clamp(15px,1.1vw,19px)/1 var(--serif); color:var(--mute); letter-spacing:.2em; }
   #close .co { border-top:1px solid #b9a98f; padding-top:1.6em; }
   #close .co .logo { height:clamp(26px,2vw,36px); margin-bottom:1em; }
@@ -122,6 +126,383 @@
   #gallery .en { font:600 11px/1 var(--sans); letter-spacing:.32em; color:var(--red); }
   #gallery b { font:600 clamp(18px,1.5vw,26px)/1.2 var(--serif); color:var(--ink); }
   #gallery time { margin-left:auto; font:400 12px/1 var(--sans); color:var(--mute); letter-spacing:.08em; }
+
+  /* ══ 遊戲開場介面（hud.js；docs/發表會版-觀眾動線-20261111.md）：紙與日系，不用霓虹、不用卡通 ══ */
+  /* 發表會字級：讀的字至少畫面高 2.2%，標籤至少 1.5%（後排看得到） */
+  :root { --t-read:max(15px,2.2vh); --t-lab:max(11px,1.5vh); }
+  body.hud:not([data-hud=run]) #dots { opacity:0; pointer-events:none; }
+  #hud-load, #hud-menu { position:fixed; inset:0; z-index:100; overflow:hidden; color:var(--ink);
+    background:radial-gradient(120% 90% at 50% 42%, #f7f1e6 0%, var(--paper) 55%, #e6d9c2 100%); transition:transform 1.4s cubic-bezier(.7,0,.2,1), opacity .6s; }
+  #hud-load .fib, #hud-menu .fib { position:absolute; inset:0; opacity:.07; mix-blend-mode:multiply; pointer-events:none; }
+  #hud-load.away, #hud-menu.up { transform:translateY(-102%); box-shadow:0 30px 60px rgba(42,30,18,.35); }
+
+  /* 0 載入：團名＋紅線進度條＋輪播小知識 */
+  #hud-load { display:grid; place-items:center; }
+  #hud-load .in { position:relative; width:min(640px,86vw); text-align:center; }
+  #hud-load .nm, #hud-menu .nm { display:flex; align-items:center; justify-content:center; gap:.6em; font-family:var(--serif); font-weight:700; }
+  #hud-load .nm .tn { font-size:clamp(44px,4.6vw,86px); letter-spacing:.14em; margin-right:-.14em; line-height:1.1;
+    text-shadow:2px 2px 0 #f6eedf, 3px 3px 0 #f6eedf, 4px 4px 0 #e2d3b8, 5px 6px 0 #cdbb9a, 8px 16px 24px rgba(40,20,10,.3); }
+  .nm .suf { font:600 var(--t-lab)/1 var(--serif); letter-spacing:.3em; padding:.5em .5em .5em .8em; background:var(--ink); color:#f7ecd8; box-shadow:2px 2px 0 #c9b796; }
+  #hud-load .dt { margin:1.2em 0 clamp(54px,10vh,110px); font:500 var(--t-lab)/1.6 var(--sans); letter-spacing:.24em; color:var(--mute); }
+  #hud-load .nm, #hud-load .dt { opacity:0; transition:opacity 1s; }
+  #hud-load.named .nm, #hud-load.named .dt { opacity:1; }
+  #hud-load .row { display:flex; justify-content:space-between; font:600 var(--t-lab)/1 var(--sans); letter-spacing:.42em; color:var(--mute); margin-bottom:12px; }
+  #hud-load .pct { letter-spacing:.12em; font-variant-numeric:tabular-nums; color:var(--ink); }
+  #hud-load .bar { position:relative; height:2px; background:rgba(42,36,32,.14); }
+  #hud-load .bar i { position:absolute; inset:0; background:var(--red); transform-origin:0 50%; transform:scaleX(0); }
+  #hud-load .tip { margin-top:clamp(20px,3.4vh,34px); min-height:5em; opacity:0; translate:0 6px; transition:opacity .36s, translate .5s; }
+  #hud-load .tip.on { opacity:1; translate:0 0; }
+  #hud-load .tip b { display:block; font:600 var(--t-lab)/1 var(--sans); letter-spacing:.42em; color:var(--red); margin-bottom:14px; }
+  #hud-load .tip .tx { font:400 var(--t-read)/1.8 var(--serif); color:#4a4038; }
+  #hud-load .tip em { font:600 var(--t-lab)/1 var(--sans); font-style:normal; letter-spacing:.24em; color:var(--mute); margin-right:1em; }
+  #hud-load .tip strong { font-weight:600; color:var(--ink); margin-right:.8em; }
+
+  /* 1 冷開場：上下黑邊＋一句序言 */
+  #hud-teaser { position:fixed; inset:0; z-index:99; pointer-events:none; }
+  #hud-teaser .lb { position:absolute; left:0; right:0; height:11vh; background:#120f0d; transform:scaleY(0); transition:transform 1.2s cubic-bezier(.7,0,.2,1); }
+  #hud-teaser .t { top:0; transform-origin:50% 0; } #hud-teaser .b { bottom:0; transform-origin:50% 100%; }
+  /* 字幕放在下方黑邊裡（黑底白字；11/10 主控：壓在米色地形上看不見） */
+  #hud-teaser .b { height:16vh; }
+  #hud-teaser .cap { position:absolute; left:6vw; right:6vw; bottom:0; height:16vh; display:flex; align-items:center; justify-content:center; text-align:center;
+    font:600 clamp(20px,3.4vh,44px)/1.5 var(--serif); letter-spacing:.14em; color:#fbf5ea; text-wrap:balance; opacity:0; translate:0 8px; transition:opacity 1.6s 1s, translate 2s 1s; }
+  #hud-teaser.on .lb { transform:none; }
+  #hud-teaser.on .cap { opacity:1; translate:0 0; }
+
+  /* 2 工作室標誌：漫途，黑底一閃（V 標原檔是黑底白字，黑底剛好接上） */
+  #hud-boot { position:fixed; inset:0; z-index:101; background:#000; display:none; place-items:center; transition:opacity .9s ease; }
+  #hud-boot.on { display:grid; }
+  #hud-boot.out { opacity:0; pointer-events:none; }
+  #hud-boot .mk { display:flex; flex-direction:column; align-items:center; gap:clamp(14px,2.4vh,26px); opacity:0; scale:.97; transition:opacity .8s ease, scale 2.4s cubic-bezier(.16,.84,.24,1); }
+  #hud-boot.show .mk { opacity:1; scale:1; }
+  #hud-boot .v { width:clamp(72px,9vh,120px); }
+  #hud-boot .w { width:clamp(180px,24vh,300px); filter:brightness(0) invert(.9); }
+
+  /* 3 主選單：一整張紙，四角紅角標＋雙線框 */
+  #hud-menu { display:none; }
+  #hud-menu.on { display:block; }   /* 不淡入：由黑底標誌淡出露出來，免得和底下的公司開場紙疊成兩層字 */
+  #hud-menu::before, #hud-menu::after { content:""; position:absolute; inset:clamp(14px,2.4vh,28px); border:1px solid rgba(42,36,32,.22); pointer-events:none; }
+  #hud-menu::after { inset:calc(clamp(14px,2.4vh,28px) + 6px); border-color:rgba(42,36,32,.1); }
+  #hud-menu .cn { position:absolute; width:clamp(22px,2.2vw,36px); height:clamp(22px,2.2vw,36px); border:0 solid var(--red); z-index:1; }
+  #hud-menu .cn.tl { top:clamp(8px,1.4vh,16px); left:clamp(8px,1.4vh,16px); border-width:2px 0 0 2px; }
+  #hud-menu .cn.tr { top:clamp(8px,1.4vh,16px); right:clamp(8px,1.4vh,16px); border-width:2px 2px 0 0; }
+  #hud-menu .cn.bl { bottom:clamp(8px,1.4vh,16px); left:clamp(8px,1.4vh,16px); border-width:0 0 2px 2px; }
+  #hud-menu .cn.br { bottom:clamp(8px,1.4vh,16px); right:clamp(8px,1.4vh,16px); border-width:0 2px 2px 0; }
+  #hud-menu .home, #hud-menu .people, #hud-menu .offer { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:6vh 6vw 8vh; transition:opacity .5s, translate .6s; }
+  #hud-menu .people, #hud-menu .offer { opacity:0; translate:0 16px; pointer-events:none; }
+  #hud-menu.sub-people .home, #hud-menu.sub-offer .home { opacity:0; translate:0 -16px; pointer-events:none; }
+  #hud-menu.sub-offer .offer { opacity:1; translate:0 0; pointer-events:auto; }
+  #hud-menu.sub-people .people { opacity:1; translate:0 0; pointer-events:auto; }
+  #hud-menu .clogo { display:block; height:clamp(34px,5vh,64px); margin:0 auto clamp(12px,1.8vh,20px); filter:drop-shadow(2px 2px 0 rgba(122,72,0,.18)); }
+  #hud-menu .pre { font:600 var(--t-lab)/1 var(--sans); letter-spacing:.5em; margin-right:-.5em; color:var(--mute); margin-bottom:clamp(56px,10vh,110px); }
+  #hud-menu h1 { position:relative; isolation:isolate; display:flex; justify-content:center; font-family:var(--serif); font-weight:700; line-height:1; }
+  #hud-menu h1 .main { font-size:clamp(44px,8.6vh,108px); letter-spacing:.16em; margin-right:-.16em; white-space:nowrap;
+    text-shadow:2px 2px 0 #f6eedf, 3px 3px 0 #f6eedf, 4px 4px 0 #e2d3b8, 5px 6px 0 #cdbb9a, 8px 16px 24px rgba(40,20,10,.35); }
+  #hud-menu .sun { position:absolute; left:50%; top:50%; width:2.5em; aspect-ratio:1; translate:-50% -50%; z-index:-1; font-size:clamp(44px,8.6vh,108px); }
+  #hud-menu .sun i { position:absolute; border-radius:50%; inset:0; background:#c9483b; box-shadow:0 26px 40px -24px rgba(90,30,20,.55), 0 2px 0 rgba(255,255,255,.25) inset; }
+  #hud-menu .sun i:nth-child(2) { inset:9%; background:#b8352a; box-shadow:0 14px 22px -12px rgba(70,20,12,.6); }
+  #hud-menu .sun i:nth-child(3) { inset:20%; background:var(--red); box-shadow:0 10px 18px -10px rgba(60,16,10,.7); }
+  #hud-menu.on .sun { animation:hudSun 1.8s cubic-bezier(.16,.84,.24,1) .2s both; }
+  @keyframes hudSun { from { opacity:0; scale:.85; } }
+  /* 本次旅程＝存檔欄 */
+  #hud-menu .mission { position:relative; margin-top:clamp(56px,10vh,120px); width:max-content; max-width:88vw; padding:clamp(18px,2.6vh,26px) clamp(26px,3vw,48px) clamp(14px,2.2vh,22px);
+    border:1px solid rgba(42,36,32,.28); outline:1px solid rgba(42,36,32,.12); outline-offset:4px; background:rgba(251,246,236,.6); }
+  #hud-menu .mk { position:absolute; left:50%; top:0; translate:-50% -50%; padding:0 1.2em; background:#f5eee1; white-space:nowrap; font:600 var(--t-lab)/1 var(--sans); letter-spacing:.42em; color:var(--red); }
+  #hud-menu .mk i { font-style:normal; margin:0 .5em; }
+  #hud-menu .mission .tn { font-size:clamp(26px,3.6vh,42px); letter-spacing:.14em; }
+  #hud-menu .l2 { margin-top:.6em; font:500 var(--t-read)/1.6 var(--serif); letter-spacing:.1em; }
+  #hud-menu .l2 i, #hud-menu .meta i { font-style:normal; color:var(--red); margin:0 .6em; }
+  #hud-menu .meta span { white-space:nowrap; }
+  #hud-menu .meta { margin-top:.4em; font:500 var(--t-lab)/1.6 var(--sans); letter-spacing:.2em; color:var(--mute); }
+  /* 四個選項＝四張卡紙籤；選到的上面亮一顆紅菱形，開始旅程是紅卡 */
+  #hud-menu .opts { display:flex; gap:clamp(10px,1.2vw,22px); margin-top:clamp(34px,6vh,70px); }
+  #hud-menu .opts button { position:relative; min-width:clamp(130px,11vw,190px); padding:clamp(14px,2vh,20px) 1.2em clamp(12px,1.7vh,17px); cursor:pointer; color:var(--ink);
+    background:rgba(251,246,236,.75); border:1px solid rgba(42,36,32,.28); border-radius:2px; box-shadow:0 3px 0 #d6c6a8; transition:translate .2s, box-shadow .2s, border-color .2s, background .2s; }
+  #hud-menu .opts b { display:block; font:600 max(17px,2.4vh)/1 var(--serif); letter-spacing:.3em; margin-right:-.3em; }
+  #hud-menu .opts small { display:block; margin-top:.8em; font:600 max(10px,1.3vh)/1 var(--sans); letter-spacing:.32em; margin-right:-.32em; color:var(--mute); }
+  #hud-menu .opts button::before { content:""; position:absolute; left:50%; top:-16px; width:8px; height:8px; translate:-50% 0; rotate:45deg; background:var(--red); opacity:0; transition:opacity .2s, top .2s; }
+  #hud-menu .opts button.cur { translate:0 -3px; border-color:var(--red); box-shadow:0 6px 0 #d6c6a8, 0 16px 24px -16px rgba(60,30,14,.5); background:#fbf6ec; }
+  #hud-menu .opts button.cur::before { opacity:1; top:-19px; }
+  #hud-menu .opts button.go { background:var(--red); border-color:var(--red); color:#fbf3e4; box-shadow:0 4px 0 #761a12, 0 16px 26px -14px rgba(90,24,14,.55); }
+  #hud-menu .opts button.go small { color:rgba(251,243,228,.75); }
+  #hud-menu .opts button.go.cur { background:#bd3326; box-shadow:0 7px 0 #761a12, 0 20px 30px -14px rgba(90,24,14,.6); }
+  #hud-menu .opts button:active { translate:0 2px; }
+  #hud-menu .opts button:focus-visible { outline:2px solid var(--ink); outline-offset:5px; }
+  #hud-menu .hint { margin-top:clamp(20px,3.4vh,34px); font:600 var(--t-lab)/1 var(--sans); letter-spacing:.4em; margin-right:-.4em; color:var(--mute); opacity:.8; }
+  #hud-menu .credit { position:absolute; z-index:1; right:clamp(44px,4vw,72px); bottom:clamp(32px,4.6vh,46px); display:flex; align-items:center; gap:10px; font:500 var(--t-lab)/1 var(--sans); letter-spacing:.3em; color:var(--mute); }
+  #hud-menu .credit .vm { width:2.2vh; height:2.2vh; min-width:18px; min-height:18px; filter:invert(1); mix-blend-mode:multiply; opacity:.7; }
+  /* 3a 角色介紹：人物卡一列，移上去（觸控＝點）翻到背面看背景；沒資料一張待補框 */
+  #hud-menu .ttl { display:flex; align-items:center; gap:1em; font:600 clamp(28px,4.4vh,52px)/1 var(--serif); letter-spacing:.2em; margin-bottom:clamp(30px,6vh,64px); }
+  #hud-menu .ttl b { font:700 var(--t-lab)/1 var(--sans); letter-spacing:.32em; color:#fbf3e4; background:var(--ink); padding:.6em .8em .55em 1em; box-shadow:2px 2px 0 #c9b796; }
+  #hud-menu .cards { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(16px,2vw,36px); perspective:1400px; }
+  #hud-menu .card { position:relative; width:clamp(200px,24vh,300px); aspect-ratio:3/4; border:0; padding:0; background:none; color:inherit; cursor:pointer; font:inherit; }
+  #hud-menu .card .face, #hud-menu .card .back { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.6em; padding:1.4em;
+    background:#fbf6ec; border:1px solid rgba(42,36,32,.25); box-shadow:4px 4px 0 #d6c6a8, 0 24px 36px -24px rgba(42,30,18,.5); backface-visibility:hidden; transition:transform .8s cubic-bezier(.3,.7,.2,1); }
+  #hud-menu .card .back { transform:rotateY(180deg); justify-content:flex-start; text-align:left; align-items:stretch; }
+  #hud-menu .card:hover .face, #hud-menu .card.flip .face { transform:rotateY(-180deg); }
+  #hud-menu .card:hover .back, #hud-menu .card.flip .back { transform:rotateY(0); }
+  #hud-menu .card img { width:62%; aspect-ratio:1; object-fit:cover; border-radius:50%; }
+  #hud-menu .card .mono { display:grid; place-items:center; width:46%; aspect-ratio:1; border-radius:50%; background:var(--red); color:#fbf3e4; font:700 clamp(36px,5.4vh,64px)/1 var(--serif); }
+  #hud-menu .card .role { font:600 var(--t-lab)/1 var(--sans); letter-spacing:.3em; color:var(--red); margin-top:.6em; }
+  #hud-menu .card .name { font:700 clamp(22px,3vh,34px)/1.2 var(--serif); letter-spacing:.14em; }
+  #hud-menu .card .sub { font:400 var(--t-lab)/1.6 var(--sans); color:var(--mute); letter-spacing:.08em; }
+  #hud-menu .card .back p { font:400 var(--t-read)/1.7 var(--serif); color:#4a4038; }
+  #hud-menu .card .back .name { margin-bottom:.4em; border-bottom:1px solid #cdbfa8; padding-bottom:.4em; color:var(--ink); }
+  #hud-menu .card.todo { cursor:default; }
+  #hud-menu .card.todo .face { border-style:dashed; box-shadow:none; background:rgba(251,246,236,.5); }
+  #hud-menu .card.todo .mono { background:none; border:1.5px dashed #b9a98f; color:#b9a98f; }
+  #hud-menu .card.todo:hover .face { transform:none; }
+  /* 提案版：存檔欄上「致 客戶」、費用與報名面板、片尾行動呼籲 */
+  #hud-menu .for { font:600 var(--t-read)/1.2 var(--serif); letter-spacing:.24em; color:var(--ink); margin:.2em 0 .7em; padding-bottom:.6em; border-bottom:1px solid #cdbfa8; }
+  .offer .rows, #close .cta { display:grid; grid-template-columns:auto 1fr; column-gap:clamp(18px,2vw,36px); align-items:baseline; text-align:left; }
+  #hud-menu .offer .rows { width:min(760px,86vw); }
+  .offer .row, #close .cta .row { display:contents; }
+  .offer .row > b, #close .cta .row > b { padding:.8em 0; border-top:1px solid #cdbfa8; font:600 var(--t-lab)/1.6 var(--sans); letter-spacing:.24em; color:var(--red); white-space:nowrap; }
+  .offer .row > p, .offer .row > ul, #close .cta .row > p { padding:.8em 0; border-top:1px solid #cdbfa8; font:500 var(--t-read)/1.6 var(--serif); }
+  .offer .row > .note, .offer .row > .ways, #close .cta .row > .note, #close .cta .row > .ways { grid-column:2; border-top:0; padding-top:0; }
+  .offer .row small, #close .cta .row small { margin-left:1em; font:500 var(--t-lab)/1 var(--sans); color:var(--mute); letter-spacing:.08em; }
+  .offer .row small.note, #close .cta small.note { display:block; margin:0 0 .6em; }
+  .offer .row small.late, #close .cta small.late { color:var(--red); font-weight:700; }
+  .offer .row.price strong, #close .cta .price strong { font:700 clamp(28px,4.4vh,52px)/1.1 var(--serif); letter-spacing:.04em; }
+  .offer .row ul { list-style:none; display:flex; flex-wrap:wrap; gap:.3em 1.4em; }
+  .offer .row ul li::before { content:""; display:inline-block; width:6px; height:6px; rotate:45deg; border:1.5px solid var(--red); margin:0 .6em .15em 0; }
+  .offer .row ul.ex li { color:var(--mute); } .offer .row ul.ex li::before { border-color:#b9a98f; }
+  .offer .row.consult strong, #close .cta .consult strong { font-weight:700; margin-right:.8em; }
+  .offer .ways span, #close .cta .ways span { display:inline-block; margin-right:1.4em; font:500 var(--t-lab)/1.8 var(--sans); letter-spacing:.06em; color:#4a4038; }
+  #close.hud-cta .co > :not(.logo):not(.lic):not(.credit) { display:none; }   /* 提案片尾：聯絡清單收起，聯絡人由行動呼籲那格負責 */
+  #close .cta { margin:0 0 1.6em; max-width:min(38vw,640px); }
+  #close .cta .price small:not(.note) { display:block; margin:.5em 0 0; }
+  #close .cta .consult > b, #close .cta .consult > p:first-of-type { border-top:2px solid var(--red); }
+  #close .cta .consult > p:first-of-type { color:var(--ink); }
+  /* 旅途中每日版（hud.js DAILY）：只放今天；電腦＝左欄，手機＝下方紙卡（上面留給 3D 當天那一幕） */
+  body.hud-daily #hud-day, body.hud-daily #hud-stage, body.hud-daily #gallery, body.hud-daily #panel, body.hud-daily #chapter { display:none !important; }
+  #hud-daily { display:none; position:fixed; z-index:8; left:0; top:0; bottom:0; width:min(36vw,580px); color:var(--ink);
+    background:linear-gradient(90deg, rgba(var(--wash),.97) 0%, rgba(var(--wash),.94) 70%, rgba(var(--wash),0) 100%); }
+  body[data-hud=daily] #hud-daily { display:block; }
+  #hud-daily .grip { display:none; }
+  #hud-daily .body { height:100%; overflow:auto; padding:clamp(28px,5vh,56px) clamp(28px,6vw,72px) 28px clamp(24px,3.4vw,56px); -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
+  #hud-daily.hud-in .body > * { animation:hudDay .55s cubic-bezier(.16,.84,.24,1) both; }
+  #hud-daily.hud-in.down .body > * { animation-name:hudDayDn; }
+  @keyframes hudDay { from { opacity:0; translate:0 22px; } }
+  @keyframes hudDayDn { from { opacity:0; translate:0 -22px; } }
+  #hud-daily .dtop { display:flex; align-items:center; gap:1em; margin-bottom:10px; }
+  #hud-daily .today { font:700 var(--t-lab)/1 var(--sans); letter-spacing:.3em; color:#fbf3e4; background:var(--red); padding:.55em .7em .5em .9em; box-shadow:2px 2px 0 #761a12; }
+  #hud-daily .today i { font-style:normal; margin-left:.8em; letter-spacing:.2em; }
+  #hud-daily .nth { font:600 var(--t-lab)/1 var(--sans); letter-spacing:.2em; color:var(--red); }
+  #hud-daily .dtop time { font:600 var(--t-lab)/1 var(--sans); letter-spacing:.2em; color:var(--mute); }
+  #hud-daily .dn { display:flex; align-items:baseline; flex-wrap:wrap; gap:.5em; font-family:var(--serif); }
+  #hud-daily .dn span { font:600 var(--t-lab)/1 var(--sans); letter-spacing:.42em; color:var(--red); }
+  #hud-daily .dn strong { font-size:clamp(56px,8vh,96px); line-height:.95; font-weight:700; }
+  #hud-daily .dn em { font:600 clamp(16px,2.2vh,22px)/1 var(--serif); font-style:normal; color:var(--mute); }
+  #hud-daily .dn small { flex-basis:100%; font:500 var(--t-lab)/1.4 var(--serif); letter-spacing:.14em; color:#5a4e44; }
+  #hud-daily h2 { margin:.5em 0 .3em; font-size:clamp(22px,3.2vh,36px); line-height:1.45; }
+  #hud-daily h2 .ph { white-space:nowrap; }
+  #hud-daily .route { list-style:none; display:flex; flex-wrap:wrap; align-items:center; row-gap:6px; margin:10px 0 12px; font:500 max(14px,1.9vh)/1.4 var(--sans); }
+  #hud-daily .route li { display:flex; align-items:center; }
+  #hud-daily .route li::before { content:""; width:7px; height:7px; border-radius:50%; background:var(--paper); border:1.5px solid var(--red); margin-right:.5em; }
+  #hud-daily .route li + li { margin-left:.5em; }
+  #hud-daily .route li:not(:last-child)::after { content:""; width:16px; height:1.5px; background:var(--red); margin-left:.5em; opacity:.7; }
+  #hud-daily .route li:last-child::before { background:var(--red); }
+  #hud-daily .row { display:flex; flex-wrap:wrap; align-items:baseline; gap:.2em .9em; padding:.55em 0; border-top:1px solid #cdbfa8; font:500 max(14px,1.9vh)/1.6 var(--serif); }
+  #hud-daily .row b { font:700 var(--t-lab)/1.6 var(--sans); letter-spacing:.2em; color:var(--red); min-width:2.6em; }
+  #hud-daily .row small { flex-basis:100%; padding-left:3.5em; font:400 var(--t-lab)/1.5 var(--sans); color:var(--mute); }
+  #hud-daily .row.meet { background:rgba(174,42,32,.07); padding-left:.6em; border-top:2px solid var(--red); }
+  #hud-daily .qh { display:flex; align-items:center; gap:.8em; margin:14px 0 4px; font:600 var(--t-lab)/1 var(--sans); letter-spacing:.42em; color:var(--red); }
+  #hud-daily .qh::after { content:""; flex:1; height:1px; background:#cdbfa8; }
+  #hud-daily .quest ul, #hud-daily .food ul { list-style:none; }
+  #hud-daily .quest li { display:flex; gap:.85em; align-items:baseline; padding:.4em 0; font:500 var(--t-read)/1.5 var(--serif); }
+  #hud-daily .quest li i { flex:none; width:9px; height:9px; border:1.5px solid var(--red); rotate:45deg; translate:0 -1px; }
+  #hud-daily .quest li small { display:block; font:400 var(--t-lab)/1.6 var(--sans); color:var(--mute); }
+  #hud-daily .food { margin-bottom:6px; }
+  #hud-daily .food ul { display:flex; gap:16px; }
+  #hud-daily .food li { display:flex; flex-direction:column; align-items:center; gap:4px; }
+  #hud-daily .food figure { position:relative; height:clamp(64px,10vh,104px); }
+  #hud-daily .food img { display:block; height:100%; width:auto; filter:drop-shadow(0 8px 10px rgba(42,30,18,.28)); }
+  #hud-daily .food i { position:absolute; right:-6px; top:-2px; font:600 max(9px,1.15vh)/1 var(--sans); font-style:normal; letter-spacing:.12em; color:#fbf3e4; background:rgba(42,36,32,.72); padding:.3em .4em .3em .5em; border-radius:2px; }
+  #hud-daily .food span { font:500 var(--t-lab)/1.3 var(--serif); }
+  #hud-daily .dnav { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:18px; padding-top:14px; border-top:1px solid #cdbfa8; }
+  #hud-daily .dnav button { padding:.8em 1.1em; font:600 max(14px,1.8vh)/1 var(--serif); letter-spacing:.2em; color:var(--ink); background:#fbf6ec; border:1px solid rgba(42,36,32,.28); border-radius:2px; box-shadow:0 3px 0 #d6c6a8; cursor:pointer; }
+  #hud-daily .dnav button:disabled { opacity:.35; cursor:default; }
+  #hud-daily .dnav span { font:500 var(--t-lab)/1 var(--sans); letter-spacing:.2em; color:var(--mute); }
+  @media (max-width:900px) {
+    #hud-daily { top:auto; width:auto; right:0; height:62vh; background:rgb(var(--wash)); border-radius:14px 14px 0 0; box-shadow:0 -18px 40px -20px rgba(42,30,18,.45); }
+    #hud-daily .grip { display:block; width:44px; height:4px; border-radius:2px; background:#b9a98f; margin:10px auto 0; }
+    #hud-daily .body { height:calc(100% - 14px); padding:14px 22px 24px; }
+    #hud-daily .dn strong { font-size:56px; }
+  }
+
+  /* 黑屏（B／簡報筆黑屏鍵）：蓋在最上層，主講人講話時觀眾看主講人 */
+  #hud-black { position:fixed; inset:0; z-index:300; background:#000; opacity:0; pointer-events:none; transition:opacity .35s; }
+  #hud-black.on { opacity:1; pointer-events:auto; }
+  /* 返回主選單：左上角一張小籤 */
+  #hud-back { position:fixed; z-index:102; left:clamp(28px,3vw,56px); top:clamp(24px,4vh,44px); display:none; }
+  #hud-back.on { display:block; }
+  #hud-back button { display:flex; align-items:center; gap:.9em; padding:.7em 1em .7em 1.1em; cursor:pointer; font:600 var(--t-lab)/1 var(--serif); letter-spacing:.24em; color:var(--ink);
+    background:rgba(251,246,236,.88); border:1px solid rgba(42,36,32,.28); border-radius:2px; box-shadow:0 3px 0 #d6c6a8; }
+  #hud-back button::before { content:""; width:7px; height:7px; border:solid var(--red); border-width:0 0 1.5px 1.5px; rotate:45deg; }
+  #hud-back small { font:600 max(9px,1.2vh)/1 var(--sans); letter-spacing:.2em; color:var(--mute); }
+  /* 片尾：全程回顧數字列、片尾名單 */
+  #memory .pro { justify-content:center; }
+  #memory.hud-end { padding-bottom:20vh; background:linear-gradient(180deg, rgba(var(--wash),.97) 0%, rgba(var(--wash),.93) 62%, rgba(var(--wash),0) 100%); }
+  #memory .stats { display:flex; justify-content:center; gap:clamp(28px,4vw,72px); width:max-content; max-width:100%; margin:clamp(10px,2vh,20px) auto clamp(16px,3vh,30px); padding:clamp(14px,2.4vh,24px) 9vw;
+    background:linear-gradient(90deg, rgba(var(--wash),0) 0%, rgba(var(--wash),.97) 18%, rgba(var(--wash),.97) 82%, rgba(var(--wash),0) 100%); }   /* 紙色帶托住數字，不壓地圖 */
+  #memory .stats span { display:flex; flex-direction:column; align-items:center; gap:.35em; }
+  #memory .stats b { font:700 clamp(40px,6vh,72px)/1 var(--serif); color:var(--ink); }
+  #memory .stats em { font:600 var(--t-lab)/1 var(--sans); font-style:normal; letter-spacing:.32em; color:var(--red); }
+  #memory .stats small { font:500 var(--t-lab)/1 var(--sans); color:#5a4e44; letter-spacing:.1em; }
+  #memory li { font-size:var(--t-lab); } #memory li b { font-size:var(--t-read); }
+  #close .credits { list-style:none; margin:0 0 1.6em; } #close .credits li { display:flex; gap:1.2em; align-items:baseline; padding:.3em 0; }
+  #close .credits small { min-width:8em; font:600 var(--t-lab)/1 var(--sans); letter-spacing:.2em; color:var(--red); } #close .credits b { font:600 var(--t-read)/1.4 var(--serif); }
+  #close .co p { font-size:var(--t-lab); }
+  /* 前情提要第四幕：據點卡 */
+  #hq .offices { list-style:none; display:flex; gap:clamp(18px,2vw,36px); margin:.4em 0 1.4em; }
+  #hq .offices li { flex:1; border-top:2px solid var(--red); padding-top:.9em; }
+  #hq .offices b { display:block; font:600 var(--t-lab)/1.3 var(--sans); letter-spacing:.24em; color:var(--red); }
+  #hq .offices span { display:block; margin:.45em 0 .3em; font:600 clamp(20px,2.8vh,30px)/1.3 var(--serif); letter-spacing:.1em; }
+  #hq .offices small { display:block; font:400 var(--t-lab)/1.6 var(--sans); color:#5a4e44; letter-spacing:.04em; }
+  #hq .lic { font:400 var(--t-lab)/1.8 var(--sans); color:var(--mute); } #hq .lic i { font-style:normal; color:var(--red); margin:0 .6em; }
+
+  /* hud.js 在就用新介面，原本的章節／逐日層收起（hud.js 沒載到時舊介面照常） */
+  body.hud #chapter, body.hud #panel { display:none; }
+  body.hud[data-mode=chapter] #hud-stage, body.hud[data-mode=panel] #hud-day { opacity:1; transform:none; pointer-events:auto; }
+  #hud-day.hud-in > *, #hud-stage.hud-in > .k, #hud-stage.hud-in > h2, #hud-stage.hud-in > .range { animation:hudIn .7s cubic-bezier(.16,.84,.24,1) both; }
+
+  /* 前情提要：公司四幕＝序章，抬頭「PROLOGUE 前情提要 01 / 04」，一句一句淡入，最後一個閃動的續讀三角 */
+  .hud-pro .pro { text-shadow:0 0 10px rgba(var(--wash),.95), 0 0 3px rgba(var(--wash),1); display:flex; align-items:center; gap:.9em; margin-bottom:clamp(18px,3vh,30px); font:500 var(--t-lab)/1 var(--serif); letter-spacing:.2em; color:var(--ink); }
+  .hud-pro .pro b { font:700 var(--t-lab)/1 var(--sans); letter-spacing:.32em; color:#fbf3e4; background:var(--ink); padding:.55em .7em .5em .9em; box-shadow:2px 2px 0 #c9b796; }
+  .hud-pro .pro em { font:600 var(--t-lab)/1 var(--sans); font-style:normal; letter-spacing:.2em; color:var(--mute); }
+  .hud-pro .pro em::before { content:""; display:inline-block; vertical-align:middle; width:clamp(24px,3vw,56px); height:1px; background:#b9a98f; margin:0 1em 2px 0; }
+  .hud-mission .pro b { background:var(--red); box-shadow:2px 2px 0 #761a12; }
+  body.hud #brand .in > .logo { display:none; }
+  body.hud #brand .pro { justify-content:center; }
+  .hud-pro .next { display:block; width:0; height:0; margin-top:clamp(18px,3vh,30px); border:6px solid transparent; border-top:8px solid var(--red); border-bottom:0; }
+  body.hud #brand .next { margin-left:auto; margin-right:auto; }
+  .hud-pro.hud-in .sq { animation:hudLine 1s cubic-bezier(.16,.84,.24,1) calc(.25s + var(--i) * .55s) both; }
+  .hud-pro.hud-in .next { animation:hudLine .6s ease calc(.4s + var(--i) * .55s) both, hudNext 1.4s ease-in-out calc(1s + var(--i) * .55s) infinite; }
+  @keyframes hudLine { from { opacity:0; translate:0 10px; filter:blur(3px); } }
+  @keyframes hudNext { 50% { translate:0 5px; opacity:.4; } }
+  /* 本次旅程（cover）：多一行天數／夜數／關卡數 */
+  #cover .stats { margin-top:1.4em; display:flex; align-items:baseline; gap:1em; font:600 11px/1 var(--sans); letter-spacing:.32em; color:var(--mute); }
+  #cover .stats b { font:700 clamp(22px,1.8vw,32px)/1 var(--serif); letter-spacing:0; color:var(--ink); margin-right:.45em; }
+  #cover .stats i { width:1px; height:1.6em; background:#b9a98f; align-self:center; }
+  @keyframes hudIn { from { opacity:0; translate:-18px 0; } }
+
+  /* 關卡卡：紅印「STAGE 01」蓋下去、章名、紅線畫開、本關各天 */
+  #hud-stage { overflow:hidden; }
+  #hud-stage .ghost { position:absolute; left:clamp(10px,2vw,40px); top:50%; translate:0 -54%; z-index:-1; font:700 clamp(220px,34vh,420px)/1 var(--serif);
+    color:transparent; -webkit-text-stroke:1.5px rgba(174,42,32,.22); letter-spacing:-.02em; }
+  #hud-stage .no { width:max-content; padding:.5em .7em .45em; background:var(--red); color:#fbf3e4; font:700 clamp(34px,2.8vw,52px)/1 var(--serif);
+    rotate:-3deg; box-shadow:3px 3px 0 #761a12; margin-bottom:clamp(22px,3.4vh,40px); }
+  #hud-stage .no span { display:block; font:600 var(--t-lab)/1 var(--sans); letter-spacing:.5em; margin-bottom:.5em; }
+  #hud-stage.hud-in .no { animation:hudStamp .55s cubic-bezier(.3,1.6,.5,1) .1s both; }
+  @keyframes hudStamp { from { opacity:0; scale:1.6; rotate:-12deg; } }
+  #hud-stage h2 { font-size:clamp(56px,5.6vw,108px); line-height:1.08; letter-spacing:.1em; margin:.12em 0 0; }
+  #hud-stage .rule { display:block; width:min(26vw,380px); height:2px; background:var(--red); margin:clamp(20px,3vh,34px) 0 clamp(16px,2.4vh,26px); transform-origin:0 50%; }
+  #hud-stage.hud-in .rule { animation:hudRule 1s cubic-bezier(.7,0,.2,1) .35s both; }
+  @keyframes hudRule { from { transform:scaleX(0); } }
+  #hud-stage .range { font:600 var(--t-lab)/1 var(--sans); letter-spacing:.3em; color:var(--mute); }
+  #hud-stage .range i, #hud-day .chip i { font-style:normal; color:var(--red); margin:0 .8em; }
+  #hud-stage ol { list-style:none; margin-top:clamp(18px,3vh,32px); max-width:min(34vw,560px); }
+  #hud-stage li { display:flex; gap:1.2em; align-items:baseline; padding:.7em 0; border-top:1px solid #cdbfa8; font:500 var(--t-read)/1.5 var(--serif); }
+  #hud-stage li b { flex:none; font:600 var(--t-lab)/1 var(--sans); letter-spacing:.2em; color:var(--red); }
+  #hud-stage.hud-in li { animation:hudIn .6s cubic-bezier(.16,.84,.24,1) calc(.55s + var(--i) * .12s) both; }
+
+  /* 逐日 HUD：左欄一條，寬度鎖在 32vw 內，不壓到右邊 3D 與畫廊 */
+  #hud-day > * { max-width:min(32vw,540px); }
+  #hud-day .chip { width:max-content; display:flex; align-items:center; gap:.9em; margin-bottom:16px; font:500 max(13px,1.8vh)/1 var(--serif); letter-spacing:.14em; }
+  #hud-day .chip b { font:700 var(--t-lab)/1 var(--sans); letter-spacing:.3em; color:#fbf3e4; background:var(--red); padding:.55em .7em .5em .9em; box-shadow:2px 2px 0 #761a12; }
+  #hud-day .ph { margin-bottom:18px; }
+  #hud-day .ph img { display:block; width:min(25vw,440px); aspect-ratio:3/2; max-height:24vh; object-fit:cover; border-radius:2px; box-shadow:0 24px 40px -26px rgba(42,30,18,.55); }
+  #hud-day .ph.tall img { width:min(17vw,300px); aspect-ratio:4/5; max-height:28vh; }
+  #hud-day .dn { display:flex; align-items:baseline; gap:.5em; font-family:var(--serif); }
+  #hud-day .dn span { font:600 var(--t-lab)/1 var(--sans); letter-spacing:.42em; color:var(--red); }
+  #hud-day .dn strong { font-size:clamp(60px,5.2vw,98px); line-height:.9; font-weight:700; }
+  #hud-day .dn em { font:600 clamp(16px,1.2vw,21px)/1 var(--serif); font-style:normal; color:var(--mute); letter-spacing:.08em; }
+  #hud-day .dn time { padding-left:1.2em; font:500 var(--t-lab)/1 var(--sans); letter-spacing:.2em; color:var(--mute); }
+  /* 今日路線：站與站之間一條紅線，像關卡路徑 */
+  #hud-day .route { list-style:none; display:flex; flex-wrap:wrap; align-items:center; row-gap:6px; margin:14px 0 12px; font:500 max(13px,1.8vh)/1.4 var(--sans); letter-spacing:.08em; }
+  #hud-day .route li { display:flex; align-items:center; }
+  #hud-day .route li::before { content:""; width:7px; height:7px; border-radius:50%; background:var(--paper); border:1.5px solid var(--red); margin-right:.55em; }
+  #hud-day .route li + li::before { margin-left:0; }
+  #hud-day .route li + li { margin-left:.6em; }
+  #hud-day .route li:not(:last-child)::after { content:""; width:clamp(14px,1.4vw,26px); height:1.5px; background:var(--red); margin-left:.6em; opacity:.7; }
+  #hud-day .route li:last-child::before { background:var(--red); }
+  #hud-day h2 .ph, #hud-stage li .ph { display:inline; white-space:nowrap; }
+  #hud-menu .pre span { white-space:nowrap; display:inline-block; }   /* 詞組不拆（hud.js phr） */
+  #hud-day h2 { font-size:clamp(24px,3.4vh,40px); line-height:1.45; }
+  #hud-day .desc { margin-top:10px; font:400 clamp(14px,1vw,17px)/1.85 var(--serif); color:#4a4038; }
+  /* 今日行程＝任務清單：菱形格子、一條一條進場 */
+  #hud-day .quest { margin:16px 0 12px; }
+  #hud-day .qh { display:flex; align-items:center; gap:.8em; font:600 var(--t-lab)/1 var(--sans); letter-spacing:.42em; color:var(--red); margin-bottom:6px; }
+  #hud-day .qh::after { content:""; flex:1; height:1px; background:#cdbfa8; }
+  #hud-day .qh span { order:2; letter-spacing:.1em; color:var(--mute); font-variant-numeric:tabular-nums; }
+  #hud-day .quest ul { list-style:none; }
+  #hud-day .quest li { display:flex; gap:.85em; align-items:baseline; padding:.42em 0; font:500 var(--t-read)/1.5 var(--serif); }
+  #hud-day .quest li i { flex:none; width:9px; height:9px; border:1.5px solid var(--red); rotate:45deg; translate:0 -1px; }
+  #hud-day .quest li small { display:block; font:400 var(--t-lab)/1.6 var(--sans); color:var(--mute); letter-spacing:.04em; }
+  #hud-day.hud-in .quest li { animation:hudIn .5s cubic-bezier(.16,.84,.24,1) calc(.35s + var(--i) * .1s) both; }
+  #hud-day.hud-in .quest li i { animation:hudTick .4s ease-out calc(.6s + var(--i) * .1s) both; }
+  @keyframes hudTick { from { scale:0; } 70% { scale:1.4; background:var(--red); } }
+  /* 今日美食：紙雕立牌一小排，每張右上角「示意」（AI 插畫，不是餐廳實拍） */
+  #hud-day .food { margin:4px 0 10px; }
+  #hud-day .food ul { list-style:none; display:flex; gap:clamp(12px,1.2vw,22px); }
+  #hud-day .food li { display:flex; flex-direction:column; align-items:center; gap:4px; }
+  #hud-day .food figure { position:relative; height:clamp(56px,9vh,96px); }
+  #hud-day .food img { display:block; height:100%; width:auto; filter:drop-shadow(0 8px 10px rgba(42,30,18,.28)); }
+  #hud-day .food i { position:absolute; right:-6px; top:-2px; font:600 max(9px,1.15vh)/1 var(--sans); font-style:normal; letter-spacing:.12em; color:#fbf3e4; background:rgba(42,36,32,.72); padding:.3em .4em .3em .5em; border-radius:2px; }
+  #hud-day .food span { font:500 var(--t-lab)/1.3 var(--serif); letter-spacing:.06em; }
+  #hud-day.hud-in .food li { animation:hudIn .5s cubic-bezier(.16,.84,.24,1) calc(.7s + var(--i) * .12s) both; }
+  #hud-day .meta { font:400 max(13px,1.8vh)/1.8 var(--sans); color:#5a4e44; }
+  #hud-day .meta b { color:var(--red); font-weight:600; margin-right:.9em; }
+
+  /* 關卡地圖進度：圓點連成一條路，走過的染紅；章節是菱形關卡點、下面標章號 */
+  #dots.map { gap:0; align-items:flex-start; padding:6px 10px 0; }
+  #dots.map button { position:relative; width:clamp(15px,1.25vw,22px); height:14px; background:none; opacity:1; border-radius:0; }
+  #dots.map button::after { content:""; position:absolute; left:50%; top:7px; width:5px; height:5px; translate:-50% -50%; border-radius:50%; background:#b9a98f; transition:background .4s, scale .4s; }
+  #dots.map button::before { content:""; position:absolute; right:50%; top:7px; width:100%; height:1px; translate:0 -50%; background:#cdbfa8; }
+  #dots.map button:first-child::before { display:none; }
+  #dots.map button.day::after { width:6px; height:6px; background:var(--paper); border:1.5px solid #a8977c; }
+  #dots.map button.chapter::after { width:9px; height:9px; border-radius:0; rotate:45deg; background:var(--paper); border:1.5px solid var(--ink); }
+  #dots.map button span { position:absolute; left:50%; top:17px; translate:-50% 0; font:600 max(9px,1.2vh)/1 var(--sans); letter-spacing:.06em; color:var(--mute); pointer-events:none; }
+  #dots.map button.done::before, #dots.map button.on::before { background:var(--red); height:1.5px; }
+  #dots.map button.done::after { background:var(--red); border-color:var(--red); }
+  #dots.map button.on::after { background:var(--red); border-color:var(--red); scale:1.5; box-shadow:0 0 0 3px rgba(var(--wash),.9), 0 0 0 4px var(--red); }
+  #dots.map button.done span, #dots.map button.on span { color:var(--red); }
+  #dots.map button:hover::after { scale:1.6; }
+
+  @media (max-width:900px) {
+    #hud-menu .pre { margin-bottom:8vh; }
+    #hud-menu h1 .main, #hud-menu .sun { font-size:clamp(34px,10vw,56px); }
+    #hud-menu h1 .main { letter-spacing:.08em; margin-right:-.08em; }
+    #hud-menu .mission { padding:16px 18px 14px; margin-top:8vh; }
+    #hud-menu .l2 { font-size:14px; letter-spacing:.04em; } #hud-menu .l2 i { margin:0 .3em; }
+    #hud-menu .meta { letter-spacing:.1em; } #hud-menu .meta i { margin:0 .35em; }
+    #hud-menu .opts { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:5vh; }
+    #hud-menu .opts button { min-width:0; }
+    #hud-menu .opts button:last-child:nth-child(odd) { grid-column:1 / -1; }
+    #hud-menu .opts button.cur::before { display:none; }
+    #hud-menu .hint { display:none; }
+    #hud-menu .credit { right:auto; left:50%; translate:-50% 0; bottom:22px; white-space:nowrap; }
+    #hud-menu .card { width:min(42vw,200px); }
+    #hq .offices { flex-direction:column; gap:12px; }
+    #hud-load .nm { flex-direction:column; gap:.8em; }
+    #hud-load .nm .tn { font-size:min(12vw, calc(80vw / var(--n, 6) / 1.14)); white-space:nowrap; margin-right:-.14em; }
+    #hud-menu .pre { letter-spacing:.14em; margin-right:0; line-height:1.7; padding:0 4vw; }
+    #hud-menu .meta { display:flex; flex-wrap:wrap; justify-content:center; column-gap:.9em; } #hud-menu .meta i { display:none; }
+    #close h2 { font-size:min(clamp(26px,7vw,40px), 6.4vw); }
+    #hud-teaser .cap { font-size:clamp(16px,4.6vw,22px); letter-spacing:.06em; }
+    #hud-stage .ghost { font-size:46vw; top:auto; bottom:6vh; translate:0 0; }
+    #hud-stage h2 { font-size:clamp(40px,12vw,64px); }
+    #hud-stage .rule { width:46vw; }
+    #hud-day > *, #hud-stage ol { max-width:100%; }
+    #hud-day .ph img, #hud-day .ph.tall img { width:100%; max-height:18vh; aspect-ratio:16/9; }
+    #hud-day .dn strong { font-size:48px; }
+    #hud-day .desc { display:none; }
+    #hud-day .quest li { padding:.25em 0; }
+    #dots.map { left:50%; right:auto; translate:-50% 0; bottom:12px; padding:0 4px; }
+    #dots.map button { width:calc((100vw - 32px) / 28); max-width:14px; }
+    #dots.map button span { display:none; }
+  }
+  @media (prefers-reduced-motion:reduce) { #hud-load *, #hud-menu, #hud-menu *, #hud-teaser *, #hud-boot, #hud-boot *, .hud-pro *, .hud-in > *, #hud-stage.hud-in *, #hud-day.hud-in * { transition:none !important; animation:none !important; } }
   @media (max-width:900px) {
     #panel .ph img, #panel .ph.tall img { width:100%; max-height:20vh; aspect-ratio:16/9; }
     #gallery, #gallery.portrait { left:4vw; right:4vw; top:3vh; width:auto; }
@@ -152,6 +533,7 @@
 <figure id="gallery"><div class="ph"><img alt=""></div><figcaption><span class="en"></span><b></b><time></time></figcaption></figure>
 <div id="grain"></div>
 <nav id="dots"></nav>
+<script src="hud.js"></script>
 <script src="data.js"></script>
 <script>
 // 地圖上的旗子、明信片是畫在畫布上的字：等網路字型到齊再開場，別台電腦／手機才不會變成系統字
