@@ -384,7 +384,21 @@
       const min = matchMedia('(min-width:901px)').matches ? 14 : 12;
       for (let size = parseFloat(getComputedStyle(name).fontSize); name.scrollWidth > name.clientWidth && size > min; size -= .5) name.style.fontSize = Math.max(min, size - .5) + 'px';
     }
-    if (!matchMedia('(orientation:landscape)').matches) { delete D.dataset.fit; return; }
+    const fitFoodNames = () => {
+      const food = D.querySelector('.food ul');
+    if (food) {
+      delete food.dataset.stack;
+      const fitFood = () => [...food.children].every((li) => {
+        const label = li.querySelector('span'); if (!label) return true; label.style.fontSize = '';
+        const row = getComputedStyle(li).flexDirection === 'row', fig = li.querySelector('figure');
+        const available = li.clientWidth - (row ? fig.offsetWidth + parseFloat(getComputedStyle(li).columnGap) : 0);
+        for (let size = parseFloat(getComputedStyle(label).fontSize); label.getBoundingClientRect().width > available && size > 12; size -= .5) label.style.fontSize = Math.max(12, size - .5) + 'px';
+        return label.getBoundingClientRect().width <= available + 1;
+      });
+      if (!fitFood()) { food.dataset.stack = ''; fitFood(); }
+    }
+    };
+    if (!matchMedia('(orientation:landscape)').matches) { delete D.dataset.fit; fitFoodNames(); return; }
     const css = getComputedStyle(D), space = D.clientHeight - parseFloat(css.paddingTop) - parseFloat(css.paddingBottom);
     const height = () => {
       if (css.display === 'grid') {
@@ -398,6 +412,7 @@
     };
     D.dataset.fit = '0';
     for (let n = 1; n <= 3 && height() > space; n++) D.dataset.fit = String(n);
+    fitFoodNames();
   }
   addEventListener('resize', fitDay);
   D.addEventListener('load', fitDay, true);
