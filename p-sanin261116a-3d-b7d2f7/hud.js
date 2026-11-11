@@ -1,6 +1,6 @@
 // 遊戲開場介面（docs/發表會版-觀眾動線-20261111.md；舊單 遊戲化分工-20261110.md）
 // 動線：載入（進度＋這團小知識）→ 冷開場（main.js 有接 HUD.teaser 才播）→ 漫途工作室標誌 → 角落主選單
-//   主選單：角色介紹／前情提要／行程介紹 可來回逛；開始旅程後前後都能走（11/10 William：要能回上一頁、走得到最後）→ 關卡卡、逐日 HUD、關卡地圖進度
+//   主選單：角色介紹／公司簡介／行程介紹 可來回逛；開始旅程後前後都能走（11/10 William：要能回上一頁、走得到最後）→ 關卡卡、逐日 HUD、關卡地圖進度
 // 不打包、在 data.js 之前載入（一開檔就有載入畫面）。不寫死團名／地名／人名／公司名：全部讀 window.JOURNEY（公司層 J.company、團層 J.story＋行程）。
 // main.js 不呼叫也能動：自己看 window.__journey 的 step 與 ready；main.js 要接手時用 window.HUD.*（交件單 docs/交件-ui.md）。
 (() => {
@@ -82,11 +82,11 @@
     <div class="offer"><p class="ttl"><b>OFFER</b>費用與報名</p><div class="rows"></div><p class="hint">ESC 返回</p></div>
     <div class="people"><p class="ttl"><b>CHARACTERS</b>角色介紹</p><div class="cards"></div><p class="hint">移到卡片上看背景　ESC 返回</p></div>
     <p class="credit"><img class="vm" alt=""><span></span></p>`);
-  let OPTS = [['people', '角色介紹', 'CHARACTERS'], ['prologue', '前情提要', 'PROLOGUE'], ['route', '行程介紹', 'ROUTE'], ['start', '開始旅程', 'START']];
+  let OPTS = [['people', '角色介紹', 'CHARACTERS'], ['prologue', '公司簡介', 'COMPANY'], ['route', '行程總覽', 'ROUTE'], ['start', '啟程', 'DEPART']];
   const drawOpts = () => { M.querySelector('.opts').innerHTML = OPTS.map(([k, t, e], i) => `<button type="button" data-k="${k}" data-i="${i}" class="${k === 'start' ? 'go' : ''}"><b>${t}</b><small>${e}</small></button>`).join(''); };
   M.querySelector('.opts').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) pick(b.dataset.k); });
   M.querySelector('.opts').addEventListener('mouseover', (e) => { const b = e.target.closest('button'); if (b) focusOpt(+b.dataset.i); });
-  // 返回主選單（角色介紹、前情提要、行程介紹時在左上角）
+  // 返回主選單（角色介紹、公司簡介、行程介紹時在左上角）
   const BK = el('hud-back', '', '<button type="button">返回主選單<small>ESC</small></button>');
   BK.addEventListener('click', () => toMenu());
 
@@ -109,7 +109,7 @@
       M.querySelector('.mk').innerHTML = 'PROPOSAL<i>·</i>提案';
       if (J.client) M.querySelector('.mission .nm').insertAdjacentHTML('beforebegin', `<p class="for">致　${esc(J.client)}</p>`);
       M.querySelector('.meta').innerHTML = [J.dates && J.dates.range, J.days ? `${J.days.length} DAYS` : ''].filter(Boolean).map((x) => `<span>${esc(x)}</span>`).join('<i>·</i>');
-      OPTS = [['people', '角色介紹', 'CHARACTERS'], ['prologue', '為什麼選我們', 'WHY US'], ['route', '行程亮點', 'HIGHLIGHTS'], ['offer', '費用與報名', 'OFFER'], ['start', '開始旅程', 'START']];
+      OPTS = [['people', '角色介紹', 'CHARACTERS'], ['prologue', '公司簡介', 'COMPANY'], ['route', '行程總覽', 'ROUTE'], ['offer', '費用與報名', 'OFFER'], ['start', '啟程', 'DEPART']];
       if (!OFFER) OPTS = OPTS.filter((o) => o[0] !== 'offer'); else M.querySelector('.offer .rows').innerHTML = offerRows(true);
     }
     if (COMPANY) companyInit();
@@ -117,8 +117,8 @@
       M.querySelector('.mk').innerHTML = 'MEMORIES<i>·</i>旅程回憶';
       OPTS = [['route', '行程回顧', 'ROUTE'], ['start', '重溫旅程', 'REPLAY']];
     }
-    people(); if (!(CO.people || []).length) OPTS = OPTS.filter((o) => o[0] !== 'people');
-    if (!CO.slogan && !CO.why && !(CO.offices || []).length) OPTS = OPTS.filter((o) => o[0] !== 'prologue');   // 沒有公司故事就不放前情提要，不出空字卡
+    introInit(); people(); if (!(CO.people || []).length) OPTS = OPTS.filter((o) => o[0] !== 'people');
+    if (!CPAGES.length) OPTS = OPTS.filter((o) => o[0] !== 'prologue');   // 沒有公司故事就不放公司簡介，不出空字卡
     drawOpts(); if (!CO.slogan) { M.querySelector('h1').remove(); M.classList.add('noslogan'); }
     // 小知識只用案件裡已有的字：四大亮點＋每天照片說明（「名稱　·　說明」）
     const seen = new Set();
@@ -156,7 +156,7 @@
   function afterReady() {
     if (rotateBlocked()) { rotateWait = afterReady; return; }
     clearInterval(tipTimer);
-    if (direct || state === 'run') { [L, B, M, TZ].forEach((x) => x.remove()); setState('run'); return; }
+    if (direct || state === 'run') { [L, B, M, TZ].forEach((x) => x.remove()); setState('run'); if (CPAGES.length && PRO.includes((SCN[J_() && J_().step] || {}).k)) introShow(Math.max(0, cpI), false); return; }
     if (DAILY) { [L, B, M, TZ].forEach((x) => x.remove()); setState('daily'); if (!SCN.length) readScenes(); showDay(todayN(), 0); return; }
     if (teaserFn && !COMPANY) {   // 公司介紹版不播這團的冷開場
       L.classList.add('away'); setState('teaser'); TZ.classList.add('on'); capFit();
@@ -171,7 +171,7 @@
   }
   function menu() {
     if (state === 'run') return;
-    setState('menu'); M.classList.add('on'); M.classList.remove('up', 'sub-people', 'sub-offer'); WK.classList.remove('on'); BK.classList.remove('on'); L.remove(); focusOpt(cur);
+    introHide(); setState('menu'); M.classList.add('on'); M.classList.remove('up', 'sub-people', 'sub-offer'); WK.classList.remove('on'); BK.classList.remove('on'); L.remove(); focusOpt(cur);
   }
   function focusOpt(i) { cur = (i + OPTS.length) % OPTS.length; M.querySelectorAll('.opts button').forEach((b, j) => b.classList.toggle('cur', j === cur)); if (typeof post === 'function' && state === 'menu') post(); }
   const toMenu = () => menu();
@@ -181,15 +181,16 @@
     if (k === 'people') { setState('people'); M.classList.add('sub-people'); BK.classList.add('on'); }
     if (k === 'offer') { setState('people'); M.classList.add('sub-offer'); BK.classList.add('on'); }
     if (k === 'prologue') { setState('prologue'); M.classList.add('up'); BK.classList.add('on'); proI = 0; showPro(); }
-    if (k === 'route') { setState('route'); M.classList.add('up'); BK.classList.add('on'); goto(idx('overview')); }
+    if (k === 'route') { introHide(); setState('route'); M.classList.add('up'); BK.classList.add('on'); goto(idx('overview')); }
     if (COMPANY && ['prologue', 'works', 'contact', 'start'].includes(k)) {   // 公司介紹版：一條順序，選項只是從哪裡開始
-      tourStart(k === 'works' ? CSEQ.findIndex((x) => x.k === 'works') : k === 'contact' ? CSEQ.length - 1 : 0, k === 'start'); return;
+      tourStart(k === 'works' ? CSEQ.findIndex((x) => CPAGES[x.intro] && CPAGES[x.intro].id === 'portfolio') : k === 'contact' ? CSEQ.length - 1 : 0, k === 'start'); return;
     }
     if (k === 'start') start();
   }
-  function showPro() { const i = idx(PRO[proI]); if (J_() && J_().step === i) replay($(PRO[proI])); else goto(i); }
-  function proStep(d) { proI += d; if (proI < 0) proI = 0; else if (proI >= PRO.length) toMenu(); else showPro(); }
+  function showPro() { introShow(proI); }
+  function proStep(d) { proI += d; if (proI < 0) proI = 0; else if (proI >= CPAGES.length) toMenu(); else showPro(); }
   function start() {
+    introHide();
     setState('run'); M.classList.add('up'); BK.classList.remove('on'); setTimeout(() => M.remove(), 1500);
     if (onGo) onGo(); else goto(idx('depart'));
     document.dispatchEvent(new CustomEvent('hud:start'));
@@ -199,8 +200,8 @@
   const NEXT = ['ArrowRight', ' ', 'PageDown', 'Enter'], PREV = ['ArrowLeft', 'PageUp', 'Backspace'];
   // 往下一頁；已在最後一幕就切換「Q&A」提示（片尾停住時給主講人一個收尾的點；總檢十名外）
   const QA = el('hud-qa', '', '<b>Q&amp;A</b><span>問題與交流</span>');
-  function fwd() { const j = J_(); if (!j) return; if (j.step >= SCN.length - 1) { QA.classList.toggle('on'); post(); } else { QA.classList.remove('on'); j.go(j.step + 1); } }
-  function back() { const j = J_(); if (!j) return; if (QA.classList.contains('on')) { QA.classList.remove('on'); post(); return; } if (j.step > 0) j.go(j.step - 1); }
+  function fwd() { if (introStep(1)) return; const j = J_(); if (!j) return; if (j.step >= SCN.length - 1) { QA.classList.toggle('on'); post(); } else { QA.classList.remove('on'); j.go(j.step + 1); } }
+  function back() { if (introStep(-1)) return; const j = J_(); if (!j) return; if (QA.classList.contains('on')) { QA.classList.remove('on'); post(); return; } if (j.step > 0) j.go(j.step - 1); }
   // 左右滑一次一幕；垂直拖曳只捲卡片，多指不翻幕，拖過後吃掉合成點擊
   let sx = null, sy = 0, touchX = null, touchY = 0, suppressTap = 0, swipeAt = 0;
   addEventListener('touchstart', (e) => {
@@ -287,6 +288,7 @@
       return true;
     }
     if (state === 'run') {
+      if (CP.classList.contains('on') && (NEXT.includes(k) || PREV.includes(k))) { (NEXT.includes(k) ? fwd : back)(); return true; }
       if (NEXT.includes(k) && J_() && J_().step >= SCN.length - 1) { fwd(); return true; }   // 最後一幕再按：Q&A 提示
       if (PREV.includes(k) && QA.classList.contains('on')) { QA.classList.remove('on'); post(); return true; }
       if (remote && J_()) { if (NEXT.includes(k)) { fwd(); return true; } if (PREV.includes(k)) { back(); return true; } }
@@ -302,9 +304,10 @@
   addEventListener('keydown', (e) => { if (e.ctrlKey || e.metaKey || e.altKey) return; if (keyCmd(e.key, false)) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
   addEventListener('click', (e) => {
     if (rotateBlocked() || (landscape && Date.now() < suppressTap && e.detail !== 0)) { e.preventDefault(); e.stopImmediatePropagation(); return; }
-    const t = e.target.closest ? e.target : e.target.parentElement, onWorld = t && t.closest('#stage, #brand, .scene');
+    const t = e.target.closest ? e.target : e.target.parentElement, onWorld = t && t.closest('#stage, #brand, .scene, #hud-intro');
     if (t && t.closest('#hud-menu .opts button')) lockLandscape();
     if (state === 'run') {
+      if (CP.classList.contains('on') && onWorld && !t.closest('button, a')) { e.stopImmediatePropagation(); if (e.clientX < innerWidth * .2) back(); else fwd(); return; }
       if (landscape && touchScreen() && J_() && onWorld && !t.closest('button, a')) {
         e.stopImmediatePropagation(); if (e.clientX < innerWidth / 2) back(); else fwd(); return;
       }
@@ -345,6 +348,28 @@
 
   // ── 逐日 HUD：天數、今日路線、今日亮點（任務清單，最多三個）、今日美食（days[].food 紙雕立牌，標「示意」：AI 插畫不是餐廳實拍）、住 ──
   const D = el('hud-day', 'scene left');
+  // 依實際內容高度收合，保住照片與主文字，不把內容藏到捲軸後面
+  function fitDay() {
+    if (!D.children.length || D.classList.contains('mem')) { delete D.dataset.fit; return; }
+    // 飯店名保持完整單行，先用可用寬度縮字；不拆日文詞組
+    const name = D.querySelector('.hn, .stay-name');
+    if (name) {
+      name.style.fontSize = '';
+      const min = matchMedia('(min-width:901px)').matches ? 14 : 12;
+      for (let size = parseFloat(getComputedStyle(name).fontSize); name.scrollWidth > name.clientWidth && size > min; size -= .5) name.style.fontSize = Math.max(min, size - .5) + 'px';
+    }
+    if (!matchMedia('(min-width:901px)').matches) { delete D.dataset.fit; return; }
+    const css = getComputedStyle(D), space = D.clientHeight - parseFloat(css.paddingTop) - parseFloat(css.paddingBottom);
+    const height = () => [...D.children].reduce((n, e) => {
+      const c = getComputedStyle(e);
+      return n + e.offsetHeight + parseFloat(c.marginTop) + parseFloat(c.marginBottom);
+    }, 0);
+    D.dataset.fit = '0';
+    for (let n = 1; n <= 3 && height() > space; n++) D.dataset.fit = String(n);
+  }
+  addEventListener('resize', fitDay);
+  D.addEventListener('load', fitDay, true);
+  if (document.fonts) document.fonts.ready.then(fitDay);
   function day(d) {
     if (typeof d === 'number') d = J.days[d - 1];
     if (!d || dayKey === d.n) return; dayKey = d.n;
@@ -365,8 +390,9 @@
       ${legs.length ? `<ol class="route">${legs.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>` : ''}
       <h2>${phr(d.title)}</h2>
       ${spots.length ? `<div class="quest"><p class="qh">今日亮點</p><ul>${spots.map(([a, b], i) => `<li style="--i:${i}"><i></i><span>${esc(a)}${b ? `<small>${esc(b)}</small>` : ''}</span></li>`).join('')}</ul></div>` : ''}
-      ${(d.food || []).length ? `<div class="food"><p class="qh">今日美食</p><ul>${d.food.map((f, i) => `<li style="--i:${i}"><figure><img src="${esc(f.card)}" alt=""><i>示意</i></figure><span>${esc(f.zh)}</span></li>`).join('')}</ul></div>` : ''}
-      ${hotelHTML(d, 'meta')}`;
+      <div class="day-tail">${(d.food || []).length ? `<div class="food"><p class="qh">今日美食</p><ul>${d.food.map((f, i) => `<li style="--i:${i}"><figure><img src="${esc(f.card)}" alt=""><i>示意</i></figure><span>${esc(f.zh)}</span></li>`).join('')}</ul></div>` : ''}
+      ${hotelHTML(d, 'meta')}</div>`;
+    fitDay();
     replay(D);
   }
   // 標題按逗號分成詞組，每組不拆（窄螢幕才不會把「會／發光」這種詞切開）
@@ -374,8 +400,9 @@
   // 住：第一晚展開成小飯店卡（名字、英文、地區、連住幾晚、一句介紹；days[].hotel 是行程檔原文），連住第二晚起只寫「續住」
   function hotelHTML(d, cls) {
     const h = d.hotel, pv = J.days[d.n - 2];
-    if (!h || !h.name) return d.stay ? `<p class="${cls}"><b>住</b>${esc(d.stay)}</p>` : '';
-    if (pv && pv.hotel && pv.hotel.name === h.name) return `<p class="${cls} cont"><b>住</b>${esc(h.name)}<span>續住</span></p>`;
+    const name = (text) => cls === 'meta' ? `<span class="stay-name">${esc(text)}</span>` : esc(text);
+    if (!h || !h.name) return d.stay ? `<p class="${cls}"><b>住</b>${name(d.stay)}</p>` : '';
+    if (pv && pv.hotel && pv.hotel.name === h.name) return `<p class="${cls} cont"><b>住</b>${name(h.name)}<span>續住</span></p>`;
     return `<div class="hotel"><b>住</b><div><p class="hn">${esc(h.name)}</p>${h.en ? `<p class="he">${esc(h.en)}</p>` : ''}
       ${h.area || h.small ? `<p class="ha">${[h.area, h.small].filter(Boolean).map(esc).join('<i>·</i>')}</p>` : ''}${h.desc ? `<p class="hd">${esc(h.desc)}</p>` : ''}</div></div>`;
   }
@@ -408,19 +435,62 @@
     return r.join('');
   }
 
-  // ── 前情提要：公司四幕改成序章字卡，一句一句推進；第四幕換成「據點」卡（CO.offices，有幾個列幾個） ──
+  // 公司段：八種資料頁，映射既有四幕；同幕先翻 HUD，再換 3D。
+  let CPAGES = [], cpI = -1;
+  const CP = el('hud-intro', '', '<div class="intro-head"></div><div class="intro-details"></div><footer></footer>');
+  CP.setAttribute('role', 'region'); CP.setAttribute('aria-label', '公司簡介');
+  const introScene = { origin: 'brand', philosophy: 'why', history: 'why', services: 'promise', team: 'promise', offices: 'hq', info: 'hq', portfolio: 'hq' };
+  function introInit() {
+    const old = CPAGES[cpI], pages = [];
+    (CO.introduction || []).forEach((p) => {
+      let rows = [];
+      if (p.id === 'origin') rows = [{ body: [CO.lead, CO.body].filter(Boolean).join('\n') }];
+      if (p.id === 'philosophy') rows = [{ body: CO.pillarBody }];
+      if (p.id === 'history') { const h = CO.history || []; if (!h.length || h.some((x) => !x.year)) return; rows = h.map((x) => ({ title: [x.year, x.title].join('　'), body: x.body })); }
+      if (p.id === 'services') rows = CO.serviceItems || [];
+      if (p.id === 'team') { if (!(CO.people || []).length) return; rows = CO.people.map((x) => ({ title: [x.name, x.role].filter(Boolean).join('　'), body: [].concat(x.bio || []).join('　'), photo: x.photo })); }
+      if (p.id === 'offices') rows = (CO.offices || []).map((x) => ({ title: x.name, body: [x.address, x.phone].filter(Boolean).join('\n') }));
+      if (p.id === 'info') rows = [['統一編號', CO.taxId], ['旅行業執照', CO.license], ['品保協會', CO.assoc]].filter((x) => x[1]).map(([title, body]) => ({ title, body }));
+      if (p.id === 'portfolio') rows = (CO.portfolio || []).filter((x) => x.title).map((x) => ({ title: x.title, body: [x.country, x.month && x.month.replace('-', '.')].filter(Boolean).join('　') }));
+      rows = rows.filter((x) => x.title || x.body); if (!rows.length) return;
+      const per = p.id === 'portfolio' ? (innerHeight <= 600 ? 6 : 24) : rows.length;
+      for (let at = 0; at < rows.length; at += per) pages.push({ ...p, scene: introScene[p.id], rows: rows.slice(at, at + per), part: Math.floor(at / per), parts: Math.ceil(rows.length / per) });
+    });
+    CPAGES = pages; cpI = old ? Math.max(0, pages.findIndex((p) => p.id === old.id && p.part === Math.min(old.part, p.parts - 1))) : -1;
+  }
+  function introHide() { CP.classList.remove('on'); body.classList.remove('intro-visible'); }
+  function introShow(i, move = true) {
+    const p = CPAGES[i]; if (!p) return introHide(); cpI = i;
+    CP.dataset.page = p.id;
+    CP.querySelector('.intro-head').innerHTML = `<p class="intro-en">${esc(p.en)}</p><h2>${esc(p.title)}</h2><p class="intro-focus">${esc(p.focus)}</p>`;
+    CP.querySelector('.intro-details').innerHTML = p.rows.map((x) => `<article>${x.photo ? `<img src="${esc(x.photo)}" alt="${esc(x.title)}">` : ''}${x.title ? `<h3>${esc(x.title)}</h3>` : ''}${x.body ? `<p>${esc(x.body)}</p>` : ''}</article>`).join('');
+    CP.querySelector('footer').textContent = `${CO.name || ''}　·　${i + 1} / ${CPAGES.length}${p.parts > 1 ? `　執行實績 ${p.part + 1} / ${p.parts}` : ''}`;
+    CP.classList.add('on'); body.classList.add('intro-visible');
+    if (move && J_() && J_().step !== idx(p.scene)) goto(idx(p.scene));
+    sceneAt = Date.now(); post();
+  }
+  function introStep(d) {
+    if (!CP.classList.contains('on')) {
+      if (d < 0 && SCN[J_() && J_().step - 1] && PRO.includes(SCN[J_().step - 1].k) && CPAGES.length) { introShow(CPAGES.length - 1); return true; }
+      return false;
+    }
+    const i = cpI + d;
+    if (i >= 0 && i < CPAGES.length) { introShow(i); return true; }
+    if (i < 0) return true;
+    introHide(); goto(idx('hq') + 1); return true;
+  }
+  function introInfo(p) {
+    if (!p) return { label: '', notes: [] };
+    const notes = (CO.presenterNotes || {})[p.id];
+    return { label: `公司簡介　${p.title}${p.parts > 1 ? ` ${p.part + 1}/${p.parts}` : ''}`, notes: notes || [p.focus, ...p.rows.map((x) => [x.title, x.body].filter(Boolean).join('　'))].filter(Boolean), own: !!notes };
+  }
+  addEventListener('resize', () => { if (!J) return; const on = CP.classList.contains('on'); introInit(); if (COMPANY) CSEQ = CPAGES.map((p, intro) => ({ k: p.scene, intro })).concat([{ k: 'close' }]); if (on) { if (state === 'prologue') proI = cpI; if (state === 'tour') ci2 = cpI; introShow(cpI, false); } });
+
+  // ── 公司簡介：公司四幕改成序章字卡，一句一句推進；第四幕換成「據點」卡（CO.offices，有幾個列幾個） ──
   function decorate() {
     if (decorated || !$('why') || !$('why').children.length) return; decorated = true;
     const ok = $('overview') && $('overview').querySelector('.k');   // 行程介紹與全程回顧用同一個站數（不含機場；總檢 #6）
     if (ok) ok.innerHTML = ok.innerHTML.replace(/\d+\s*STOPS/, `${J.stops.filter((x) => !x.air).length} STOPS`);
-    const OF = CO.offices || [];
-    if (OF.length) $('hq').innerHTML = `<div class="k">${pad(OF.length)} OFFICES</div><h2>${OF.map((o) => `<span>${esc(o.name)}</span>`).join('')}</h2>
-      <p class="svc">${(CO.services || []).map(esc).join('<i>・</i>')}</p>
-      <ul class="offices">${OF.map((o) => `<li><b>${esc(o.en)}</b><span>${esc(o.name)}</span>${o.address ? `<small>${esc(o.address)}</small>` : ''}</li>`).join('')}</ul>
-      <p class="lic">旅行業執照　${esc(CO.license)}${CO.assoc ? `<i>·</i>${esc(CO.assoc)}` : ''}</p>`;
-    PRO.forEach((k, i) => { const sec = $(k), root = sec.querySelector('.in') || sec; sec.classList.add('hud-pro');
-      root.insertAdjacentHTML('afterbegin', `<div class="pro"><b>${PROP ? 'WHY US' : 'PROLOGUE'}</b><span>${PROP ? '為什麼選我們' : '前情提要'}</span><em>${pad(i + 1)} / ${pad(PRO.length)}</em></div>`);
-      root.insertAdjacentHTML('beforeend', '<i class="next"></i>'); seq(root); });
     // 片尾：全程回顧（天數、里程、地標、關卡，從資料算）→ 片尾名單（CO.people）＋聯絡、執照（main.js 已放）
     const mem = $('memory'), cl = $('close'), st = J.stops.filter((x) => !x.air);
     mem.classList.add('hud-pro', 'hud-end'); cl.classList.add('hud-pro', 'hud-end');
@@ -476,6 +546,11 @@
     if (ext && state === 'daily') { const sc = SCN[s]; if (sc && sc.k === 'day' && sc.n !== dayN) showDay(sc.n, 0, true); return; }
     if (ext && state !== 'run') { [L, B, M, TZ].forEach((x) => x.remove()); BK.classList.remove('on'); setState('run'); }
     const sc = SCN[s]; if (!sc) return; map(s);
+    if (PRO.includes(sc.k)) {
+      if (!CPAGES[cpI] || CPAGES[cpI].scene !== sc.k) cpI = CPAGES.findIndex((p) => p.scene === sc.k);
+      if (cpI >= 0 && ['run', 'prologue', 'tour'].includes(state)) introShow(cpI, false);
+      else introHide();
+    } else introHide();
     if (sc.k === 'chapter') stage(sc.ci); if (sc.k === 'day') day(sc.n);
     if (sc.k === 'day') touchHint();
     if (PRO.includes(sc.k) || sc.k === 'memory' || sc.k === 'close') replay($(sc.k));
@@ -512,7 +587,7 @@
       chapter: c ? c.days.map((n) => `DAY ${pad(n)}　${J.days[n - 1].title}`) : [],
       day: d ? [d.legs, ...(d.spots || []), d.meals && `餐　${d.meals}`, d.stay && `住　${d.stay}`] : [],
     }[sc.k] || [];
-    const pl = PROP ? '為什麼選我們　' : '前情提要　';   // 標題用資料裡的句子，講稿就不再重複
+    const pl = '公司簡介　';   // 標題用資料裡的句子，講稿就不再重複
     const label = { brand: pl + (CO.slogan || CO.name || ''), why: pl + (CO.why || ''), promise: pl + (CO.pillar || ''), hq: pl + '據點', overview: '行程總覽',
       depart: '去程班機', return: '回程班機', memory: '全程回顧', close: PROP && OFFER ? '片尾　下一步' : '片尾',
       chapter: c ? `STAGE ${pad(sc.ci + 1)}　${c.name}` : '', day: d ? `DAY ${pad(d.n)}　${d.title}` : '' }[sc.k] || sc.k;
@@ -525,11 +600,11 @@
       cur = { label: state === 'people' ? (M.classList.contains('sub-offer') ? '費用與報名' : '角色介紹') : '主選單', notes: OPTS.map((o) => o[1]).concat(J && J.title ? [`${J.title.main}${J.title.suffix || ''}`] : []) };
       next = { label: '回主選單' };
     }
-    if (state === 'prologue') next = proI + 1 < PRO.length ? sceneInfo({ k: PRO[proI + 1] }) : { label: '回主選單' };
+    if (CP.classList.contains('on')) { cur = introInfo(CPAGES[cpI]); next = introInfo(CPAGES[cpI + 1]); if (!CPAGES[cpI + 1]) next = state === 'run' ? sceneInfo(SCN[idx('hq') + 1]) : { label: COMPANY ? '聯絡我們' : '回主選單' }; }
     if (state === 'route') next = { label: '回主選單' };
     if (state === 'run' && j && s >= SCN.length - 1) next = { label: QA.classList.contains('on') ? 'Q&A 進行中（再按一次收起）' : '片尾停住：再按一次出「Q&A」' };
     if (state === 'tour') { const it = CSEQ[ci2], nx = CSEQ[ci2 + 1]; const lab = (x) => x ? (x.k === 'works' ? { label: `我們走過的路　${pad(x.p + 1)} / ${pad(PAGES.length)}`, notes: (PAGES[x.p] || []).map((w) => [w.month && w.month.replace('-', '.'), w.country, w.title].filter(Boolean).join('　')) } : sceneInfo({ k: x.k })) : { label: '最後一幕' };
-      cur = lab(it); next = lab(nx); }
+      if (!CP.classList.contains('on')) { cur = lab(it); next = lab(nx); } }
     if (state === 'daily') { cur = sceneInfo({ k: 'day', n: dayN }); next = dayN < J.days.length ? sceneInfo({ k: 'day', n: dayN + 1 }) : { label: '最後一天' }; }
     if (state === 'menu') next = { label: `按 Enter 進「${(OPTS[cursor()] || [])[1] || ''}」` };
     if (['load', 'teaser', 'boot'].includes(state)) { cur = { label: { load: '載入中', teaser: '冷開場', boot: '工作室標誌' }[state], notes: state === 'teaser' && J ? [(J.story.foreword || {}).lead] : [] }; next = { label: '主選單' }; }
@@ -544,7 +619,7 @@
   const memOf = (n) => MEMS.find((m) => +m.day === n && m.photo);
 
   // ── 公司介紹版（story.mode = 'company' 或 ?mode=company；觀眾：新客人、合作夥伴，不帶團）──
-  //    漫途標誌 → 角落標題（主選單）→ 前情提要四張 → 我們走過的路（J.portfolio，分頁）→ 片尾聯絡。
+  //    漫途標誌 → 角落標題（主選單）→ 公司簡介四張 → 我們走過的路（J.portfolio，分頁）→ 片尾聯絡。
   //    CO.portfolio（_company.json；沒有再退回 J.portfolio）= [{ title, country, month: 'YYYY-MM'／'YYYY'／'' }]；不放客戶名，空的欄位不印
   let COMPANY = false, CSEQ = [], PAGES = [], ci2 = 0;
   const WK = el('hud-works', '', '<div class="in"><p class="ttl"><b>OUR JOURNEYS</b>我們走過的路<em></em></p><div class="grid"></div><p class="pg"></p></div>');
@@ -554,21 +629,23 @@
     return [...m.values()].sort((a, b) => String(b.month || '').localeCompare(String(a.month || '')));
   }
   function companyInit() {
-    const W = works(), per = matchMedia('(max-width:900px)').matches ? 4 : 8;
+    introInit(); const W = works(), per = matchMedia('(max-width:900px)').matches ? 4 : 8;
     PAGES = []; for (let i = 0; i < W.length; i += per) PAGES.push(W.slice(i, i + per));
-    CSEQ = PRO.map((k) => ({ k })).concat(PAGES.map((_, p) => ({ k: 'works', p }))).concat([{ k: 'close' }]);
+    CSEQ = CPAGES.map((p, intro) => ({ k: p.scene, intro })).concat([{ k: 'close' }]);
     const cs = new Set(W.map((w) => w.country).filter(Boolean)), ys = W.map((w) => String(w.month || '').slice(0, 4)).filter(Boolean).sort();
     M.querySelector('.mk').innerHTML = 'COMPANY<i>·</i>公司介紹';
     M.querySelector('.tn').textContent = CO.name || ''; M.querySelector('.mission .suf').remove();
     M.querySelector('.l2').innerHTML = (CO.services || []).map(esc).join('<i>×</i>');
     M.querySelector('.meta').innerHTML = [W.length && `${W.length} 個行程`, cs.size && `${cs.size} 個國家`, ys.length && (ys[0] === ys[ys.length - 1] ? ys[0] : `${ys[0]}–${ys[ys.length - 1]}`)].filter(Boolean).map((x) => `<span>${x}</span>`).join('<i>·</i>');
-    OPTS = [['prologue', '前情提要', 'PROLOGUE'], ['works', '我們走過的路', 'JOURNEYS'], ['contact', '聯絡我們', 'CONTACT'], ['start', '開始介紹', 'START']];
+    OPTS = [['prologue', '公司簡介', 'COMPANY'], ['works', '執行實績', 'TRACK RECORD'], ['contact', '聯絡我們', 'CONTACT'], ['start', '開始介紹', 'START']];
     if (!PAGES.length) OPTS = OPTS.filter((o) => o[0] !== 'works');
   }
   function tourStart(i, fromStart) { setState('tour'); M.classList.add('up'); BK.classList.toggle('on', !fromStart); ci2 = -1; cshow(Math.max(0, i), 1); }
   function cstep(d) { const i = ci2 + d; if (i < 0) return; if (i >= CSEQ.length) return toMenu(); cshow(i, d); }
   function cshow(i, d) {
     ci2 = i; const it = CSEQ[i];
+    if (it.intro != null) { introShow(it.intro); post(); return; }
+    introHide();
     if (it.k === 'works') {
       const P = PAGES[it.p] || [];
       WK.querySelector('.ttl em').textContent = PAGES.length > 1 ? `${pad(it.p + 1)} / ${pad(PAGES.length)}` : '';

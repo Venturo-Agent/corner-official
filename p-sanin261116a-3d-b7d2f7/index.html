@@ -129,8 +129,8 @@
   #gallery time { margin-left:auto; font:400 12px/1 var(--sans); color:var(--mute); letter-spacing:.08em; }
 
   /* ══ 遊戲開場介面（hud.js；docs/發表會版-觀眾動線-20261111.md）：紙與日系，不用霓虹、不用卡通 ══ */
-  /* 發表會字級：讀的字至少畫面高 2.2%，標籤至少 1.5%（後排看得到） */
-  :root { --t-read:max(15px,2.2vh); --t-lab:max(11px,1.5vh); }
+  /* 發表會字級：讀的字至少畫面高 2.2%，標籤至少 1.6%（後排看得到） */
+  :root { --t-read:max(15px,2.2vh); --t-lab:max(11px,1.6vh); }
   body.hud:not([data-hud=run]) #dots { opacity:0; pointer-events:none; }
   #hud-load, #hud-menu { position:fixed; inset:0; z-index:100; overflow:hidden; color:var(--ink);
     background:radial-gradient(120% 90% at 50% 42%, #f7f1e6 0%, var(--paper) 55%, #e6d9c2 100%); transition:transform 1.4s cubic-bezier(.7,0,.2,1), opacity .6s; }
@@ -379,7 +379,7 @@
   .hotel .he { font:600 max(10px,1.3vh)/1.6 var(--sans); letter-spacing:.16em; color:var(--mute); }
   .hotel .ha { font:500 var(--t-lab)/1.6 var(--sans); color:#5a4e44; letter-spacing:.06em; } .hotel .ha i { font-style:normal; color:var(--red); margin:0 .5em; }
   .hotel .hd { margin-top:.3em; font:400 var(--t-read)/1.6 var(--serif); color:#4a4038; }
-  .cont span { margin-left:.8em; padding:.15em .55em; font:600 var(--t-lab)/1.4 var(--sans); letter-spacing:.14em; color:var(--mute); border:1px solid #cdbfa8; border-radius:2px; }
+  .cont span:not(.stay-name) { margin-left:.8em; padding:.15em .55em; font:600 var(--t-lab)/1.4 var(--sans); letter-spacing:.14em; color:var(--mute); border:1px solid #cdbfa8; border-radius:2px; }
 
   /* 里程紙票：KM 票根與數字同一張紙，細虛線分隔操作區 */
   #hud-odo { position:fixed; z-index:11; right:clamp(20px,3vw,56px); bottom:clamp(68px,9vh,96px); display:none; align-items:stretch; color:var(--ink); background:#fbf6ec; box-shadow:2px 3px 0 #d6c6a8, 0 12px 24px -16px #6b5033; }
@@ -471,7 +471,7 @@
   #close .credits { list-style:none; margin:0 0 1.6em; } #close .credits li { display:flex; gap:1.2em; align-items:baseline; padding:.3em 0; }
   #close .credits small { min-width:8em; font:600 var(--t-lab)/1 var(--sans); letter-spacing:.2em; color:var(--red); } #close .credits b { font:600 var(--t-read)/1.4 var(--serif); }
   #close .co p, #close .co .lic, #close .co .credit { font-size:var(--t-read); }   /* 片尾聯絡與執照字號後排要讀得到（總檢 #10） */
-  /* 前情提要第四幕：據點卡 */
+  /* 公司簡介第四幕：據點卡 */
   #hq .offices { list-style:none; display:flex; gap:clamp(18px,2vw,36px); margin:.4em 0 1.4em; }
   #hq .offices li { flex:1; border-top:2px solid var(--red); padding-top:.9em; }
   #hq .offices b { display:block; font:600 var(--t-lab)/1.3 var(--sans); letter-spacing:.24em; color:var(--red); }
@@ -484,7 +484,7 @@
   body.hud[data-mode=chapter] #hud-stage, body.hud[data-mode=panel] #hud-day { opacity:1; transform:none; pointer-events:auto; }
   #hud-day.hud-in > *, #hud-stage.hud-in > .k, #hud-stage.hud-in > h2, #hud-stage.hud-in > .range { animation:hudIn .7s cubic-bezier(.16,.84,.24,1) both; }
 
-  /* 前情提要：公司四幕＝序章，抬頭「PROLOGUE 前情提要 01 / 04」，一句一句淡入，最後一個閃動的續讀三角 */
+  /* 公司簡介：公司四幕＝序章，抬頭「COMPANY 公司簡介 01 / 04」，一句一句淡入，最後一個閃動的續讀三角 */
   .hud-pro .pro { text-shadow:0 0 10px rgba(var(--wash),.95), 0 0 3px rgba(var(--wash),1); display:flex; align-items:center; gap:.9em; margin-bottom:clamp(18px,3vh,30px); font:500 var(--t-lab)/1 var(--serif); letter-spacing:.2em; color:var(--ink); }
   .hud-pro .pro b { font:700 var(--t-lab)/1 var(--sans); letter-spacing:.32em; color:#fbf3e4; background:var(--ink); padding:.55em .7em .5em .9em; box-shadow:2px 2px 0 #c9b796; }
   .hud-pro .pro em { font:600 var(--t-lab)/1 var(--sans); font-style:normal; letter-spacing:.2em; color:var(--mute); }
@@ -797,7 +797,156 @@
     body.hud-landscape #hud-teaser .b { height:calc(16 * var(--hud-h) + var(--safe-b)); }
     body.hud-landscape #hud-touch-hint { bottom:calc(64px + var(--safe-b)); font-size:var(--t-read); letter-spacing:.06em; }
   }
+  @media (orientation:landscape) and (max-height:600px) and (any-pointer:coarse) {
+    body.hud-landscape #hud-day:not(.mem) { --t-lab:12px; --t-read:14px; display:grid; grid-template-columns:176px minmax(0,1fr); align-content:start; column-gap:12px; row-gap:6px; width:56vw; padding:8px 16px; overflow:visible; }
+    body.hud-landscape #hud-day > .chip { grid-column:1 / -1; margin:0; font-size:12px; }
+    body.hud-landscape #hud-day > .ph { display:block; grid-column:1; grid-row:2 / 4; margin:0; }
+    body.hud-landscape #hud-day > .ph img { width:100%; height:auto; max-height:none; aspect-ratio:16/10; }
+    body.hud-landscape #hud-day .dn { grid-column:2; align-self:end; }
+    body.hud-landscape #hud-day .dn strong { font-size:40px; }
+    body.hud-landscape #hud-day .dn time { width:100%; padding-left:0; font-size:12px; letter-spacing:.1em; }
+    body.hud-landscape #hud-day .route { grid-column:2; align-self:start; margin:0; font-size:12px; }
+    body.hud-landscape #hud-day :is(h2, .quest, .day-tail) { grid-column:1 / -1; }
+    body.hud-landscape #hud-day h2 { font-size:18px; line-height:1.35; }
+    body.hud-landscape #hud-day .quest { margin:0; }
+    body.hud-landscape #hud-day .quest li { flex:initial; font-size:14px; white-space:nowrap; }
+    body.hud-landscape #hud-day .quest li small { display:none; }
+    body.hud-landscape #hud-day .qh { font-size:12px; letter-spacing:.12em; margin-bottom:4px; }
+    body.hud-landscape #hud-day .day-tail { display:flex; flex-direction:column; gap:6px; }
+    body.hud-landscape #hud-day .food { margin:0; }
+    body.hud-landscape #hud-day .food figure { height:28px; }
+    body.hud-landscape #hud-day .food span { font-size:12px; }
+    body.hud-landscape #hud-day .hotel { width:100%; padding:3px 6px; margin:0; gap:6px; }
+    body.hud-landscape #hud-day .hotel > div { min-width:0; width:100%; }
+    body.hud-landscape #hud-day :is(.hotel .hn, .stay-name) { display:block; white-space:nowrap; letter-spacing:0; }
+    body.hud-landscape #hud-day .hotel :is(.he, .ha, .hd) { display:none; }
+    body.hud-landscape #hud-day .meta { display:flex; align-items:center; margin:0; white-space:nowrap; font-size:12px; }
+    body.hud-landscape #hud-day .stay-name { min-width:0; border:0; padding:0; margin:0; color:inherit; font:inherit; }
+  }
   @media (prefers-reduced-motion:reduce) { #hud-touch-hint { transition:none; } }
+
+  /* 全幕共用可讀性：資訊字級與紙色底襯不隨遠景、霧帶改變 */
+  body.hud #brand { justify-content:center; }
+  body.hud #brand .in { width:90vw; padding:0; }
+  body.hud #brand h1 { font-size:clamp(36px,7.4vh,92px); }
+  body.hud #brand p { font-size:max(var(--t-read),3vh); }
+  body.hud #brand .foot { font-size:var(--t-lab); }
+  body.hud :is(#overview, #memory) { background:none; }
+  body.hud :is(#overview, #memory) > :is(.k, .pro, h2, p) { width:fit-content; max-width:90vw; margin-left:auto; margin-right:auto; background:var(--paper); padding:.3em .8em; }
+  body.hud #overview p { font-size:var(--t-read); color:var(--ink); }
+  body.hud #memory ul { width:90vw; margin:0 auto; padding:1.4vh 2vw; gap:2vw; background:var(--paper); }
+  body.hud #memory li { flex:1; min-width:0; max-width:none; color:var(--ink); font-size:var(--t-read); }
+  body.hud #memory li b { font-size:max(var(--t-read),2.6vh); }
+  body.hud #memory .stats { margin:1.2vh auto; padding:1.2vh 3vw; }
+  body.hud #memory .pro { margin-bottom:1vh; }
+  body.hud #memory h2 { margin-top:1vh; margin-bottom:1vh; }
+
+  @media (min-width:901px) {
+    body.hud :is(#why, #promise, #hq, #flight, #close, #hud-stage) { top:3vh; bottom:11vh; }
+    body.hud :is(.k, #hud-day .chip b, #hud-day .qh, #hud-stage .no span, #hud-stage .range, #hud-stage li b, .hotel .he, .hotel .ha) { font-size:var(--t-lab); }
+    body.hud :is(#why p span, #promise p, #hq p, #hq .svc, #flight p, #close .sign, #close .co p, #hud-stage li, #hud-day .route, #hud-day .meta, #hud-day .food span, #hud-day .quest li, #hud-day .quest li small, #hud-day .hotel .hn, #hud-day .hotel .hd) { font-size:var(--t-read); }
+    body.hud #hud-day { --t-read:max(18px,2.2vh); --t-lab:max(14px,1.6vh); top:3vh; bottom:11vh; width:32vw; padding:0 16px 0 32px; overflow:visible; justify-content:flex-start;
+      background:linear-gradient(90deg, rgba(var(--wash),.97) 0%, rgba(var(--wash),.94) 88%, rgba(var(--wash),0) 100%); }
+    body.hud #hud-day > * { flex-shrink:0; max-width:100%; }
+    body.hud #hud-day .chip { margin-bottom:12px; font-size:max(14px,1.8vh); }
+    body.hud #hud-day > .ph { margin-bottom:12px; }
+    body.hud #hud-day > .ph img { width:clamp(300px,20vw,360px); max-width:100%; height:auto; max-height:none; aspect-ratio:16/10; }
+    body.hud #hud-day .dn strong { font-size:64px; }
+    body.hud #hud-day .dn em { font-size:var(--t-read); }
+    body.hud #hud-day .dn time { font-size:var(--t-lab); letter-spacing:.1em; padding-left:.5em; }
+    body.hud #hud-day h2 { font-size:clamp(24px,3.4vh,32px); line-height:1.35; }
+    body.hud #hud-day .route { margin:10px 0; font-size:var(--t-lab); }
+    body.hud #hud-day .food i { font-size:var(--t-lab); }
+    body.hud #hud-day .day-tail { display:flex; flex-direction:column; gap:8px; }
+    body.hud #hud-day .day-tail > * { width:100%; margin:0; }
+    body.hud #hud-day .hotel { max-width:100%; padding:6px 8px; gap:.5em; }
+    body.hud #hud-day .hotel > div { min-width:0; width:100%; }
+    body.hud #hud-day :is(.hn, .stay-name) { display:block; white-space:nowrap; letter-spacing:0; }
+    body.hud #hud-day .meta { display:flex; align-items:center; white-space:nowrap; }
+    body.hud #hud-day .meta > b { flex:none; margin-right:.5em; }
+    body.hud #hud-day .stay-name { min-width:0; border:0; padding:0; margin:0; color:inherit; font:inherit; }
+    /* 收合優先序：飯店說明 → 美食小圖一列 → 三個亮點一行，保住照片與標題 */
+    body.hud #hud-day[data-fit]:not([data-fit="0"]) .hotel :is(.he, .ha, .hd) { display:none; }
+    body.hud #hud-day[data-fit]:not([data-fit="0"]) .quest { margin:10px 0; }
+    body.hud #hud-day:is([data-fit="2"], [data-fit="3"]) .food { display:flex; align-items:center; gap:12px; }
+    body.hud #hud-day:is([data-fit="2"], [data-fit="3"]) .food .qh { flex:none; margin:0; letter-spacing:.12em; }
+    body.hud #hud-day:is([data-fit="2"], [data-fit="3"]) .food .qh::after { display:none; }
+    body.hud #hud-day:is([data-fit="2"], [data-fit="3"]) .food ul { gap:12px; }
+    body.hud #hud-day:is([data-fit="2"], [data-fit="3"]) .food li { flex-direction:row; gap:6px; }
+    body.hud #hud-day:is([data-fit="2"], [data-fit="3"]) .food figure { height:40px; flex:none; }
+    body.hud #hud-day:is([data-fit="2"], [data-fit="3"]) .food i { font-size:var(--t-lab); }
+    body.hud #hud-day[data-fit="3"] .quest ul { display:flex; gap:12px; }
+    body.hud #hud-day[data-fit="3"] .quest li { min-width:0; gap:6px; padding:0; }
+    body.hud #hud-day[data-fit="3"] .quest li i { width:6px; height:6px; }
+    body.hud #hud-day[data-fit="3"] .quest li small { display:none; }
+    body.hud #hud-day[data-fit="3"] .quest li span { white-space:nowrap; }
+    body.hud #hud-odo .pn { width:max-content; min-width:280px; }
+    body.hud #hud-odo :is(.r b, .cum, .tbl li) { font-size:var(--t-read); }
+    body.hud #hud-odo :is(.ico span, .r small, .foot small, .more) { font-size:var(--t-lab); }
+  }
+  @media (orientation:landscape) and (max-height:600px) and (any-pointer:coarse) {
+    body.hud-landscape #brand { bottom:var(--hud-nav-space); }
+    body.hud-landscape #brand .foot { bottom:2vh; }
+    body.hud-landscape #brand .in { width:90vw; }
+    body.hud-landscape #brand .pro { margin-bottom:3vh; }
+    body.hud-landscape #brand .rule { margin:3vh auto; }
+    body.hud-landscape #brand .next { margin-top:3vh; }
+    body.hud-landscape #memory ul { flex-wrap:nowrap; gap:2vw; padding:1vh 2vw; }
+    body.hud-landscape #memory li { flex:1; font-size:var(--t-read); line-height:1.45; }
+    body.hud-landscape #memory li b { font-size:var(--t-read); }
+    body.hud-landscape :is(#overview, #memory) h2 { font-size:5vh; }
+    body.hud-landscape #memory .stats { margin:1vh auto; padding:1vh 3vw; }
+    body.hud-landscape #memory .stats b { font-size:6vh; }
+    body.hud-landscape #hq .pro { margin-bottom:8px; }
+    body.hud-landscape #hq h2 { display:flex; flex-wrap:wrap; gap:0 .6em; margin:6px 0 8px; font-size:5.2vh; }
+    body.hud-landscape #hq .svc { font-size:var(--t-read); margin-bottom:8px; }
+    body.hud-landscape #hq .offices { flex-direction:row; flex-wrap:nowrap; gap:14px; margin:8px 0; }
+    body.hud-landscape #hq .offices li { min-width:0; padding-top:6px; }
+    body.hud-landscape #hq .offices b { letter-spacing:.08em; }
+    body.hud-landscape #hq .offices span { font-size:var(--t-read); margin:.35em 0 .2em; }
+    body.hud-landscape #hq .next { margin-top:8px; }
+  }
+  /* 正式公司介紹：八種資料頁；保留四個 3D 幕作為背景。 */
+  body.hud #brand, body.hud #why, body.hud #promise, body.hud #hq { display:none !important; }
+  #hud-intro { display:none; position:fixed; z-index:9; inset:0; padding:clamp(108px,15vh,150px) 6vw clamp(96px,12vh,130px); grid-template-columns:30% 1fr; align-content:center; gap:4vw;
+    color:var(--ink); background:linear-gradient(90deg,var(--paper) 0%,rgba(var(--wash),.98) 55%,rgba(var(--wash),.9) 80%,rgba(var(--wash),.25) 100%); }
+  #hud-intro.on { display:grid; }
+  #hud-intro .intro-en { font:700 18px/1.4 var(--sans); letter-spacing:.22em; color:var(--red); }
+  #hud-intro h2 { font:600 clamp(48px,4.5vw,76px)/1.3 var(--serif); letter-spacing:.06em; margin:18px 0 28px; }
+  #hud-intro .intro-focus { font:600 clamp(22px,1.8vw,30px)/1.65 var(--serif); text-wrap:balance; max-width:14em; }
+  #hud-intro .intro-details { align-self:center; display:grid; gap:26px 32px; max-height:100%; min-height:0; }
+  #hud-intro article { min-width:0; }
+  #hud-intro article h3 { font:600 24px/1.45 var(--serif); margin-bottom:8px; }
+  #hud-intro article p { font:400 20px/1.75 var(--sans); white-space:pre-line; overflow-wrap:anywhere; }
+  #hud-intro article img { width:72px; height:72px; object-fit:cover; float:left; margin-right:16px; }
+  #hud-intro footer { position:absolute; left:6vw; bottom:7vh; font:500 18px/1.5 var(--sans); color:#605448; }
+  #hud-intro[data-page=origin] { background:var(--paper); grid-template-columns:40% 1fr; }
+  #hud-intro[data-page=origin] .intro-details p, #hud-intro[data-page=philosophy] .intro-details p { font:400 clamp(26px,2.25vw,38px)/1.9 var(--serif); max-width:20em; }
+  #hud-intro[data-page=services] .intro-details, #hud-intro[data-page=offices] .intro-details, #hud-intro[data-page=team] .intro-details { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  #hud-intro[data-page=offices] article { padding-top:18px; border-top:1px solid #bdae96; }
+  #hud-intro[data-page=info] article { display:grid; grid-template-columns:9em 1fr; gap:22px; border-bottom:1px solid #c5b79f; padding-bottom:20px; }
+  #hud-intro[data-page=portfolio] { grid-template-columns:22% 1fr; gap:3vw; }
+  #hud-intro[data-page=portfolio] .intro-details { grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px 24px; }
+  #hud-intro[data-page=portfolio] article h3 { font:600 18px/1.5 var(--serif); margin-bottom:2px; }
+  #hud-intro[data-page=portfolio] article p { font-size:18px; line-height:1.5; color:#605448; }
+  body.intro-visible #labels, body.intro-visible #gallery { visibility:hidden; }
+  @media (max-height:600px) and (orientation:landscape) {
+    #hud-intro { padding:66px max(28px,env(safe-area-inset-right)) 66px max(28px,env(safe-area-inset-left)); grid-template-columns:27% 1fr; gap:28px; }
+    #hud-intro .intro-en { font-size:12px; letter-spacing:.15em; }
+    #hud-intro h2 { font-size:34px; margin:10px 0 14px; }
+    #hud-intro .intro-focus { font-size:18px; line-height:1.6; }
+    #hud-intro .intro-details { gap:14px 20px; }
+    #hud-intro article h3 { font-size:17px; line-height:1.4; margin-bottom:5px; }
+    #hud-intro article p { font-size:14px; line-height:1.65; }
+    #hud-intro footer { left:max(28px,env(safe-area-inset-left)); bottom:52px; font-size:12px; line-height:1; }
+    #hud-intro[data-page=origin] { grid-template-columns:33% 1fr; }
+    #hud-intro[data-page=origin] .intro-details p, #hud-intro[data-page=philosophy] .intro-details p { font-size:24px; line-height:1.9; }
+    #hud-intro[data-page=info] article { grid-template-columns:7em 1fr; gap:16px; padding-bottom:10px; }
+    #hud-intro[data-page=portfolio] { grid-template-columns:25% 1fr; gap:24px; }
+    #hud-intro[data-page=portfolio] .intro-details { grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 20px; }
+    #hud-intro[data-page=portfolio] article h3 { font-size:16px; line-height:1.4; }
+    #hud-intro[data-page=portfolio] article p { font-size:14px; line-height:1.5; }
+  }
 </style>
 </head>
 <body data-mode="brand">
