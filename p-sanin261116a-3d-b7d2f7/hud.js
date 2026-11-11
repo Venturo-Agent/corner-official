@@ -28,7 +28,7 @@
     const viewport = document.querySelector('meta[name=viewport]'), content = `width=device-width,initial-scale=1${landscape ? ',viewport-fit=cover' : ''}`;
     if (viewport && viewport.content !== content) viewport.content = content;
     ROT.hidden = !blocked;
-    [...body.children].forEach((e) => { if (e !== ROT && !['SCRIPT', 'STYLE'].includes(e.tagName)) e.inert = blocked; });
+    [...body.children].forEach((e) => { if (e !== ROT && !['SCRIPT', 'STYLE'].includes(e.tagName)) e.inert = blocked || (e.id === 'hud-menu' && e.classList.contains('up')); });
     document.dispatchEvent(new CustomEvent('hud:orientation', { detail: { blocked } }));
     if (!blocked && rotateWait) { const fn = rotateWait; rotateWait = null; fn(); }
     if (!blocked && typeof touchHint === 'function') touchHint();
@@ -101,6 +101,9 @@
     M.querySelector('.l2').innerHTML = esc(tt.line2 || '').replace(/\s*×\s*/g, '<i>×</i>');
     M.querySelector('.meta').innerHTML = [J.client, J.dates && J.dates.range, ch.length ? `${ch.length} STAGE${ch.length > 1 ? 'S' : ''}` : '', J.days ? `${J.days.length} DAY${J.days.length > 1 ? 'S' : ''}` : ''].filter(Boolean).map((x) => `<span>${esc(x)}</span>`).join('<i>·</i>');
     M.querySelector('.credit span').textContent = CO.credit || '';
+    QA.querySelector('.contact').textContent = endContacts().join('　·　');
+    THANKS.querySelector('.identity').innerHTML = `${CO.logo ? `<img src="${esc(CO.logo)}" alt="${esc(CO.name)}">` : ''}<p class="slogan">${esc(CO.slogan)}</p><p class="sign">${esc(CO.name)} 敬上</p>`;
+    THANKS.querySelector('.credit').textContent = CO.credit || '';
     if (mk.mark && CO.credit) M.querySelector('.credit .vm').src = mk.mark; else M.querySelector('.credit .vm').remove();
     if (mk.mark) B.querySelector('.v').src = mk.mark; else B.querySelector('.v').remove();
     if (mk.logo) B.querySelector('.w').src = mk.logo; else B.querySelector('.w').remove();
@@ -156,7 +159,7 @@
   function afterReady() {
     if (rotateBlocked()) { rotateWait = afterReady; return; }
     clearInterval(tipTimer);
-    if (direct || state === 'run') { [L, B, M, TZ].forEach((x) => x.remove()); setState('run'); if (CPAGES.length && PRO.includes((SCN[J_() && J_().step] || {}).k)) introShow(Math.max(0, cpI), false); return; }
+    if (direct || state === 'run') { [L, B, TZ].forEach((x) => x.remove()); M.classList.add('up'); M.inert = true; setState('run'); if (CPAGES.length && PRO.includes((SCN[J_() && J_().step] || {}).k)) introShow(Math.max(0, cpI), false); return; }
     if (DAILY) { [L, B, M, TZ].forEach((x) => x.remove()); setState('daily'); if (!SCN.length) readScenes(); showDay(todayN(), 0); return; }
     if (teaserFn && !COMPANY) {   // 公司介紹版不播這團的冷開場
       L.classList.add('away'); setState('teaser'); TZ.classList.add('on'); capFit();
@@ -171,6 +174,7 @@
   }
   function menu() {
     if (state === 'run') return;
+    M.inert = false;
     introHide(); setState('menu'); M.classList.add('on'); M.classList.remove('up', 'sub-people', 'sub-offer'); WK.classList.remove('on'); BK.classList.remove('on'); L.remove(); focusOpt(cur);
   }
   function focusOpt(i) { cur = (i + OPTS.length) % OPTS.length; M.querySelectorAll('.opts button').forEach((b, j) => b.classList.toggle('cur', j === cur)); if (typeof post === 'function' && state === 'menu') post(); }
@@ -191,17 +195,35 @@
   function proStep(d) { proI += d; if (proI < 0) proI = 0; else if (proI >= CPAGES.length) toMenu(); else showPro(); }
   function start() {
     introHide();
-    setState('run'); M.classList.add('up'); BK.classList.remove('on'); setTimeout(() => M.remove(), 1500);
+    setState('run'); M.classList.add('up'); M.inert = true; BK.classList.remove('on');
     if (onGo) onGo(); else goto(idx('depart'));
     document.dispatchEvent(new CustomEvent('hud:start'));
   }
 
   // ── 鍵盤與點擊：開始前由這裡管（攔在 main.js 前面）；開始後前後都能走（William 11/10 取消只往前）──
   const NEXT = ['ArrowRight', ' ', 'PageDown', 'Enter'], PREV = ['ArrowLeft', 'PageUp', 'Backspace'];
-  // 往下一頁；已在最後一幕就切換「Q&A」提示（片尾停住時給主講人一個收尾的點；總檢十名外）
-  const QA = el('hud-qa', '', '<b>Q&amp;A</b><span>問題與交流</span>');
-  function fwd() { if (introStep(1)) return; const j = J_(); if (!j) return; if (j.step >= SCN.length - 1) { QA.classList.toggle('on'); post(); } else { QA.classList.remove('on'); j.go(j.step + 1); } }
-  function back() { if (introStep(-1)) return; const j = J_(); if (!j) return; if (QA.classList.contains('on')) { QA.classList.remove('on'); post(); return; } if (j.step > 0) j.go(j.step - 1); }
+  // 收尾子頁沿片尾的 3D，不增加 main.js 場景；所有導航共用同一條動線
+  let endingPage = 0;
+  const QA = el('hud-qa', 'hud-finale', '<div class="sheet"><h1>Q&amp;A</h1><p class="subtitle">問題與交流</p><p class="contact"></p></div><p class="ending-hint">← 片尾　　→ 謝謝</p>');
+  const THANKS = el('hud-thanks', 'hud-finale', '<div class="sheet"><h1>謝謝</h1><div class="identity"></div><button type="button" class="home">回到封面</button></div><p class="ending-hint">← Q&amp;A　　→ / Enter 回到封面</p><p class="credit"></p>');
+  [QA, THANKS].forEach((e) => { e.hidden = true; e.setAttribute('role', 'region'); e.setAttribute('aria-label', e.querySelector('h1').textContent); });
+  const endContacts = () => (CO.contact || []).filter((c) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c) || /\d[\d\s()+#-]{5,}/.test(c));
+  function ending(n) {
+    endingPage = n; body.dataset.ending = String(n);
+    [QA, THANKS].forEach((e, i) => { e.hidden = n !== i + 1; });
+    sceneAt = Date.now(); map(n ? SCN.length + n - 1 : J_().step); post();
+  }
+  function resetJourney() {
+    ending(0); introHide(); stageKey = dayKey = null; proI = 0; cpI = -1; cur = 0;
+    odoLive = false; odoStep = odoDay = null; odoHide(); ODO.classList.remove('full');
+    odoMore.setAttribute('aria-expanded', 'false'); odoMore.lastElementChild.textContent = '＋';
+    SH.classList.remove('on'); TH.classList.remove('on'); shown1 = touchHintShown = false;
+    M.querySelectorAll('.card.flip').forEach((e) => { e.classList.remove('flip'); e.setAttribute('aria-expanded', 'false'); });
+    setState('menu'); goto(0); J_().hold(60); menu(); map(0); $('dots').scrollLeft = 0;
+  }
+  THANKS.querySelector('.home').addEventListener('click', resetJourney);
+  function fwd() { if (endingPage) { if (endingPage === 1) ending(2); else resetJourney(); return; } if (introStep(1)) return; const j = J_(); if (!j) return; if (j.step >= SCN.length - 1) ending(1); else j.go(j.step + 1); }
+  function back() { if (endingPage) { ending(endingPage - 1); return; } if (introStep(-1)) return; const j = J_(); if (j && j.step > 0) j.go(j.step - 1); }
   // 左右滑一次一幕；垂直拖曳只捲卡片，多指不翻幕，拖過後吃掉合成點擊
   let sx = null, sy = 0, touchX = null, touchY = 0, suppressTap = 0, swipeAt = 0;
   addEventListener('touchstart', (e) => {
@@ -288,9 +310,9 @@
       return true;
     }
     if (state === 'run') {
+      if (endingPage && (NEXT.includes(k) || PREV.includes(k))) { (NEXT.includes(k) ? fwd : back)(); return true; }
       if (CP.classList.contains('on') && (NEXT.includes(k) || PREV.includes(k))) { (NEXT.includes(k) ? fwd : back)(); return true; }
-      if (NEXT.includes(k) && J_() && J_().step >= SCN.length - 1) { fwd(); return true; }   // 最後一幕再按：Q&A 提示
-      if (PREV.includes(k) && QA.classList.contains('on')) { QA.classList.remove('on'); post(); return true; }
+      if (NEXT.includes(k) && J_() && J_().step >= SCN.length - 1) { fwd(); return true; }
       if (remote && J_()) { if (NEXT.includes(k)) { fwd(); return true; } if (PREV.includes(k)) { back(); return true; } }
       return false;                                                         // 本機按鍵照舊交給 main.js 翻頁（前後都可）
     }
@@ -307,6 +329,10 @@
     const t = e.target.closest ? e.target : e.target.parentElement, onWorld = t && t.closest('#stage, #brand, .scene, #hud-intro');
     if (t && t.closest('#hud-menu .opts button')) lockLandscape();
     if (state === 'run') {
+      const endDot = t && t.closest('#dots [data-ending]');
+      if (endDot) { e.stopImmediatePropagation(); if (J_().step !== SCN.length - 1) goto(SCN.length - 1); ending(+endDot.dataset.ending); return; }
+      if (endingPage && t && t.closest('#dots [data-i]')) ending(0);
+      if (endingPage && t && t.closest('.hud-finale') && !t.closest('button, a')) { e.stopImmediatePropagation(); if (e.clientX < innerWidth / 2) back(); else fwd(); return; }
       if (CP.classList.contains('on') && onWorld && !t.closest('button, a')) { e.stopImmediatePropagation(); if (e.clientX < innerWidth * .2) back(); else fwd(); return; }
       if (landscape && touchScreen() && J_() && onWorld && !t.closest('button, a')) {
         e.stopImmediatePropagation(); if (e.clientX < innerWidth / 2) back(); else fwd(); return;
@@ -321,12 +347,12 @@
     if (state === 'prologue') proStep(1); else if (state === 'route') toMenu(); else if (state === 'tour') cstep(1);
   }, true);
 
-  // ── 場景表：直接讀 main.js 的 __journey.sc（場景名陣列；舊版叫 scenes），不自己排順序；章與天照出現順序對到 story.chapters ──
+  // 場景與實際天數由 main.js 同一張表提供；提案跳日也不再依出現次序猜天數。
   function readScenes() {
-    const j = J_(), names = j && (j.sc || j.scenes); if (!names || !names.length) return false;
+    const j = J_(), names = j && (j.sceneTable || j.sc || j.scenes); if (!names || !names.length) return false;
     let ci = -1, di = 0; SCN = names.map((x) => { const k = typeof x === 'string' ? x : x.k;
-      if (k === 'chapter') { ci++; di = 0; return { k, ci, c: J.story.chapters[ci] }; }
-      if (k === 'day') { const c = J.story.chapters[ci] || {}; return { k, ci, c, n: (c.days || [])[di++] }; }
+      if (k === 'chapter') { ci = x.ci ?? ci + 1; di = 0; return { k, ci, c: J.story.chapters[ci] }; }
+      if (k === 'day') { const c = J.story.chapters[ci] || {}; return { k, ci, c, n: x.n ?? (c.days || [])[di++] }; }
       return { k }; });
     return true;
   }
@@ -358,12 +384,18 @@
       const min = matchMedia('(min-width:901px)').matches ? 14 : 12;
       for (let size = parseFloat(getComputedStyle(name).fontSize); name.scrollWidth > name.clientWidth && size > min; size -= .5) name.style.fontSize = Math.max(min, size - .5) + 'px';
     }
-    if (!matchMedia('(min-width:901px)').matches) { delete D.dataset.fit; return; }
+    if (!matchMedia('(orientation:landscape)').matches) { delete D.dataset.fit; return; }
     const css = getComputedStyle(D), space = D.clientHeight - parseFloat(css.paddingTop) - parseFloat(css.paddingBottom);
-    const height = () => [...D.children].reduce((n, e) => {
+    const height = () => {
+      if (css.display === 'grid') {
+        const items = [...D.children].filter((e) => getComputedStyle(e).display !== 'none');
+        return Math.max(...items.map((e) => e.offsetTop + e.offsetHeight)) - Math.min(...items.map((e) => e.offsetTop));
+      }
+      return [...D.children].reduce((n, e) => {
       const c = getComputedStyle(e);
       return n + e.offsetHeight + parseFloat(c.marginTop) + parseFloat(c.marginBottom);
     }, 0);
+    };
     D.dataset.fit = '0';
     for (let n = 1; n <= 3 && height() > space; n++) D.dataset.fit = String(n);
   }
@@ -384,6 +416,7 @@
     const legs = String(d.legs || '').split(/\s*→\s*/).filter(Boolean);
     const spots = (d.spots || []).slice(0, 3).map((x) => { const [a, ...b] = String(x).split(/　+/); return [a, b.join(' ')]; });
     D.scrollTop = 0;
+    D.dataset.foodCount = String((d.food || []).length);
     D.innerHTML = `<div class="chip"><b>STAGE ${pad(ci + 1)}</b>${esc(ch.name)}</div>
       ${d.img ? `<figure class="ph${d.imgSize && d.imgSize[1] > d.imgSize[0] ? ' tall' : ''}"><img src="${d.img}" alt=""></figure>` : ''}
       <div class="dn"><span>DAY</span><strong>${pad(d.n)}</strong><em>/ ${pad(J.days.length)}</em><time>${esc(d.date)}</time></div>
@@ -494,8 +527,8 @@
     // 片尾：全程回顧（天數、里程、地標、關卡，從資料算）→ 片尾名單（CO.people）＋聯絡、執照（main.js 已放）
     const mem = $('memory'), cl = $('close'), st = J.stops.filter((x) => !x.air);
     mem.classList.add('hud-pro', 'hud-end'); cl.classList.add('hud-pro', 'hud-end');
-    mem.insertAdjacentHTML('afterbegin', '<div class="pro"><b>JOURNEY COMPLETE</b><span>全程回顧</span></div>');
-    mem.querySelector('h2').insertAdjacentHTML('afterend', `<p class="stats">${[[J.days.length, 'DAYS', '天'], [st.length, 'STOPS', '地標'], [J.story.chapters.length, 'STAGES', '關卡'], MEMO && MEMS.length && [MEMS.length, 'PHOTOS', '張回憶']]
+    mem.querySelector('.k').remove();
+    mem.querySelector('h2').insertAdjacentHTML('afterend', `<p class="stats">${[[J.days.length, 'DAYS', '天'], [st.length, 'STOPS', '站'], [J.story.chapters.length, 'STAGES', '章'], MEMO && MEMS.length && [MEMS.length, 'PHOTOS', '張回憶']]
       .filter(Boolean).map(([n, e, c]) => `<span><b>${n}</b><em>${e}</em><small>${c}</small></span>`).join('')}</p>`);
     cl.insertAdjacentHTML('afterbegin', '<div class="pro"><b>ENDING</b><span>片尾</span></div>');
     const h2 = cl.querySelector('h2'); if (h2) h2.innerHTML = h2.innerHTML.split(/<br\s*\/?>/).map((x) => `<span>${x}</span>`).join('');   // 一句一行、各自平衡斷行（避免單字落行）
@@ -526,7 +559,10 @@
     bs.forEach((b, i) => { const sc = SCN[i]; if (!sc) return; b.dataset.hud = 1;
       if (sc.k === 'chapter') { b.insertAdjacentHTML('beforeend', `<span>${pad(sc.ci + 1)}</span>`); b.title = `STAGE ${pad(sc.ci + 1)}　${sc.c.name}`; }
       else if (sc.k === 'day') b.title = `DAY ${pad(sc.n)}　${J.days[sc.n - 1].title}`;
-      else b.title = ''; });
+      else b.title = sceneInfo(sc).label; });
+    if (!DAILY && !COMPANY) ['Q&A 問題與交流', '謝謝・回到封面'].forEach((label, i) => {
+      const b = document.createElement('button'); b.type = 'button'; b.dataset.ending = i + 1; b.title = label; b.setAttribute('aria-label', label); $('dots').appendChild(b);
+    });
     $('dots').classList.add('map');
     document.querySelectorAll('#labels .ch small').forEach((s, i) => { s.textContent = `STAGE ${pad(i + 1)}`; });
   }
@@ -544,8 +580,9 @@
     if (changed && landscape && !rotateBlocked() && ['run', 'prologue', 'route'].includes(state) && /Android/i.test(navigator.userAgent) && navigator.vibrate) { try { navigator.vibrate(10); } catch (x) { } }
     if (ext && state === 'tour') return;
     if (ext && state === 'daily') { const sc = SCN[s]; if (sc && sc.k === 'day' && sc.n !== dayN) showDay(sc.n, 0, true); return; }
-    if (ext && state !== 'run') { [L, B, M, TZ].forEach((x) => x.remove()); BK.classList.remove('on'); setState('run'); }
-    const sc = SCN[s]; if (!sc) return; map(s);
+    if (endingPage && s !== SCN.length - 1) ending(0);
+    if (ext && state !== 'run') { [L, B, TZ].forEach((x) => x.remove()); M.classList.add('up'); M.inert = true; BK.classList.remove('on'); setState('run'); }
+    const sc = SCN[s]; if (!sc) return; map(endingPage ? SCN.length + endingPage - 1 : s);
     if (PRO.includes(sc.k)) {
       if (!CPAGES[cpI] || CPAGES[cpI].scene !== sc.k) cpI = CPAGES.findIndex((p) => p.scene === sc.k);
       if (cpI >= 0 && ['run', 'prologue', 'tour'].includes(state)) introShow(cpI, false);
@@ -553,8 +590,8 @@
     } else introHide();
     if (sc.k === 'chapter') stage(sc.ci); if (sc.k === 'day') day(sc.n);
     if (sc.k === 'day') touchHint();
-    if (PRO.includes(sc.k) || sc.k === 'memory' || sc.k === 'close') replay($(sc.k));
-    sceneAt = Date.now(); odoLive = false; odoStatic(s); post();
+    if (PRO.includes(sc.k) || sc.k === 'return' || sc.k === 'close') replay($(sc.k === 'return' ? 'memory' : sc.k));
+    sceneAt = Date.now(); odoStatic(s); post();
   }
 
   // ── 主講人模式（按 P）：第二個視窗 presenter.html 顯示目前這幕、下一幕、計時、講稿；兩邊用 BroadcastChannel 同步，
@@ -581,15 +618,16 @@
     const auto = {
       brand: [CO.lead, CO.body], why: [...(CO.whyBody || [])], promise: [CO.pillarBody],
       hq: [...(CO.offices || []).map((o) => [o.name, o.address].filter(Boolean).join('　')), (CO.services || []).join('・')],
-      overview: [J.routeTitle, ...(J.meta || [])], depart: flight(fl[0]), return: flight(fl[fl.length - 1]),
+      overview: [J.routeTitle, ...(J.meta || [])], depart: flight(fl[0]), return: [...flight(fl[fl.length - 1]), `${J.days.length} 天／${J.stops.filter((s) => !s.air).length} 站／${J.story.chapters.length} 章`, ...(J.highlights || []).map((h) => `${h.k}　${h.v}`)],
       memory: (J.highlights || []).map((h) => `${h.k}　${h.v}`),
       close: [J.story.closing && J.story.closing.lead, J.story.closing && J.story.closing.body, ...(OFFER ? [OFFER.price && OFFER.price.amount, OFFER.validUntil && `報價有效至 ${OFFER.validUntil}`, OFFER.seats && `名額 ${OFFER.seats}`] : [])],
+      qa: endContacts(), thanks: [CO.slogan, CO.name && `${CO.name} 敬上`, CO.credit],
       chapter: c ? c.days.map((n) => `DAY ${pad(n)}　${J.days[n - 1].title}`) : [],
       day: d ? [d.legs, ...(d.spots || []), d.meals && `餐　${d.meals}`, d.stay && `住　${d.stay}`] : [],
     }[sc.k] || [];
     const pl = '公司簡介　';   // 標題用資料裡的句子，講稿就不再重複
     const label = { brand: pl + (CO.slogan || CO.name || ''), why: pl + (CO.why || ''), promise: pl + (CO.pillar || ''), hq: pl + '據點', overview: '行程總覽',
-      depart: '去程班機', return: '回程班機', memory: '全程回顧', close: PROP && OFFER ? '片尾　下一步' : '片尾',
+      depart: '去程班機', return: '回程飛行・全程回顧', close: PROP && OFFER ? '片尾　下一步' : '片尾', qa: 'Q&A 問題與交流', thanks: '謝謝',
       chapter: c ? `STAGE ${pad(sc.ci + 1)}　${c.name}` : '', day: d ? `DAY ${pad(d.n)}　${d.title}` : '' }[sc.k] || sc.k;
     return { label, notes: [].concat(own || auto).filter(Boolean).map(String), own: !!own };
   }
@@ -602,13 +640,17 @@
     }
     if (CP.classList.contains('on')) { cur = introInfo(CPAGES[cpI]); next = introInfo(CPAGES[cpI + 1]); if (!CPAGES[cpI + 1]) next = state === 'run' ? sceneInfo(SCN[idx('hq') + 1]) : { label: COMPANY ? '聯絡我們' : '回主選單' }; }
     if (state === 'route') next = { label: '回主選單' };
-    if (state === 'run' && j && s >= SCN.length - 1) next = { label: QA.classList.contains('on') ? 'Q&A 進行中（再按一次收起）' : '片尾停住：再按一次出「Q&A」' };
+    if (state === 'run' && j && s >= SCN.length - 1) {
+      const endInfo = (n) => sceneInfo({ k: n === 1 ? 'qa' : 'thanks' });
+      if (endingPage) cur = endInfo(endingPage);
+      next = endingPage === 2 ? { label: '回到封面' } : endInfo(endingPage + 1);
+    }
     if (state === 'tour') { const it = CSEQ[ci2], nx = CSEQ[ci2 + 1]; const lab = (x) => x ? (x.k === 'works' ? { label: `我們走過的路　${pad(x.p + 1)} / ${pad(PAGES.length)}`, notes: (PAGES[x.p] || []).map((w) => [w.month && w.month.replace('-', '.'), w.country, w.title].filter(Boolean).join('　')) } : sceneInfo({ k: x.k })) : { label: '最後一幕' };
       if (!CP.classList.contains('on')) { cur = lab(it); next = lab(nx); } }
     if (state === 'daily') { cur = sceneInfo({ k: 'day', n: dayN }); next = dayN < J.days.length ? sceneInfo({ k: 'day', n: dayN + 1 }) : { label: '最後一天' }; }
     if (state === 'menu') next = { label: `按 Enter 進「${(OPTS[cursor()] || [])[1] || ''}」` };
     if (['load', 'teaser', 'boot'].includes(state)) { cur = { label: { load: '載入中', teaser: '冷開場', boot: '工作室標誌' }[state], notes: state === 'teaser' && J ? [(J.story.foreword || {}).lead] : [] }; next = { label: '主選單' }; }
-    send({ src: 'deck', t: 'state', state, step: s, total: SCN.length, dark, sceneAt, cur, next,
+    send({ src: 'deck', t: 'state', state, step: endingPage ? SCN.length + endingPage - 1 : s, total: SCN.length + (!DAILY && !COMPANY ? 2 : 0), dark, sceneAt, cur, next,
       title: J ? `${J.title.main}${J.title.suffix || ''}` : '', client: J ? J.client : '', run: state === 'run' });
   }
   const cursor = () => cur;
@@ -755,7 +797,7 @@
     odoNow.fill(0); odoTarget.fill(0); odoPaint();
   }
   function odoScene(s) {
-    if (s === odoStep) return; odoStep = s; odoHide();
+    if (s === odoStep) return; odoStep = s; odoLive = false; odoHide();
   }
   function kmList() {
     const k = J_() && J_().km, a = Array.isArray(k) ? k : k && (k.days || k.perDay);
@@ -769,13 +811,13 @@
     if (label.textContent !== text) label.textContent = text;
     odoTarget[0] = Math.max(0, today); odoTarget[1] = Math.max(0, cum);
     odoTarget[2] = todayTotal > 0 ? Math.min(1, Math.max(0, today / todayTotal)) : 1;
-    if (odoMotion.matches) { cancelAnimationFrame(odoFrame); odoFrame = 0; odoTarget.forEach((v, i) => { odoNow[i] = v; }); odoPaint(); }
+    if (odoMotion.matches || today >= todayTotal) { cancelAnimationFrame(odoFrame); odoFrame = 0; odoTarget.forEach((v, i) => { odoNow[i] = v; }); odoPaint(); }
     else if (!odoFrame && odoNow.some((v, i) => v !== odoTarget[i])) { odoTime = performance.now(); odoFrame = requestAnimationFrame(odoTween); }
   }
   // 靜態備援同時支援公里陣列及 cine 的 {km, mode} 陣列；章節等非逐日幕不顯示
   function odoStatic(s) {
     const L = kmList(), sc = SCN[s] || {}, n = sc.k === 'day' ? sc.n : state === 'daily' ? dayN : 0;
-    if (n !== odoDay) { odoDay = n; odoNow[0] = odoNow[2] = 0; }
+    if (n !== odoDay) { odoDay = n; if (!odoLive) odoNow[0] = odoNow[2] = 0; }
     if (!L || !n) { odoHide(); return; }
     ODO.querySelector('.tbl').innerHTML = L.map((v, i) => `<li class="${i + 1 === n ? 'on' : ''}"><b>DAY ${i + 1}</b><span>${v.km ? `${Math.round(v.km)} km` : '無里程'}</span></li>`).join('')
       + `<li class="sum"><b>全程</b><span>${Math.round(L.reduce((a, b) => a + b.km, 0))} km</span></li>`;

@@ -136,6 +136,7 @@
     background:radial-gradient(120% 90% at 50% 42%, #f7f1e6 0%, var(--paper) 55%, #e6d9c2 100%); transition:transform 1.4s cubic-bezier(.7,0,.2,1), opacity .6s; }
   #hud-load .fib, #hud-menu .fib { position:absolute; inset:0; opacity:.07; pointer-events:none; }
   #hud-load.away, #hud-menu.up { transform:translateY(-102%); box-shadow:0 30px 60px rgba(42,30,18,.35); }
+  #hud-menu.up { box-shadow:none; }
 
   /* 0 載入：團名＋紅線進度條＋輪播小知識 */
   #hud-load { display:grid; place-items:center; }
@@ -413,7 +414,7 @@
   #hud-odo .tbl li b { font-weight:500; letter-spacing:.08em; color:#5a4e44; }
   #hud-odo .tbl li.on b, #hud-odo .tbl li.on span { color:var(--red); }
   #hud-odo .tbl li.sum { border-top:1px solid var(--ink); font-weight:700; }
-  #hud-qa.on ~ #hud-odo { display:none !important; }
+  body[data-ending="1"] #hud-odo, body[data-ending="2"] #hud-odo { display:none !important; }
 
   /* 回程回憶版：每天一張拍立得（團員照片、一句話、提供者），紙膠帶貼著；主畫面右上的實景照片收起，免得兩張照片 */
   body.hud-memory #gallery { display:none !important; }
@@ -434,12 +435,38 @@
   #close .credits.by { margin:0 0 1.4em; } #close .credits.by small { display:block; font:700 var(--t-lab)/1 var(--sans); letter-spacing:.24em; color:var(--red); margin-bottom:.6em; }
   #close .credits.by p { display:flex; flex-wrap:wrap; gap:.3em 1.2em; font:600 var(--t-read)/1.5 var(--serif); }
 
-  /* 片尾停住再按一次：Q&A 提示（總檢十名外） */
-  #hud-qa { position:fixed; z-index:20; right:clamp(28px,4vw,72px); bottom:clamp(60px,10vh,110px); display:flex; align-items:center; gap:.8em; padding:.7em 1.2em;
-    background:var(--red); color:#fbf3e4; box-shadow:3px 3px 0 #761a12, 0 20px 30px -16px rgba(90,24,14,.5); opacity:0; translate:0 12px; transition:opacity .5s, translate .6s; pointer-events:none; }
-  #hud-qa.on { opacity:1; translate:0 0; }
-  #hud-qa b { font:700 clamp(28px,4.4vh,48px)/1 var(--serif); letter-spacing:.06em; }
-  #hud-qa span { font:600 var(--t-read)/1 var(--serif); letter-spacing:.2em; }
+  /* 片尾 → Q&A → 謝謝：共用整頁紙底，3D 留在片尾並減淡 */
+  .hud-finale { position:fixed; z-index:20; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; color:var(--ink);
+    padding:calc(24px + env(safe-area-inset-top,0px)) calc(24px + env(safe-area-inset-right,0px)) calc(100px + env(safe-area-inset-bottom,0px)) calc(24px + env(safe-area-inset-left,0px)); background:rgba(243,235,220,.92); }
+  .hud-finale[hidden] { display:none; }
+  .hud-finale .sheet { max-width:100%; }
+  .hud-finale h1 { font:700 clamp(56px,16vh,160px)/1.12 var(--serif); letter-spacing:.08em; }
+  .hud-finale .subtitle { margin-top:2vh; font:600 clamp(24px,4vh,40px)/1.5 var(--serif); letter-spacing:.25em; }
+  .hud-finale .contact { margin-top:6vh; font:500 clamp(14px,2.2vh,22px)/1.6 var(--sans); overflow-wrap:anywhere; }
+  .hud-finale .identity { margin:3vh 0; }
+  .hud-finale .identity img { display:block; width:clamp(110px,16vh,170px); max-height:8vh; object-fit:contain; margin:0 auto 1.4vh; }
+  .hud-finale .slogan { font:600 clamp(18px,3vh,30px)/1.5 var(--serif); letter-spacing:.14em; }
+  .hud-finale .sign { margin-top:1vh; font:500 clamp(14px,2.2vh,22px)/1.5 var(--serif); letter-spacing:.12em; }
+  .hud-finale .home { min-height:48px; padding:12px 32px; border:1px solid var(--red); background:var(--red); color:var(--paper); font:600 clamp(16px,2.2vh,22px)/1.4 var(--serif); letter-spacing:.16em; cursor:pointer; }
+  .hud-finale .home:hover { background:#872319; }
+  .hud-finale .home:focus-visible { outline:2px solid var(--ink); outline-offset:5px; }
+  .hud-finale .ending-hint { position:absolute; left:24px; right:24px; bottom:calc(62px + env(safe-area-inset-bottom,0px)); font:500 clamp(12px,1.8vh,18px)/1.5 var(--sans); color:#65594c; }
+  .hud-finale .credit { position:absolute; bottom:calc(16px + env(safe-area-inset-bottom,0px)); left:24px; right:24px; font:400 clamp(10px,1.4vh,14px)/1.5 var(--sans); color:#65594c; }
+  body:is([data-ending="1"],[data-ending="2"]) :is(.scene,#labels,#gallery) { visibility:hidden; pointer-events:none; }
+  body:is([data-ending="1"],[data-ending="2"])::before { display:none; }
+  body:is([data-ending="1"],[data-ending="2"]) #dots { z-index:21; }
+  body.hud-landscape[data-ending="2"] #dots.map { bottom:calc(32px + env(safe-area-inset-bottom,0px)); }
+  @media (max-height:500px) {
+    .hud-finale { padding-top:calc(12px + env(safe-area-inset-top,0px)); padding-bottom:calc(90px + env(safe-area-inset-bottom,0px)); }
+    .hud-finale h1 { font-size:14vh; }
+    .hud-finale .contact { margin-top:4vh; }
+    .hud-finale .identity { margin:2vh 0; }
+    .hud-finale .identity img { max-height:7vh; margin-bottom:1vh; }
+    .hud-finale .home { min-height:44px; padding:8px 28px; }
+    #hud-thanks { padding-bottom:calc(118px + env(safe-area-inset-bottom,0px)); }
+    #hud-thanks .ending-hint { bottom:calc(90px + env(safe-area-inset-bottom,0px)); }
+    #hud-thanks .credit { bottom:calc(10px + env(safe-area-inset-bottom,0px)); }
+  }
   /* 黑屏（B／簡報筆黑屏鍵）：蓋在最上層，主講人講話時觀眾看主講人 */
   /* 手機捲動版（hud.js SCROLL）：上下滑一次走一幕；不讓瀏覽器下拉重新整理吃掉往下滑 */
   html:has(body.hud), body.hud { overscroll-behavior:none; }
@@ -620,7 +647,6 @@
     #hud-day .quest li small { display:none; }   /* 手機卡片要矮：小註收起，電腦版照放 */ #hud-day .food { margin:2px 0 4px; }
     #hud-odo { top:12px; bottom:auto; right:12px; }
     #hud-day.mem { background:none; box-shadow:none; overflow:visible; max-height:none; align-items:center; padding-bottom:58px; } #hud-day.mem .pol { width:64vw; } #hud-day.mem > .ttl { max-width:80vw; text-align:center; } #hud-day .hotel .he { display:none; } .hotel { max-width:none; }
-    #hud-qa { bottom:auto; top:9vh; left:0; right:0; margin:0 auto; width:max-content; }
     #hud-back small, #hud-menu .people .hint, #hud-menu .offer .hint { display:none; }   /* 手機沒有 ESC 鍵 */
     #hud-stage h2 { font-size:clamp(40px,12vw,64px); }
     #hud-stage .rule { width:46vw; }
@@ -678,7 +704,7 @@
   body.hud-rotated #hud-touch-hint { visibility:hidden; }
 
   /* 矮橫幕用左右分欄：左邊讀紙卡、右邊看 3D，底部獨立留 44px 進度列 */
-  @media (orientation:landscape) and (max-height:600px) and (any-pointer:coarse) {
+  @media (orientation:landscape) and (max-height:600px) {
     body.hud-landscape { --t-read:max(12px,calc(3.2 * var(--hud-h))); --t-lab:max(10px,calc(2.6 * var(--hud-h))); --hud-nav-space:calc(56px + var(--safe-b)); }
     body.hud-landscape #hud-load { padding:calc(12px + var(--safe-t)) calc(20px + var(--safe-r)) calc(12px + var(--safe-b)) calc(20px + var(--safe-l)); overflow:auto; }
     body.hud-landscape #hud-load .nm { flex-direction:row; flex-wrap:wrap; gap:10px; }
@@ -765,7 +791,6 @@
     body.hud-landscape #hud-odo .foot small { font-size:9px; }
     body.hud-landscape #hud-odo .tbl { max-height:calc(100 * var(--hud-h) - var(--safe-t) - var(--safe-b) - 192px); margin-bottom:8px; }
     body.hud-landscape #hud-odo .tbl li { font-size:11px; padding:4px 0; }
-    body.hud-landscape #hud-qa { top:auto; left:auto; right:calc(72px + var(--safe-r)); bottom:calc(64px + var(--safe-b)); max-width:40vw; }
     body.hud-landscape #gallery, body.hud-landscape #gallery.portrait { left:auto; right:calc(72px + var(--safe-r)); top:calc(14px + var(--safe-t)); width:32vw; max-height:calc(100 * var(--hud-h) - var(--safe-t) - var(--safe-b) - 80px); overflow:auto; }
     body.hud-landscape #gallery img, body.hud-landscape #gallery.portrait img { max-height:calc(52 * var(--hud-h)); aspect-ratio:16/10; }
     body.hud-landscape #gallery figcaption { flex-wrap:wrap; gap:6px; padding:8px; }
@@ -794,11 +819,11 @@
     body.hud-landscape #hud-teaser .b { height:calc(16 * var(--hud-h) + var(--safe-b)); }
     body.hud-landscape #hud-touch-hint { bottom:calc(64px + var(--safe-b)); font-size:var(--t-read); letter-spacing:.06em; }
   }
-  @media (orientation:landscape) and (max-height:600px) and (any-pointer:coarse) {
-    body.hud-landscape #hud-day:not(.mem) { --t-lab:12px; --t-read:14px; display:grid; grid-template-columns:176px minmax(0,1fr); align-content:start; column-gap:12px; row-gap:6px; width:56vw; padding:8px 16px; overflow:visible; }
+  @media (orientation:landscape) and (max-height:600px) {
+    body.hud-landscape #hud-day:not(.mem) { --t-lab:12px; --t-read:14px; display:grid; grid-template-columns:176px minmax(0,1fr); align-content:center; column-gap:12px; row-gap:6px; width:56vw; padding:8px 16px; overflow:visible; }
     body.hud-landscape #hud-day > .chip { grid-column:1 / -1; margin:0; font-size:12px; }
     body.hud-landscape #hud-day > .ph { display:block; grid-column:1; grid-row:2 / 4; margin:0; }
-    body.hud-landscape #hud-day > .ph img { width:100%; height:auto; max-height:none; aspect-ratio:16/10; }
+    body.hud-landscape #hud-day > .ph img { width:100%; height:auto; max-height:22vh; aspect-ratio:16/10; }
     body.hud-landscape #hud-day .dn { grid-column:2; align-self:end; }
     body.hud-landscape #hud-day .dn strong { font-size:40px; }
     body.hud-landscape #hud-day .dn time { width:100%; padding-left:0; font-size:12px; letter-spacing:.1em; }
@@ -846,7 +871,7 @@
     body.hud #hud-day > * { flex-shrink:0; max-width:100%; }
     body.hud #hud-day .chip { margin-bottom:12px; font-size:max(14px,1.8vh); }
     body.hud #hud-day > .ph { margin-bottom:12px; }
-    body.hud #hud-day > .ph img { width:clamp(300px,20vw,360px); max-width:100%; height:auto; max-height:none; aspect-ratio:16/10; }
+    body.hud #hud-day > .ph img { width:clamp(300px,20vw,360px); max-width:100%; height:auto; max-height:22vh; aspect-ratio:16/10; }
     body.hud #hud-day .dn strong { font-size:64px; }
     body.hud #hud-day .dn em { font-size:var(--t-read); }
     body.hud #hud-day .dn time { font-size:var(--t-lab); letter-spacing:.1em; padding-left:.5em; }
@@ -876,7 +901,7 @@
     body.hud #hud-odo :is(.r b, .cum, .tbl li) { font-size:var(--t-read); }
     body.hud #hud-odo :is(.ico span, .r small, .foot small, .more) { font-size:var(--t-lab); }
   }
-  @media (orientation:landscape) and (max-height:600px) and (any-pointer:coarse) {
+  @media (orientation:landscape) and (max-height:600px) {
     body.hud-landscape #brand { bottom:var(--hud-nav-space); }
     body.hud-landscape #brand .foot { bottom:2vh; }
     body.hud-landscape #brand .in { width:90vw; }
@@ -984,6 +1009,52 @@
     #hud-intro[data-page=portfolio] article h3 { font-size:16px; line-height:1.4; }
     #hud-intro[data-page=portfolio] article p { font-size:14px; line-height:1.5; }
   }
+  /* 第二十一輪：逐日欄以實際內容置中，食物保留完整大圖，收合沿既有順序。 */
+  @media (orientation:landscape) {
+    body.hud #hud-day { justify-content:center; }
+    body.hud #hud-day .food ul { align-items:center; }
+    body.hud #hud-day .food img { width:auto; max-width:none; }
+    body.hud #hud-day .food li { flex:1; flex-direction:column; align-items:flex-start; gap:4px; }
+    body.hud #hud-day .food figure { flex:none; width:max-content; height:96px; }
+    body.hud #hud-day:is([data-food-count="1"], [data-food-count="2"]) .food figure { width:max-content; height:120px; }
+    body.hud #hud-day .food span { font-size:max(20px,2.3vh); line-height:1.35; }
+    body.hud #hud-day .food small { font-size:11px; }
+    body.hud #hud-day[data-fit]:not([data-fit="0"]) .food figure { width:max-content; height:96px; }
+    body.hud #hud-day[data-fit="3"] .quest li span { white-space:normal; }
+  }
+  /* 回程跟飛與全程回顧同幕；文字直接落在滿高紙色漸層，右側留飛機與海。 */
+  body[data-mode=return] #memory { opacity:1; transform:none; pointer-events:auto; }
+  body.hud[data-mode=return]::before { opacity:1; width:60vw; }
+  body.hud #memory { inset:3vh auto 11vh 0; width:48vw; display:flex; flex-direction:column; justify-content:center; text-align:left; padding:0 3vw 0 2vw; background:none; }
+  body.hud #memory > :is(.k, .pro, h2, p), body.hud #memory ul { width:100%; max-width:none; margin:0; padding:0; background:none; }
+  body.hud #memory .return-line { font:500 clamp(12px,1vw,16px)/1.6 var(--sans); color:var(--mute); margin-bottom:2vh; }
+  body.hud #memory h2 { font-size:clamp(28px,2.5vw,42px); line-height:1.5; margin:0 0 2vh; }
+  body.hud #memory .stats { border:0; justify-content:flex-start; gap:3vw; margin:0 0 3vh; padding:0; }
+  body.hud #memory .stats span { align-items:flex-start; flex-direction:row; flex-wrap:wrap; column-gap:8px; }
+  body.hud #memory .stats b { font-size:clamp(36px,5vh,60px); }
+  body.hud #memory .stats em { display:none; }
+  body.hud #memory .stats small { align-self:flex-end; margin-bottom:4px; font-size:20px; }
+  body.hud #memory ul { display:grid; grid-template-columns:1fr 1fr; gap:2vh 2vw; }
+  body.hud #memory li { border:0; padding:0; font-size:clamp(16px,1.2vw,22px); line-height:1.6; }
+  body.hud #memory li b { font-size:clamp(20px,1.55vw,26px); margin-bottom:4px; }
+  @media (orientation:landscape) and (max-height:600px) {
+    body.hud #hud-day .food figure, body.hud #hud-day:is([data-food-count="1"], [data-food-count="2"]) .food figure, body.hud #hud-day[data-fit]:not([data-fit="0"]) .food figure { width:max-content; height:64px; }
+    body.hud #hud-day .food li { flex-direction:row; align-items:center; }
+    body.hud #hud-day .food span { font-size:14px; }
+    body.hud #hud-day .food small { font-size:9px; }
+    body.hud #hud-day[data-fit]:not([data-fit="0"]) .hotel :is(.he, .ha, .hd) { display:none; }
+    body.hud #hud-day[data-fit="3"] .quest li small { display:none; }
+    body.hud #memory { inset:4vh auto var(--hud-nav-space) 0; width:50vw; padding:0 2.4vw; }
+    body.hud #memory .return-line { font-size:11px; margin-bottom:1vh; }
+    body.hud #memory h2 { font-size:20px; line-height:1.35; margin-bottom:1vh; }
+    body.hud #memory .stats { gap:3vw; margin-bottom:2vh; }
+    body.hud #memory .stats b { font-size:28px; }
+    body.hud #memory .stats small { font-size:13px; }
+    body.hud #memory ul { gap:1vh 2vw; }
+    body.hud #memory li { font-size:12px; line-height:1.4; }
+    body.hud #memory li b { font-size:15px; margin-bottom:2px; }
+  }
+
 </style>
 </head>
 <body data-mode="brand">
