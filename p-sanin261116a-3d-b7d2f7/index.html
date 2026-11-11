@@ -381,34 +381,39 @@
   .hotel .hd { margin-top:.3em; font:400 var(--t-read)/1.6 var(--serif); color:#4a4038; }
   .cont span { margin-left:.8em; padding:.15em .55em; font:600 var(--t-lab)/1.4 var(--sans); letter-spacing:.14em; color:var(--mute); border:1px solid #cdbfa8; border-radius:2px; }
 
-  /* 行車碼表：右下一顆紙圓鈕，打開是一張紙卡；數字是一格一格的紙條往上捲（hud.js roll） */
-  #hud-odo { position:fixed; z-index:11; right:clamp(20px,3vw,56px); bottom:clamp(54px,8vh,84px); display:none; flex-direction:column-reverse; align-items:flex-end; gap:10px; color:var(--ink); }
+  /* 里程紙票：KM 票根與數字同一張紙，細虛線分隔操作區 */
+  #hud-odo { position:fixed; z-index:11; right:clamp(20px,3vw,56px); bottom:clamp(68px,9vh,96px); display:none; align-items:stretch; color:var(--ink); background:#fbf6ec; box-shadow:2px 3px 0 #d6c6a8, 0 12px 24px -16px #6b5033; }
   body[data-hud=run] #hud-odo[data-ok], body[data-hud=daily] #hud-odo[data-ok] { display:flex; }
-  #hud-odo .ico { position:relative; width:48px; height:48px; border-radius:50%; cursor:pointer; background:#fbf6ec; border:1px solid rgba(42,36,32,.28); box-shadow:2px 3px 0 #d6c6a8; }
-  #hud-odo .ico i { position:absolute; left:11px; top:10px; width:24px; height:24px; border-radius:50%; border:2px solid var(--ink); border-bottom-color:transparent; rotate:45deg; }
-  #hud-odo .ico i::after { content:""; position:absolute; left:50%; top:50%; width:2px; height:10px; background:var(--red); transform-origin:50% 100%; translate:-50% -100%; rotate:-90deg; }
-  #hud-odo .ico span { position:absolute; left:0; right:0; bottom:6px; text-align:center; font:700 9px/1 var(--sans); letter-spacing:.14em; }
-  #hud-odo.on .ico { background:var(--red); border-color:var(--red); box-shadow:2px 3px 0 #761a12; } #hud-odo.on .ico i { border-color:#fbf3e4; border-bottom-color:transparent; } #hud-odo.on .ico span { color:#fbf3e4; }
-  #hud-odo .pn { display:none; min-width:230px; padding:14px 16px 12px; background:#fbf6ec; border:1px solid rgba(42,36,32,.22); box-shadow:3px 3px 0 #d6c6a8, 0 18px 30px -18px rgba(42,30,18,.5); }
+  #hud-odo button { color:inherit; font-family:var(--sans); cursor:pointer; background:none; border:0; }
+  #hud-odo button:focus-visible { outline:2px solid var(--red); outline-offset:-3px; }
+  #hud-odo .ico { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; width:48px; min-height:48px; flex-shrink:0; color:var(--red); }
+  #hud-odo.on .ico { border-right:1px dashed #cdbfa8; }
+  #hud-odo .ico svg { width:23px; height:23px; }
+  #hud-odo .ico .air, #hud-odo[data-mode=air] .ico .car { display:none; }
+  #hud-odo[data-mode=air] .ico .air { display:block; }
+  #hud-odo .ico span { font:700 9px/1 var(--sans); letter-spacing:.14em; }
+  #hud-odo button:hover { color:var(--red); background:#eee3d0; }
+  #hud-odo .pn { display:none; width:250px; padding:12px 16px 4px; }
   #hud-odo.on .pn { display:block; }
-  #hud-odo .r { display:flex; align-items:center; gap:.6em; margin-bottom:8px; }
-  #hud-odo .r b { width:2.6em; font:700 var(--t-lab)/1 var(--sans); letter-spacing:.2em; color:var(--red); }
-  #hud-odo .r small { font:600 var(--t-lab)/1 var(--sans); color:var(--mute); }
-  #hud-odo .r em { font:500 var(--t-lab)/1 var(--sans); font-style:normal; color:var(--mute); }
-  #hud-odo .num { display:inline-flex; gap:3px; }
-  #hud-odo .dg { display:inline-block; width:.72em; height:1.2em; overflow:hidden; font:700 max(22px,3vh)/1.2em var(--serif); text-align:center;
-    background:#efe5d3; border-radius:2px; box-shadow:inset 0 1px 0 rgba(255,255,255,.6), inset 0 -2px 0 rgba(42,30,18,.12); }
-  #hud-odo .st { display:block; transition:transform .7s cubic-bezier(.3,.8,.3,1); }
-  #hud-odo .st i { display:block; height:1.2em; font-style:normal; }
-  #hud-odo .dg.na { width:auto; padding:0 .5em; color:var(--mute); }
-  #hud-odo .more { margin-top:4px; padding:.4em .7em; font:600 var(--t-lab)/1 var(--sans); letter-spacing:.14em; color:var(--ink); background:none; border:1px solid #cdbfa8; border-radius:2px; cursor:pointer; }
-  #hud-odo .tbl { display:none; list-style:none; margin-top:10px; max-height:34vh; overflow:auto; }
-  #hud-odo.full .tbl { display:block; }
-  #hud-odo .tbl li { display:flex; justify-content:space-between; gap:1.4em; padding:.3em 0; border-top:1px solid #e1d4bd; font:500 var(--t-lab)/1.4 var(--sans); }
-  #hud-odo .tbl li b { font-weight:600; letter-spacing:.12em; color:#5a4e44; } #hud-odo .tbl li.on b, #hud-odo .tbl li.on span { color:var(--red); }
-  #hud-odo .tbl li.sum { border-top:1.5px solid var(--ink); font-weight:700; }
-  @media (prefers-reduced-motion:reduce) { #hud-odo .st { transition:none; } }
-  #hud-qa.on ~ #hud-odo { display:none !important; }   /* Q&A 時碼表讓位 */
+  #hud-odo .r { display:flex; align-items:baseline; gap:8px; white-space:nowrap; }
+  #hud-odo .r b { font:600 20px/1.3 var(--serif); }
+  #hud-odo .r strong { font:600 40px/1.25 var(--serif); }
+  #hud-odo .r small { font:500 14px/1 var(--sans); color:#65594c; }
+  #hud-odo .num { font-variant-numeric:tabular-nums; }
+  #hud-odo .cum { margin-top:4px; font:500 13px/1.5 var(--sans); color:#65594c; white-space:nowrap; }
+  #hud-odo .track { height:2px; margin-top:10px; background:#dfd2bc; overflow:hidden; }
+  #hud-odo .track i { display:block; height:100%; background:var(--red); transform:scaleX(0); transform-origin:left; }
+  #hud-odo .foot { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  #hud-odo .foot small { font:400 10px/1.4 var(--sans); color:#756858; }
+  #hud-odo .more { display:flex; align-items:center; justify-content:center; gap:8px; min-height:36px; font:500 11px/1.4 var(--sans); }
+  #hud-odo .more span { color:var(--red); font-size:16px; }
+  #hud-odo .tbl { display:none; list-style:none; padding-right:4px; margin:2px 0 8px; max-height:30vh; overflow:auto; overscroll-behavior:contain; scrollbar-width:thin; scrollbar-color:#b9a98f #fbf6ec; }
+  #hud-odo.full.on .tbl { display:block; }
+  #hud-odo .tbl li { display:flex; justify-content:space-between; gap:1.4em; padding:6px 0; border-top:1px solid #e1d4bd; font:500 12px/1.4 var(--sans); font-variant-numeric:tabular-nums; }
+  #hud-odo .tbl li b { font-weight:500; letter-spacing:.08em; color:#5a4e44; }
+  #hud-odo .tbl li.on b, #hud-odo .tbl li.on span { color:var(--red); }
+  #hud-odo .tbl li.sum { border-top:1px solid var(--ink); font-weight:700; }
+  #hud-qa.on ~ #hud-odo { display:none !important; }
 
   /* 回程回憶版：每天一張拍立得（團員照片、一句話、提供者），紙膠帶貼著；主畫面右上的實景照片收起，免得兩張照片 */
   body.hud-memory #gallery { display:none !important; }
@@ -613,7 +618,7 @@
     #hud-day .chip { margin-bottom:6px; } #hud-day .dn strong { font-size:40px; } #hud-day h2 { font-size:21px; margin:2px 0; }
     #hud-day .route { margin:6px 0; } #hud-day .quest { margin:6px 0 2px; } #hud-day .quest li { padding:.12em 0; }
     #hud-day .quest li small { display:none; }   /* 手機卡片要矮：小註收起，電腦版照放 */ #hud-day .food figure { height:44px; } #hud-day .food { margin:2px 0 4px; }
-    #hud-odo { top:12px; bottom:auto; right:12px; flex-direction:column; }
+    #hud-odo { top:12px; bottom:auto; right:12px; }
     #hud-day.mem { background:none; box-shadow:none; overflow:visible; max-height:none; align-items:center; padding-bottom:58px; } #hud-day.mem .pol { width:64vw; } #hud-day.mem > .ttl { max-width:80vw; text-align:center; } #hud-day .hotel .he { display:none; } .hotel { max-width:none; }
     #hud-qa { bottom:auto; top:9vh; left:0; right:0; margin:0 auto; width:max-content; }
     #hud-back small, #hud-menu .people .hint, #hud-menu .offer .hint { display:none; }   /* 手機沒有 ESC 鍵 */
@@ -750,10 +755,19 @@
     body.hud-landscape #dots.map button { flex:0 0 44px; width:44px; max-width:none; height:44px; touch-action:pan-x; }
     body.hud-landscape #dots.map button::before, body.hud-landscape #dots.map button::after { top:22px; pointer-events:none; }
     body.hud-landscape #dots.map button span { display:none; }
-    body.hud-landscape #hud-odo { top:calc(12px + var(--safe-t)); right:calc(12px + var(--safe-r)); bottom:auto; }
-    body.hud-landscape #hud-odo .pn { max-height:calc(100 * var(--hud-h) - var(--safe-t) - var(--safe-b) - 130px); overflow:auto; }
-    body.hud-landscape #hud-odo .tbl { max-height:none; }
-    body.hud-landscape #hud-odo .ico span { font-size:max(9px,calc(2.2 * var(--hud-h))); }
+    body.hud-landscape #hud-odo { top:calc(12px + var(--safe-t)); right:calc(12px + var(--safe-r)); bottom:auto; max-width:calc(50vw - var(--safe-r) - 16px); }
+    body.hud-landscape #hud-odo .ico { width:44px; }
+    body.hud-landscape #hud-odo .pn { width:216px; min-width:0; padding:8px 12px 0; max-height:calc(100 * var(--hud-h) - var(--safe-t) - var(--safe-b) - 76px); overflow:auto; }
+    body.hud-landscape #hud-odo .r { gap:6px; }
+    body.hud-landscape #hud-odo .r b { font-size:16px; }
+    body.hud-landscape #hud-odo .r strong { font-size:28px; }
+    body.hud-landscape #hud-odo .r small, body.hud-landscape #hud-odo .cum { font-size:11px; }
+    body.hud-landscape #hud-odo .cum { margin-top:2px; }
+    body.hud-landscape #hud-odo .track { margin-top:6px; }
+    body.hud-landscape #hud-odo .foot { gap:6px; }
+    body.hud-landscape #hud-odo .foot small { font-size:9px; }
+    body.hud-landscape #hud-odo .tbl { max-height:calc(100 * var(--hud-h) - var(--safe-t) - var(--safe-b) - 192px); margin-bottom:8px; }
+    body.hud-landscape #hud-odo .tbl li { font-size:11px; padding:4px 0; }
     body.hud-landscape #hud-qa { top:auto; left:auto; right:calc(72px + var(--safe-r)); bottom:calc(64px + var(--safe-b)); max-width:40vw; }
     body.hud-landscape #gallery, body.hud-landscape #gallery.portrait { left:auto; right:calc(72px + var(--safe-r)); top:calc(14px + var(--safe-t)); width:32vw; max-height:calc(100 * var(--hud-h) - var(--safe-t) - var(--safe-b) - 80px); overflow:auto; }
     body.hud-landscape #gallery img, body.hud-landscape #gallery.portrait img { max-height:calc(52 * var(--hud-h)); aspect-ratio:16/10; }

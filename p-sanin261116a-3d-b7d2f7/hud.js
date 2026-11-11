@@ -632,43 +632,76 @@
   let wheelAt = 0;
   addEventListener('wheel', (e) => { if (state !== 'daily' || (e.target instanceof Node && DY.contains(e.target)) || Math.abs(e.deltaY) < 20 || Date.now() - wheelAt < 900) return; wheelAt = Date.now(); showDay(dayN + (e.deltaY > 0 ? 1 : -1), e.deltaY > 0 ? 1 : -1); }, { passive: true });
 
-  // ── 行車碼表（右下；K 或點圖示開關，記住狀態）：今日 xx km／累計 xx km，數字像紙條捲動 ──
-  //    main.js 移動時呼叫 HUD.odometer(今日已走, 今日總, 累計)（主控 11/10 定：用 cine 算的實際路線長度，畫面標「約」）；還沒接時讀 __journey.km（每天公里數陣列，或 { days: [...] }）顯示靜態值；兩者都沒有就不出現（不編數字）
-  const ODO = el('hud-odo', '', `<button type="button" class="ico" aria-label="行車碼表"><i></i><span>KM</span></button>
-    <div class="pn"><p class="r"><b>今日</b><small class="ab">約</small><span class="num" data-k="t"></span><small>km</small><em></em></p><p class="r"><b>累計</b><small class="ab">約</small><span class="num" data-k="c"></span><small>km</small></p>
-    <button type="button" class="more">每天里程</button><ol class="tbl"></ol></div>`);
-  let odoLive = false;
-  const odoKey = 'journey-odometer';
-  function odoToggle(v) { const on = v == null ? !ODO.classList.contains('on') : v; ODO.classList.toggle('on', on); try { localStorage.setItem(odoKey, on ? '1' : '0'); } catch (x) { } }
-  ODO.querySelector('.ico').addEventListener('click', () => odoToggle());
-  ODO.querySelector('.more').addEventListener('click', () => ODO.classList.toggle('full'));
-  function roll(elm, v) {
-    const s = v == null ? '' : String(Math.max(0, Math.round(+v || 0))).padStart(3, '0');
-    if (elm._v === s) return; elm._v = s;   // main.js 每格都呼叫：數字沒變就不碰 DOM（省每格重算樣式與重排）
-    if (v == null) { elm.innerHTML = '<span class="dg na">—</span>'; return; }   // 沒有里程（例：當天沒有站點）就寫「—」，不寫 000 讓人以為沒移動
-    if (elm.querySelector('.na')) elm.innerHTML = '';
-    if (elm.children.length !== s.length) elm.innerHTML = [...s].map(() => `<span class="dg"><span class="st">${[...'0123456789'].map((x) => `<i>${x}</i>`).join('')}</span></span>`).join('');
-    [...s].forEach((ch, i) => { elm.children[i].firstChild.style.transform = `translateY(${-ch * 10}%)`; });
+  // ── 里程紙票：K 或票根開關，今日數字平滑追上路線里程 ──
+  // main.js 呼叫 HUD.odometer(今日已走, 今日總, 全程累計, 'air' 或 'ground')；缺里程整張收起
+  const ODO = el('hud-odo', '', `<button type="button" class="ico" aria-controls="hud-odo-panel" aria-expanded="false" aria-label="展開里程">
+    <svg class="car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 10 2-5h10l2 5M4 10h16v8H4zM7 18v2m10-2v2M7 13h2m6 0h2"/></svg>
+    <svg class="air" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 9V4a2 2 0 0 1 4 0v5l7 5v2l-7-2v5l2 2v1l-4-1-4 1v-1l2-2v-5l-7 2v-2z"/></svg><span>KM</span></button>
+    <div class="pn" id="hud-odo-panel"><p class="r"><b class="today-label">今日</b><strong class="num" data-k="t">0</strong><small>km</small></p>
+      <p class="cum">全程累計 <span class="num" data-k="c">0</span> km</p>
+      <div class="track" role="progressbar" aria-label="今日路線進度" aria-valuemin="0" aria-valuemax="100"><i></i></div>
+      <div class="foot"><small>依路線估算</small><button type="button" class="more" aria-controls="hud-odo-table" aria-expanded="false">每天里程<span aria-hidden="true">＋</span></button></div>
+      <ol class="tbl" id="hud-odo-table" aria-label="每天里程"></ol></div>`);
+  const odoButton = ODO.querySelector('.ico'), odoMore = ODO.querySelector('.more'), odoTrack = ODO.querySelector('.track');
+  const odoToday = ODO.querySelector('[data-k=t]'), odoCum = ODO.querySelector('[data-k=c]');
+  const odoMotion = matchMedia('(prefers-reduced-motion:reduce)');
+  let odoLive = false, odoFrame = 0, odoTime = 0, odoDay = null;
+  const odoNow = [0, 0, 0], odoTarget = [0, 0, 0], odoKey = 'journey-odometer';
+  function odoToggle(v) {
+    const on = v == null ? !ODO.classList.contains('on') : v;
+    ODO.classList.toggle('on', on); odoButton.setAttribute('aria-expanded', String(on)); odoButton.setAttribute('aria-label', on ? '收起里程' : '展開里程');
+    try { localStorage.setItem(odoKey, on ? '1' : '0'); } catch (x) { }
+  }
+  odoButton.addEventListener('click', () => odoToggle());
+  odoMore.addEventListener('click', () => {
+    const full = ODO.classList.toggle('full'); odoMore.setAttribute('aria-expanded', String(full)); odoMore.lastElementChild.textContent = full ? '−' : '＋';
+  });
+  function odoPaint() {
+    [odoToday, odoCum].forEach((e, i) => { const text = String(Math.round(odoNow[i])); if (e.textContent !== text) e.textContent = text; });
+    odoTrack.firstElementChild.style.transform = `scaleX(${odoNow[2]})`;
+    odoTrack.setAttribute('aria-valuenow', String(Math.round(odoNow[2] * 100)));
+  }
+  // 一個動畫迴圈追目標，main.js 每格更新也不重啟 tween；降低動態效果時直接呈現
+  function odoTween(time) {
+    const dt = Math.max(0, time - odoTime); odoTime = time;
+    const ease = odoMotion.matches ? 1 : 1 - Math.exp(-dt / 130);
+    let moving = false;
+    odoNow.forEach((v, i) => {
+      const gap = odoTarget[i] - v;
+      odoNow[i] = Math.abs(gap) < (i === 2 ? .001 : .05) || ease === 1 ? odoTarget[i] : v + gap * ease;
+      if (odoNow[i] !== odoTarget[i]) moving = true;
+    });
+    odoPaint(); odoFrame = moving ? requestAnimationFrame(odoTween) : 0;
+  }
+  function odoHide() {
+    delete ODO.dataset.ok; cancelAnimationFrame(odoFrame); odoFrame = 0;
+    odoNow.fill(0); odoTarget.fill(0);
   }
   function kmList() {
     const k = J_() && J_().km, a = Array.isArray(k) ? k : k && (k.days || k.perDay);
-    if (a && a.length) return a.map((x) => +x || 0);
-    const b = J && J.days.map((d) => d.km); return b && b.some((x) => x != null) ? b.map((x) => +x || 0) : null;
+    const rows = a && a.length ? a : J && J.days.some((d) => d.km != null) ? J.days : null;
+    return rows && rows.map((v) => ({ km: Math.max(0, +(typeof v === 'object' && v ? v.km : v) || 0), mode: v && v.mode === 'air' ? 'air' : 'ground' }));
   }
-  function odoShow(today, todayTotal, cum) {
-    const none = todayTotal === 0 || (todayTotal == null && !today);
-    roll(ODO.querySelector('[data-k=t]'), none ? null : today); roll(ODO.querySelector('[data-k=c]'), cum);
-    const em = ODO.querySelector('.r em'), tx = !none && todayTotal != null && Math.round(todayTotal) !== Math.round(today) ? `/ ${Math.round(todayTotal)}` : '';
-    if (em.textContent !== tx) em.textContent = tx;
+  function odoShow(today, todayTotal, cum, mode = 'ground') {
+    if (!Number.isFinite(today) || !Number.isFinite(cum) || (todayTotal != null ? !(todayTotal > 0) : !(today > 0))) { odoHide(); return; }
+    const air = mode === 'air'; ODO.dataset.ok = '1'; ODO.dataset.mode = air ? 'air' : 'ground';
+    const label = ODO.querySelector('.today-label'), text = air ? '今日飛行' : '今日';
+    if (label.textContent !== text) label.textContent = text;
+    odoTarget[0] = Math.max(0, today); odoTarget[1] = Math.max(0, cum);
+    odoTarget[2] = todayTotal > 0 ? Math.min(1, Math.max(0, today / todayTotal)) : 1;
+    if (odoMotion.matches) { cancelAnimationFrame(odoFrame); odoFrame = 0; odoTarget.forEach((v, i) => { odoNow[i] = v; }); odoPaint(); }
+    else if (!odoFrame && odoNow.some((v, i) => v !== odoTarget[i])) { odoTime = performance.now(); odoFrame = requestAnimationFrame(odoTween); }
   }
-  function odoStatic(s) {   // 靜態值：到第 N 天就顯示當天總里程、累計到當天
-    const L = kmList(); if (!L) { delete ODO.dataset.ok; return; } ODO.dataset.ok = 1;
-    const sc = SCN[s] || {}, n = sc.k === 'day' ? sc.n : state === 'daily' ? dayN : SCN.slice(0, s + 1).filter((x) => x.k === 'day').length;
-    ODO.querySelector('.tbl').innerHTML = L.map((v, i) => `<li class="${i + 1 === n ? 'on' : ''}"><b>DAY ${pad(i + 1)}</b><span>${v ? `約 ${Math.round(v)} km` : '—'}</span></li>`).join('')
-      + `<li class="sum"><b>全程</b><span>約 ${Math.round(L.reduce((a, b) => a + b, 0))} km</span></li>`;
-    if (!odoLive) odoShow(sc.k === 'day' || state === 'daily' ? L[n - 1] || 0 : 0, null, L.slice(0, n).reduce((a, b) => a + b, 0));
+  // 靜態備援同時支援公里陣列及 cine 的 {km, mode} 陣列；章節等非逐日幕不顯示
+  function odoStatic(s) {
+    const L = kmList(), sc = SCN[s] || {}, n = sc.k === 'day' ? sc.n : state === 'daily' ? dayN : 0;
+    if (n !== odoDay) { odoDay = n; odoNow[0] = odoNow[2] = 0; }
+    if (!L || !n) { odoHide(); return; }
+    ODO.querySelector('.tbl').innerHTML = L.map((v, i) => `<li class="${i + 1 === n ? 'on' : ''}"><b>DAY ${i + 1}</b><span>${v.km ? `${Math.round(v.km)} km` : '無里程'}</span></li>`).join('')
+      + `<li class="sum"><b>全程</b><span>${Math.round(L.reduce((a, b) => a + b.km, 0))} km</span></li>`;
+    if (!odoLive) { const d = L[n - 1]; odoShow(d ? d.km : 0, d ? d.km : 0, L.slice(0, n).reduce((a, b) => a + b.km, 0), d && d.mode); }
   }
-  try { if (localStorage.getItem(odoKey) === '1') ODO.classList.add('on'); } catch (x) { }
+  try { if (localStorage.getItem(odoKey) === '1') odoToggle(true); } catch (x) { }
 
   window.HUD = {
     loading(p, text) { explicit = true; target = Math.max(target, Math.min(1, +p || 0)); if (text) st.textContent = text; },
@@ -676,7 +709,7 @@
     teaser(fn) { teaserFn = fn; },
     start(fn) { onGo = fn; },
     stage, day, map, sync,
-    odometer(today, todayTotal, cum) { odoLive = true; ODO.dataset.ok = 1; odoShow(today, todayTotal, cum); },
+    odometer(today, todayTotal, cum, mode = 'ground') { odoLive = true; odoShow(today, todayTotal, cum, mode); },
     get landscapeBlocked() { return rotateBlocked(); },
     get state() { return state; },
   };
