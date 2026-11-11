@@ -390,7 +390,7 @@
       ${legs.length ? `<ol class="route">${legs.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>` : ''}
       <h2>${phr(d.title)}</h2>
       ${spots.length ? `<div class="quest"><p class="qh">今日亮點</p><ul>${spots.map(([a, b], i) => `<li style="--i:${i}"><i></i><span>${esc(a)}${b ? `<small>${esc(b)}</small>` : ''}</span></li>`).join('')}</ul></div>` : ''}
-      <div class="day-tail">${(d.food || []).length ? `<div class="food"><p class="qh">今日美食</p><ul>${d.food.map((f, i) => `<li style="--i:${i}"><figure><img src="${esc(f.card)}" alt=""><i>示意</i></figure><span>${esc(f.zh)}</span></li>`).join('')}</ul></div>` : ''}
+      <div class="day-tail">${(d.food || []).length ? `<div class="food"><p class="qh">今日美食</p><ul>${d.food.map((f, i) => `<li style="--i:${i}"><figure><img src="${esc(f.card)}" alt=""></figure><span>${esc(f.zh)}<small>示意</small></span></li>`).join('')}</ul></div>` : ''}
       ${hotelHTML(d, 'meta')}</div>`;
     fitDay();
     replay(D);
@@ -540,7 +540,7 @@
   // ── 跟著 main.js 走：換幕時讀 __journey.step。不是這裡叫的換幕（截圖工具、?n=）→ 直接進「開始後」狀態 ──
   function sync() {
     const j = J_(); if (!j || !J || (!SCN.length && !readScenes())) return; mapInit(); decorate(); const s = j.step; if (s === last || s < 0) return;
-    const changed = last >= 0, ext = changed && s !== expect; last = s;
+    const changed = last >= 0, ext = changed && s !== expect; last = s; odoScene(s);
     if (changed && landscape && !rotateBlocked() && ['run', 'prologue', 'route'].includes(state) && /Android/i.test(navigator.userAgent) && navigator.vibrate) { try { navigator.vibrate(10); } catch (x) { } }
     if (ext && state === 'tour') return;
     if (ext && state === 'daily') { const sc = SCN[s]; if (sc && sc.k === 'day' && sc.n !== dayN) showDay(sc.n, 0, true); return; }
@@ -722,7 +722,7 @@
   const odoButton = ODO.querySelector('.ico'), odoMore = ODO.querySelector('.more'), odoTrack = ODO.querySelector('.track');
   const odoToday = ODO.querySelector('[data-k=t]'), odoCum = ODO.querySelector('[data-k=c]');
   const odoMotion = matchMedia('(prefers-reduced-motion:reduce)');
-  let odoLive = false, odoFrame = 0, odoTime = 0, odoDay = null;
+  let odoLive = false, odoFrame = 0, odoTime = 0, odoDay = null, odoStep = null;
   const odoNow = [0, 0, 0], odoTarget = [0, 0, 0], odoKey = 'journey-odometer';
   function odoToggle(v) {
     const on = v == null ? !ODO.classList.contains('on') : v;
@@ -752,7 +752,10 @@
   }
   function odoHide() {
     delete ODO.dataset.ok; cancelAnimationFrame(odoFrame); odoFrame = 0;
-    odoNow.fill(0); odoTarget.fill(0);
+    odoNow.fill(0); odoTarget.fill(0); odoPaint();
+  }
+  function odoScene(s) {
+    if (s === odoStep) return; odoStep = s; odoHide();
   }
   function kmList() {
     const k = J_() && J_().km, a = Array.isArray(k) ? k : k && (k.days || k.perDay);
@@ -786,7 +789,7 @@
     teaser(fn) { teaserFn = fn; },
     start(fn) { onGo = fn; },
     stage, day, map, sync,
-    odometer(today, todayTotal, cum, mode = 'ground') { odoLive = true; odoShow(today, todayTotal, cum, mode); },
+    odometer(today, todayTotal, cum, mode = 'ground') { odoScene(J_() && J_().step); odoLive = true; odoShow(today, todayTotal, cum, mode); },
     get landscapeBlocked() { return rotateBlocked(); },
     get state() { return state; },
   };
