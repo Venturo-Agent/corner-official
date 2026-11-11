@@ -86,8 +86,8 @@ window.TK=window.TK||{}
 TK.cubeGo=(root,k)=>{const R=[[0,0],[0,-90],[0,-180],[0,-270],[-90,-360],[90,-360]],cube=root.querySelector('.cb');if(!cube)return
  const n=R.length;k=((k%n)+n)%n;cube.dataset.k=k;cube.style.transform=`rotateX(-13deg) rotateY(-20deg) rotateX(${R[k][0]}deg) rotateY(${R[k][1]}deg)`
  root.querySelectorAll('.cl').forEach((e,i)=>e.classList.toggle('on',i===k))}
-TK.cubeNext=el=>{const root=el.closest('.t3');clearInterval(TK._cubeT);TK.cubeGo(root,(+root.querySelector('.cb').dataset.k||0)+1)}
-TK.cubePick=(el,k)=>{const root=el.closest('.t3');clearInterval(TK._cubeT);TK.cubeGo(root,k)}
+TK.cubeNext=el=>{const root=el.closest('.t3');root.querySelector('.cb').dataset.manual=1;TK.cubeGo(root,(+root.querySelector('.cb').dataset.k||0)+1)}
+TK.cubePick=(el,k)=>{const root=el.closest('.t3');root.querySelector('.cb').dataset.manual=1;TK.cubeGo(root,k)}
 M.add('company','talk-cube',{...opt,name:'演講・方塊',range:[6,6],html:c=>{const Z=250,F=['rotateY(0deg)','rotateY(90deg)','rotateY(180deg)','rotateY(270deg)','rotateX(90deg)','rotateX(-90deg)'],BG=['#f7f3ea','#1F6F63','#C98A2B','#5B6B7A','#B3372B','#124a41']
  return `${css}<style>
  .t3 .cw{position:absolute;left:170px;top:330px;width:${Z*2}px;height:${Z*2}px;perspective:1600px;padding:0;border:0;background:none;cursor:pointer}
@@ -105,7 +105,8 @@ M.add('company','talk-cube',{...opt,name:'演講・方塊',range:[6,6],html:c=>{
  <div class="hint a" style="--t:1;font-size:34px;color:#e9c88a">點方塊，轉下一面</div><img src="x:" alt="" style="display:none" onerror="TK.cubeAuto(this)">
  <div style="position:absolute;left:820px;top:${c.p.body?290:250}px;width:980px">${c.items.map((it,i)=>`<button class="cl ${i?'':'on'} a" style="--t:${.6+i*.15}" onclick="TK.cubePick(this,${i})"><b>${E(T(it.t))}</b><span>${E(T(it.who||''))}｜${E(T(it.body||''))}</span></button>`).join('')}</div>
  </section>`}})
-TK.cubeAuto=el=>{const root=el.closest('.t3');clearInterval(TK._cubeT);if(document.getElementById('masters-static-motion')&&/static|preview/.test(location.search))return;TK._cubeT=setInterval(()=>{const cb=root.querySelector('.cb');if(!root.isConnected||!cb){clearInterval(TK._cubeT);return}TK.cubeGo(root,(+cb.dataset.k||0)+1)},2600)}
+TK.cubeAuto=()=>{}
+if(!TK._cubeLoop&&!/static|preview/.test(location.search))TK._cubeLoop=setInterval(()=>{const cb=document.querySelector('.t3 .cb');if(!cb||cb.dataset.manual)return;TK.cubeGo(cb.closest('.t3'),(+cb.dataset.k||0)+1)},2600)
 // 只針對這份簡報（William 2026-11-11）：放映時點畫面不換頁，點擊只給按鈕用；換頁用鍵盤左右鍵
 document.addEventListener('click',e=>{if(document.body.classList.contains('present')&&!e.target.closest('button,a,video,audio,input,select,iframe,#presentTog,.top,.app > header'))e.stopPropagation()},true)
 }
