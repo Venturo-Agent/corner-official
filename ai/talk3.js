@@ -106,7 +106,7 @@ M.add('company','talk-cube',{...opt,name:'演講・方塊',range:[6,6],html:c=>{
  <div style="position:absolute;left:820px;top:${c.p.body?290:250}px;width:980px">${c.items.map((it,i)=>`<button class="cl ${i?'':'on'} a" style="--t:${.6+i*.15}" onclick="TK.cubePick(this,${i})"><b>${E(T(it.t))}</b><span>${E(T(it.who||''))}｜${E(T(it.body||''))}</span></button>`).join('')}</div>
  </section>`}})
 TK.cubeAuto=()=>{}
-if(!TK._cubeLoop&&!/static|preview/.test(location.search))TK._cubeLoop=setInterval(()=>{const cb=document.querySelector('.t3 .cb');if(!cb||cb.dataset.manual)return;TK.cubeGo(cb.closest('.t3'),(+cb.dataset.k||0)+1)},2600)
+if(!TK._cubeLoop&&!/static|preview/.test(location.search))TK._cubeLoop=setInterval(()=>{document.querySelectorAll('.t3 .cb').forEach(cb=>{if(!cb.dataset.manual)TK.cubeGo(cb.closest('.t3'),(+cb.dataset.k||0)+1)})},2600)
 // 只針對這份簡報（William 2026-11-11）：放映時點畫面不換頁，點擊只給按鈕用；換頁用鍵盤左右鍵
 document.addEventListener('click',e=>{if(document.body.classList.contains('present')&&!e.target.closest('button,a,video,audio,input,select,iframe,#presentTog,.top,.app > header'))e.stopPropagation()},true)
 }
