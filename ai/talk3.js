@@ -71,6 +71,41 @@ M.add('end','talk-end',{name:'演講・結尾',html:c=>{const img=c.p.img||c.met
  <div class="a" style="font:700 64px/1.45 var(--serif);--t:1.3">${c.ed('b',c.p.body||'')}</div></div>
  <div class="a" style="position:absolute;left:120px;bottom:80px;font:700 40px/1 var(--serif);letter-spacing:.12em;--t:2">${E(c.p.brand||c.meta.agency||'')}</div></section>`}})
 
+// ── 對照：一般說的用 AI vs 我們做的
+M.add('company','talk-vs',{...opt,name:'演講・對照',range:[2,2],html:c=>{const col=(it,i)=>`<article class="a" style="--t:${.4+i*1.6};background:${i?'#f7f3ea':'#e7e3d8'};border-top:10px solid ${i?'#1F6F63':'#8a8577'};box-shadow:0 22px 60px rgba(0,0,0,.25);padding:48px 50px 50px;min-height:700px">
+  <div style="font:700 46px/1.3 var(--serif);color:${i?'#1F6F63':'#5b574c'}">${c.ed('t'+i,T(it.t))}</div>
+  <div style="margin:26px 0 8px;padding:22px 26px;background:${i?'#1F6F63':'#fff'};color:${i?'#fff':'#1b211a'};font-size:34px;line-height:1.5;border-radius:${i?'6px':'22px 22px 22px 6px'}">${E(it.quote||'')}</div>
+  ${(it.points||[]).map((s,j)=>`<div class="a" style="--t:${.9+i*1.6+j*.3};display:grid;grid-template-columns:26px 1fr;gap:14px;font-size:34px;line-height:1.5;margin-top:30px"><i style="width:16px;height:4px;background:${i?'#1F6F63':'#8a8577'};margin-top:24px"></i><div>${E(s)}</div></div>`).join('')}</article>`
+ return `${css}<section class="t3"><div style="position:absolute;left:0;top:0;width:1920px;height:560px;background:#16332d"></div>
+ <div class="a" style="position:absolute;left:120px;top:70px;width:1680px;color:#f4eee2"><h2>${c.ed('h',c.p.title||'')}</h2></div>
+ <div style="position:absolute;left:120px;top:230px;width:1680px;display:grid;grid-template-columns:1fr 110px 1fr;align-items:center">${col(c.items[0],0)}<i class="px a" data-x="→" style="--t:1.8;font:400 90px/1 var(--serif);font-style:normal;color:#C98A2B;text-align:center"></i>${col(c.items[1],1)}</div>
+ <div class="src" style="color:var(--mute)">${E(T(c.p.sub||''))}</div></section>`}})
+
+// ── 方塊：同一份資料，轉一面就是一項工作、一位負責的同事
+window.TK=window.TK||{}
+TK.cubeGo=(root,k)=>{const R=[[0,0],[0,-90],[0,-180],[0,-270],[-90,-360],[90,-360]],cube=root.querySelector('.cb');if(!cube)return
+ const n=R.length;k=((k%n)+n)%n;cube.dataset.k=k;cube.style.transform=`rotateX(-13deg) rotateY(-20deg) rotateX(${R[k][0]}deg) rotateY(${R[k][1]}deg)`
+ root.querySelectorAll('.cl').forEach((e,i)=>e.classList.toggle('on',i===k))}
+TK.cubeNext=el=>{const root=el.closest('.t3');clearInterval(TK._cubeT);TK.cubeGo(root,(+root.querySelector('.cb').dataset.k||0)+1)}
+TK.cubePick=(el,k)=>{const root=el.closest('.t3');clearInterval(TK._cubeT);TK.cubeGo(root,k)}
+M.add('company','talk-cube',{...opt,name:'演講・方塊',range:[6,6],html:c=>{const Z=250,F=['rotateY(0deg)','rotateY(90deg)','rotateY(180deg)','rotateY(270deg)','rotateX(90deg)','rotateX(-90deg)'],BG=['#f7f3ea','#1F6F63','#C98A2B','#5B6B7A','#B3372B','#124a41']
+ return `${css}<style>
+ .t3 .cw{position:absolute;left:170px;top:330px;width:${Z*2}px;height:${Z*2}px;perspective:1600px;padding:0;border:0;background:none;cursor:pointer}
+ .t3 .cb{position:absolute;inset:0;transform-style:preserve-3d;transition:transform 1.1s cubic-bezier(.5,0,.2,1)}
+ .t3 .cf{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:18px;border:3px solid rgba(255,255,255,.6);font-family:var(--serif)}
+ .t3 .cf b{font-size:76px;font-weight:900;line-height:1.2}.t3 .cf span{font:500 34px var(--sans);opacity:.9}
+ .t3 .cl{display:grid;grid-template-columns:230px 1fr;gap:24px;align-items:center;width:100%;text-align:left;padding:27px 26px;border:0;border-left:8px solid transparent;background:none;font:inherit;color:#f4eee2;cursor:pointer;opacity:.55;transition:all .5s}
+ .t3 .cl b{font:700 42px/1.2 var(--serif)}.t3 .cl span{font-size:30px;line-height:1.4}
+ .t3 .cl.on{opacity:1;background:rgba(255,255,255,.1);border-left-color:#C98A2B}
+ .t3 .hint{position:absolute;left:170px;top:${330+Z*2+90}px;width:${Z*2}px;text-align:center}</style>
+ <section class="t3" style="background:#16332d;color:#f4eee2">
+ <div style="position:absolute;left:-200px;bottom:-240px;width:700px;height:700px;border-radius:50%;background:rgba(255,255,255,.04)"></div>
+ <div class="a" style="position:absolute;left:120px;top:70px;width:1680px"><h2>${c.ed('h',c.p.title||'')}</h2>${c.p.body?`<div style="font-size:34px;line-height:1.5;margin-top:12px;color:#e9c88a">${c.ed('b',T(c.p.body))}</div>`:''}</div>
+ <button class="cw a" style="--t:.4" onclick="TK.cubeNext(this)"><div class="cb" data-k="0" style="transform:rotateX(-13deg) rotateY(-20deg)">${c.items.map((it,i)=>`<div class="cf" style="transform:${F[i]} translateZ(${Z}px);background:${BG[i]};color:${i?'#fff':'#1b211a'}"><b>${E(T(it.t))}</b><span>${E(T(it.who||''))}</span></div>`).join('')}</div></button>
+ <div class="hint a" style="--t:1;font-size:34px;color:#e9c88a">點方塊，轉下一面</div><img src="x:" alt="" style="display:none" onerror="TK.cubeAuto(this)">
+ <div style="position:absolute;left:820px;top:${c.p.body?290:250}px;width:980px">${c.items.map((it,i)=>`<button class="cl ${i?'':'on'} a" style="--t:${.6+i*.15}" onclick="TK.cubePick(this,${i})"><b>${E(T(it.t))}</b><span>${E(T(it.who||''))}｜${E(T(it.body||''))}</span></button>`).join('')}</div>
+ </section>`}})
+TK.cubeAuto=el=>{const root=el.closest('.t3');clearInterval(TK._cubeT);if(document.getElementById('masters-static-motion')&&/static|preview/.test(location.search))return;TK._cubeT=setInterval(()=>{const cb=root.querySelector('.cb');if(!root.isConnected||!cb){clearInterval(TK._cubeT);return}TK.cubeGo(root,(+cb.dataset.k||0)+1)},2600)}
 // 只針對這份簡報（William 2026-11-11）：放映時點畫面不換頁，點擊只給按鈕用；換頁用鍵盤左右鍵
 document.addEventListener('click',e=>{if(document.body.classList.contains('present')&&!e.target.closest('button,a,video,audio,input,select,iframe,#presentTog,.top,.app > header'))e.stopPropagation()},true)
 }
