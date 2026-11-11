@@ -56,7 +56,7 @@ TK.orbGo=(root,k)=>{const cb=root.querySelector('.rc');if(!cb)return;const n=6;k
  dt.style.setProperty('--fc',it.color);dt.classList.add('sw');root.querySelectorAll('.pg i').forEach((e,i)=>e.classList.toggle('on',i===k))}
 TK.orbPick=(el,k)=>{const root=el.closest('.t4');root.querySelector('.rc').dataset.manual=1;TK.orbGo(root,k)}
 TK.orbNext=el=>{const root=el.closest('.t4'),cb=root.querySelector('.rc');cb.dataset.manual=1;TK.orbGo(root,(+cb.dataset.k||0)+1)}
-if(!TK._orbLoop&&!/static|preview/.test(location.search))TK._orbLoop=setInterval(()=>{document.querySelectorAll('.t4 .rc').forEach(cb=>{if(!cb.dataset.manual)TK.orbGo(cb.closest('.t4'),(+cb.dataset.k||0)+1)})},3400)
+if(false)TK._orbLoop=setInterval(()=>{document.querySelectorAll('.t4 .rc').forEach(cb=>{if(!cb.dataset.manual)TK.orbGo(cb.closest('.t4'),(+cb.dataset.k||0)+1)})},3400)
 M.add('company','talk-orbit',{...opt,name:'演講・循環方塊',range:[6,6],html:c=>{const COL=['#efe7d6','#C98A2B','#2a8f80','#5B6B7A','#B3372B','#2f5d8a'],Z=150,CX=560,CY=450,RR=330
  const F=['rotateY(0deg)','rotateY(90deg)','rotateY(180deg)','rotateY(270deg)','rotateX(90deg)','rotateX(-90deg)']
  const items=c.items.map((it,i)=>({t:T(it.t),who:T(it.who||''),body:T(it.body||''),img:K.photo(it.img)||it.img||'',color:COL[i]}))
