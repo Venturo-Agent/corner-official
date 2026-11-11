@@ -449,7 +449,7 @@
       if (p.id === 'history') { const h = CO.history || []; if (!h.length || h.some((x) => !x.year)) return; rows = h.map((x) => ({ title: [x.year, x.title].join('　'), body: x.body })); }
       if (p.id === 'services') rows = CO.serviceItems || [];
       if (p.id === 'team') { if (!(CO.people || []).length) return; rows = CO.people.map((x) => ({ title: [x.name, x.role].filter(Boolean).join('　'), body: [].concat(x.bio || []).join('　'), photo: x.photo })); }
-      if (p.id === 'offices') rows = (CO.offices || []).map((x) => ({ title: x.name, body: [x.address, x.phone].filter(Boolean).join('\n') }));
+      if (p.id === 'offices') rows = (CO.offices || []).map((x) => ({ title: x.name }));
       if (p.id === 'info') rows = [['統一編號', CO.taxId], ['旅行業執照', CO.license], ['品保協會', CO.assoc]].filter((x) => x[1]).map(([title, body]) => ({ title, body }));
       if (p.id === 'portfolio') rows = (CO.portfolio || []).filter((x) => x.title).map((x) => ({ title: x.title, body: [x.country, x.month && x.month.replace('-', '.')].filter(Boolean).join('　') }));
       rows = rows.filter((x) => x.title || x.body); if (!rows.length) return;
@@ -463,7 +463,7 @@
     const p = CPAGES[i]; if (!p) return introHide(); cpI = i;
     CP.dataset.page = p.id;
     CP.querySelector('.intro-head').innerHTML = `<p class="intro-en">${esc(p.en)}</p><h2>${esc(p.title)}</h2><p class="intro-focus">${esc(p.focus)}</p>`;
-    CP.querySelector('.intro-details').innerHTML = p.rows.map((x) => `<article>${x.photo ? `<img src="${esc(x.photo)}" alt="${esc(x.title)}">` : ''}${x.title ? `<h3>${esc(x.title)}</h3>` : ''}${x.body ? `<p>${esc(x.body)}</p>` : ''}</article>`).join('');
+    CP.querySelector('.intro-details').innerHTML = p.rows.map((x) => `<article>${x.photo ? `<img src="${esc(x.photo)}" alt="${esc(x.title)}">` : ''}${x.title ? `<h3>${esc(x.title)}</h3>` : ''}${x.body ? `<p>${p.id === 'philosophy' ? String(x.body).split(/(?<=，)/).map((s) => `<span class="intro-phrase">${esc(s)}</span>`).join('') : esc(x.body)}</p>` : ''}</article>`).join('');
     CP.querySelector('footer').textContent = `${CO.name || ''}　·　${i + 1} / ${CPAGES.length}${p.parts > 1 ? `　執行實績 ${p.part + 1} / ${p.parts}` : ''}`;
     CP.classList.add('on'); body.classList.add('intro-visible');
     if (move && J_() && J_().step !== idx(p.scene)) goto(idx(p.scene));

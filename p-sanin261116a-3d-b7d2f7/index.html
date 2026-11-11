@@ -906,41 +906,70 @@
     body.hud-landscape #hq .offices span { font-size:var(--t-read); margin:.35em 0 .2em; }
     body.hud-landscape #hq .next { margin-top:8px; }
   }
-  /* 正式公司介紹：八種資料頁；保留四個 3D 幕作為背景。 */
+  /* 紙底獨立於卡片：上下滿版，只有右緣漸淡，卡片安全留白不再截斷底色。 */
+  @media (orientation:landscape) {
+    body.hud::before { content:""; position:fixed; inset:0 auto 0 0; z-index:2; width:52vw; pointer-events:none; opacity:0;
+      background:linear-gradient(90deg, var(--paper) 0%, color-mix(in srgb,var(--paper) 94%,transparent) 45%, color-mix(in srgb,var(--paper) 68%,transparent) 68%, transparent 100%); }
+    body.hud:is([data-mode=flight], [data-mode=chapter], [data-mode=panel], [data-mode=close])::before { opacity:1; }
+    body.hud[data-mode] :is(.scene.left, #hud-day) { background:none; box-shadow:none; border-radius:0; }
+    body.hud.intro-visible::before { opacity:0; }
+  }
+  @media (orientation:landscape) and (max-height:600px) {
+    body.hud::before { width:66vw; }
+  }
+
+  /* 正式公司介紹：大標與重點在左上，細項往下讀；右側露出 3D。 */
   body.hud #brand, body.hud #why, body.hud #promise, body.hud #hq { display:none !important; }
-  #hud-intro { display:none; position:fixed; z-index:9; inset:0; padding:clamp(108px,15vh,150px) 6vw clamp(96px,12vh,130px); grid-template-columns:30% 1fr; align-content:center; gap:4vw;
-    color:var(--ink); background:linear-gradient(90deg,var(--paper) 0%,rgba(var(--wash),.98) 55%,rgba(var(--wash),.9) 80%,rgba(var(--wash),.25) 100%); }
+  #hud-intro { display:none; position:fixed; z-index:9; inset:0; padding:9vh 6vw 12vh; grid-template-columns:minmax(0,60vw); align-content:center; gap:4vh;
+    color:var(--ink); background:linear-gradient(90deg,var(--paper) 0%,color-mix(in srgb,var(--paper) 94%,transparent) 40%,color-mix(in srgb,var(--paper) 68%,transparent) 60%,transparent 82%); }
   #hud-intro.on { display:grid; }
   #hud-intro .intro-en { font:700 18px/1.4 var(--sans); letter-spacing:.22em; color:var(--red); }
-  #hud-intro h2 { font:600 clamp(48px,4.5vw,76px)/1.3 var(--serif); letter-spacing:.06em; margin:18px 0 28px; }
-  #hud-intro .intro-focus { font:600 clamp(22px,1.8vw,30px)/1.65 var(--serif); text-wrap:balance; max-width:14em; }
+  #hud-intro h2 { font:600 clamp(48px,4.5vw,80px)/1.3 var(--serif); letter-spacing:.06em; margin:12px 0 18px; }
+  #hud-intro .intro-focus { font:600 clamp(26px,2.125vw,38px)/1.6 var(--serif); text-wrap:balance; max-width:24em; }
   #hud-intro .intro-details { align-self:center; display:grid; gap:26px 32px; max-height:100%; min-height:0; }
   #hud-intro article { min-width:0; }
-  #hud-intro article h3 { font:600 24px/1.45 var(--serif); margin-bottom:8px; }
+  #hud-intro article h3 { font:600 28px/1.45 var(--serif); margin-bottom:8px; }
   #hud-intro article p { font:400 20px/1.75 var(--sans); white-space:pre-line; overflow-wrap:anywhere; }
+  #hud-intro .intro-phrase { display:inline-block; max-width:100%; text-wrap:pretty; }
   #hud-intro article img { width:72px; height:72px; object-fit:cover; float:left; margin-right:16px; }
   #hud-intro footer { position:absolute; left:6vw; bottom:7vh; font:500 18px/1.5 var(--sans); color:#605448; }
-  #hud-intro[data-page=origin] { background:var(--paper); grid-template-columns:40% 1fr; }
-  #hud-intro[data-page=origin] .intro-details p, #hud-intro[data-page=philosophy] .intro-details p { font:400 clamp(26px,2.25vw,38px)/1.9 var(--serif); max-width:20em; }
+  #hud-intro[data-page=origin] .intro-details p, #hud-intro[data-page=philosophy] .intro-details p { font:400 clamp(26px,2vw,36px)/1.8 var(--serif); max-width:22em; text-wrap:balance; }
   #hud-intro[data-page=services] .intro-details, #hud-intro[data-page=offices] .intro-details, #hud-intro[data-page=team] .intro-details { grid-template-columns:repeat(2,minmax(0,1fr)); }
-  #hud-intro[data-page=offices] article { padding-top:18px; border-top:1px solid #bdae96; }
+  #hud-intro[data-page=services] .intro-details { gap:28px 40px; }
+  #hud-intro[data-page=offices] { grid-template-columns:minmax(0,44vw); gap:5vh; }
+  #hud-intro[data-page=offices] .intro-focus { display:none; }
+  #hud-intro[data-page=offices] .intro-details { gap:0; }
+  #hud-intro[data-page=offices] article { padding:0 1.8vw; }
+  #hud-intro[data-page=offices] article:first-child { padding-left:0; }
+  #hud-intro[data-page=offices] article + article { border-left:1px solid #bdae96; }
+  #hud-intro[data-page=offices] article h3 { font-size:clamp(26px,2.25vw,40px); white-space:nowrap; margin:0; }
   #hud-intro[data-page=info] article { display:grid; grid-template-columns:9em 1fr; gap:22px; border-bottom:1px solid #c5b79f; padding-bottom:20px; }
-  #hud-intro[data-page=portfolio] { grid-template-columns:22% 1fr; gap:3vw; }
-  #hud-intro[data-page=portfolio] .intro-details { grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px 24px; }
-  #hud-intro[data-page=portfolio] article h3 { font:600 18px/1.5 var(--serif); margin-bottom:2px; }
-  #hud-intro[data-page=portfolio] article p { font-size:18px; line-height:1.5; color:#605448; }
+  #hud-intro[data-page=portfolio] { grid-template-columns:22% 1fr; gap:3vw; background:linear-gradient(90deg,var(--paper) 0%,color-mix(in srgb,var(--paper) 90%,transparent) 45%,color-mix(in srgb,var(--paper) 78%,transparent) 82%,transparent 100%); }
+  #hud-intro[data-page=portfolio] .intro-details { grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px 24px; }
+  #hud-intro[data-page=portfolio] article h3 { font:600 20px/1.5 var(--serif); margin-bottom:2px; }
+  #hud-intro[data-page=portfolio] article p { font-size:20px; line-height:1.5; color:#4a4038; }
   body.intro-visible #labels, body.intro-visible #gallery { visibility:hidden; }
   @media (max-height:600px) and (orientation:landscape) {
-    #hud-intro { padding:66px max(28px,env(safe-area-inset-right)) 66px max(28px,env(safe-area-inset-left)); grid-template-columns:27% 1fr; gap:28px; }
+    #hud-intro { padding:40px max(28px,env(safe-area-inset-right)) 76px max(28px,env(safe-area-inset-left)); grid-template-columns:minmax(0,62vw); gap:16px; }
     #hud-intro .intro-en { font-size:12px; letter-spacing:.15em; }
-    #hud-intro h2 { font-size:34px; margin:10px 0 14px; }
+    #hud-intro h2 { font-size:34px; margin:6px 0 10px; }
     #hud-intro .intro-focus { font-size:18px; line-height:1.6; }
-    #hud-intro .intro-details { gap:14px 20px; }
+    #hud-intro .intro-details { gap:12px 20px; }
     #hud-intro article h3 { font-size:17px; line-height:1.4; margin-bottom:5px; }
     #hud-intro article p { font-size:14px; line-height:1.65; }
     #hud-intro footer { left:max(28px,env(safe-area-inset-left)); bottom:52px; font-size:12px; line-height:1; }
-    #hud-intro[data-page=origin] { grid-template-columns:33% 1fr; }
-    #hud-intro[data-page=origin] .intro-details p, #hud-intro[data-page=philosophy] .intro-details p { font-size:24px; line-height:1.9; }
+    #hud-intro[data-page=origin] .intro-details p, #hud-intro[data-page=philosophy] .intro-details p { font-size:22px; line-height:1.6; }
+    #hud-intro[data-page=services] { grid-template-columns:minmax(0,72vw); gap:14px;
+      background:linear-gradient(90deg,var(--paper) 0%,color-mix(in srgb,var(--paper) 94%,transparent) 40%,color-mix(in srgb,var(--paper) 68%,transparent) 60%,transparent 100%); }
+    #hud-intro[data-page=services] .intro-head { display:grid; grid-template-columns:max-content 1fr; align-items:center; gap:0 20px; }
+    #hud-intro[data-page=services] .intro-en { grid-column:1 / -1; }
+    #hud-intro[data-page=services] h2 { margin:4px 0 0; }
+    #hud-intro[data-page=services] .intro-focus { max-width:12em; line-height:1.4; }
+    #hud-intro[data-page=services] .intro-details { gap:14px 20px; }
+    #hud-intro[data-page=services] article p { line-height:1.5; }
+    #hud-intro[data-page=offices] { grid-template-columns:minmax(0,44vw); gap:24px; }
+    #hud-intro[data-page=offices] article h3 { font-size:22px; }
+    #hud-intro[data-page=info] { grid-template-columns:minmax(0,62vw); gap:16px; }
     #hud-intro[data-page=info] article { grid-template-columns:7em 1fr; gap:16px; padding-bottom:10px; }
     #hud-intro[data-page=portfolio] { grid-template-columns:25% 1fr; gap:24px; }
     #hud-intro[data-page=portfolio] .intro-details { grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 20px; }
