@@ -65,11 +65,15 @@ M.add('company','talk-steps',{...opt,name:'演講・三步驟',range:[2,3],html:
 M.add('end','talk-end',{name:'演講・結尾',html:c=>{const img=c.p.img||c.meta.hero
  return `${css}<style>.t3 .kb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:t3kb 16s ease-out both}@keyframes t3kb{from{transform:scale(1.12)}}</style>
  <section class="t3" style="background:#111;color:#fff"><img class="kb hero" src="${E(img)}" alt="">
- <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,16,14,.9) 0,rgba(10,16,14,.5) 55%,rgba(10,16,14,.15) 100%)"></div>
- <div style="position:absolute;left:120px;right:120px;bottom:210px"><div class="a" style="font:900 150px/1.2 var(--serif);--t:.4">${c.ed('k',c.p.title||'')}</div>
+ <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,16,14,.92) 0,rgba(10,16,14,.74) 55%,rgba(10,16,14,.45) 100%)"></div>
+ ${(()=>{const it=c.p.items||[];if(!it.length)return `<div style="position:absolute;left:120px;right:120px;bottom:210px"><div class="a" style="font:900 150px/1.2 var(--serif);--t:.4">${c.ed('k',c.p.title||'')}</div>
  <div class="a" style="width:120px;height:6px;background:#C98A2B;margin:34px 0;--t:1"></div>
- <div class="a" style="font:700 64px/1.45 var(--serif);--t:1.3">${c.ed('b',c.p.body||'')}</div></div>
- <div class="a" style="position:absolute;left:120px;bottom:80px;font:700 40px/1 var(--serif);letter-spacing:.12em;--t:2">${E(c.p.brand||c.meta.agency||'')}</div></section>`}})
+ <div class="a" style="font:700 64px/1.45 var(--serif);--t:1.3">${c.ed('b',c.p.body||'')}</div></div>`
+ return `<div style="position:absolute;left:120px;right:120px;top:90px"><div class="a" style="font:900 150px/1.2 var(--serif);--t:.4">${c.ed('k',c.p.title||'')}</div>
+ <div class="a" style="font:700 40px/1.5 var(--serif);margin-top:18px;--t:1">${c.ed('b',c.p.body||'')}</div></div>
+ <div style="position:absolute;left:120px;right:120px;top:470px"><div class="a" style="font:700 40px/1 var(--serif);color:#E0A94A;letter-spacing:.14em;--t:1.6">${E(c.p.lead||'')}</div>
+ <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:44px;margin-top:34px">${it.map((x,i)=>`<div class="a" style="--t:${2.1+i*.5};border-top:6px solid #C98A2B;padding-top:26px"><div style="font:900 64px/1.2 var(--serif)">${E(x.t)}</div><div style="font:500 40px/1.5 var(--serif);margin-top:16px;opacity:.92">${E(x.body)}</div></div>`).join('')}</div></div>`})()}
+ <div class="a" style="position:absolute;left:120px;bottom:80px;font:700 40px/1 var(--serif);letter-spacing:.12em;--t:3.6">${E(c.p.brand||c.meta.agency||'')}</div></section>`}})
 
 // ── 對照：一般說的用 AI vs 我們做的
 M.add('company','talk-vs',{...opt,name:'演講・對照',range:[2,2],html:c=>{const col=(it,i)=>`<article class="a" style="--t:${.4+i*1.6};background:${i?'#f7f3ea':'#e7e3d8'};border-top:10px solid ${i?'#1F6F63':'#8a8577'};box-shadow:0 22px 60px rgba(0,0,0,.25);padding:48px 50px 50px;min-height:700px">

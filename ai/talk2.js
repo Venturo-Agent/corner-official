@@ -78,12 +78,13 @@ M.add('company','talk-lacks',{...opt,name:'演講・三缺口',range:[2,3],html:
 
 // ── 內嵌：先放畫面，按一下才載入正式頁（需要網路）
 window.TK=window.TK||{}
-TK.embed=b=>{const box=b.closest('.emb');box.innerHTML=`<iframe src="${b.dataset.src}" allow="autoplay; fullscreen" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:#f4eee2"></iframe>`}
+// 翻到這頁自己載入（不另外放按鈕，直接按內嵌頁自己的按鈕）；離開這頁就卸掉
+if(!TK._embWatch)TK._embWatch=setInterval(()=>document.querySelectorAll('.emb[data-src]').forEach(box=>{const r=box.getBoundingClientRect(),on=r.width>700&&r.right>0&&r.left<innerWidth&&(!box.checkVisibility||box.checkVisibility({checkOpacity:true,checkVisibilityCSS:true})),f=box.querySelector('iframe')
+ if(on&&!f){const n=document.createElement('iframe');n.src=box.dataset.src;n.allow='autoplay; fullscreen';n.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;background:#f4eee2';box.appendChild(n)}else if(!on&&f)f.remove()}),300)
 M.add('company','talk-embed',{...opt,name:'演講・內嵌頁面',range:[0,1],html:c=>`${css}<section class="t2">${deco(660,false)}${headD(c,60)}
- <div class="emb card a" style="position:absolute;left:120px;top:190px;width:1680px;height:800px;--t:.3;overflow:hidden">
+ <div class="emb card a" data-src="${E(c.p.url||'')}" style="position:absolute;left:120px;top:190px;width:1680px;height:800px;--t:.3;overflow:hidden">
  ${K.photo(c.p.img)?`<img class="hero" src="${E(K.photo(c.p.img))}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">`:''}
- <div style="position:absolute;left:0;right:0;bottom:0;padding:30px 40px;display:flex;align-items:center;gap:30px;background:linear-gradient(0deg,rgba(255,255,255,.94),rgba(255,255,255,0))">
- <button class="pri" data-src="${E(c.p.url||'')}" onclick="TK.embed(this)">${E(c.p.cta||'開始')}</button><div style="font-size:26px;color:var(--mute)">${E(c.p.url||'')}</div></div></div>
+</div>
  <div class="src" style="bottom:30px">${E(T(c.p.sub||''))}</div></section>`})
 
 // ── 可翻頁手冊：對頁、翻頁動畫、旁白逐頁播完自動翻
