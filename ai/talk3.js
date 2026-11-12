@@ -122,6 +122,3 @@ if(!TK._warm){TK._warm=1;setTimeout(()=>{try{const seen=new Set(),q=[];let emb='
  const next=()=>{const u=q[i++];if(!u){if(--live<=0)warm();return}if(/mp3$/.test(u))fetch(u).then(r=>r.blob()).then(next,next);else{const im=new Image();im.onload=im.onerror=next;im.src=u}}
  for(let k=0;k<3;k++){live++;next()}}catch(e){}},2000)}
 
-// 進場動畫整體加快（William 2026-11-12：每頁等太久）；延遲也一起縮，順序不變。示範動畫（入境卡、對帳）只加快一半
-if(!TK._fast){TK._fast=new WeakSet();setInterval(()=>{if(!document.getAnimations)return;document.getAnimations().forEach(a=>{if(TK._fast.has(a))return;TK._fast.add(a);const el=a.effect&&a.effect.target,tm=a.effect&&a.effect.getTiming&&a.effect.getTiming();if(!el||!tm||!el.closest||!el.closest('section.t2,section.t3,section.t4,section.tk'))return
- if(tm.iterations===Infinity||+tm.duration>3000||el.closest('.rk,.bk'))return;a.playbackRate=el.closest('.bd,.fl')?2:el.closest('section.t4')?5:3.5})},60)}
