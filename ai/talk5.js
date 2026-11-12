@@ -23,21 +23,22 @@ const turn=(st,mv,dur)=>new Promise(res=>{const [axis,layer,dir]=mv,ai='xyz'.ind
  const bake=()=>{group.forEach(c=>{c.m=snap(R.multiply(c.m));c.el.style.transform=c.m.toString();st.root.appendChild(c.el)});pv.style.transition='none';pv.style.transform='none';res()}
  if(!dur){group.forEach(c=>{c.m=snap(R.multiply(c.m));c.el.style.transform=c.m.toString()});res();return}
  group.forEach(c=>pv.appendChild(c.el));void pv.offsetWidth
- pv.style.transition=`transform ${dur}ms cubic-bezier(.45,0,.3,1)`;pv.style.transform=`rotate3d(${AX[axis].join(',')},${90*dir}deg)`;setTimeout(bake,dur+30)})
+ pv.style.transition=`transform ${dur}ms cubic-bezier(.45,0,.3,1)`;pv.style.transform=`rotate3d(${AX[axis].join(',')},${90*dir}deg)`;setTimeout(bake,dur+15)})
 const scramble=n=>{const out=[];let last='';while(out.length<n){const axis='xyz'[Math.floor(Math.random()*3)],layer=Math.random()<.5?-1:1;if(axis+layer===last)continue;last=axis+layer;out.push([axis,layer,Math.random()<.5?1:-1])}return out}
 const show=(root,k,intro)=>{const D=JSON.parse(root.querySelector('.orb').dataset.items),dt=root.querySelector('.dt');dt.classList.remove('sw');void dt.offsetWidth
  root.querySelectorAll('.nd').forEach((e,i)=>e.classList.toggle('on',i===k));root.querySelectorAll('.sp').forEach((e,i)=>e.classList.toggle('on',i===k));root.querySelectorAll('.pg i').forEach((e,i)=>e.classList.toggle('on',i===k))
  const it=k<0?intro:D[k];dt.querySelector('.d-no').textContent=k<0?'00 / 06':'0'+(k+1)+' / 06';dt.querySelector('.d-job').textContent=it.t;dt.querySelector('.d-who').textContent=it.who;dt.querySelector('.d-lab').textContent=k<0?'':'負責';dt.querySelector('.d-desc').textContent=it.body
  dt.style.setProperty('--fc',k<0?GOLD:COL[k]);dt.classList.add('sw')}
 TK.rkInit=rk=>{if(ST.has(rk))return;const st={root:rk.querySelector('.rroot'),pivot:rk.querySelector('.rpivot'),rc:rk.querySelector('.rc'),k:-1,busy:false};st.cubies=build(rk)
- st.mix=scramble(12);st.mix.forEach(mv=>turn(st,mv,0));ST.set(rk,st)}
+ st.mix=scramble(6);st.mix.forEach(mv=>turn(st,mv,0));ST.set(rk,st)}
 // 一步：（已復原就先打亂）→ 逐層復原，同時整顆轉向下一個顏色
 TK.rkGo=async(el,target)=>{const root=el.closest('.t4'),rk=root.querySelector('.rk');TK.rkInit(rk);const st=ST.get(rk);if(st.busy)return;st.busy=true;rk.classList.add('busy')
  const k=target==null?(st.k+1)%6:target
- if(!st.mix){st.mix=scramble(10);for(const mv of st.mix)await turn(st,mv,130)}
+ show(root,k)
+ if(!st.mix){st.mix=scramble(6);for(const mv of st.mix)await turn(st,mv,70)}
  st.rc.style.transform=view(k)
- for(const [a,l,d] of st.mix.slice().reverse())await turn(st,[a,l,-d],170)
- st.mix=null;st.k=k;show(root,k);rk.classList.remove('busy');rk.classList.add('done');setTimeout(()=>rk.classList.remove('done'),900);st.busy=false}
+ for(const [a,l,d] of st.mix.slice().reverse())await turn(st,[a,l,-d],110)
+ st.mix=null;st.k=k;rk.classList.remove('busy');rk.classList.add('done');setTimeout(()=>rk.classList.remove('done'),900);st.busy=false}
 if(!TK._rkWatch)TK._rkWatch=setInterval(()=>document.querySelectorAll('.t4 .rk').forEach(rk=>{if(!ST.has(rk))TK.rkInit(rk)}),200)
 // 鍵盤：在這一頁按 Enter 或空白鍵＝下一步（左右鍵仍是換頁）
 if(!TK._rkKey){TK._rkKey=1;addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const rk=[...document.querySelectorAll('.t4 .rk')].find(x=>x.getClientRects().length);if(!rk||e.target.closest('input,textarea,[contenteditable=true]'))return;e.preventDefault();e.stopPropagation();TK.rkGo(rk)},true)}
@@ -54,7 +55,7 @@ M.add('company','talk-rubik',{...opt,name:'演講・魔術方塊',range:[6,6],ht
  .t4 .sp{opacity:0;transition:opacity .5s}.t4 .sp.on{opacity:1}
  .t4 .rk{position:absolute;left:${CX-S*1.5}px;top:${CY-S*1.5}px;width:${S*3}px;height:${S*3}px;perspective:1700px;cursor:pointer;display:block}
  .t4 .rk.done{animation:t5pop .8s cubic-bezier(.2,1.6,.3,1)}@keyframes t5pop{40%{transform:scale(1.1)}}
- .t4 .rc{position:absolute;inset:0;transform-style:preserve-3d;transition:transform 1.9s cubic-bezier(.5,0,.2,1)}
+ .t4 .rc{position:absolute;inset:0;transform-style:preserve-3d;transition:transform 1.2s cubic-bezier(.5,0,.2,1)}
  .t4 .rroot,.t4 .rpivot{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d}
  .t4 .cu{position:absolute;left:${-S/2}px;top:${-S/2}px;width:${S}px;height:${S}px;transform-style:preserve-3d}
  .t4 .cu i{position:absolute;inset:0;background:#0b1512;border-radius:6px;backface-visibility:hidden}
