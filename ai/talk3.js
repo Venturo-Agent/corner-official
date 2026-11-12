@@ -122,3 +122,10 @@ if(!TK._warm){TK._warm=1;setTimeout(()=>{try{const seen=new Set(),q=[];let emb='
  const next=()=>{const u=q[i++];if(!u){if(--live<=0)warm();return}if(/mp3$/.test(u))fetch(u).then(r=>r.blob()).then(next,next);else{const im=new Image();im.onload=im.onerror=next;im.src=u}}
  for(let k=0;k<3;k++){live++;next()}}catch(e){}},2000)}
 
+
+// ── 開場影片：整頁播放；點畫面或按 Enter／空白鍵播放與暫停，播完自動到下一頁
+TK.vid=el=>{const v=el.closest('.tv').querySelector('video');if(v.paused)v.play();else v.pause()}
+if(!TK._vidKey){TK._vidKey=1;addEventListener('keydown',e=>{const tv=document.querySelector('.tv');if(tv&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopPropagation();TK.vid(tv.firstElementChild)}},true)}
+M.add('company','talk-video',{name:'演講・開場影片',range:[0,0],html:c=>{const E=M.util.esc,K=M.company;return `<style>.tv{position:absolute;inset:0;background:#000;overflow:hidden}.tv video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}.tv button{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;cursor:pointer;display:grid;place-items:center}.tv.on button svg{opacity:0}.tv button svg{transition:opacity .3s}</style>
+ <section class="tv"><video src="${E(c.p.video||'')}" ${K.photo(c.p.img)?`poster="${E(K.photo(c.p.img))}"`:''} preload="auto" playsinline tabindex="-1" onplay="this.parentNode.classList.add('on')" onpause="this.parentNode.classList.remove('on')" onended="M.presentation.step(1)"></video>
+ <button onclick="TK.vid(this)" aria-label="播放"><svg width="220" height="220" viewBox="0 0 220 220"><circle cx="110" cy="110" r="104" fill="rgba(0,0,0,.45)" stroke="#fff" stroke-width="6"/><path d="M88 66 L164 110 L88 154 Z" fill="#fff"/></svg></button></section>`}})
