@@ -114,3 +114,10 @@ if(!TK._cubeLoop&&!/static|preview/.test(location.search))TK._cubeLoop=setInterv
 // 只針對這份簡報（William 2026-11-11）：放映時點畫面不換頁，點擊只給按鈕用；換頁用鍵盤左右鍵
 document.addEventListener('click',e=>{if(document.body.classList.contains('present')&&!e.target.closest('button,a,video,audio,input,select,iframe,#presentTog,.top,.app > header'))e.stopPropagation()},true)
 }
+
+// 進站後在背景把所有照片、旁白先抓好，之後每頁一翻就有；最後把紙雕旅程暖一次（抓進快取）
+if(!TK._warm){TK._warm=1;setTimeout(()=>{try{const seen=new Set(),q=[];let emb='';JSON.stringify(window.DATA,(k,v)=>{if(typeof v==='string'){if(/^(img|audio)\/[^\s"]+\.(jpe?g|png|webp|mp3)$/.test(v)&&!seen.has(v)){seen.add(v);q.push(v)}if(k==='url'&&/^https:/.test(v))emb=v}return v})
+ Object.values(M.paperInkGrays||{}).forEach(v=>{if(!seen.has(v)){seen.add(v);q.push(v)}})
+ let i=0,live=0;const warm=()=>{if(!emb||TK._warmed)return;TK._warmed=1;const f=document.createElement('iframe');f.src=emb;f.setAttribute('aria-hidden','true');f.tabIndex=-1;f.style.cssText='position:fixed;left:-3000px;top:0;width:1280px;height:720px;border:0;visibility:hidden;pointer-events:none';document.body.appendChild(f);setTimeout(()=>f.remove(),60000)}
+ const next=()=>{const u=q[i++];if(!u){if(--live<=0)warm();return}if(/mp3$/.test(u))fetch(u).then(r=>r.blob()).then(next,next);else{const im=new Image();im.onload=im.onerror=next;im.src=u}}
+ for(let k=0;k<3;k++){live++;next()}}catch(e){}},2000)}
