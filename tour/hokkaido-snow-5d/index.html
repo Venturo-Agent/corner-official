@@ -1,172 +1,174 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="robots" content="noindex, nofollow" />
-<title>北海道賞雪五日 — 角落旅行社</title>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>北海道 5 天 4 夜 — 角落旅行社</title>
 <style>
-:root{--corner:#FFA500;--cornerDark:#E68A00;--ink:#262626;--soft:#565656;--cream:#FAF7F2}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{font-family:'Noto Sans TC','PingFang TC','Microsoft JhengHei',system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.8}
-.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
-header.top{position:absolute;top:0;left:0;right:0;z-index:5}
-header.top .wrap{height:72px;display:flex;align-items:center;justify-content:space-between}
-header.top a{color:#fff;text-decoration:none;font-weight:600;letter-spacing:.14em;font-size:18px}
-.hero{position:relative;min-height:520px;color:#fff;display:flex;align-items:center;
- background:radial-gradient(circle at 78% 18%,rgba(255,255,255,.22),transparent 38%),linear-gradient(160deg,#27384d 0%,#3f5671 55%,#6f8aa6 100%);overflow:hidden}
-.hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(#fff 1.4px,transparent 1.6px),radial-gradient(#fff 1px,transparent 1.2px);background-size:90px 90px,53px 53px;background-position:0 0,25px 40px;opacity:.28}
-.hero .wrap{width:100%;position:relative;z-index:2;padding-top:96px;padding-bottom:70px}
-.eyebrow{display:flex;align-items:center;gap:14px;font-size:12px;letter-spacing:.3em;margin-bottom:22px;color:rgba(255,255,255,.9)}
-.bar{display:inline-block;width:48px;height:2px;background:var(--corner)}
-.pre{font-weight:300;letter-spacing:.3em;font-size:18px;margin-bottom:6px}
-h1{font-size:clamp(40px,8vw,84px);line-height:1.05;font-weight:700;letter-spacing:.02em}
-.lead{margin-top:22px;max-width:620px;font-size:17px;font-weight:300;color:rgba(255,255,255,.92)}
-.btn{display:inline-block;margin-top:30px;background:var(--corner);color:#fff;border-radius:6px;padding:13px 28px;font-weight:600;letter-spacing:.08em;text-decoration:none}
-.btn:hover{background:var(--cornerDark)}
-.stats{position:relative;z-index:3;margin-top:-42px}
-.stats .box{background:#fff;border-radius:14px;box-shadow:0 18px 50px -16px rgba(38,38,38,.3);padding:24px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.stat b{display:block;font-size:30px;line-height:1.1;font-family:'IBM Plex Mono',ui-monospace,monospace}
-.stat b i{font-style:normal;color:var(--corner);font-size:20px}
-.stat span{font-size:12px;letter-spacing:.2em;color:var(--soft)}
-section{padding:72px 0 8px}
-.sec-h{margin-bottom:34px}
-.sec-h .k{display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.3em;color:var(--corner);margin-bottom:12px}
-.sec-h h2{font-size:clamp(26px,4.2vw,40px);line-height:1.25}
-.sec-h p{margin-top:12px;color:var(--soft);font-weight:300;max-width:600px}
-.route{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:15px}
-.route .n{background:var(--cream);border:1px solid rgba(0,0,0,.07);border-radius:999px;padding:6px 16px}
-.route .n b{color:var(--cornerDark)}
-.route .ar{color:var(--corner)}
-.day{display:grid;grid-template-columns:76px 1fr;gap:22px;margin-bottom:26px}
-.bubble{width:56px;height:56px;border:1.6px solid var(--corner);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--corner);font-weight:700;line-height:1.1}
-.bubble small{font-size:10px;letter-spacing:.15em}
-.card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;box-shadow:0 8px 28px -10px rgba(38,38,38,.18);padding:26px 28px}
-.card h3{font-size:22px;line-height:1.4;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.tag{display:inline-block;font-size:11px;letter-spacing:.16em;padding:3px 11px;border-radius:999px;background:#FFF4E0;color:#B26A00;font-weight:500}
-.tag.hot{background:var(--corner);color:#fff}
-.tag.pend{background:#fff;color:#6B6560;border:1px solid rgba(0,0,0,.18)}
-ul.dots{list-style:none;margin-top:14px}
-ul.dots li{display:flex;gap:12px;margin-top:9px;color:var(--soft);font-weight:300;font-size:15.5px}
-ul.dots li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--corner);flex:none;margin-top:12px}
-ul.dots li strong{color:var(--ink);font-weight:500}
-.stay{margin-top:16px;padding-top:14px;border-top:1px dashed rgba(0,0,0,.12);font-size:14.5px;color:var(--ink)}
-.stay em{font-style:normal;color:var(--cornerDark);font-weight:600;margin-right:8px}
-.care{background:var(--cream);margin-top:56px;padding:64px 0 60px}
-.care .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-.care .it{background:#fff;border-radius:14px;padding:20px 22px;border:1px solid rgba(0,0,0,.05)}
-.care .it b{display:block;margin-bottom:4px;color:var(--cornerDark)}
-.care .it span{font-size:14.5px;color:var(--soft);font-weight:300}
-.note{margin-top:22px;font-size:13px;color:var(--soft);font-weight:300;max-width:760px}
-footer{background:var(--ink);color:#fff;padding:54px 0 44px}
-footer h4{font-size:22px;margin-bottom:6px}
-footer p{color:rgba(255,255,255,.75);font-weight:300;font-size:15px}
-footer .ct{margin-top:18px;display:flex;gap:28px;flex-wrap:wrap;font-size:15px}
-footer .ct b{color:var(--corner);margin-right:8px;font-weight:500}
-@media(max-width:720px){.stats .box{grid-template-columns:repeat(2,1fr)}.day{grid-template-columns:1fr}.bubble{flex-direction:row;gap:6px;width:auto;height:auto;border-radius:999px;padding:4px 16px;justify-self:start}.care .grid{grid-template-columns:1fr}.card{padding:22px 20px}.hero{min-height:480px}}
+:root{--ink:#262626;--mute:#6b6560;--line:#f0e6d6;--bg:#fff;--card:#fff;--snow:#fff4e0;--accent:#e68a00;--warm:#ffa500;--warn:#a8452f}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Josefin Sans","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.7}
+header{background:#262626;color:#fff;padding:64px 20px 48px;text-align:center;border-bottom:4px solid #ffa500}
+header small{letter-spacing:.2em;opacity:.85}
+header h1{margin:.3em 0 .2em;font-size:clamp(28px,6vw,44px);font-weight:700}
+header p{margin:0;opacity:.92}
+nav{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);display:flex;gap:4px;overflow-x:auto;padding:8px 12px;justify-content:center}
+nav a{color:var(--ink);text-decoration:none;font-size:14px;padding:6px 12px;border-radius:999px;white-space:nowrap}
+nav a:hover{background:var(--snow)}
+main{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+section{margin-top:36px;scroll-margin-top:56px}
+h2{font-size:22px;margin:0 0 14px;padding-left:12px;border-left:4px solid #ffa500}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.flight{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.flight b{font-size:24px}.flight .mid{color:var(--mute);font-size:13px;text-align:center;flex:1}
+.tag{display:inline-block;font-size:12px;padding:1px 10px;border-radius:999px;background:var(--snow);color:#b26a00;margin-right:6px}
+.tag.warn{background:#f8e6e0;color:var(--warn)}
+.contact{margin-top:8px;font-size:15px}
+.day-head{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;margin-bottom:6px}
+.day-head .n{font-size:13px;color:#fff;background:#ffa500;border-radius:8px;padding:2px 10px}
+.day-head h3{margin:0;font-size:19px}
+.day-head .d{color:var(--mute);font-size:14px}
+ol.tl{list-style:none;margin:12px 0 4px;padding:0;border-left:2px solid var(--line)}
+ol.tl li{position:relative;padding:0 0 12px 18px}
+ol.tl li:before{content:"";position:absolute;left:-6px;top:9px;width:10px;height:10px;border-radius:50%;background:#ffa500}
+ol.tl .t{font-weight:700;color:var(--accent);margin-right:8px;font-variant-numeric:tabular-nums}
+.note{font-size:14px;color:var(--mute);margin:2px 0 0}
+.warn-txt{color:var(--warn)}
+.stay{background:var(--snow);border-radius:10px;padding:8px 14px;font-size:14px;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-weight:500;font-size:13px}
+ul.l{margin:6px 0;padding-left:20px}
+footer{text-align:center;color:var(--mute);font-size:13px;padding:28px 16px 48px}
+@media print{nav{display:none}header{padding:24px}body{background:#fff}.card{break-inside:avoid;box-shadow:none}}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap"><a href="#">角落旅行社</a></div></header>
+<header>
+<small>CORNER TRAVEL · HOKKAIDO</small>
+<h1>北海道 5 天 4 夜</h1>
+<p>2026 年 12 月 26 日（六）– 12 月 30 日（三）｜洞爺湖 → 小樽 → 札幌</p>
+</header>
+<nav>
+<a href="#overview">總覽</a><a href="#flight">航班</a><a href="#hotel">住宿</a>
+<a href="#d1">D1</a><a href="#d2">D2</a><a href="#d3">D3</a><a href="#d4">D4</a><a href="#d5">D5</a><a href="#tips">注意事項</a>
+</nav>
+<main>
 
-<div class="hero"><div class="wrap">
-  <div class="eyebrow"><span class="bar"></span>角落旅行社 — 12 月中出發・五天四夜・三代同行</div>
-  <p class="pre">HOKKAIDO · SNOW</p>
-  <h1>北海道賞雪五日</h1>
-  <p class="lead">洞爺湖泡溫泉、有珠山纜車賞雪、小樽運河夜景、札幌聖誕氣氛。全程包車、每天只排一個重點，爺爺奶奶也走得輕鬆。</p>
-  <a href="#days" class="btn">看逐日行程 →</a>
-</div></div>
+<section id="overview">
+<h2>行程總覽</h2>
+<div class="card">
+<table>
+<tr><th>日期</th><th>主題</th><th>住宿</th></tr>
+<tr><td>D1 12/26（六）</td><td>抵達新千歲，前往洞爺湖</td><td>洞爺湖 WE HOTEL TOYA</td></tr>
+<tr><td>D2 12/27（日）</td><td>洞爺湖遊覽船、昭和新山</td><td>洞爺湖 WE HOTEL TOYA</td></tr>
+<tr><td>D3 12/28（一）</td><td>洞爺湖直達小樽，傍晚入住札幌</td><td>札幌大通公園美爵飯店</td></tr>
+<tr><td>D4 12/29（二）</td><td>頭大佛、二条市場、北海道神宮、大通公園</td><td>札幌大通公園美爵飯店</td></tr>
+<tr><td>D5 12/30（三）</td><td>送機返台</td><td>—</td></tr>
+</table>
+<p class="note">團員 9 位，年齡 28–78 歲，行程以不趕路為原則，全程包車。</p>
+</div>
+</section>
 
-<div class="stats"><div class="wrap"><div class="box">
-  <div class="stat"><b>5<i>天</i></b><span>4 夜</span></div>
-  <div class="stat"><b>1<i>＋</i>1<i>＋</i>2</b><span>洞爺湖／小樽／札幌</span></div>
-  <div class="stat"><b>4</b><span>天包車</span></div>
-  <div class="stat"><b>1</b><span>天札幌自由日</span></div>
-</div></div></div>
+<section id="flight">
+<h2>航班（星宇航空）</h2>
+<div class="grid">
+<div class="card"><span class="tag">去程 12/26</span> JX850
+<div class="flight"><div><b>09:15</b><br>桃園 TPE</div><div class="mid">✈</div><div style="text-align:right"><b>14:05</b><br>新千歲 CTS</div></div></div>
+<div class="card"><span class="tag">回程 12/30</span> JX851
+<div class="flight"><div><b>15:20</b><br>新千歲 CTS</div><div class="mid">✈</div><div style="text-align:right"><b>19:05</b><br>桃園 TPE</div></div></div>
+</div>
+</section>
 
-<section id="route"><div class="wrap">
-  <div class="sec-h"><div class="k"><span class="bar"></span>ROUTE</div>
-    <h2>新千歲 → 洞爺湖 → 小樽 → 札幌</h2>
-    <p>三個據點，只換兩次房，行李全程在車上。</p></div>
-  <div class="route">
-    <span class="n"><b>1</b> 新千歲機場</span><span class="ar">→</span>
-    <span class="n"><b>2</b> 洞爺湖（1 晚）</span><span class="ar">→</span>
-    <span class="n"><b>3</b> 小樽（1 晚）</span><span class="ar">→</span>
-    <span class="n"><b>4</b> 札幌（2 晚）</span><span class="ar">→</span>
-    <span class="n"><b>5</b> 新千歲機場</span>
-  </div>
+<section id="hotel">
+<h2>住宿</h2>
+<div class="grid">
+<div class="card"><span class="tag">12/26–12/28 · 2 晚</span><h3 style="margin:.4em 0">WE HOTEL TOYA 洞爺湖微飯店</h3>
+<p class="note">北海道虻田郡洞爺湖町洞爺町 293-1<br>電話 +81-142-89-3333</p>
+<ul class="l"><li>3 間房：6 人房、雙人房、單人房</li><li>入住 15:00 後，退房 10:00 前</li><li>房價不含餐，館內餐廳另行確認</li></ul></div>
+<div class="card"><span class="tag">12/28–12/30 · 2 晚</span><h3 style="margin:.4em 0">札幌大通公園美爵飯店</h3>
+<p class="note">札幌市中央區北 1 條西 11 丁目 1<br>電話 +81-11-271-2711</p>
+<ul class="l"><li>4 間房：3 間雙人房、1 間三人房</li><li>12/30 早上退房後直接送機</li><li>房價不含餐</li></ul></div>
+</div>
+</section>
+
+<section id="d1"><div class="card">
+<div class="day-head"><span class="n">D1</span><h3>抵達北海道，入住洞爺湖</h3><span class="d">12/26（六）</span></div>
+<ol class="tl">
+<li><span class="t">09:15</span>桃園起飛（JX850）</li>
+<li><span class="t">14:05</span>抵達新千歲機場，入境、領行李</li>
+<li><span class="t">15:30</span>包車前往洞爺湖<p class="note">約 2 小時，冬季雪路請預留 30 分鐘以上。日落約 16:00，抵達時天色已暗。</p></li>
+<li><span class="t">18:00</span>入住，晚餐與泡溫泉<p class="note warn-txt">飯店房價不含餐，晚餐建議事先預約。</p></li>
+</ol>
+<div class="stay">住宿：洞爺湖 WE HOTEL TOYA</div>
 </div></section>
 
-<section id="days"><div class="wrap">
-  <div class="sec-h"><div class="k"><span class="bar"></span>DAY BY DAY</div>
-    <h2>五天四夜，慢慢賞雪</h2>
-    <p>搭乘長榮或華航直飛新千歲，抵達約為下午，第一天只安排前往飯店與泡湯。</p></div>
-
-  <div class="day"><div class="bubble"><small>DAY</small>1</div><div class="card">
-    <h3>抵達新千歲 → 洞爺湖 <span class="tag hot">包車</span></h3>
-    <ul class="dots">
-      <li><span>新千歲機場接機，直接包車前往洞爺湖，車程約 2 小時</span></li>
-      <li><span>入住<strong>洞爺湖溫泉飯店</strong>，泡湯、享用飯店晚餐</span></li>
-    </ul>
-    <div class="stay"><em>住</em>洞爺湖溫泉飯店 <span class="tag pend">飯店確認中</span></div>
-  </div></div>
-
-  <div class="day"><div class="bubble"><small>DAY</small>2</div><div class="card">
-    <h3>有珠山纜車賞雪 → 小樽 <span class="tag hot">包車</span></h3>
-    <ul class="dots">
-      <li><span>搭<strong>有珠山纜車</strong>俯瞰洞爺湖雪景，營運時間依當日公告</span></li>
-      <li><span>輕鬆的玩雪、摸雪體驗，昭和新山就在纜車站旁，步行一小段即可</span></li>
-      <li><span>午餐後退房，包車前往小樽，車程約 2.5～3 小時</span></li>
-      <li><span>傍晚<strong>小樽運河</strong>散步，欣賞雪中夜景</span></li>
-    </ul>
-    <div class="stay"><em>住</em>小樽 OMO 系列飯店</div>
-  </div></div>
-
-  <div class="day"><div class="bubble"><small>DAY</small>3</div><div class="card">
-    <h3>小樽 → 札幌 <span class="tag hot">包車</span></h3>
-    <ul class="dots">
-      <li><span>上午逛<strong>堺町通、音樂盒堂</strong>，步調放慢</span></li>
-      <li><span>午餐後包車前往札幌，車程約 1 小時</span></li>
-      <li><span>晚上大通公園<strong>聖誕市集與白色燈樹節</strong>（舉辦日期依當年公告）</span></li>
-    </ul>
-    <div class="stay"><em>住</em>札幌市區飯店 <span class="tag pend">暫定</span></div>
-  </div></div>
-
-  <div class="day"><div class="bubble"><small>DAY</small>4</div><div class="card">
-    <h3>札幌自由日 <span class="tag">自由活動</span></h3>
-    <ul class="dots">
-      <li><span>上午<strong>北海道神宮、圓山公園</strong>，雪中散步</span></li>
-      <li><span>午後回飯店休息，之後自由逛街</span></li>
-      <li><span>晚餐推薦湯咖哩或螃蟹料理</span></li>
-    </ul>
-    <div class="stay"><em>住</em>札幌市區飯店 <span class="tag pend">暫定</span></div>
-  </div></div>
-
-  <div class="day"><div class="bubble"><small>DAY</small>5</div><div class="card">
-    <h3>返程 <span class="tag hot">包車</span></h3>
-    <ul class="dots">
-      <li><span>早餐後包車送機，車程約 1 小時</span></li>
-      <li><span>機場採買伴手禮，搭機返台</span></li>
-    </ul>
-  </div></div>
+<section id="d2"><div class="card">
+<div class="day-head"><span class="n">D2</span><h3>洞爺湖一日</h3><span class="d">12/27（日）</span></div>
+<ol class="tl">
+<li><span class="t">10:00</span>洞爺湖遊覽船<p class="note">冬季每小時一班（09:00–16:00），約 45 分鐘繞湖，<b>不靠中島</b>。天候不佳會停航。</p></li>
+<li><span class="t">12:00</span>溫泉街午餐</li>
+<li><span class="t">13:30</span>昭和新山熊牧場，或有珠山纜車（擇一）<p class="note">熊牧場冬季 08:30–16:30；纜車冬季 09:00–16:00，山麓站就在昭和新山廣場旁，單程約 6 分鐘。纜車依天候，當天視情況決定。</p></li>
+<li><span class="t">15:30</span>湖畔雕刻公園散步、足湯</li>
+<li><span class="t">晚上</span>飯店用餐、泡溫泉</li>
+</ol>
+<div class="stay">住宿：洞爺湖 WE HOTEL TOYA</div>
 </div></section>
 
-<div class="care"><div class="wrap">
-  <div class="sec-h"><div class="k"><span class="bar"></span>FOR GRANDPA</div>
-    <h2>三代同行，這樣安排更安心</h2></div>
-  <div class="grid">
-    <div class="it"><b>全程包車</b><span>不轉乘電車，行李不用自己拖。</span></div>
-    <div class="it"><b>一天一個重點</b><span>下午留休息時間，不趕行程。</span></div>
-    <div class="it"><b>雪地防滑</b><span>12 月中地面容易結冰，建議準備防滑鞋套；景點挑選有座位、步行距離短的。</span></div>
-    <div class="it"><b>溫泉住宿</b><span>洞爺湖優先選有大浴場或房內溫泉的房型。</span></div>
-  </div>
-  <p class="note">＊札幌兩晚的飯店目前為暫定，確認後會更新。有珠山纜車冬季營運時間、玩雪體驗內容、聖誕市集日期，均以出發前當年公告為準。</p>
-</div></div>
+<section id="d3"><div class="card">
+<div class="day-head"><span class="n">D3</span><h3>洞爺湖 → 小樽 → 札幌</h3><span class="d">12/28（一）</span></div>
+<ol class="tl">
+<li><span class="t">09:30</span>洞爺湖退房，包車直達小樽<p class="note">車程估計約 2 小時 15 分，冬季請預留更多時間。途中安排休息，團員有長輩。</p></li>
+<li><span class="t">12:30</span>小樽午餐（壽司、海鮮丼）</li>
+<li><span class="t">14:00</span>小樽運河、堺町通散步，北一硝子、音樂盒、甜點</li>
+<li><span class="t">16:30</span>前往札幌，約 40 分鐘</li>
+<li><span class="t">17:30</span>入住札幌大通公園美爵飯店</li>
+<li><span class="t">18:30</span>晚餐：燒肉<p class="note warn-txt">9 人用餐，我們會先為大家訂位。</p></li>
+</ol>
+<div class="stay">住宿：札幌大通公園美爵飯店</div>
+</div></section>
 
-<footer id="contact"><div class="wrap">
-  <h4>角落旅行社</h4>
-  <p>想調整天數、住宿或步調，歡迎直接告訴我們。</p>
-  <div class="ct"><span><b>LINE</b>@476grveu</span><span><b>電話</b>02-7751-6051</span></div>
-</div></footer>
+<section id="d4"><div class="card">
+<div class="day-head"><span class="n">D4</span><h3>札幌市區</h3><span class="d">12/29（二）</span></div>
+<img src="/assets/photos/hokkaido/d7-nijo.jpg" alt="二条市場" loading="lazy" style="width:100%;height:220px;object-fit:cover;border-radius:10px;margin:8px 0">
+<ol class="tl">
+<li><span class="t">09:15</span>出發前往真駒內滝野霊園<p class="note">車程約 40 分鐘。</p></li>
+<li><span class="t">10:00</span>頭大佛殿（安藤忠雄設計，北海道大佛）<p class="note">冬季參拜時間 10:00–15:00。園內水庭冬季結冰，不開放。</p></li>
+<li><span class="t">12:30</span>二条市場午餐<p class="note warn-txt">年末營業時間以現場公告為準。</p></li>
+<li><span class="t">14:30</span>北海道神宮<p class="note">12/30 前開放 07:00–16:00，請在 16:00 前結束。</p></li>
+<li><span class="t">16:30</span>大通公園散步，晚餐自由安排</li>
+</ol>
+<img src="/assets/photos/hokkaido/d7-odori.jpg" alt="大通公園" loading="lazy" style="width:100%;height:220px;object-fit:cover;border-radius:10px;margin:8px 0">
+<p class="note">北海道博物館（野幌森林公園內）在 12/29–1/3 年末年始休館，這次不排入。</p>
+<div class="stay">住宿：札幌大通公園美爵飯店</div>
+</div></section>
+
+<section id="d5"><div class="card">
+<div class="day-head"><span class="n">D5</span><h3>送機返台</h3><span class="d">12/30（三）</span></div>
+<ol class="tl">
+<li><span class="t">早上</span>飯店早餐，退房</li>
+<li><span class="t">10:00</span>包車前往新千歲機場，約 1 小時</li>
+<li><span class="t">13:00</span>辦理報到、機場購物<p class="note">起飛前請提早 2 小時到機場。</p></li>
+<li><span class="t">15:20</span>新千歲起飛（JX851）</li>
+<li><span class="t">19:05</span>抵達桃園</li>
+</ol>
+</div></section>
+
+<section id="tips">
+<h2>注意事項</h2>
+<div class="card">
+<ul class="l">
+<li><span class="tag warn">冬季駕駛</span>12 月雪路，各段車程比平常長；包車一律使用冬胎。</li>
+<li><span class="tag warn">年末休業</span>12/29 起許多店家與設施進入年末休業，上列營業時間以現場公告為準，出發前會再確認。</li>
+<li><span class="tag">保暖</span>洞爺湖、小樽、札幌白天約在 0 度上下，請準備防風外套、手套、防滑鞋。</li>
+<li><span class="tag">花火</span>洞爺湖冬花火在 2 月、長期花火在 4–10 月，這次行程期間沒有花火。</li>
+<li><span class="tag">餐食</span>兩間飯店房價均不含餐，晚餐請提前預約。</li>
+</ul>
+</div>
+</section>
+</main>
+<footer>行程草稿，實際時間依天候與現場狀況調整<div class="contact">角落旅行社 CORNER TRAVEL｜sales@cornertravel.com.tw｜+886 2 7751 6051</div></footer>
 </body>
 </html>
