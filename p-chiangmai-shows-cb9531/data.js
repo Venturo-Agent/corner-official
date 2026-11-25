@@ -4,7 +4,7 @@ window.DATA = {
   "placeBindings": [],
   "placeSnapshot": null,
   "cuts": {},
-  "code": "chiangmai-gala-shows-20261125-v6",
+  "code": "chiangmai-gala-shows-20261125-v7",
   "title": "清邁年會表演節目選項",
   "sub": "Quantum Bay Innovations Limited｜2027-01-31 晚宴｜清邁萬豪",
   "dates": "2026-11-25",
@@ -20,7 +20,7 @@ window.DATA = {
     "h": 1440
    }
   },
-  "version": "v6",
+  "version": "v7",
   "erpTourCode": null,
   "source": "agency@venturo.tw 與 sales@cornertravel.com.tw 寄件／收件，2026-11-25 09:30 核對；事單 20261120-236"
  },
@@ -73,7 +73,17 @@ window.DATA = {
     }
    ],
    "img": "img/show-shinydays.jpg",
-   "sub": "晚宴現場音樂｜已回覆"
+   "sub": "晚宴現場音樂｜已回覆",
+   "videos": [
+    {
+     "label": "Fly Me To The Moon",
+     "yt": "hVb9KEPjT6M"
+    },
+    {
+     "label": "Can't Help Falling in Love",
+     "yt": "szRSTQsf2GU"
+    }
+   ]
   },
   {
    "type": "company",
@@ -96,7 +106,21 @@ window.DATA = {
     }
    ],
    "img": "img/show-nantawan.jpg",
-   "sub": "晚宴現場音樂｜已回覆"
+   "sub": "晚宴現場音樂｜已回覆",
+   "videos": [
+    {
+     "label": "One Nimman 現場",
+     "yt": "mnX4HuurGvU"
+    },
+    {
+     "label": "Cocoon 戶外現場",
+     "yt": "fOZhdgWifss"
+    },
+    {
+     "label": "音樂節現場",
+     "yt": "hZK1GSnQidg"
+    }
+   ]
   },
   {
    "type": "company",
@@ -119,7 +143,21 @@ window.DATA = {
     }
    ],
    "img": "img/show-jabu-led.jpg",
-   "sub": "開場與舞台秀｜已回覆"
+   "sub": "開場與舞台秀｜已回覆",
+   "videos": [
+    {
+     "label": "LED 與雷射舞",
+     "yt": "wTslGcKBJWo"
+    },
+    {
+     "label": "LED 光舞者",
+     "yt": "XhjdC-djTb0"
+    },
+    {
+     "label": "LED 光球秀",
+     "yt": "a19Iv4562HQ"
+    }
+   ]
   },
   {
    "type": "company",
@@ -188,7 +226,21 @@ window.DATA = {
     }
    ],
    "img": "img/show-baankrukai.jpg",
-   "sub": "蘭納傳統表演｜洽詢中"
+   "sub": "蘭納傳統表演｜洽詢中",
+   "videos": [
+    {
+     "label": "蘭納迎賓舞",
+     "yt": "SYI0T8Y9eXQ"
+    },
+    {
+     "label": "蘭納藝術舞碼",
+     "yt": "2XRHrukTx9c"
+    },
+    {
+     "label": "蘭納鼓樂舞碼",
+     "yt": "fW7IfRQOH5U"
+    }
+   ]
   },
   {
    "type": "company",
@@ -211,7 +263,21 @@ window.DATA = {
     }
    ],
    "img": "img/show-neolanna.jpg",
-   "sub": "蘭納傳統表演｜洽詢中"
+   "sub": "蘭納傳統表演｜洽詢中",
+   "videos": [
+    {
+     "label": "《Ink》預告",
+     "yt": "kFXE_VSupLw"
+    },
+    {
+     "label": "《Ink》片段",
+     "yt": "hgGDwKIuKTs"
+    },
+    {
+     "label": "歷年演出",
+     "yt": "yQ49FlLvv2c"
+    }
+   ]
   },
   {
    "type": "company",
@@ -234,7 +300,21 @@ window.DATA = {
     }
    ],
    "img": "img/show-khumprapawee.jpg",
-   "sub": "蘭納指甲舞｜即將詢問"
+   "sub": "蘭納指甲舞｜即將詢問",
+   "videos": [
+    {
+     "label": "指甲舞",
+     "yt": "B_iX4XtQDRQ"
+    },
+    {
+     "label": "開場花缽舞",
+     "yt": "mk3c10WJris"
+    },
+    {
+     "label": "蘭納花缽舞",
+     "yt": "r1x9nKQn3ns"
+    }
+   ]
   },
   {
    "type": "company",
@@ -252,8 +332,8 @@ window.DATA = {
      "body": "11/21 詢問，尚未回覆"
     },
     {
-     "t": "參考網址",
-     "body": "bangkokpartyplanner.com"
+     "t": "參考影片",
+     "body": "待廠商提供"
     }
    ],
    "img": null,
