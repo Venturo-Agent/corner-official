@@ -4,7 +4,7 @@ window.DATA = {
   "placeBindings": [],
   "placeSnapshot": null,
   "cuts": {},
-  "code": "chiangmai-gala-shows-20261125-v4",
+  "code": "chiangmai-gala-shows-20261125-v6",
   "title": "清邁年會表演節目選項",
   "sub": "Quantum Bay Innovations Limited｜2027-01-31 晚宴｜清邁萬豪",
   "dates": "2026-11-25",
@@ -20,7 +20,7 @@ window.DATA = {
     "h": 1440
    }
   },
-  "version": "v4",
+  "version": "v6",
   "erpTourCode": null,
   "source": "agency@venturo.tw 與 sales@cornertravel.com.tw 寄件／收件，2026-11-25 09:30 核對；事單 20261120-236"
  },
@@ -88,7 +88,7 @@ window.DATA = {
     },
     {
      "t": "詢問與檔期",
-     "body": "11/20 詢問，11/23 回覆：1 月下旬檔期幾乎全滿，需提供確切日期才能確認，1/31 待確認"
+     "body": "11/20 詢問，11/23 回覆 1 月下旬檔期幾乎全滿，1/31 尚未回覆"
     },
     {
      "t": "參考網址",
@@ -111,7 +111,7 @@ window.DATA = {
     },
     {
      "t": "詢問與檔期",
-     "body": "11/21 詢問，11/23 回覆活動當天可承接；當時只告知 1 月下旬，需以 1/31 再確認。舞者人數與時長待對方提供"
+     "body": "11/21 詢問，1/31 檔期尚未回覆。舞者人數與時長待對方提供"
     },
     {
      "t": "參考網址",
@@ -272,7 +272,7 @@ window.DATA = {
     },
     {
      "t": "詢問與檔期",
-     "body": "11/20 詢問，11/23 回覆提供方案；需提供日期、酒會時段與桌數再確認檔期"
+     "body": "11/20 詢問，11/23 回覆提供方案，1/31 檔期尚未回覆"
     },
     {
      "t": "參考網址",
@@ -304,36 +304,6 @@ window.DATA = {
    ],
    "img": "img/show-bosang.jpg",
    "sub": "近距離互動｜洽詢中"
-  },
-  {
-   "type": "company",
-   "variant": "about",
-   "companyName": "角落旅行社 CORNER TRAVEL",
-   "title": "檔期確認說明",
-   "body": "初次詢問時以 1 月下旬詢價，選定節目後統一以 1/31 確認檔期",
-   "items": [
-    {
-     "t": "已告知 1/31",
-     "body": "Starganza、The Dream Guider"
-    },
-    {
-     "t": "待以 1/31 確認",
-     "body": "Shiny Days、NANTAWAN、Jabu Events、Hang Tueng 等其他廠商"
-    },
-    {
-     "t": "下一步",
-     "body": "選定節目後，我們向廠商確認 1/31 檔期、人數、時長與技術需求，再提供報價"
-    }
-   ],
-   "img": null,
-   "sub": "選定後由我們統一確認"
-  },
-  {
-   "type": "end",
-   "body": "",
-   "variant": "quiet-strip",
-   "title": "挑選後我們再確認檔期與細節",
-   "img": null
   }
  ]
 }
