@@ -4,7 +4,7 @@ window.DATA = {
   "placeBindings": [],
   "placeSnapshot": null,
   "cuts": {},
-  "code": "chiangmai-gala-shows-20261125",
+  "code": "chiangmai-gala-shows-20261125-v4",
   "title": "清邁年會表演節目選項",
   "sub": "Quantum Bay Innovations Limited｜2027-01-31 晚宴｜清邁萬豪",
   "dates": "2026-11-25",
