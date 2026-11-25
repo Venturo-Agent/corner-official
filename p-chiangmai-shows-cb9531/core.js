@@ -138,7 +138,10 @@
   const D = JSON.parse(JSON.stringify(window.DATA)), P0 = JSON.parse(JSON.stringify(D.pages))
   const S = { page: 0, v: {}, text: {}, extra: {}, pages: null }
   const PREVIEW = new URLSearchParams(location.search).has('preview')
-  const KEY = 'masters:' + D.meta.code
+  // 存檔名綁資料內容：重建出新版（文字、照片）後，瀏覽器裡的舊存檔不再蓋掉新內容；同案舊存檔順手清掉（2026-11-25 清邁年會簡報）
+  const DATA_SIG = (s => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36) })(JSON.stringify(window.DATA))
+  const KEY = 'masters:' + D.meta.code + ':' + DATA_SIG
+  try { const base = 'masters:' + D.meta.code; for (let i = localStorage.length - 1; i >= 0; i--) { const k = localStorage.key(i); if (k && (k === base || k === base + ':img' || k.startsWith(base + ':')) && !k.startsWith(KEY)) localStorage.removeItem(k) } } catch (e) {}
   try { if (!PREVIEW) Object.assign(S, JSON.parse(localStorage.getItem(KEY) || '{}')) } catch (e) {}
   if (S.pages) D.pages = S.pages
   const visiblePages = () => D.pages.map((p,i) => p.hidden ? -1 : i).filter(i => i >= 0)
