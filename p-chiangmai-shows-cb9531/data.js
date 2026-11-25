@@ -20,7 +20,7 @@ window.DATA = {
     "h": 1440
    }
   },
-  "version": "v3",
+  "version": "v4",
   "erpTourCode": null,
   "source": "agency@venturo.tw 與 sales@cornertravel.com.tw 寄件／收件，2026-11-25 09:30 核對；事單 20261120-236"
  },
@@ -34,7 +34,7 @@ window.DATA = {
    "variant": "about",
    "companyName": "角落旅行社 CORNER TRAVEL",
    "title": "目前洽詢進度",
-   "body": "整理至 2026-11-25，價格待客人選定方向後再一併報價",
+   "body": "整理至 2026-11-25，價格待選定節目後一併報價",
    "items": [
     {
      "t": "已回覆",
@@ -46,7 +46,7 @@ window.DATA = {
     },
     {
      "t": "尚未聯繫",
-     "body": "Khumprapawee 指甲舞，只有 LINE 與電話聯絡，客人有興趣再由我們聯繫"
+     "body": "Khumprapawee 指甲舞，將以 LINE 詢問檔期"
     }
    ],
    "img": null,
@@ -65,14 +65,14 @@ window.DATA = {
     },
     {
      "t": "詢問與檔期",
-     "body": "11/20 詢問，當天回覆，11/23 提供完整方案；已請對方準備中文經典歌，待回覆。檔期尚未以 1/31 確認"
+     "body": "11/20 詢問，當天回覆，11/23 提供完整方案；能否演唱中文經典歌確認中，1/31 檔期確認中"
     },
     {
      "t": "參考網址",
      "body": "shinydaysband.com／影片 youtu.be/hVb9KEPjT6M（Fly Me To The Moon）、youtu.be/szRSTQsf2GU"
     }
    ],
-   "img": null,
+   "img": "img/show-shinydays.jpg",
    "sub": "晚宴現場音樂｜已回覆"
   },
   {
@@ -80,7 +80,7 @@ window.DATA = {
    "variant": "about",
    "companyName": "角落旅行社 CORNER TRAVEL",
    "title": "NANTAWAN",
-   "body": "歌手 Anna Nantawan Harris，十年以上清邁飯店、婚禮與私人活動演出經驗，曲目可依客人喜好安排",
+   "body": "歌手 Anna Nantawan Harris，十年以上清邁飯店、婚禮與私人活動演出經驗，曲目可依主辦需求安排",
    "items": [
     {
      "t": "演出形式",
@@ -95,7 +95,7 @@ window.DATA = {
      "body": "nantawan-music.com/videos／YouTube @nantawanharris"
     }
    ],
-   "img": null,
+   "img": "img/show-nantawan.jpg",
    "sub": "晚宴現場音樂｜已回覆"
   },
   {
@@ -118,7 +118,7 @@ window.DATA = {
      "body": "jabuevents.com／影片 youtu.be/wTslGcKBJWo（LED 與雷射舞）"
     }
    ],
-   "img": null,
+   "img": "img/show-jabu-led.jpg",
    "sub": "開場與舞台秀｜已回覆"
   },
   {
@@ -141,7 +141,7 @@ window.DATA = {
      "body": "starganzaliveshow.com／包場頁 starganzaliveshow.com/private-events"
     }
    ],
-   "img": null,
+   "img": "img/show-starganza.jpg",
    "sub": "開場與舞台秀｜洽詢中"
   },
   {
@@ -164,7 +164,7 @@ window.DATA = {
      "body": "thedreamguider.com/magician-chiang-mai"
     }
    ],
-   "img": null,
+   "img": "img/show-dreamguider.jpg",
    "sub": "近距離互動｜洽詢中"
   },
   {
@@ -180,14 +180,14 @@ window.DATA = {
     },
     {
      "t": "詢問與檔期",
-     "body": "11/20 詢問，尚未回覆，可改用電話 096-526-3539 追問"
+     "body": "11/20 詢問，等待回覆"
     },
     {
      "t": "參考網址",
      "body": "baankrukaisornsin.com／YouTube @BaankrukaiSornsin"
     }
    ],
-   "img": null,
+   "img": "img/show-baankrukai.jpg",
    "sub": "蘭納傳統表演｜洽詢中"
   },
   {
@@ -210,14 +210,14 @@ window.DATA = {
      "body": "影片 youtu.be/kFXE_VSupLw（《Ink》官方預告）"
     }
    ],
-   "img": null,
+   "img": "img/show-neolanna.jpg",
    "sub": "蘭納傳統表演｜洽詢中"
   },
   {
    "type": "company",
    "variant": "about",
    "companyName": "角落旅行社 CORNER TRAVEL",
-   "title": "Khumprapawee｜指甲舞",
+   "title": "Khumprapawee",
    "body": "清邁 คุ้มปภาวี 表演團，演出蘭納傳統指甲舞，可到泰國各地演出",
    "items": [
     {
@@ -226,26 +226,26 @@ window.DATA = {
     },
     {
      "t": "詢問與檔期",
-     "body": "查不到公開電子信箱，只有 LINE（khumprapawee）與電話，尚未聯繫；客人有興趣我們再詢問"
+     "body": "對方以 LINE 與電話接洽，將以 LINE 詢問 1/31 檔期"
     },
     {
      "t": "參考網址",
      "body": "影片 youtu.be/B_iX4XtQDRQ"
     }
    ],
-   "img": null,
-   "sub": "蘭納傳統表演｜尚未聯繫"
+   "img": "img/show-khumprapawee.jpg",
+   "sub": "蘭納指甲舞｜即將詢問"
   },
   {
    "type": "company",
    "variant": "about",
    "companyName": "角落旅行社 CORNER TRAVEL",
    "title": "Thai Chilli Event｜LED 舞",
-   "body": "曼谷活動公司（Bangkok Party Planner），作為 LED 舞第二家比較",
+   "body": "曼谷活動公司（Bangkok Party Planner），LED 舞的另一個選擇",
    "items": [
     {
      "t": "演出形式",
-     "body": "我們詢問能否帶 LED 舞團到清邁做開場表演；官網未列 LED 舞與清邁場，需對方回覆確認"
+     "body": "詢問帶 LED 舞團到清邁做開場表演，演出內容與能否到清邁確認中"
     },
     {
      "t": "詢問與檔期",
@@ -264,11 +264,11 @@ window.DATA = {
    "variant": "about",
    "companyName": "角落旅行社 CORNER TRAVEL",
    "title": "Hang Tueng Farm｜迎賓彩繪",
-   "body": "清邁手作農場的外派工作坊，帶材料與講師到飯店，客人做完的作品可帶回",
+   "body": "清邁手作農場的外派工作坊，帶材料與講師到飯店，賓客做完的作品可帶回",
    "items": [
     {
      "t": "演出形式",
-     "body": "迎賓酒會 45～60 分鐘自由參加，彩繪博桑紙傘或竹扇；含材料、講師、交通、布置與清潔，晾乾包裝後交給客人"
+     "body": "迎賓酒會 45～60 分鐘自由參加，彩繪博桑紙傘或竹扇；含材料、講師、交通、布置與清潔，晾乾包裝後交給賓客"
     },
     {
      "t": "詢問與檔期",
@@ -279,7 +279,7 @@ window.DATA = {
      "body": "hangtuengfarm.com/offsite-workshops-chiang-mai"
     }
    ],
-   "img": null,
+   "img": "img/show-hangtueng.jpg",
    "sub": "近距離互動｜已回覆"
   },
   {
@@ -287,14 +287,14 @@ window.DATA = {
    "variant": "about",
    "companyName": "角落旅行社 CORNER TRAVEL",
    "title": "博桑紙傘與 Baannoi 竹扇",
-   "body": "兩家都是迎賓彩繪的備選，與 Hang Tueng 比較後再選一家",
+   "body": "迎賓彩繪的另外兩個選擇",
    "items": [
     {
-     "t": "Bosang Umbrella",
+     "t": "博桑紙傘",
      "body": "博桑紙傘村老店，可派工匠到飯店教紙傘彩繪，也可做會場紙傘布置與印 LOGO 扇子伴手禮"
     },
     {
-     "t": "Baannoi Nornmuan",
+     "t": "Baannoi 竹扇",
      "body": "竹扇編織加彩繪外派工作坊"
     },
     {
@@ -302,7 +302,7 @@ window.DATA = {
      "body": "兩家都在 11/20 詢問，尚未回覆｜bosang-umbrella.com／baannoinornmuan.com"
     }
    ],
-   "img": null,
+   "img": "img/show-bosang.jpg",
    "sub": "近距離互動｜洽詢中"
   },
   {
@@ -310,7 +310,7 @@ window.DATA = {
    "variant": "about",
    "companyName": "角落旅行社 CORNER TRAVEL",
    "title": "檔期確認說明",
-   "body": "目前多數廠商只知道是 1 月下旬，確切日期 1/31 尚未全部告知",
+   "body": "初次詢問時以 1 月下旬詢價，選定節目後統一以 1/31 確認檔期",
    "items": [
     {
      "t": "已告知 1/31",
@@ -322,7 +322,7 @@ window.DATA = {
     },
     {
      "t": "下一步",
-     "body": "客人挑選有興趣的節目後，我們向廠商確認 1/31 檔期、人數、時長與技術需求，再提供報價"
+     "body": "選定節目後，我們向廠商確認 1/31 檔期、人數、時長與技術需求，再提供報價"
     }
    ],
    "img": null,
